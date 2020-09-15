@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/e-sticker-frontend/static/css/main.5f361e03.chunk.css",
+    "main.js": "/e-sticker-frontend/static/js/main.0deeb532.chunk.js",
+    "main.js.map": "/e-sticker-frontend/static/js/main.0deeb532.chunk.js.map",
+    "runtime-main.js": "/e-sticker-frontend/static/js/runtime-main.1879f71b.js",
+    "runtime-main.js.map": "/e-sticker-frontend/static/js/runtime-main.1879f71b.js.map",
+    "static/js/2.175ed3f1.chunk.js": "/e-sticker-frontend/static/js/2.175ed3f1.chunk.js",
+    "static/js/2.175ed3f1.chunk.js.map": "/e-sticker-frontend/static/js/2.175ed3f1.chunk.js.map",
+    "index.html": "/e-sticker-frontend/index.html",
+    "precache-manifest.1a315621f581ce92943f68d339c3a109.js": "/e-sticker-frontend/precache-manifest.1a315621f581ce92943f68d339c3a109.js",
+    "service-worker.js": "/e-sticker-frontend/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/e-sticker-frontend/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.175ed3f1.chunk.js.LICENSE.txt": "/e-sticker-frontend/static/js/2.175ed3f1.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/e-sticker-frontend/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1879f71b.js",
+    "static/js/2.175ed3f1.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.0deeb532.chunk.js"
+  ]
+}
