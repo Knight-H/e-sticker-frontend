@@ -1,0 +1,22 @@
+// @import-normalize; /* bring in normalize.css styles */
+/* rest of app styles */
+@import 'normalize.scss';
+
+/* This is Recommended reset from CRA from https://create-react-app.dev/docs/adding-css-reset */
+
+// *,
+// *::before,
+// *::after{
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+// }
+
+@font-face{
+    font-family: SarabunRegular;
+    src: url("./fonts/Sarabun-Regular.ttf")
+}
+
+body {
+    font-family: SarabunRegular;
+}
