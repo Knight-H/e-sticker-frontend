@@ -2,7 +2,7 @@
 
 .banner {
     
-    width: 100vw;
+    width: 100%;
     height: auto;
     // height: 50vh;
 }
@@ -10,22 +10,25 @@
 .section1 {
     
     width: 80%;
-    margin:auto;
-    margin-top: 3vh;
+    margin: 40px auto 0 auto;
 
     display: flex;
+    // flex-wrap: wrap;
+    // flex: 1 1 345px;
     justify-content: space-between;
     align-items: center;
 
     button{
 
         width: 25vw;
-        height: 10vh;
+        // width: 345px;
+        // height: 10vh;
+        height: 88px;
 
-        /* https://stackoverflow.com/questions/14431411/pure-css-to-make-font-size-responsive-based-on-dynamic-amount-of-characters*/
-        font-size: calc(100%+ 1.1vw);
+        font-size: $home-s1-font-size;
 
         display: flex;
+        // flex: 0 0 25vw;
         justify-content: center;
         align-items: center;
 
@@ -37,5 +40,214 @@
         svg{
             margin-right: 0.5vw;
         }
+    }
+}
+
+.section2 {
+
+    display:flex;
+    flex-direction: column;
+    // justify-content: center;    
+    align-items: center;
+
+    margin: 63px 0 70px 0;
+
+    // h2 {
+    //     font-size: 24px;
+    // }
+
+    // 4 step Elements
+    .stepsOrder {
+        position: relative;
+        width: 80%;
+        height: 280px;
+        margin: 0px auto 60px auto;
+        
+        
+
+        display: flex;
+        justify-content: center;
+
+        // Horizontal Ruler
+        &::before {
+            content: '';
+            position: absolute;
+            height: 6px;
+            width: 742px;
+            //   width: 6px;
+            background-color: #009473;
+            top: 127px;
+            bottom: 0;
+            left: calc(50% - 742px/2);
+            //   margin-left: -3px;
+        }
+
+
+        li {
+            position:relative;
+            display: flex;
+            flex-shrink: 0;
+            width: 290px;
+            justify-content: center;
+
+            span{
+                content: "";
+                position: absolute;
+                top: calc(127px - 200px/2);
+                width: 200px;
+                height: 200px;
+                
+                border-radius: calc(200px/2);
+                
+                display: block;
+                background: #FFFFFF;
+                border: 3px solid #009473;
+                box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+
+                svg {
+                    position: relative;
+                    top: calc(127px - 200px/4);
+                    left: calc(100px - 42px/2);
+                }
+            }
+
+            p{
+                position: absolute;
+                top: 247px;
+                font-size: 18px;
+            }
+        }
+    }
+
+
+
+    button {
+        width: 299px;
+        height: 77px;
+
+        color: #FFFFFF;
+        font-size: 24px;
+
+        background: #009473;
+        border: 0.5px solid #009473;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg{
+            margin-right: 8px;
+        }
+    }
+}
+
+.section3 {
+    background: #009473;
+    padding-top: 2vh;
+    padding-bottom: 8vh;
+    // height: 491px;
+
+    
+
+    h2 {
+        color: #FFFFFF;
+        font-family: SarabunBold;
+        font-size: calc(16px + 0.5vw);
+        text-align: center;
+        // font-weight: normal;
+
+    }
+    .cardWrapper {
+        display:flex;
+        flex-wrap: wrap;
+        // width: 80%;
+        // margin:auto;
+        justify-content: center;
+    }
+    .card {
+        width: 237px;
+        height: 310px;
+        margin: 10px;
+        padding-top: 24px;
+
+        background: #FFFFFF;
+        box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.25);
+        border-radius: 35px;
+
+        font-size: 18px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        position:relative;
+
+        button {
+            position:absolute;
+            top: 250px;
+            width: 65px;
+            height: 28px;
+
+            font-size: 12px;
+            cursor: pointer;
+
+            border: 2px solid #009473;
+            box-sizing: border-box;
+            border-radius: 6px;
+            background: #FFFFFF;
+        }
+        
+    }
+}
+.section4 {
+    width: 60%;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 60px;
+
+    display:flex;
+    flex-wrap: wrap;
+    
+    justify-content: center;
+    align-items: center;
+
+    svg{
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: auto;
+    }
+    p{
+        flex-grow: 1;
+        flex-basis: 50%;
+
+        font-size: 14px;
+        h2 {
+            font-size: 24px;
+        }
+    }
+}
+
+.orderButton {
+    width: 251px;
+    height: 70px;
+    margin: 60px auto;
+
+    cursor: pointer;
+
+    background: #FFFFFF;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    border-style: none;
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+
+    svg{
+        margin-right: 8px;
     }
 }
