@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a312a2a59025718bc2d4905463170fdd",
+    "revision": "6262a1faa5aa3c2c1dda5e09094c03d4",
     "url": "/e-sticker-frontend/index.html"
   },
   {
-    "revision": "ab9f809b84a2c10992ce",
-    "url": "/e-sticker-frontend/static/css/main.a2b479f2.chunk.css"
+    "revision": "2563a62defec301f36d1",
+    "url": "/e-sticker-frontend/static/css/main.6b2b6f9d.chunk.css"
   },
   {
     "revision": "2bfb01246034c5bd30f6",
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/e-sticker-frontend/static/js/2.82f487e3.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "ab9f809b84a2c10992ce",
+    "revision": "2563a62defec301f36d1",
     "url": "/e-sticker-frontend/static/js/main.86b3d756.chunk.js"
   },
   {

@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/e-sticker-frontend/static/css/main.a2b479f2.chunk.css",
+    "main.css": "/e-sticker-frontend/static/css/main.6b2b6f9d.chunk.css",
     "main.js": "/e-sticker-frontend/static/js/main.86b3d756.chunk.js",
     "main.js.map": "/e-sticker-frontend/static/js/main.86b3d756.chunk.js.map",
     "runtime-main.js": "/e-sticker-frontend/static/js/runtime-main.1879f71b.js",
@@ -8,9 +8,9 @@
     "static/js/2.82f487e3.chunk.js": "/e-sticker-frontend/static/js/2.82f487e3.chunk.js",
     "static/js/2.82f487e3.chunk.js.map": "/e-sticker-frontend/static/js/2.82f487e3.chunk.js.map",
     "index.html": "/e-sticker-frontend/index.html",
-    "precache-manifest.fdedd8cfa59feafd1afbf9d156349856.js": "/e-sticker-frontend/precache-manifest.fdedd8cfa59feafd1afbf9d156349856.js",
+    "precache-manifest.dd4a194922b7fdcee908628429cb044c.js": "/e-sticker-frontend/precache-manifest.dd4a194922b7fdcee908628429cb044c.js",
     "service-worker.js": "/e-sticker-frontend/service-worker.js",
-    "static/css/main.a2b479f2.chunk.css.map": "/e-sticker-frontend/static/css/main.a2b479f2.chunk.css.map",
+    "static/css/main.6b2b6f9d.chunk.css.map": "/e-sticker-frontend/static/css/main.6b2b6f9d.chunk.css.map",
     "static/js/2.82f487e3.chunk.js.LICENSE.txt": "/e-sticker-frontend/static/js/2.82f487e3.chunk.js.LICENSE.txt",
     "static/media/index.scss": "/e-sticker-frontend/static/media/Sarabun-Regular.49d082d0.ttf",
     "static/media/banner.399c45cb.svg": "/e-sticker-frontend/static/media/banner.399c45cb.svg",
@@ -31,7 +31,7 @@
   "entrypoints": [
     "static/js/runtime-main.1879f71b.js",
     "static/js/2.82f487e3.chunk.js",
-    "static/css/main.a2b479f2.chunk.css",
+    "static/css/main.6b2b6f9d.chunk.css",
     "static/js/main.86b3d756.chunk.js"
   ]
 }
