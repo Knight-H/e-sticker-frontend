@@ -1,23 +1,37 @@
 {
   "files": {
-    "main.css": "/e-sticker-frontend/static/css/main.5f361e03.chunk.css",
-    "main.js": "/e-sticker-frontend/static/js/main.0deeb532.chunk.js",
-    "main.js.map": "/e-sticker-frontend/static/js/main.0deeb532.chunk.js.map",
+    "main.css": "/e-sticker-frontend/static/css/main.a2b479f2.chunk.css",
+    "main.js": "/e-sticker-frontend/static/js/main.86b3d756.chunk.js",
+    "main.js.map": "/e-sticker-frontend/static/js/main.86b3d756.chunk.js.map",
     "runtime-main.js": "/e-sticker-frontend/static/js/runtime-main.1879f71b.js",
     "runtime-main.js.map": "/e-sticker-frontend/static/js/runtime-main.1879f71b.js.map",
-    "static/js/2.175ed3f1.chunk.js": "/e-sticker-frontend/static/js/2.175ed3f1.chunk.js",
-    "static/js/2.175ed3f1.chunk.js.map": "/e-sticker-frontend/static/js/2.175ed3f1.chunk.js.map",
+    "static/js/2.82f487e3.chunk.js": "/e-sticker-frontend/static/js/2.82f487e3.chunk.js",
+    "static/js/2.82f487e3.chunk.js.map": "/e-sticker-frontend/static/js/2.82f487e3.chunk.js.map",
     "index.html": "/e-sticker-frontend/index.html",
-    "precache-manifest.1a315621f581ce92943f68d339c3a109.js": "/e-sticker-frontend/precache-manifest.1a315621f581ce92943f68d339c3a109.js",
+    "precache-manifest.fdedd8cfa59feafd1afbf9d156349856.js": "/e-sticker-frontend/precache-manifest.fdedd8cfa59feafd1afbf9d156349856.js",
     "service-worker.js": "/e-sticker-frontend/service-worker.js",
-    "static/css/main.5f361e03.chunk.css.map": "/e-sticker-frontend/static/css/main.5f361e03.chunk.css.map",
-    "static/js/2.175ed3f1.chunk.js.LICENSE.txt": "/e-sticker-frontend/static/js/2.175ed3f1.chunk.js.LICENSE.txt",
-    "static/media/logo.svg": "/e-sticker-frontend/static/media/logo.5d5d9eef.svg"
+    "static/css/main.a2b479f2.chunk.css.map": "/e-sticker-frontend/static/css/main.a2b479f2.chunk.css.map",
+    "static/js/2.82f487e3.chunk.js.LICENSE.txt": "/e-sticker-frontend/static/js/2.82f487e3.chunk.js.LICENSE.txt",
+    "static/media/index.scss": "/e-sticker-frontend/static/media/Sarabun-Regular.49d082d0.ttf",
+    "static/media/banner.399c45cb.svg": "/e-sticker-frontend/static/media/banner.399c45cb.svg",
+    "static/media/logo.b831eb0d.svg": "/e-sticker-frontend/static/media/logo.b831eb0d.svg",
+    "static/media/profile-icon.c2fe368d.svg": "/e-sticker-frontend/static/media/profile-icon.c2fe368d.svg",
+    "static/media/s1-1-sample-icon.bd5883e0.svg": "/e-sticker-frontend/static/media/s1-1-sample-icon.bd5883e0.svg",
+    "static/media/s1-2-basket-icon.2b29a384.svg": "/e-sticker-frontend/static/media/s1-2-basket-icon.2b29a384.svg",
+    "static/media/s1-3-status-icon.a12d7d01.svg": "/e-sticker-frontend/static/media/s1-3-status-icon.a12d7d01.svg",
+    "static/media/s2-1-order-icon.e48bf079.svg": "/e-sticker-frontend/static/media/s2-1-order-icon.e48bf079.svg",
+    "static/media/s3-1-art-icon.27797074.svg": "/e-sticker-frontend/static/media/s3-1-art-icon.27797074.svg",
+    "static/media/s3-2-pp-white-icon.7238b0e6.svg": "/e-sticker-frontend/static/media/s3-2-pp-white-icon.7238b0e6.svg",
+    "static/media/s3-3-pp-silver-icon.35728891.svg": "/e-sticker-frontend/static/media/s3-3-pp-silver-icon.35728891.svg",
+    "static/media/s3-4-pp-trans-icon.19e3074f.svg": "/e-sticker-frontend/static/media/s3-4-pp-trans-icon.19e3074f.svg",
+    "static/media/s4-1-logo-icon.9d56eb26.svg": "/e-sticker-frontend/static/media/s4-1-logo-icon.9d56eb26.svg",
+    "static/media/s5-1-order-icon.c0b92696.svg": "/e-sticker-frontend/static/media/s5-1-order-icon.c0b92696.svg",
+    "static/media/shopping-cart.91c6b975.svg": "/e-sticker-frontend/static/media/shopping-cart.91c6b975.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.1879f71b.js",
-    "static/js/2.175ed3f1.chunk.js",
-    "static/css/main.5f361e03.chunk.css",
-    "static/js/main.0deeb532.chunk.js"
+    "static/js/2.82f487e3.chunk.js",
+    "static/css/main.a2b479f2.chunk.css",
+    "static/js/main.86b3d756.chunk.js"
   ]
 }
