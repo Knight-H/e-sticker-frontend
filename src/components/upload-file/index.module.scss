@@ -1,7 +1,13 @@
 @import "../../variables";
 
-.square {
-    height: 50vh;
-    width: 50vw;
-    background-color: #555;
-  }
+.wrap_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .square {
+        height: 510px;
+        width: 566px;
+        background-color: #EDEDED;
+        margin-right: 50px;
+      }
+}

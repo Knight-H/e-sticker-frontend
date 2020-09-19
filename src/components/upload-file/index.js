@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './index.module.scss';
 
 const UploadFileComponent = () => {
-    const onChangeHandler = event =>{
-
-        console.log(event.target.files[0])
-    
+    const [file, setFile] = useState("");
+    console.log("file", file)
+    const handleChange = event => {
+        setFile(URL.createObjectURL(event.target.files[0]))
     }
     return (
-        <main>
-            <div className={styles.square}></div>
-            <input type="file" name="file" onChange={(e) => onChangeHandler(e)}/>
-
+        <main className={styles.wrap_content}>
+            <img src={file} className={styles.square} />
+            <input type="file" onChange={(e) => handleChange(e)} />
         </main>
     );
 };
