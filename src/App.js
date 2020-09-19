@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import NavBarComponent from "./components/navbar";
 import HomeComponent from "./components/home";
+import ShoppingCart from "./components/shopping_cart";
 
 function App() {
     return (
@@ -10,6 +11,7 @@ function App() {
             <NavBarComponent />
             <Switch>
                 <Route path="/" exact component={HomeComponent} />
+                <Route path="/shopping_cart" exact component={ShoppingCart} />
             </Switch>
         </div>
     );
