@@ -1,0 +1,82 @@
+@import "../../variables";
+
+.wrapContent {
+  margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+    .square {
+        height: 510px;
+        width: 566px;
+        background-color: #EDEDED;
+        margin-right: 50px;
+    }
+    
+    .rightContent {
+      margin-top: 5vh;
+      display: flex;
+      flex-direction: column;
+
+      label {
+        color: #009473;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .boxInput {
+        border: 0.5px solid #009473;
+        border-radius: 2px;
+        display: inline;
+        padding: 0 20px;
+        width: 155px;
+        margin-bottom: 30px;
+        i {
+          font-size: 18px;
+        }
+        select {
+          padding: 5px 5px;
+          border: none;
+          font-size: 14px;
+        }
+      }
+
+      .buttonUploadFile {
+        color: #000000;
+        border: 0.5px solid #009473;
+        border-radius: 2px;
+        padding: 5px 20px;
+        margin-bottom: 4vh;
+        svg {
+          width: 18px;
+          height: 18px;
+          margin-right: 10px;
+        }
+      }
+
+      input[type=file] {
+        display: none;
+      }
+
+      textarea {
+        border: 0.5px solid #009473;
+        resize: none;
+      }
+
+      .btnCart {
+        background-color: #009473;
+        border: none;
+        border-radius: 2px;
+        color: white;
+        margin-top: 3vh;
+        padding: 8px 10px;
+        font-size: 15px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        svg {
+          margin-right: 5px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+}
