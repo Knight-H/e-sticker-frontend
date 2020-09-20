@@ -51,9 +51,11 @@
         cursor: pointer;
     }
 
-    div {
+    ul {
         display: flex;
         align-items: center;
+
+        list-style: none;
 
         a {
             margin: 1.5vw;

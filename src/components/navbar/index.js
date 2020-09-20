@@ -9,7 +9,7 @@ import { ReactComponent as Logo } from './logo.svg';
 
 const NavBarComponent = ({history}) => {
     return (
-        <nav>
+        <header>
             <div className={styles.topBar}>
                 <button>
                     <ProfileIcon/>
@@ -20,16 +20,16 @@ const NavBarComponent = ({history}) => {
                     ตะกร้าสินค้า
                 </button>
             </div>
-            <div className={styles.navBar}>
+            <nav className={styles.navBar}>
                 <Logo onClick={() => history.push('/')}/>
-                <div>
-                    <Link to="/">หน้าแรก</Link>
-                    <Link to="/">วิธีการสั่งซื้อ</Link>
-                    <Link to="/">ตัวอย่างผลงาน</Link>
-                    <button><Link to="/">สั่งทำสติกเกอร์</Link></button>
-                </div>
-            </div>
-        </nav>
+                <ul>
+                    <li><Link to="/">หน้าแรก</Link></li>
+                    <li><Link to="/">วิธีการสั่งซื้อ</Link></li>
+                    <li><Link to="/">ตัวอย่างผลงาน</Link></li>
+                    <li><button><Link to="/">สั่งทำสติกเกอร์</Link></button></li>
+                </ul>
+            </nav>
+        </header>
     );
 };
 
