@@ -17,7 +17,6 @@
     padding-bottom: 1%;
     display: flex;
     margin: 0 auto;
-    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     .banner {
@@ -41,10 +40,10 @@
         }
     }
 
-    .lisrContract {
+    .listContract {
         flex-basis: 10%;
         padding: 2vw 0 0 2vw;
-        .squareLine {
+        .squareLine, .squareFace, .squareEmail {
             display:flex;
             align-items: center;
             height: 30px;
@@ -69,51 +68,18 @@
         }
 
         .squareFace {
-            display:flex;
-            align-items: center;
-            height: 30px;
             background-color: #1774EB;
-            border-radius: 25px;
-            color: white;
-            padding: 3px 10px;
-            font-size: 14px;
-            position: relative;
     
             .squareWhite {
                 width: 120px;
-                display:flex;
-                align-items: center;
-                justify-content: center;
-                background-color: #FFFFFF;
-                height: 25px;
-                border-radius: 25px;
-                color: black;
-                padding: 0 10px;
                 margin-left: 20px;
             }
         }
 
         .squareEmail {
-            display:flex;
-            align-items: center;
-            height: 30px;
             background-color: #000000;
-            border-radius: 25px;
-            color: white;
-            padding: 3px 10px;
-            font-size: 14px;
-            position: relative;
     
             .squareWhite {
-                // width: 120px;
-                display:flex;
-                align-items: center;
-                justify-content: center;
-                background-color: #FFFFFF;
-                height: 25px;
-                border-radius: 25px;
-                color: black;
-                padding: 0 10px;
                 margin-left: 13px;
             }
         }

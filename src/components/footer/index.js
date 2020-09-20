@@ -21,7 +21,7 @@ const FooterComponent = () => {
                     <li><b>Scan Line QR code</b></li>
                     <li><QrCode /></li>
                 </ul>
-                <ul className={styles.lisrContract}>
+                <ul className={styles.listContract}>
                     <li className={styles.squareLine}><b>Line Official</b><span className={styles.squareWhite}>@digitalwish.sticker</span></li>
                     <li className={styles.squareFace}><b>Facebook</b><span className={styles.squareWhite}>digitalwish.sticker</span></li>
                     <li className={styles.squareEmail}><b>Email</b><span className={styles.squareWhite}>contact@stickerwish.com</span></li>
