@@ -3,7 +3,8 @@ import { Route, Switch } from "react-router-dom";
 
 import NavBarComponent from "./components/navbar";
 import HomeComponent from "./components/home";
-import ShoppingCart from "./components/shopping_cart";
+import ShoppingComponent from "./components/shopping";
+import InCartComponent from "./components/incart";
 
 function App() {
     return (
@@ -11,7 +12,8 @@ function App() {
             <NavBarComponent />
             <Switch>
                 <Route path="/" exact component={HomeComponent} />
-                <Route path="/shopping_cart" exact component={ShoppingCart} />
+                <Route path="/shopping" exact component={ShoppingComponent} />
+                <Route path="/in_cart" exact component={InCartComponent} />
             </Switch>
         </div>
     );
