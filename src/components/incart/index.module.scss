@@ -1,0 +1,179 @@
+// @import "../../variables";
+.section1 {
+    width: 80%;
+    margin: 0px auto 0 auto;
+
+    display: inline-flex”;
+    // flex-wrap: wrap;
+    // flex: 1 1 345px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section2 {
+    width: 80%;
+    margin: 0px auto 0 auto;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    // border: 3px solid red;
+}
+
+.boxChild1 {
+    // background-color: whitesmoke;
+    flex: 1 1 400px;
+    padding: 10px;
+
+    h2 {
+        margin-bottom: 20px;
+    }
+}
+
+.boxChild2 {
+    // background-color: pink;
+    flex: 1 1 400px;
+    padding: 10px;
+
+    h2 {
+        margin-bottom: 20px;
+        font-weight: 100;
+    }
+}
+
+
+.wrapTable {
+    padding: 30px 35px;
+    border: 1px solid #009473;
+    border-radius: 5px;
+}
+
+.tableCustom {
+    border-collapse:collapse;
+    width: 100%;
+    padding: 8px 5px;
+
+    th {
+        padding: 8px 5px;
+    }
+
+    tr td {
+        padding: 8px 5px;
+    }
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.textLeft {
+    text-align: left;
+}
+
+.borderBottom {
+    border-bottom: 1px solid #009473;
+}
+
+.borderTop {
+    border-top: 1px solid #009473;
+}
+
+.containerRow {
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    // border: 3px solid blue;
+}
+
+.containerCol {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.productPreview {
+    width: 42px;
+    height: 42px;
+    margin: 0px 10px 0px 0px;
+}
+
+.name {
+    font-size: 1rem;
+    padding: 0px 0px;
+}
+
+.desciption {
+    font-size: 0.75rem;
+    color: #5f5f5f;
+    padding: 0px 0px;
+}
+
+.formControl {
+    margin: 5px 10px;
+    // border: 3px solid red;
+
+    p {
+        margin: 0px;
+        padding-bottom: 5px;
+    }
+
+    input {
+        border: 1px solid #009473;
+        border-radius: 5px;
+        height: 30px;
+        width: 100%;
+        padding: 0px 0px 0px 5px;
+    }
+}
+
+.buttonWhile {
+    background-color: #ffffff;
+    color: black;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    font-size: 0.7rem;
+}
+
+.buttonGreen {
+    background-color: #009473;
+    color: white;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    font-size: 0.7rem;
+}
+
+.buttonBlue {
+    background-color: #1774EB;
+    color: white;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    font-size: 0.7rem;
+}
+
+.buttonGreenFit {
+    background-color: #009473;
+    color: white;
+    padding: 12px 20px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    font-size: 1.1rem;
+}
+
+
+.smallText {
+    margin: 20px 0px;
+    font-size: 0.9rem;
+}
