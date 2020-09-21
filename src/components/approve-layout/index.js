@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './index.module.scss';
+import StepProgress from "../step_progress";
 
 import { ReactComponent as Circle } from './circle.svg';
 import { ReactComponent as Drawing } from './drawing.svg';
 
 const ApproveLayoutComponent = () => {
+    const [selectStep] = useState(2);
     return (
         <main className={styles.wrapContent}>
             <h1>รายการออเดอร์</h1>
             <h3>ออเดอร์หมายเลข #DW0001 <label className={styles.waitApproval}>กำลังดำเนินการ</label></h3>
+
+            <section className={styles.stepProgressBar}>
+                <StepProgress stepIndex={selectStep}/>
+            </section>
 
             <section className={styles.containCard}>
                 <div className={styles.card}>

@@ -1,9 +1,32 @@
 @import "../../variables";
 
+@media only screen and (max-width: 810px) {
+  body {
+      .wrapContent {
+        .square {
+          height: 410px;
+          width: 466px;
+        }
+      }
+  }
+}
+
+
+@media only screen and (max-width: 650px) {
+  body {
+      .wrapContent {
+        .square {
+          margin-right: 0;
+        }
+      }
+  }
+}
+
 .wrapContent {
   margin-top: 5vh;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     .square {
         height: 510px;
         width: 566px;
@@ -21,23 +44,21 @@
         margin-bottom: 10px;
         font-size: 14px;
       }
-
-      .boxInput {
-        border: 0.5px solid #009473;
-        border-radius: 2px;
-        display: inline;
-        padding: 0 20px;
-        width: 155px;
-        margin-bottom: 30px;
-        i {
-          font-size: 18px;
-        }
         select {
-          padding: 5px 5px;
-          border: none;
-          font-size: 14px;
+          font-family: 'FontAwesome', 'Second Font name';
+          height: 33px;
+          border: 0.5px solid #009473;
+          border-radius: 2px;
+          padding: 5px 20px;
+          width: 170px;
+          margin-bottom: 30px;
+          font-size: 15px;
+          font-weight: lighter;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;       /* Remove default arrow */
+          background: url(./icon-arrow.svg) 96% / 7% no-repeat white;   /* Add custom arrow */
         }
-      }
 
       .buttonUploadFile {
         color: #000000;

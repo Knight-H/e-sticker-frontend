@@ -10,6 +10,11 @@
         font-weight: normal;
     }
 
+    .stepProgressBar {
+        display: flex;
+        margin: -5vh 0 5vh 0;
+    }
+
     .waitApproval {
         border-radius: 17px;
         background-color: #FF9F46;
