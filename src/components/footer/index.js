@@ -9,7 +9,7 @@ const FooterComponent = () => {
     return (
         <footer>
             <div className={styles.bgFooter}>
-                <BannerFooter  />
+                <BannerFooter className={styles.banner} />
                 <ul>
                     <li><b>เมนู</b></li>
                     <li>สั่งสติกเกอร์</li>
