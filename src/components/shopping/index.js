@@ -83,6 +83,7 @@ const ShoppingComponent = () => {
                             </tfoot>
                         </table>
                     </div>
+                    <button className={styles.buttonGreen}>สั่งสินค้าอย่างอื่น</button>
                     
                 </div>
                 
