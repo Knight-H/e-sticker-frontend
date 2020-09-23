@@ -8,52 +8,63 @@ import img_product from '../shopping/workplace.jpg';
 import { ReactComponent as Circle } from './circle.svg';
 import { ReactComponent as Drawing } from './drawing.svg';
 
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+
 const ApproveLayoutComponent = () => {
     const [selectStep] = useState(2);
     return (
         <main className={styles.wrapContent}>
             <h1>รายการออเดอร์</h1>
-            <h3>ออเดอร์หมายเลข #DW0001 <label className={styles.waitApproval}>กำลังดำเนินการ</label></h3>
+            <h3>ออเดอร์หมายเลข #DW0001
+                <label className={styles.waitApproval}>กำลังดำเนินการ</label>
+            </h3>
 
             <section className={styles.stepProgressBar}>
                 <StepProgress stepIndex={selectStep} />
             </section>
 
-            <section className={styles.containCard}>
-                <div className={styles.card}>
-                    <h4>หมายเลขรายการ ITM00001</h4>
-                    <div className={styles.description}>
-                        <Circle />
-                        <h4>สติกเกอร์แบบกลม</h4>
-                        <p>กระดาษอาร์ต - เคลือบด้าน - ขนาด 10x20 mm </p>
-                        <h4 className={styles.quality}>300ชิ้น</h4> <h4 className={styles.price}>500฿</h4>
-                    </div>
+            <section>
+                <Carousel responsive={responsive}>
+                    <div className={styles.card}>
+                        <h4>หมายเลขรายการ ITM00001</h4>
+                        <div className={styles.description}>
+                            <Circle />
+                            <h4>สติกเกอร์แบบกลม</h4>
+                            <p>กระดาษอาร์ต - เคลือบด้าน - ขนาด 10x20 mm </p>
+                            <h4 className={styles.quality}>300ชิ้น</h4>
+                            <h4 className={styles.price}>500฿</h4>
+                        </div>
 
-                    <label className={styles.waitApproval}>กำลังดำเนินการ</label>
-                </div>
-                <div className={styles.card}>
-                    <h4>หมายเลขรายการ ITM00001</h4>
-                    <div className={styles.description}>
-                        <Circle />
-                        <h4>สติกเกอร์แบบกลม</h4>
-                        <p>กระดาษอาร์ต - เคลือบด้าน - ขนาด 10x20 mm </p>
-                        <h4 className={styles.quality}>300ชิ้น</h4> <h4 className={styles.price}>500฿</h4>
+                        <label className={styles.waitApproval}>กำลังดำเนินการ</label>
                     </div>
+                    <div className={styles.card}>
+                        <h4>หมายเลขรายการ ITM00001</h4>
+                        <div className={styles.description}>
+                            <Circle />
+                            <h4>สติกเกอร์แบบกลม</h4>
+                            <p>กระดาษอาร์ต - เคลือบด้าน - ขนาด 10x20 mm </p>
+                            <h4 className={styles.quality}>300ชิ้น</h4>
+                            <h4 className={styles.price}>500฿</h4>
+                        </div>
 
-                    <label className={styles.waitApproval}>กำลังดำเนินการ</label>
-                </div>
-                <div className={styles.card}>
-                    <h4>หมายเลขรายการ ITM00001</h4>
-                    <div className={styles.description}>
-                        <Circle />
-                        <h4>สติกเกอร์แบบกลม</h4>
-                        <p>กระดาษอาร์ต - เคลือบด้าน - ขนาด 10x20 mm </p>
-                        <h4 className={styles.quality}>300ชิ้น</h4> <h4 className={styles.price}>500฿</h4>
+                        <label className={styles.waitApproval}>กำลังดำเนินการ</label>
                     </div>
+                    <div className={styles.card}>
+                        <h4>หมายเลขรายการ ITM00001</h4>
+                        <div className={styles.description}>
+                            <Circle />
+                            <h4>สติกเกอร์แบบกลม</h4>
+                            <p>กระดาษอาร์ต - เคลือบด้าน - ขนาด 10x20 mm </p>
+                            <h4 className={styles.quality}>300ชิ้น</h4>
+                            <h4 className={styles.price}>500฿</h4>
+                        </div>
 
-                    <label className={styles.waitApproval}>กำลังดำเนินการ</label>
-                </div>
-            </section >
+                        <label className={styles.waitApproval}>กำลังดำเนินการ</label>
+                    </div>
+                    <div>Item 4</div>
+                </Carousel>
+            </section>
 
             <section className={styles.previewImage}>
                 <div className={styles.square}>
@@ -75,13 +86,16 @@ const ApproveLayoutComponent = () => {
                 <div className={styles.groupDelivery}>
                     <h3><b>การจัดส่ง</b></h3>
                     <div className={styles.containInformationCustomer}>
-                        <p>นายลูกค้า สติกเกอร์</p>
-                        <p>110 ซอย สาธุประดิษฐ์ 58
-                        แขวง บางโพงพาง เขต ยานนาวา
-                        กรุงเทพมหานคร 10120
-                        </p>
-                        <p>เบอร์โทรศัพท์: 0900000000</p>
-                        <p>อีเมล: contact@gmail.com</p>
+                        <ul>
+                            <li>นายลูกค้า สติกเกอร์</li>
+                            <li>110 ซอย สาธุประดิษฐ์ 58
+                            แขวง บางโพงพาง เขต ยานนาวา
+                            กรุงเทพมหานคร 10120</li>
+                        </ul>
+                        <ul>
+                            <li>เบอร์โทรศัพท์: 0900000000</li>
+                            <li>อีเมล: contact@gmail.com</li>
+                        </ul>
                     </div>
 
                     <div className={styles.containInformation}>
@@ -95,7 +109,10 @@ const ApproveLayoutComponent = () => {
 
                 <div className={styles.groupPayment}>
                     <h3><b>การชำระเงิน</b></h3>
-                    <label><img src={Scb} className={styles.logoBank} width="25" alt="kerry" />ธนาคารไทยพาณิชย์</label>
+                    <label>
+                        <img src={Scb} className={styles.logoBank} width="25" alt="kerry" />
+                        ธนาคารไทยพาณิชย์
+                    </label>
 
                     <table>
                         <thead>
@@ -108,7 +125,7 @@ const ApproveLayoutComponent = () => {
                         <tbody>
                             <tr>
                                 <td><img src={img_product} alt="Product" /></td>
-                                <td>
+                                <td style={{ minWidth: "60px" }}>
                                     <p>สติกเกอร์แบบกลม</p>
                                     <span>กระดาษอาร์ต - เคลือบด้าน -กินเนื้อ 1 มม. - ขนาด 10x20 mm </span>
                                 </td>
@@ -142,3 +159,23 @@ const ApproveLayoutComponent = () => {
 };
 
 export default ApproveLayoutComponent;
+
+const responsive = {
+    superLargeDesktop: {
+        // the naming can be any, depends on you.
+        breakpoint: { max: 4000, min: 3000 },
+        items: 5
+    },
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 3
+    },
+    tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 2
+    },
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 1
+    }
+};

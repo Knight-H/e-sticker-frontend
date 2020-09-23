@@ -9,8 +9,11 @@ const UploadFileComponent = () => {
     const [file, setFile] = useState("");
     const [selectStep] = useState(2);
     const handleChange = event => {
-        setFile(URL.createObjectURL(event.target.files[0]))
+        if (event.target.files) {
+            setFile(URL.createObjectURL(event.target.files[0]))
+        }
     }
+    console.log("file", file)
     return (
         <main>
             <section style={{display: "flex"}}>
