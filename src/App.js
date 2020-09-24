@@ -11,7 +11,6 @@ import Order1ProductConfigComponent from "./components/order-1-product-config"
 
 import ShoppingComponent from "./components/shopping";
 import InCartComponent from "./components/incart";
-
 function App() {
     return (
         <div className="App">

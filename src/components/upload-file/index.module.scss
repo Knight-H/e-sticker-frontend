@@ -24,80 +24,70 @@
 
 .wrapContent {
   margin-top: 5vh;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  .square {
+      height: 510px;
+      width: 566px;
+      background-color: #EDEDED;
+      margin-right: 50px;
+  }
+  
+  .rightContent {
+    margin-top: 5vh;
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    .square {
-        height: 510px;
-        width: 566px;
-        background-color: #EDEDED;
-        margin-right: 50px;
-    }
+    flex-direction: column;
+    width: 240px;
     
-    .rightContent {
-      margin-top: 5vh;
-      display: flex;
-      flex-direction: column;
-      width: 240px;
-      label {
-        color: #009473;
-        margin-bottom: 10px;
-        font-size: 14px;
-      }
-        select {
-          font-family: 'FontAwesome', 'Second Font name';
-          height: 33px;
-          border: 0.5px solid #009473;
-          border-radius: 2px;
-          padding: 5px 20px;
-          width: 240px;
-          margin-bottom: 30px;
-          font-size: 15px;
-          font-weight: lighter;
-          -webkit-appearance: none;
-          -moz-appearance: none;
-          appearance: none;       /* Remove default arrow */
-          background: url(./icon-arrow.svg) 96% / 7% no-repeat white;   /* Add custom arrow */
-        }
+    .label {
+      color: #009473;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
 
-      .buttonUploadFile {
-        color: #000000;
-        border: 0.5px solid #009473;
-        border-radius: 2px;
-        padding: 5px 20px;
-        margin-bottom: 4vh;
-        svg {
-          width: 18px;
-          height: 18px;
-          margin-right: 10px;
-        }
-      }
-
-      input[type=file] {
-        display: none;
-      }
-
-      textarea {
-        border: 0.5px solid #009473;
-        resize: none;
-      }
-
-      .btnCart {
-        background-color: #009473;
-        border: none;
-        border-radius: 2px;
-        color: white;
-        margin-top: 3vh;
-        padding: 8px 10px;
-        font-size: 15px;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        svg {
-          margin-right: 5px;
-          width: 18px;
-          height: 18px;
-        }
+    .buttonUploadFile {
+      color: #000000;
+      border: 0.5px solid #009473;
+      border-radius: 2px;
+      padding: 5px 20px;
+      margin-bottom: 4vh;
+      svg {
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
       }
     }
+
+    input[type=file] {
+      display: none;
+    }
+
+    textarea {
+      border: 0.5px solid #009473;
+      resize: none;
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  .btnCart {
+    background-color: #009473;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    margin-top: 3vh;
+    padding: 8px 10px;
+    font-size: 15px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    svg {
+      margin-right: 5px;
+      width: 18px;
+      height: 18px;
+    }
+  }
 }

@@ -13,6 +13,7 @@ import "react-multi-carousel/lib/styles.css";
 
 const ApproveLayoutComponent = () => {
     const [selectStep] = useState(2);
+    const [expandCard, setExpandCard] = useState(0);
     return (
         <main className={styles.wrapContent}>
             <h1>รายการออเดอร์</h1>
@@ -26,7 +27,7 @@ const ApproveLayoutComponent = () => {
 
             <section>
                 <Carousel responsive={responsive}>
-                    <div className={styles.card}>
+                    <div className={`${styles.card} ${expandCard == 0 && styles.active}`} onClick={() => setExpandCard(0)}>
                         <h4>หมายเลขรายการ ITM00001</h4>
                         <div className={styles.description}>
                             <Circle />
@@ -38,7 +39,7 @@ const ApproveLayoutComponent = () => {
 
                         <label className={styles.waitApproval}>กำลังดำเนินการ</label>
                     </div>
-                    <div className={styles.card}>
+                    <div className={`${styles.card} ${expandCard == 1 && styles.active}`} onClick={() => setExpandCard(1)}>
                         <h4>หมายเลขรายการ ITM00001</h4>
                         <div className={styles.description}>
                             <Circle />
@@ -50,7 +51,7 @@ const ApproveLayoutComponent = () => {
 
                         <label className={styles.waitApproval}>กำลังดำเนินการ</label>
                     </div>
-                    <div className={styles.card}>
+                    <div className={`${styles.card} ${expandCard == 2 && styles.active}`} onClick={() => setExpandCard(2)}>
                         <h4>หมายเลขรายการ ITM00001</h4>
                         <div className={styles.description}>
                             <Circle />

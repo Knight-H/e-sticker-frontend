@@ -28,6 +28,7 @@
     }
 
     .card {
+        cursor: pointer;
         height: 174px;
         border: 1px solid #009473;
         border-radius: 20px;
@@ -69,6 +70,10 @@
                 left: 150px;
             }
         }
+    }
+
+    .card:hover, .active {
+        border: 5px solid #009473;
     }
 
     .previewImage {
@@ -133,7 +138,7 @@
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
-        border: 1px solid #009473;
+        // border: 1px solid #009473;
         border-radius: 20px;
         padding: 10px 40px;
         margin-top: 8vh;
