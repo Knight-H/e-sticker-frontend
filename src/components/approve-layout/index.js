@@ -7,13 +7,15 @@ import img_product from '../shopping/workplace.jpg';
 
 import { ReactComponent as Circle } from './circle.svg';
 import { ReactComponent as Drawing } from './drawing.svg';
+import { ReactComponent as IconCheckSVG } from './icon-check.svg';
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 const ApproveLayoutComponent = () => {
     const [selectStep] = useState(3);
-    const [guestMode, setGuestMode] = useState(true);
+    const [guestMode] = useState(false);
+
     const [expandCard, setExpandCard] = useState(0);
     return (
         <main className={styles.wrapContent}>
@@ -38,7 +40,7 @@ const ApproveLayoutComponent = () => {
 
             <section>
                 <Carousel responsive={responsive}>
-                    <div className={`${styles.card} ${expandCard == 0 && styles.active}`} onClick={() => setExpandCard(0)}>
+                    <div className={`${styles.card} ${`${expandCard}` === `${0}` && styles.active}`} onClick={() => setExpandCard(0)}>
                         <h4>หมายเลขรายการ ITM00001</h4>
                         <div className={styles.description}>
                             <Circle />
@@ -50,7 +52,7 @@ const ApproveLayoutComponent = () => {
 
                         <label className={styles.waitApproval}>กำลังดำเนินการ</label>
                     </div>
-                    <div className={`${styles.card} ${expandCard == 1 && styles.active}`} onClick={() => setExpandCard(1)}>
+                    <div className={`${styles.card} ${`${expandCard}` === `${1}` && styles.active}`} onClick={() => setExpandCard(1)}>
                         <h4>หมายเลขรายการ ITM00001</h4>
                         <div className={styles.description}>
                             <Circle />
@@ -62,7 +64,7 @@ const ApproveLayoutComponent = () => {
 
                         <label className={styles.waitApproval}>กำลังดำเนินการ</label>
                     </div>
-                    <div className={`${styles.card} ${expandCard == 2 && styles.active}`} onClick={() => setExpandCard(2)}>
+                    <div className={`${styles.card} ${`${expandCard}` === `${2}` && styles.active}`} onClick={() => setExpandCard(2)}>
                         <h4>หมายเลขรายการ ITM00001</h4>
                         <div className={styles.description}>
                             <Circle />
@@ -84,19 +86,19 @@ const ApproveLayoutComponent = () => {
                 </div>
 
                 <div className={styles.inputBox}>
-                    <button><h3><i class="fas fa-check"></i> อนุมัติแบบ</h3></button>
+                    <button><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>
                     <input className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..."></input>
 
                     <div className={styles.groupBtn}>
-                        <button>ส่ง</button>
-                        <button>อัพโหลดไฟล์</button>
+                        <button type="button">ส่ง</button>
+                        <button type="button" className={styles.btnCustomWidth}>อัพโหลดไฟล์</button>
                     </div>
                 </div>
             </section>
 
             <section className={styles.groupDeliveryPayment} style={ guestMode ? { border: '1px solid #009473' } : {}}>
                 <div className={styles.groupDelivery}>
-                    <h3><b>การจัดส่ง</b></h3>
+                    <h3>การจัดส่ง</h3>
                     <div className={styles.containInformationCustomer}>
                         <ul>
                             <li>นายลูกค้า สติกเกอร์</li>
@@ -120,7 +122,7 @@ const ApproveLayoutComponent = () => {
                 </div>
 
                 <div className={styles.groupPayment}>
-                    <h3><b>การชำระเงิน</b></h3>
+                    <h3 style={{ marginBottom: "20px"}}>การชำระเงิน</h3>
                     <label>
                         <img src={Scb} className={styles.logoBank} width="25" alt="kerry" />
                         ธนาคารไทยพาณิชย์
@@ -183,11 +185,11 @@ const responsive = {
         items: 3
     },
     tablet: {
-        breakpoint: { max: 1024, min: 464 },
+        breakpoint: { max: 1024, min: 700 },
         items: 2
     },
     mobile: {
-        breakpoint: { max: 464, min: 0 },
+        breakpoint: { max: 700, min: 0 },
         items: 1
     }
 };

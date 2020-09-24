@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styles from './index.module.scss';
 
 import { ReactComponent as BannerFooter } from './banner-footer.svg';
