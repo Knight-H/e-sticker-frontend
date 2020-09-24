@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
 import styles from './index.module.scss';
@@ -18,6 +18,8 @@ import { ReactComponent as Logo } from './logo.svg';
 // }
 
 const NavBarComponent = ({ history }) => {
+    const [isBurgerToggled, setIsBurgerToggled] = useState(false);
+
     return (
         <header>
             <div className={styles.topBar}>
@@ -32,7 +34,7 @@ const NavBarComponent = ({ history }) => {
             </div>
             <nav className={styles.navBar}>
                 <Logo onClick={() => history.push('/')} />
-                <ul>
+                <ul className={`${styles.navLinks} ${isBurgerToggled ? styles.navActive : ""}`}>
                     <li><Link to="/">หน้าแรก</Link></li>
                     <li><Link to={{
                         pathname: "/",
@@ -44,8 +46,15 @@ const NavBarComponent = ({ history }) => {
                     <li><Link to={{pathname: "/", 
                     // hash: "#ourWorks",  
                     state: {scrollToOurWorks: true}}}>ตัวอย่างผลงาน</Link></li>
-                    <li><button><Link to="/">สั่งทำสติกเกอร์</Link></button></li>
+                    <li><button><Link to="/order-1-product-config">สั่งทำสติกเกอร์</Link></button></li>
                 </ul>
+
+                <div className={`${styles.burger} ${isBurgerToggled ? styles.toggle : ""}`} 
+                    onClick={e => setIsBurgerToggled(!isBurgerToggled)}>
+                    <div className={styles.line1}></div>
+                    <div className={styles.line2}></div>
+                    <div className={styles.line3}></div>
+                </div>
             </nav>
         </header>
     );
