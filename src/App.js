@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router-dom";
 
 import NavBarComponent from "./components/navbar";
 import HomeComponent from "./components/home";
-import FooterComponent from "./components/footer";
 import UploadFileComponent from "./components/upload-file";
 import ApproveLayoutComponent from "./components/approve-layout";
 import Order1ProductConfigComponent from "./components/order-1-product-config"
@@ -23,7 +22,7 @@ function App() {
                 <Route path="/shopping" exact component={ShoppingComponent} />
                 <Route path="/in_cart" exact component={InCartComponent} />
             </Switch>
-            <FooterComponent />
+            
         </div>
     );
 }
