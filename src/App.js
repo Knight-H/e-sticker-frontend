@@ -5,7 +5,8 @@ import NavBarComponent from "./components/navbar";
 import HomeComponent from "./components/home";
 import UploadFileComponent from "./components/upload-file";
 import ApproveLayoutComponent from "./components/approve-layout";
-import Order1ProductConfigComponent from "./components/order-1-product-config"
+import Order1ProductConfigComponent from "./components/order-1-product-config";
+import FormStepShopping from "./components/form_step_shopping";
 
 
 import ShoppingComponent from "./components/shopping";
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/order-1-product-config" component={Order1ProductConfigComponent} />
                 <Route path="/shopping" exact component={ShoppingComponent} />
                 <Route path="/in_cart" exact component={InCartComponent} />
+                <Route path="/form_step_shopping" exact component={FormStepShopping} />
             </Switch>
             
         </div>
@@ -28,3 +30,5 @@ function App() {
 }
 
 export default App;
+
+

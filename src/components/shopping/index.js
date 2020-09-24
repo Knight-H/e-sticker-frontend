@@ -5,9 +5,17 @@ import img_product from './workplace.jpg';
 import logoBangkokBank from './BangkokBank.png';
 import logoKrungthaiBank from './KrungthaiBank.jpg';
 import logoSiamCommercialBank from './SiamCommercialBank.jpg';
+import logoCreditCard from './credit.png';
+
+import { Link } from "react-router-dom";
+// import { ErrorMessage, Field } from "formik";
 
 const ShoppingComponent = () => {
     const [selectStep] = useState(2);
+    const [checkedBox, setCheckedBox] = useState(false);
+    const [shipment, setShipment] = useState(0);
+    const [bank, setBank] = useState(0);
+
     return (
         <main>
             <section className={styles.section1}>
@@ -30,7 +38,7 @@ const ShoppingComponent = () => {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <div className={styles.containerRow}>
+                                        <div className={[styles.containerRow, styles.flexNoWrap].join(' ')}>
                                             <img src={img_product} className={styles.productPreview} alt="Product" />
                                             <div className={styles.containerCol}>
                                                 <div className={styles.name}>สติกเกอร์แบบกลม</div>
@@ -43,7 +51,7 @@ const ShoppingComponent = () => {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div className={styles.containerRow}>
+                                        <div className={[styles.containerRow, styles.flexNoWrap].join(' ')}>
                                             <img src={img_product} className={styles.productPreview} alt="Product" />
                                             <div className={styles.containerCol}>
                                                 <div className={styles.name}>สติกเกอร์แบบเหลี่ยม</div>
@@ -83,81 +91,18 @@ const ShoppingComponent = () => {
                             </tfoot>
                         </table>
                     </div>
-                    
                 </div>
-                
-
-
 
                 <div className={styles.boxChild2}>
-                    <h2>ระบุที่อยู่</h2>
-                    <div className={styles.gridContainer}>
-                        <div className={styles.gridItem}>
-                            <div className={styles.formControl}>
-                                <p>อีเมล*</p>
-                                <div ><input type="text" value=""/></div>
-                            </div>
-                        </div>
-
-                        <div className={styles.gridItem}>
-                            <div className={styles.formControl}>
-                                <p>เบอร์โทรศัพท์*</p>
-                                <div ><input type="text" value=""/></div>
-                            </div>
-                        </div>
-
-                        <div className={styles.gridItem}>
-                            <div className={styles.formControl}>
-                                <p>ที่อยู่*</p>
-                                <div ><input type="text" value=""/></div>
-                            </div>
-                        </div>
-
-                        <div className={styles.gridItem}>
-                            <div className={styles.formControl}>
-                                <p>ชื่อ นามสกุล*</p>
-                                <div ><input type="text" value=""/></div>
-                            </div>
-                        </div>
-
-                        <div className={styles.gridItem}>
-                            <div className={styles.formControl}>
-                                <p>แขวง*</p>
-                                <div ><input type="text" value=""/></div>
-                            </div>
-                        </div>
-
-                        <div className={styles.gridItem}>
-                            <div className={styles.formControl}>
-                                <p>เขต*</p>
-                                <div ><input type="text" value=""/></div>
-                            </div>
-                        </div>
-
-                        <div className={styles.gridItem}>
-                            <div className={styles.formControl}>
-                                <p>จังหวัด*</p>
-                                <div ><input type="text" value=""/></div>
-                            </div>
-                        </div>
-
-                        <div className={styles.gridItem}>
-                            <div className={styles.formControl}>
-                                <p>รหัสไปรษณีย์*</p>
-                                <div ><input type="text" value=""/></div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
                     <h2>เลือก การจัดส่ง</h2>
                     <div className={styles.containerRow}>
-                        <div className={styles.boxRadiusSmall}>
-                            <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
-                            <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
-                            <div className={styles.price}>50บาท</div>
-                        </div>
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${0}` && styles.active}`} onClick={() => setShipment(0)}>
+                                <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
+                                <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
+                                <div className={styles.price}>50บาท</div>
+                            </div>
+
+                        <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${1}` && styles.active}`} onClick={() => setShipment(1)}>
                             <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
                             <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
                             <div className={styles.price}>50บาท</div>
@@ -166,7 +111,7 @@ const ShoppingComponent = () => {
 
                     <h2>ชำระเงิน</h2>
                     <div className={styles.containerCol}>
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${0}` && styles.active}`} onClick={() => setBank(0)}>
                             <div className={styles.containerRow}>
                                 <div className={styles.containerColBank}>
                                     <img src={logoBangkokBank} alt="Product" className={styles.logoBank} />
@@ -176,7 +121,7 @@ const ShoppingComponent = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${1}` && styles.active}`} onClick={() => setBank(1)}>
                             <div className={styles.containerRow}>
                                 <div className={styles.containerColBank}>
                                     <img src={logoSiamCommercialBank} alt="Product" className={styles.logoBank} />
@@ -187,7 +132,7 @@ const ShoppingComponent = () => {
                             </div>
                         </div>
 
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${2}` && styles.active}`} onClick={() => setBank(2)}>
                             <div className={styles.containerRow}>
                                 <div className={styles.containerColBank}>
                                     <img src={logoKrungthaiBank} alt="Product" className={styles.logoBank} />
@@ -198,10 +143,10 @@ const ShoppingComponent = () => {
                             </div>
                         </div>
 
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${3}` && styles.active}`} onClick={() => setBank(3)}>
                             <div className={styles.containerRow}>
                                 <div className={styles.containerColBank}>
-                                    <img src={img_product} alt="Product" className={styles.logoBank} />
+                                    <img src={logoCreditCard} alt="Product" className={styles.logoBank} />
                                 </div>
                                 <div className={styles.containerColBank}>
                                     Credit / Debit
@@ -213,17 +158,81 @@ const ShoppingComponent = () => {
                     <h2>ออกใบกำกับภาษี</h2>
                     <div className={styles.containerRow}>
                         <div className={styles.containerColBank}>
-                            <input type="checkbox" value=""></input>
+                            <input type="checkbox" value="" onClick={() => setCheckedBox(!checkedBox)}></input>
                         </div>
                         <div className={styles.containerColBank}>
                             ข้อมูลเดียวกับที่อยู่
                         </div>
                     </div>
                     
-                    <button className={styles.buttonNext}>ถัดไป</button>
-                    
-                    
+                    <div className={checkedBox ? styles.contentDisplayBlock : styles.contentDisplayNone}>
+                        <h2>ระบุที่อยู่</h2>
+                        <div className={styles.gridContainer}>
+                            <div className={styles.gridItem}>
+                                <div className={styles.formControl}>
+                                    <p>อีเมล*</p>
+                                    <div ><input type="text" value=""/></div>
+                                </div>
+                            </div>
+
+                            <div className={styles.gridItem}>
+                                <div className={styles.formControl}>
+                                    <p>เบอร์โทรศัพท์*</p>
+                                    <div ><input type="text" value=""/></div>
+                                </div>
+                            </div>
+
+                            <div className={styles.gridItem}>
+                                <div className={styles.formControl}>
+                                    <p>ที่อยู่*</p>
+                                    <div ><input type="text" value=""/></div>
+                                </div>
+                            </div>
+
+                            <div className={styles.gridItem}>
+                                <div className={styles.formControl}>
+                                    <p>ชื่อ นามสกุล*</p>
+                                    <div ><input type="text" value=""/></div>
+                                </div>
+                            </div>
+
+                            <div className={styles.gridItem}>
+                                <div className={styles.formControl}>
+                                    <p>แขวง*</p>
+                                    <div ><input type="text" value=""/></div>
+                                </div>
+                            </div>
+
+                            <div className={styles.gridItem}>
+                                <div className={styles.formControl}>
+                                    <p>เขต*</p>
+                                    <div ><input type="text" value=""/></div>
+                                </div>
+                            </div>
+
+                            <div className={styles.gridItem}>
+                                <div className={styles.formControl}>
+                                    <p>จังหวัด*</p>
+                                    <div ><input type="text" value=""/></div>
+                                </div>
+                            </div>
+
+                            <div className={styles.gridItem}>
+                                <div className={styles.formControl}>
+                                    <p>รหัสไปรษณีย์*</p>
+                                    <div ><input type="text" value=""/></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <Link className={styles.link} to="/approve">
+                    <button className={styles.buttonNext}>
+                        ถัดไป
+                    </button>
+                    </Link>
                 </div>
+                
             </section>
         </main>
     );

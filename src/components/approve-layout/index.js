@@ -12,7 +12,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 const ApproveLayoutComponent = () => {
-    const [selectStep] = useState(2);
+    const [selectStep] = useState(3);
     const [guestMode, setGuestMode] = useState(true);
     const [expandCard, setExpandCard] = useState(0);
     return (
