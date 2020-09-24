@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import { Link } from "react-router-dom";
 
 import StepProgress from "../step_progress";
-import '../../fontawesome-free/css/all.css';
+// import '../../fontawesome-free/css/all.css';
 import { ReactComponent as IconUploadFile } from './icon-upload-file.svg';
 import { ReactComponent as IconCart } from './icon-cart.svg';
 import { ReactComponent as IconArrow } from './icon-arrow.svg';
