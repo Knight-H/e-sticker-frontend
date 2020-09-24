@@ -27,17 +27,17 @@
     padding: 10px;
 
     h2 {
-        margin-bottom: 20px;
+        margin: 25px 0px 10px 0px;
     }
 }
 
 .boxChild2 {
     // background-color: pink;
     flex: 1 1 400px;
-    padding: 10px;
+    padding: 15px;
 
     h2 {
-        margin-bottom: 20px;
+        margin: 25px 0px 10px 0px;
     }
 }
 
@@ -165,8 +165,13 @@
         padding: 0px;
         color: #009473;
     }
-}
 
+    
+}
+.active {
+    background-color: rgb(201, 201, 201);
+    border: 3px solid #009473;
+}
 .boxRadiusSmall:hover {
     background-color: rgb(201, 201, 201);
     border: 3px solid #009473;
@@ -196,4 +201,29 @@
     border: 1px solid #eeeeee;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
     font-size: 0.7rem;
+}
+
+.buttonGreen {
+    background-color: #009473;
+    color: white;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    font-size: 0.7rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.contentDisplayBlock {
+    display: block;
+}
+
+.contentDisplayNone {
+    display: none;
+}
+
+.flexNoWrap {
+    flex-wrap: nowrap;
 }

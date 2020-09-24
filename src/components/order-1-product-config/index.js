@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import StepProgress from "../step_progress";
 import styles from './index.module.scss';
+import { Link } from "react-router-dom";
 
 const Order1ProductConfigComponent = () => {
     const [selectStep] = useState(1);
@@ -71,10 +72,11 @@ const Order1ProductConfigComponent = () => {
                         </button>
                     </div>
                     
-
+                    <Link className={styles.link} to="/upload-file">
                     <button className={styles.nextButton}>
                         ถัดไป
                     </button>
+                    </Link>
 
 
                 </section>

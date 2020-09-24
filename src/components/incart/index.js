@@ -1,19 +1,13 @@
-import React, {useState} from "react";
-import StepProgress from "../step_progress";
+import React from "react";
 import styles from './index.module.scss';
 import img_product from './workplace.jpg';
 
 const InCartComponent = () => {
-    const [selectStep] = useState(2);
     return (
         <main>
-            <section className={styles.section1}>
-                <StepProgress stepIndex={selectStep}/>
-            </section>
-
             <section className={styles.section2}>
                 <div className={styles.boxChild1}>
-                    <h2>สรุปออเดอร์</h2>
+                    <h2>ตะกร้าสินค้า</h2>
                     <div className={styles.wrapTable}>
                         <table className={styles.tableCustom}>
                             <thead className={styles.borderBottom}>
@@ -27,7 +21,7 @@ const InCartComponent = () => {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <div className={styles.containerRow}>
+                                        <div className={[styles.containerRow, styles.flexNoWrap].join(' ')}>
                                             <img src={img_product} className={styles.productPreview} alt="Product" />
                                             <div className={styles.containerCol}>
                                                 <div className={styles.name}>สติกเกอร์แบบกลม</div>
@@ -40,7 +34,7 @@ const InCartComponent = () => {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div className={styles.containerRow}>
+                                        <div className={[styles.containerRow, styles.flexNoWrap].join(' ')}>
                                             <img src={img_product} className={styles.productPreview} alt="Product" />
                                             <div className={styles.containerCol}>
                                                 <div className={styles.name}>สติกเกอร์แบบเหลี่ยม</div>
@@ -60,7 +54,7 @@ const InCartComponent = () => {
                             </tfoot>
                         </table>
                     </div>
-                    
+                    <button className={styles.buttonGreen}>สั่งสินค้าอย่างอื่น</button>
                 </div>
                 
 
