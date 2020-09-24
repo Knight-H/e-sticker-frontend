@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from './index.module.scss';
-import stylesDropDawn from './drop-dawn.module.scss';
+// import stylesDropDawn from './drop-dawn.module.scss';
 import { Link } from "react-router-dom";
 
 import StepProgress from "../step_progress";
@@ -12,7 +12,7 @@ import { ReactComponent as IconArrow } from './icon-arrow.svg';
 const UploadFileComponent = () => {
     const [file, setFile] = useState("");
     const [selectStep] = useState(2);
-    const [dropDawn, setDropDawn] = useState(5);
+    const [dropDawn, setDropDawn] = useState(0);
 
     const handleChangeDropDawn = (e) => {
         console.log("e>>>", e.value)
@@ -36,26 +36,26 @@ const UploadFileComponent = () => {
                 <div className={styles.rightContent}>
                     <label className={styles.label}>อนุมัติรูปแบบงาน</label>
 
-                    <div className={stylesDropDawn.selectBox}>
-                        <div className={stylesDropDawn.selectBoxCurrent} tabindex="1">
-                            <div className={stylesDropDawn.selectBoxValue}>
-                                <input className={stylesDropDawn.selectBoxInput} type="radio" id="1" value="2" name="Ben" checked={dropDawn == 2 ? true : false}
+                    <div className={styles.selectBox}>
+                        <div className={styles.selectBoxCurrent} tabindex="1">
+                            <div className={styles.selectBoxValue}>
+                                <input className={styles.selectBoxInput} type="radio" id="1" value="1" checked={dropDawn == 1 ? true : false}
                                     onChange={(e) => handleChangeDropDawn(e.target)} />
-                                <p className={stylesDropDawn.selectBoxInputText}><i className="fas fa-check"></i>ต้องการอนุมัติ</p>
+                                <p className={styles.selectBoxInputText}><i className="fas fa-check"></i>ต้องการอนุมัติ</p>
                             </div>
-                            <div className={stylesDropDawn.selectBoxValue}>
-                                <input className={stylesDropDawn.selectBoxInput} type="radio" id="4" value="5" name="Ben" checked={dropDawn == 5 ? true : false}
+                            <div className={styles.selectBoxValue}>
+                                <input className={styles.selectBoxInput} type="radio" id="0" value="0" checked={dropDawn == 0 ? true : false}
                                     onChange={(e) => handleChangeDropDawn(e.target)} />
-                                <p className={stylesDropDawn.selectBoxInputText}>กรุณาเลือก...</p>
+                                <p className={styles.selectBoxInputText}>กรุณาเลือก...</p>
                                 <IconArrow />
                             </div>
                         </div>
-                        <ul className={stylesDropDawn.selectBoxList}>
+                        <ul className={styles.selectBoxList}>
                             <li>
-                                <label className={stylesDropDawn.selectBoxOption} for="1" aria-hidden="aria-hidden"><i className="fas fa-check" style={{ marginRight: "10px" }}></i>ต้องการอนุมัติ</label>
+                                <label className={styles.selectBoxOption} for="1" aria-hidden="aria-hidden"><i className="fas fa-check" style={{ marginRight: "10px" }}></i>ต้องการอนุมัติ</label>
                             </li>
                             <li>
-                                <label className={stylesDropDawn.selectBoxOption} for="4" aria-hidden="aria-hidden">กรุณาเลือก...</label>
+                                <label className={styles.selectBoxOption} for="0" aria-hidden="aria-hidden">กรุณาเลือก...</label>
                             </li>
                         </ul>
                     </div>
