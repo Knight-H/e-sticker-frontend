@@ -15,8 +15,11 @@ import { ReactComponent as S41LogoIcon } from './s4-1-logo-icon.svg';
 import { ReactComponent as S51OrderIcon } from './s5-1-order-icon.svg';
 
 
+import FooterComponent from "../footer";
+
 const HomeComponent = () => {
     return (
+        <>
         <main>
             <Banner className={styles.banner} />
 
@@ -113,6 +116,9 @@ const HomeComponent = () => {
                 สั่งซื้อสติกเกอร์
             </button>
         </main>
+
+        <FooterComponent />
+        </>
     );
 };
 

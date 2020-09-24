@@ -18,7 +18,9 @@ const UploadFileComponent = () => {
                 <div className={styles.boxInput}>
                     <i class="fas fa-check"></i>
                     <select>
-                        <option>ต้องการอนุมัติ</option>
+                        <option>
+                            <i class="fas fa-check"></i> 
+                            ต้องการอนุมัติ</option>
                         <option>ไม่ต้องการอนุมัติ</option>
                     </select>
                 </div>
