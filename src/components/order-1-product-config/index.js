@@ -12,7 +12,7 @@ const Order1ProductConfigComponent = () => {
             </section>
 
             <div className={styles.wrapContent}>
-                <img className={styles.square} />
+                <img className={styles.square} alt="Box Square for display"/>
 
 
                 <section className={styles.rightContent}>
