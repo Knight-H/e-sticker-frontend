@@ -1,10 +1,19 @@
 @import "../../variables";
 
+ .section1{
+     display:flex;
+ }
+
 .wrapContent {
-    width: 70vw;
+    width: 75vw;
+    margin: 30px auto;
+
 
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+
+    // border: 5px solid red;
     
     // TEMPORARY BEFORE TIMELINE
     // margin-top: 160px;
@@ -12,8 +21,110 @@
 
 .square {
     width: 666px;
-    height: 610px;
+    // height: calc(100vw* 0.5);
+    height: 600px;
     background-color: #EDEDED;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
+}
+
+.rightContent {
+    // margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    // flex: 1 0 15vw;
+    width: 220px;
+
+    // border: 3px solid blue;
+    // background-color: blue;
+}
+
+.dropdownSelect{
+    // border: 3px solid yellow;
+    
+    // background-color: yellow;
+
+
+    margin-top: 17px;
+
+    label{
+
+        
+        color: #009473;
+        font-size: 14px;
+        // border: 2px solid red;
+
+        display: block;
+    }
+
+    select {
+        width: 177px;
+        height:32px;
+
+
+        border: 0.5px solid #009473;
+        border-radius: 2px;
+
+        font-size: 12px;
+        
+    }
+}
+
+.sizeSelect {
+    margin-top: 15px;
+    width: 177px;
+
+    // border: 2px solid red;
+
+    label{        
+        color: #009473;
+        font-size: 14px;
+        // border: 2px solid yellow;
+
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .sizeWrapper{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    input {
+        width: 82px;
+        height: 32px;
+
+        border: 0.5px solid #009473;
+        border-radius: 2px;
+
+        font-size: 12px;
+    }
+}
+
+.addQuantityButton{
+    margin-top: 3px;
+    font-size: 8px;
+    color:  #009473;
+
+    display: block;
+    border: none;
+    background-color: transparent;
+}
+
+.nextButton {
+    margin-top: 17px;
+
+    width: 177px;
+    height: 32px; 
+
+    font-size: 14px;
+    color: #FFF;
+    font-family: SarabunBold;
+
+    background: #009473;
+    border: 0.5px solid #009473;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
 }

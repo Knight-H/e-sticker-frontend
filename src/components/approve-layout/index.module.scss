@@ -2,12 +2,36 @@
 
 .wrapContent {
     padding: 3vh 10vw;
-    
-    h1 {
-        font-size: 22px;
+
+    .inputGreen {
+        width: 250px;
+        padding: 10px;
+        border: 1px solid #009473;
+        border-radius: 5px;
+        margin-bottom: 20px;
     }
-    h1, h3, h4{
-        font-weight: normal;
+    
+    .btnGreen {
+        margin: 0 0 20px 10px;
+        width: 150px;
+        height: 40px;
+        color: white;
+        background-color: #009473;
+        border: none;
+        border-radius: 5px;
+    }
+    
+    .title {
+        font-size: 20px;
+    }
+
+    label {
+        display: inline-block;
+    }
+
+    .stepProgressBar {
+        display: flex;
+        margin: -5vh 0 5vh 0;
     }
 
     .waitApproval {
@@ -17,67 +41,66 @@
         font-size: 12px;
     }
 
-    .containCard {
-        display: flex;
-        .card {
-            min-width: 315px;
-            height: 174px;
-            border: 1px solid #009473;
-            border-radius: 20px;
-            padding: 0px 20px;
-            position: relative;
-            margin-right: 10px;
-            .waitApproval {
+    .card {
+        cursor: pointer;
+        height: 174px;
+        border: 1px solid #009473;
+        border-radius: 20px;
+        padding: 0px 20px;
+        position: relative;
+        margin-right: 10px;
+        .waitApproval {
+            position: absolute;
+            top: 130px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        .description {
+            svg, h4, p, .quality, .price {
                 position: absolute;
-                top: 130px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
+                top: 50px;
+                left: 24px;
             }
-            .description {
-                svg {
-                    position: absolute;
-                    top: 50px;
-                    left: 24px;
-                }
 
-                h4 {
-                    position: absolute;
-                    top: 30px;
-                    left: 70px;
-                }
+            h4 {
+                top: 30px;
+                left: 70px;
+            }
 
-                p {
-                    font-size: 12px;
-                    position: absolute;
-                    top: 60px;
-                    left: 70px;
-                }
+            p {
+                font-size: 12px;
+                top: 60px;
+                left: 70px;
+            }
 
-                .quality {
-                    position: absolute;
-                    top: 70px;
-                    left: 70px;
-                }
+            .quality {
+                top: 80px;
+                left: 70px;
+            }
 
-                .price {
-                    position: absolute;
-                    top: 70px;
-                    left: 150px;
-                }
+            .price {
+                top: 80px;
+                left: 150px;
             }
         }
+    }
+
+    .card:hover, .active {
+        border: 5px solid #009473;
     }
 
     .previewImage {
         margin-top: 4vh;
         display: flex;
+        flex-wrap: wrap;
         select {
             font-family: 'FontAwesome', 'Second Font name'
           }
         .square {
             border-radius: 5px;
-            width: 650px;
+            width: calc(10px + 45vw);
+            min-width: 300px;
             height: 300px;
             background-color: #EDEDED;
             display: flex;
@@ -86,25 +109,19 @@
         }
 
         .inputBox {
-            padding: 7vh 5vw;
+            padding: 7vh 2vw 7vh 2vw;
+            width: 200px;
             button {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 width: 200px;
                 height: 50px;
+                margin-bottom: 20px;
                 color: white;
                 background-color: #009473;
                 border: none;
                 border-radius: 5px;
-                margin-bottom: 20px;
-            }
-            input {
-                width: 300px;
-                padding: 10px;
-                border: 1px solid #009473;
-                border-radius: 5px;
-                margin-bottom: 20px;
             }
 
             .groupBtn {
@@ -113,7 +130,7 @@
                 button {
                     width: auto;
                     height: auto;
-                    padding: 10px 30px;
+                    padding: 10px 20px;
                     background-color: white;
                     color: black;
                     font-size: 14px;
@@ -123,4 +140,117 @@
             }
         }
     }
+
+    .groupDeliveryPayment {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        // border: 1px solid #009473;
+        border-radius: 20px;
+        padding: 10px 40px;
+        margin-top: 8vh;
+        .groupDelivery {
+            flex-basis: 50%;
+
+            .containInformationCustomer{
+                display: flex;
+                flex-wrap: wrap;
+                ul {
+                    flex-basis: 50%;
+                    margin: 0;
+                    padding: 0;
+                    list-style-type: none;
+                    li {
+                        font-size: calc(10px + 0.3vw);
+                        margin: 0 0 15px 0;
+                    }
+                }
+            }
+
+            .containInformation {
+                h4 {
+                    margin: 0 0 20px 0;
+                }
+                .deliveryBy, label {
+                    padding: 2px 10px;
+                    background-color: white;
+                    color: black;
+                    font-size: 14px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    margin: 0 10px 3vh 0;
+                    border-radius: 20px;
+                }
+                label {
+                    padding: 10px 20px;
+                }
+            }
+        }
+
+        .groupPayment {
+            flex-basis: 50%;
+            label {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 150px;
+                padding: 10px 20px;
+                background-color: white;
+                color: black;
+                font-size: 14px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                margin: 0 10px 3vh 0;
+                border-radius: 20px;
+
+                img {
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 20px;
+                    margin-right: 10px;
+                }
+            }
+
+            table {
+                width: 100%;
+                margin-bottom: 10px;
+                thead tr th {
+                    border-bottom: 1px solid black;
+                    padding: 10px;
+                    font-size: calc(10px + 0.5vw);
+                    font-weight: lighter;
+                }
+
+                thead tr th, tbody tr td, tfoot tr td{
+                    padding: 10px;
+                    font-size: calc(8px + 0.5vw);
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 40px;
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+
+                    span {
+                        font-size: calc(7px + 0.5vw);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.textRight {
+    text-align: right;
+}
+
+@media only screen and (max-width: 900px) {
+    .wrapContent .groupDeliveryPayment .groupDelivery {
+        flex-basis: 100%;
+    };
+
+    .wrapContent .groupDeliveryPayment .groupPayment {
+        flex-basis: 100%;
+    };
 }
