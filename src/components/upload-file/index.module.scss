@@ -1,27 +1,5 @@
 @import "../../variables";
 
-@media only screen and (max-width: 810px) {
-  body {
-      .wrapContent {
-        .square {
-          height: 410px;
-          width: 466px;
-        }
-      }
-  }
-}
-
-
-@media only screen and (max-width: 650px) {
-  body {
-      .wrapContent {
-        .square {
-          margin-right: 0;
-        }
-      }
-  }
-}
-
 .wrapContent {
   margin-top: 5vh;
   display: flex;
@@ -70,7 +48,7 @@
   }
 }
 
-a {
+.link {
   text-decoration: none;
   .btnCart {
     background-color: #009473;
@@ -88,6 +66,24 @@ a {
       margin-right: 5px;
       width: 18px;
       height: 18px;
+    }
+  }
+}
+
+@media only screen and (max-width: 810px) {
+  .wrapContent {
+    .square {
+      height: 410px;
+      width: 466px;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 650px) {
+  .wrapContent {
+    .square {
+      margin-right: 0;
     }
   }
 }

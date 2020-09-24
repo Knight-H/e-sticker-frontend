@@ -71,7 +71,7 @@ const UploadFileComponent = () => {
                     <label className={styles.label}>เพิ่มเติม</label>
                     <textarea rows="5"></textarea>
 
-                    <Link to="/in_cart">
+                    <Link className={styles.link} to="/in_cart">
                         <button type="button" className={styles.btnCart}><IconCart /><b>ใส่ในตะกร้า</b></button>
                     </Link>
                 </div>

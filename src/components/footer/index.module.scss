@@ -1,11 +1,5 @@
 @import "../../variables";
 
-@media only screen and (max-width: 950px) {
-      .listContract {
-          display: none;
-      }
-  }
-
 .footerBar {
     align-items: center;
     bottom: 0;
@@ -91,3 +85,9 @@
         }
     }
 };
+
+@media only screen and (max-width: 950px) {
+    .listContract {
+        display: none;
+    }
+}

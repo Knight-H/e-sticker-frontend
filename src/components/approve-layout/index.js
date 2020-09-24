@@ -13,13 +13,24 @@ import "react-multi-carousel/lib/styles.css";
 
 const ApproveLayoutComponent = () => {
     const [selectStep] = useState(2);
+    const [guestMode, setGuestMode] = useState(true);
     const [expandCard, setExpandCard] = useState(0);
     return (
         <main className={styles.wrapContent}>
-            <h1>รายการออเดอร์</h1>
-            <h3>ออเดอร์หมายเลข #DW0001
+
+            {guestMode &&
+                <>
+                    <h1 className={styles.title}>ตรวจสอบสถานะออเดอร์</h1>
+                    <p>หมายเลขออเดอร์</p>
+                    <input class={styles.inputGreen} type="text"></input>
+                    <button type="button" className={styles.btnGreen}>ตรวจสอบสถานะ</button>
+                </>
+            }
+
+            <h1 className={styles.title}>รายการออเดอร์</h1>
+            <p>ออเดอร์หมายเลข #DW0001
                 <label className={styles.waitApproval}>กำลังดำเนินการ</label>
-            </h3>
+            </p>
 
             <section className={styles.stepProgressBar}>
                 <StepProgress stepIndex={selectStep} />
@@ -74,7 +85,7 @@ const ApproveLayoutComponent = () => {
 
                 <div className={styles.inputBox}>
                     <button><h3><i class="fas fa-check"></i> อนุมัติแบบ</h3></button>
-                    <input type="text" placeholder="พิมพ์ข้อความ..."></input>
+                    <input className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..."></input>
 
                     <div className={styles.groupBtn}>
                         <button>ส่ง</button>
@@ -83,7 +94,7 @@ const ApproveLayoutComponent = () => {
                 </div>
             </section>
 
-            <section className={styles.groupDeliveryPayment}>
+            <section className={styles.groupDeliveryPayment} style={ guestMode ? { border: '1px solid #009473' } : {}}>
                 <div className={styles.groupDelivery}>
                     <h3><b>การจัดส่ง</b></h3>
                     <div className={styles.containInformationCustomer}>
