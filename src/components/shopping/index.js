@@ -5,12 +5,17 @@ import img_product from './workplace.jpg';
 import logoBangkokBank from './BangkokBank.png';
 import logoKrungthaiBank from './KrungthaiBank.jpg';
 import logoSiamCommercialBank from './SiamCommercialBank.jpg';
+import logoCreditCard from './credit.png';
 
-import { ErrorMessage, Field } from "formik";
+import { Link } from "react-router-dom";
+// import { ErrorMessage, Field } from "formik";
 
 const ShoppingComponent = () => {
     const [selectStep] = useState(2);
     const [checkedBox, setCheckedBox] = useState(false);
+    const [shipment, setShipment] = useState(0);
+    const [bank, setBank] = useState(0);
+
     return (
         <main>
             <section className={styles.section1}>
@@ -91,13 +96,13 @@ const ShoppingComponent = () => {
                 <div className={styles.boxChild2}>
                     <h2>เลือก การจัดส่ง</h2>
                     <div className={styles.containerRow}>
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${0}` && styles.active}`} onClick={() => setShipment(0)}>
                                 <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
                                 <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
                                 <div className={styles.price}>50บาท</div>
                             </div>
 
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${1}` && styles.active}`} onClick={() => setShipment(1)}>
                             <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
                             <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
                             <div className={styles.price}>50บาท</div>
@@ -106,7 +111,7 @@ const ShoppingComponent = () => {
 
                     <h2>ชำระเงิน</h2>
                     <div className={styles.containerCol}>
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${0}` && styles.active}`} onClick={() => setBank(0)}>
                             <div className={styles.containerRow}>
                                 <div className={styles.containerColBank}>
                                     <img src={logoBangkokBank} alt="Product" className={styles.logoBank} />
@@ -116,7 +121,7 @@ const ShoppingComponent = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${1}` && styles.active}`} onClick={() => setBank(1)}>
                             <div className={styles.containerRow}>
                                 <div className={styles.containerColBank}>
                                     <img src={logoSiamCommercialBank} alt="Product" className={styles.logoBank} />
@@ -127,7 +132,7 @@ const ShoppingComponent = () => {
                             </div>
                         </div>
 
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${2}` && styles.active}`} onClick={() => setBank(2)}>
                             <div className={styles.containerRow}>
                                 <div className={styles.containerColBank}>
                                     <img src={logoKrungthaiBank} alt="Product" className={styles.logoBank} />
@@ -138,10 +143,10 @@ const ShoppingComponent = () => {
                             </div>
                         </div>
 
-                        <div className={styles.boxRadiusSmall}>
+                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${3}` && styles.active}`} onClick={() => setBank(3)}>
                             <div className={styles.containerRow}>
                                 <div className={styles.containerColBank}>
-                                    <img src={img_product} alt="Product" className={styles.logoBank} />
+                                    <img src={logoCreditCard} alt="Product" className={styles.logoBank} />
                                 </div>
                                 <div className={styles.containerColBank}>
                                     Credit / Debit
@@ -221,7 +226,11 @@ const ShoppingComponent = () => {
                             
                         </div>
                     </div>
-                    <button className={styles.buttonNext}>ถัดไป</button>
+                    <Link className={styles.link} to="/approve">
+                    <button className={styles.buttonNext}>
+                        ถัดไป
+                    </button>
+                    </Link>
                 </div>
                 
             </section>

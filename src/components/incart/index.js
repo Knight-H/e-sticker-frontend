@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-import StepProgress from "../step_progress";
+import React from "react";
 import styles from './index.module.scss';
 import img_product from './workplace.jpg';
 
