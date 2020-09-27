@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch } from "react-router-dom";
 
 import NavBarComponent from "./components/navbar";
@@ -13,12 +13,14 @@ import ShoppingComponent from "./components/shopping";
 import InCartComponent from "./components/incart";
 import AdminLoginComponent from './components/admin-login';
 import AdminNavBarComponent from "./components/admin-navbar";
+import AdminOrderComponent from "./components/admin-order";
 
 function App() {
-    const [admin] = useState(true);
+    let url = window.location.pathname;
+    let admin = url.search("admin")
     return (
         <div className="App">
-            {!admin ? <NavBarComponent /> : <AdminNavBarComponent />}
+            {`${admin}` === '-1' ? <NavBarComponent /> : <AdminNavBarComponent />}
             <Switch>
                 <Route path="/" exact component={HomeComponent} />
                 <Route path="/upload-file" exact component={UploadFileComponent} />
@@ -29,6 +31,7 @@ function App() {
                 <Route path="/form_step_shopping" exact component={FormStepShopping} />
 
                 <Route path="/admin-login" exact component={AdminLoginComponent} />
+                <Route path="/admin-order" exact component={AdminOrderComponent} />
             </Switch>
             
         </div>

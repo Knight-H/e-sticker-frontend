@@ -14,132 +14,137 @@
 
     .titleNavBar {
         color: #009473;
+        cursor: pointer;
     }
 
-    // svg{
-    //     cursor: pointer;
-    // }
+    .navLinks {
+        display: flex;
+        align-items: center;
 
-    // .navLinks {
-    //     display: flex;
-    //     align-items: center;
+        list-style: none;
 
-    //     list-style: none;
+        a {
+            box-shadow: 0px 9px 22px rgba(0, 0, 0, 0.25);
+            border-radius: 5px;
+            
+            padding: 7px 10px;
+            margin: 0.5vw;
 
-    //     a {
-    //         margin: 1.5vw;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: none;
 
-    //         font-size: $nav-bar-font-size;
-    //         font-style: normal;
-    //         font-weight: normal;
-    //         text-decoration: none;
+            color: #000000;
 
-    //         color: #000000;
+            &:hover{
+                color: $hover-color;
+            }
 
-    //         &:hover{
-    //             color: $hover-color;
-    //         }
-    //     }
+            svg {
+                margin-right: 5px;
+            }
+        }
 
-    //     button {
-    //         width: 144px;
-    //         height: 50px;
+        button {
+            width: 144px;
+            height: 50px;
 
-    //         // margin-left: 0.5vw;
+            // margin-left: 0.5vw;
 
-    //         cursor: pointer;
-    //         background: #FFFFFF;
-    //         border: 2px solid #009473;
-    //         border-radius: 12px;
+            cursor: pointer;
+            background: #FFFFFF;
+            border: 2px solid #009473;
+            border-radius: 12px;
 
-    //         a{
-    //             margin: 0;
-    //         }
-    //     }
-    // }
+            a{
+                margin: 0;
+            }
+        }
+    }
 }
 
-// .burger {
-//     display: none;
-//     cursor: pointer;
-//     div {
-//         width: 25px;
-//         height: 3px;
-//         background-color: $top-bar-color;
-//         margin: 5px;
+.burger {
+    display: none;
+    cursor: pointer;
+    div {
+        width: 25px;
+        height: 3px;
+        background-color: $top-bar-color;
+        margin: 5px;
 
-//         transition: all 0.25s ease;
-//     }
-// }
+        transition: all 0.25s ease;
+    }
+}
 
 
-// @media screen and (max-width: 768px){
-//     body {
-//         overflow-x: hidden;
-//     }
+@media screen and (max-width: 768px){
+    body {
+        overflow-x: hidden;
+    }
 
-//     .navBar{
-//         justify-content: space-around;
+    .navBar{
+        justify-content: space-around;
         
 
-//         // display:flex;
+        // display:flex;
 
-//         .navLinks {
-//             // align-items: start;
-//             position: absolute;
-//             width: 50vw;
-//             // left: 0px;
-//             right: 0px;
-//             height: calc(100vh - 97px - 39px);
+        .navLinks {
+            // align-items: start;
+            position: absolute;
+            width: 50vw;
+            // left: 0px;
+            right: 0px;
+            height: calc(100vh - 97px - 39px);
             
             
-//             z-index: 1;
-//             // top: 136px;
-//             top: 97px;
+            z-index: 1;
+            // top: 136px;
+            top: 97px;
 
-//             background-color: #FFF;
-//             background-color: #009473;
+            background-color: #FFF;
+            background-color: #009473;
 
-//             display: flex;
+            display: flex;
             
-//             flex-direction: column;
-//             justify-content: space-around;
-//             align-items: center;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
 
-//             transform: translateX(100%);
-//             transition: transform 0.25s ease-out;
+            transform: translateX(100%);
+            transition: transform 0.25s ease-out;
 
-//             // li {
-//             //     opacity: 0;
-//             // }
-//             a {
-//                 color: #FFF;
-//             }
-//             button a {
-//                 color: #000;
-//             }
+            // li {
+            //     opacity: 0;
+            // }
+            a {
+                color: #FFF;
+            }
+            button a {
+                color: #000;
+            }
             
             
-//         }
+        }
 
-//         .burger {
-//             display: block;
-//         }
+        .burger {
+            display: block;
+        }
 
-//         .navActive {
-//             transform: translateX(0%);
-//         }
+        .navActive {
+            transform: translateX(0%);
+        }
 
-//     }
+    }
     
-// }
+}
 
-// .toggle .line1 {
-//     transform: rotate(-45deg) translate(-5px,6px);
-// }
-// .toggle .line2 {
-//     opacity: 0;
-// }
-// .toggle .line3 {
-//     transform: rotate(45deg) translate(-5px,-6px);
-// }
+.toggle .line1 {
+    transform: rotate(-45deg) translate(-5px,6px);
+}
+.toggle .line2 {
+    opacity: 0;
+}
+.toggle .line3 {
+    transform: rotate(45deg) translate(-5px,-6px);
+}
