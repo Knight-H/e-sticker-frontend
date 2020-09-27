@@ -11,6 +11,9 @@ import FormStepShopping from "./components/form_step_shopping";
 
 import ShoppingComponent from "./components/shopping";
 import InCartComponent from "./components/incart";
+
+import AdminTable from "./components/admin_table";
+
 function App() {
     return (
         <div className="App">
@@ -23,6 +26,7 @@ function App() {
                 <Route path="/shopping" exact component={ShoppingComponent} />
                 <Route path="/in_cart" exact component={InCartComponent} />
                 <Route path="/form_step_shopping" exact component={FormStepShopping} />
+                <Route path="/admin_table" exact component={AdminTable} />
             </Switch>
             
         </div>
