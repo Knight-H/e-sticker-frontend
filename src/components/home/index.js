@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from './index.module.scss';
+import { Link } from "react-router-dom";
 
 import { ReactComponent as Banner } from './banner.svg';
 
