@@ -14,6 +14,7 @@ import InCartComponent from "./components/incart";
 
 import MemberLoginComponent from "./components/member-login";
 import MemberRegsterComponent from "./components/member-register";
+import MemberAccountComponent from "./components/member-account";
 function App() {
     return (
         <div className="App">
@@ -29,6 +30,7 @@ function App() {
 
                 <Route path="/member-login" exact component={MemberLoginComponent} />
                 <Route path="/member-register" exact component={MemberRegsterComponent} />
+                <Route path="/member-account" exact component={MemberAccountComponent} />
             </Switch>
             
         </div>

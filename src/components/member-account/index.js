@@ -4,20 +4,23 @@ import styles from './index.module.scss';
 import LocationFieldsComponent from '../location-fields';
 import LoginCredentialsComponent from '../login-credentials';
 
-const MemberRegisterComponent = () => {
+const MemberAccountComponent = () => {
 
     return (
         <main className={styles.container}>
 
-            <h2>สมัครสมาชิก</h2>
+            <h2>มุมสมาชิก - จัดการบัญชี</h2>
+            <h3>สวัสดีคุณ  customer_name  เลือกเมนูการใช้งานได้เลยค่ะ</h3>
+            <h3>หมายเลขสมาชิก MEM0001</h3>
+
             <div className={styles.flexWrapper}>
 
                 <section className={styles.loginCredentials}>
-                    <LoginCredentialsComponent />
+                    <LoginCredentialsComponent isRegistering={false}/>
                 </section>
 
                 <section className={styles.userInfo}>
-                    < LocationFieldsComponent onlyLocation={true}/>
+                    < LocationFieldsComponent />
 
                     <button className={styles.greenButton}>สมัครสมาชิก</button>
 
@@ -30,4 +33,4 @@ const MemberRegisterComponent = () => {
     );
 }
 
-export default MemberRegisterComponent;
+export default MemberAccountComponent;

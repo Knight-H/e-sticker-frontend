@@ -1,23 +1,29 @@
 import React from "react";
 import styles from './index.module.scss';
 
-const LocationFieldsComponent = () => {
+const LocationFieldsComponent = ({ onlyLocation = false }) => {
     return (
         <div className={styles.gridContainer}>
             {/*  GRID ITEM ISN"T EVEN USED? DONT EVEN HAVE SCSS WTF? */}
-            <div className={styles.gridItem}> 
-                <div className={styles.formControl}>
-                    <p>อีเมล*</p>
-                    <div ><input type="text" value="" /></div>
-                </div>
-            </div>
 
-            <div className={styles.gridItem}>
-                <div className={styles.formControl}>
-                    <p>เบอร์โทรศัพท์*</p>
-                    <div ><input type="text" value="" /></div>
-                </div>
-            </div>
+            {!onlyLocation &&
+                <>
+                    <div className={styles.gridItem}>
+                        <div className={styles.formControl}>
+                            <p>อีเมล*</p>
+                            <div ><input type="text" value="" /></div>
+                        </div>
+                    </div>
+
+                    <div className={styles.gridItem}>
+                        <div className={styles.formControl}>
+                            <p>เบอร์โทรศัพท์*</p>
+                            <div ><input type="text" value="" /></div>
+                        </div>
+                    </div>
+                </>
+            }
+
 
             <div className={styles.gridItem}>
                 <div className={styles.formControl}>
