@@ -2,6 +2,8 @@ import React from "react";
 import styles from './index.module.scss';
 import img_product from './workplace.jpg';
 
+import LoginComponent from '../login';
+
 const InCartComponent = () => {
     return (
         <main>
@@ -16,7 +18,7 @@ const InCartComponent = () => {
                                     <th>จำนวน</th>
                                     <th>มูลค่า</th>
                                 </tr>
-                                
+
                             </thead>
                             <tbody>
                                 <tr>
@@ -56,43 +58,20 @@ const InCartComponent = () => {
                     </div>
                     <button className={styles.buttonGreen}>สั่งสินค้าอย่างอื่น</button>
                 </div>
-                
-
-
 
                 <div className={styles.boxChild2}>
                     <h2>ระบบสมาชิก</h2>
                     <div className={styles.wrapTable}>
-                        <div className={styles.formControl}>
-                            <p>อีเมล</p>
-                            <div ><input type="text" value=""/></div>
-                        </div>
-
-                        <div className={styles.formControl}>
-                            <p>รหัสผ่าน</p>
-                            <div ><input type="text" value=""/></div>
-                        </div>
-                        <div className={styles.containerRow}>
-                            <button className={styles.buttonGreen}>เข้าสู่ระบบ</button>
-                            <button className={styles.buttonBlue}>เข้าสู่ระบบด้วย Facebook</button>
-                        </div>
-                        <br/><br/>
-                        <div className={styles.containerRow}>
-                            <div className={styles.containerCol}>
-                                <p className={styles.smallText}>ยังไม่เป็นสมาชิก?</p>
-                                <div className={styles.containerRow}>
-                                <button className={styles.buttonWhile}>สมัครสมาชิก</button>
-                                <button className={styles.buttonBlue}>สมัครด้วย Facebook</button>
-                                </div>
-                            </div>
-                        </div>
-
+                    <LoginComponent />
                     </div>
-
-                    <br/><br/>
+                    
+                    <br /><br />
                     <h2>Checkout as Guest</h2>
                     <button className={styles.buttonGreenFit}>Checkout as Guest</button>
                 </div>
+
+
+
 
             </section>
         </main>
