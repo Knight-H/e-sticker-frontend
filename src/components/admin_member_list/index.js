@@ -1,10 +1,14 @@
 import React from "react";
+import AdminKpi from "../admin-kpi";
 import styles from './index.module.scss';
 
 const AdminTable = (props) => {
     return (
         <React.Fragment>
-            <div className={styles.section1}>
+            <section className={styles.section1}>
+                <AdminKpi kpi={{"order":10, "sales":1234567, "member": 1000}}/>
+            </section>
+            <section className={styles.section2}>
                 <div className={`${styles.containerCol} ${styles.containerMargin}`}>
                     <h3>รายการคำสั่งซื้อ</h3>
                 </div>
@@ -42,7 +46,7 @@ const AdminTable = (props) => {
                     <input type="text" className={styles.inputAdmin} placeholder="ค้นหา"/>
                 </div>
                 
-            </div>
+            </section>
             <div className={styles.adminTable}>
                 <table>
                     <thead>
