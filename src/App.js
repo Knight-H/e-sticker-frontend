@@ -12,6 +12,7 @@ import FormStepShopping from "./components/form_step_shopping";
 import ShoppingComponent from "./components/shopping";
 import InCartComponent from "./components/incart";
 
+import AdminOrderList from "./components/admin_order_list";
 import AdminLoginComponent from './components/admin-login';
 import AdminNavBarComponent from "./components/admin-navbar";
 import AdminOrderComponent from "./components/admin-order";
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/shopping" exact component={ShoppingComponent} />
                 <Route path="/in_cart" exact component={InCartComponent} />
                 <Route path="/form_step_shopping" exact component={FormStepShopping} />
+                <Route path="/admin_order_list" exact component={AdminOrderList} />
 
                 <Route path="/admin-login" exact component={AdminLoginComponent} />
                 <Route path="/admin-order" exact component={AdminOrderComponent} />
