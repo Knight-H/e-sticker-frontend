@@ -1,37 +1,102 @@
 import React, { useState } from "react";
 import styles from './index.module.scss';
 import StepProgress from "../step_progress";
-import Kerry from './kerry.png';
-import Scb from './scb.jpg';
+import AdminKpi from "../admin-kpi";
+import { withFormik } from 'formik';
+
+import Kerry from '../approve-layout/kerry.png';
+import Scb from '../approve-layout/scb.jpg';
 import img_product from '../shopping/workplace.jpg';
 
-import { ReactComponent as Circle } from './circle.svg';
-import { ReactComponent as Drawing } from './drawing.svg';
-import { ReactComponent as IconCheckSVG } from './icon-check.svg';
+import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
+import { ReactComponent as Circle } from '../approve-layout/circle.svg';
+import { ReactComponent as Drawing } from '../approve-layout/drawing.svg';
+import { ReactComponent as IconCheckSVG } from '../approve-layout/icon-check.svg';
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-const ApproveLayoutComponent = () => {
+const AdminOrderComponent = () => {
+    const [dropDawn, setDropDawn] = useState(0);
     const [selectStep] = useState(3);
-    const [guestMode] = useState(true);
-
     const [expandCard, setExpandCard] = useState(0);
+
+    const handleChangeDropDawn = (e) => {
+        setDropDawn(e.value);
+    };
     return (
         <main className={styles.wrapContent}>
 
-            {guestMode &&
-                <>
-                    <h1 className={styles.title}>ตรวจสอบสถานะออเดอร์</h1>
-                    <p>หมายเลขออเดอร์</p>
-                    <input class={styles.inputGreen} type="text"></input>
-                    <button type="button" className={styles.btnGreen}>ตรวจสอบสถานะ</button>
-                </>
-            }
+            <section>
+                <AdminKpi kpi={{"order":10, "sales":1234567, "member": 1000}}/>
+            </section>
 
             <h1 className={styles.title}>รายการออเดอร์</h1>
             <p>ออเดอร์หมายเลข #DW0001
-                <label className={styles.waitApproval}>กำลังดำเนินการ</label>
+
+                <div className={styles.selectBox}>
+                    <div className={styles.selectBoxCurrent} tabIndex="1">
+                        <div className={styles.selectBoxValue}>
+                            <input className={styles.selectBoxInput} type="radio" id="5" value="5" checked={`${dropDawn}` === `${5}` ? true : false}
+                                onChange={(e) => handleChangeDropDawn(e.target)}
+                            />
+                            <p className={`${styles.selectBoxInputText} ${styles.greenStatus}`}>สถาน: รายการสำเร็จ</p>
+                        </div>
+                        <div className={styles.selectBoxValue}>
+                            <input className={styles.selectBoxInput} type="radio" id="4" value="4" checked={`${dropDawn}` === `${4}` ? true : false}
+                                onChange={(e) => handleChangeDropDawn(e.target)}
+                            />
+                            <p className={`${styles.selectBoxInputText} ${styles.greenStatus}`}>สถาน: คืนเงินสำเร็จ</p>
+                        </div>
+                        <div className={styles.selectBoxValue}>
+                            <input className={styles.selectBoxInput} type="radio" id="3" value="3" checked={`${dropDawn}` === `${3}` ? true : false}
+                                onChange={(e) => handleChangeDropDawn(e.target)}
+                            />
+                            <p className={`${styles.selectBoxInputText} ${styles.redStatus}`}>สถาน: ขอคืนเงิน</p>
+                        </div>
+                        <div className={styles.selectBoxValue}>
+                            <input className={styles.selectBoxInput} type="radio" id="2" value="2" checked={`${dropDawn}` === `${2}` ? true : false}
+                                onChange={(e) => handleChangeDropDawn(e.target)}
+                            />
+                            <p className={`${styles.selectBoxInputText} ${styles.blueStatus}`}>สถาน: อยู่ระหว่างจัดส่ง</p>
+                        </div>
+                        <div className={styles.selectBoxValue}>
+                            <input className={styles.selectBoxInput} type="radio" id="1" value="1" checked={`${dropDawn}` === `${1}` ? true : false}
+                                onChange={(e) => handleChangeDropDawn(e.target)}
+                            />
+                            <p className={`${styles.selectBoxInputText} ${styles.yellowStatus}`}>สถาน: กำลังผลิตสินค้า</p>
+                        </div>
+                        <div className={styles.selectBoxValue}>
+                            <input className={styles.selectBoxInput} type="radio" id="0" value="0" checked={`${dropDawn}` === `${0}` ? true : false}
+                                onChange={(e) => handleChangeDropDawn(e.target)}
+                            />
+                            <p className={`${styles.selectBoxInputText} ${styles.orangeStatus}`}>สถาน: รอการอนุมัติแบบ</p>
+                            <IconArrow />
+                        </div>
+                    </div>
+                    <ul className={styles.selectBoxList}>
+                        <li>
+                            <label className={`${styles.selectBoxOption} ${styles.greenStatus}`} htmlFor="5">สถาน: รายการสำเร็จ</label>
+                        </li>
+                        <li>
+                            <label className={`${styles.selectBoxOption} ${styles.greenStatus}`} htmlFor="4">สถาน: คืนเงินสำเร็จ</label>
+                        </li>
+                        <li>
+                            <label className={`${styles.selectBoxOption} ${styles.redStatus}`} htmlFor="3">สถาน: ขอคืนเงิน</label>
+                        </li>
+                        <li>
+                            <label className={`${styles.selectBoxOption} ${styles.blueStatus}`} htmlFor="2">สถาน: อยู่ระหว่างจัดส่ง</label>
+                        </li>
+                        <li>
+                            <label className={`${styles.selectBoxOption} ${styles.yellowStatus}`} htmlFor="1">สถาน: กำลังผลิตสินค้า</label>
+                        </li>
+                        <li>
+                            <label className={`${styles.selectBoxOption} ${styles.orangeStatus}`} htmlFor="0">สถาน: รอการอนุมัติแบบ</label>
+                        </li>
+                    </ul>
+                </div>
+
+                <button type="button" className={styles.btnWhite}>บันทึก</button>
             </p>
 
             <section className={styles.stepProgressBar}>
@@ -79,7 +144,7 @@ const ApproveLayoutComponent = () => {
                     <div>Item 4</div>
                 </Carousel>
             </section>
-
+        
             <section className={styles.previewImage}>
                 <div className={styles.square}>
                     <Drawing />
@@ -87,7 +152,7 @@ const ApproveLayoutComponent = () => {
 
                 <div className={styles.inputBox}>
                     <button><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>
-                    <input className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..."></input>
+                    <input className="inputText" type="text" placeholder="พิมพ์ข้อความ..."></input>
 
                     <div className={styles.groupBtn}>
                         <button type="button">ส่ง</button>
@@ -96,7 +161,7 @@ const ApproveLayoutComponent = () => {
                 </div>
             </section>
 
-            <section className={styles.groupDeliveryPayment} style={ guestMode ? { border: '1px solid #009473' } : {}}>
+            <section className={styles.groupDeliveryPayment} style={ { border: '1px solid #009473' }}>
                 <div className={styles.groupDelivery}>
                     <h3>การจัดส่ง</h3>
                     <div className={styles.containInformationCustomer}>
@@ -131,7 +196,7 @@ const ApproveLayoutComponent = () => {
                     <table>
                         <thead>
                             <tr>
-                                <th colspan="2" style={{ textAlign: "left" }}>สินค้า</th>
+                                <th colSpan="2" style={{ textAlign: "left" }}>สินค้า</th>
                                 <th className={styles.textRight}>จำนวน</th>
                                 <th className={styles.textRight}>มูลค่า</th>
                             </tr>
@@ -149,17 +214,17 @@ const ApproveLayoutComponent = () => {
                         </tbody>
                         <tbody>
                             <tr>
-                                <td colspan="3" style={{ borderTop: "1px solid black" }}>ค่าสินค้ารวม</td>
+                                <td colSpan="3" style={{ borderTop: "1px solid black" }}>ค่าสินค้ารวม</td>
                                 <td className={styles.textRight} style={{ borderTop: "1px solid black" }}>1000฿</td>
                             </tr>
                             <tr>
-                                <td colspan="3" style={{ borderBottom: "1px solid black" }}>ค่าจัดส่ง</td>
+                                <td colSpan="3" style={{ borderBottom: "1px solid black" }}>ค่าจัดส่ง</td>
                                 <td className={styles.textRight} style={{ borderBottom: "1px solid black" }}>50฿</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="3">รวมทั้งหมด</td>
+                                <td colSpan="3">รวมทั้งหมด</td>
                                 <td className={styles.textRight}>1050฿</td>
                             </tr>
                         </tfoot>
@@ -168,11 +233,19 @@ const ApproveLayoutComponent = () => {
                 </div>
             </section>
 
+
         </main >
     );
 };
 
-export default ApproveLayoutComponent;
+const EnhancedAdminOrderComponent = withFormik({
+    mapPropsToValues: (props) => ({
+        email: '',
+        password: ''
+    })
+})(AdminOrderComponent);
+
+export default EnhancedAdminOrderComponent;
 
 const responsive = {
     superLargeDesktop: {

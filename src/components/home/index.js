@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from './index.module.scss';
+import { Link } from "react-router-dom";
 
 import { ReactComponent as Banner } from './banner.svg';
 
@@ -14,7 +15,6 @@ import { ReactComponent as S34PPTransIcon } from './s3-4-pp-trans-icon.svg';
 import { ReactComponent as S41LogoIcon } from './s4-1-logo-icon.svg';
 import { ReactComponent as S51OrderIcon } from './s5-1-order-icon.svg';
 
-import { Link } from "react-router-dom";
 import FooterComponent from "../footer";
 
 
