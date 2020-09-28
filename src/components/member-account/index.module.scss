@@ -1,0 +1,58 @@
+@import "../../variables";
+
+.container {
+
+    margin:  30px auto 0px auto;
+
+    display: flex;
+    flex-direction: column;
+
+    max-width: 1200px;
+    
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-family: SarabunRegular;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 23px;
+        margin-bottom: 10px;
+    }
+    
+}
+
+.flexWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.loginCredentials {
+    flex: 1;
+
+    padding: 30px 35px;
+    border: 1px solid #009473;
+    border-radius: 5px;
+}
+
+.userInfo {
+    flex: 2;
+
+    padding: 30px 85px;
+}
+
+.greenButton{
+    margin-top: 20px;
+    width: 123px;
+height: 36px;
+    color:white;
+
+    border: none;
+    background: #009473;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 4px;
+}
