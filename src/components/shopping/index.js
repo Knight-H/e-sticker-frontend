@@ -9,6 +9,7 @@ import logoCreditCard from './credit.png';
 
 import { Link } from "react-router-dom";
 // import { ErrorMessage, Field } from "formik";
+import LocationFieldsComponent from '../location-fields';
 
 const ShoppingComponent = () => {
     const [selectStep] = useState(2);
@@ -94,6 +95,8 @@ const ShoppingComponent = () => {
                 </div>
 
                 <div className={styles.boxChild2}>
+                {/* WHERE THE HELL IS THE FIELDS????!?!?!?!?!?? YOU FUCKING CUT IT DOWN AND YOU DONT HAVE THIS SHIT? WTF? */}
+
                     <h2>เลือก การจัดส่ง</h2>
                     <div className={styles.containerRow}>
                         <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${0}` && styles.active}`} onClick={() => setShipment(0)}>
@@ -165,66 +168,10 @@ const ShoppingComponent = () => {
                         </div>
                     </div>
                     
+                    {/* THIS CAN BE IMPROVED TO REACT METHOD of showing by state!!!!!! no need to use CSS */}
                     <div className={checkedBox ? styles.contentDisplayBlock : styles.contentDisplayNone}>
                         <h2>ระบุที่อยู่</h2>
-                        <div className={styles.gridContainer}>
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>อีเมล*</p>
-                                    <div ><input type="text" value=""/></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>เบอร์โทรศัพท์*</p>
-                                    <div ><input type="text" value=""/></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>ที่อยู่*</p>
-                                    <div ><input type="text" value=""/></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>ชื่อ นามสกุล*</p>
-                                    <div ><input type="text" value=""/></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>แขวง*</p>
-                                    <div ><input type="text" value=""/></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>เขต*</p>
-                                    <div ><input type="text" value=""/></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>จังหวัด*</p>
-                                    <div ><input type="text" value=""/></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>รหัสไปรษณีย์*</p>
-                                    <div ><input type="text" value=""/></div>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        <LocationFieldsComponent/>
                     </div>
                     <Link className={styles.link} to="/approve">
                     <button className={styles.buttonNext}>
