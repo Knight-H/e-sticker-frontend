@@ -75,11 +75,6 @@ const UploadFileComponent = () => {
                     <Link className={styles.link} to="/shopping">
                         <button type="button" className={styles.btnCart}><IconCart /><b>ใส่ในตะกร้า</b></button>
                     </Link> 
-                    {/* <div className={styles.link}>
-                        <button className={styles.btnCart}>
-                            <IconCart /><b>ใส่ในตะกร้า</b>
-                        </button>
-                    </div>*/}
                 </div>
             </section>
         </main>

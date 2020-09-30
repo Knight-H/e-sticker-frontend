@@ -1,0 +1,62 @@
+.inputGreen {
+    width: 250px;
+    padding: 10px;
+    border: 1px solid #009473;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.square {
+    border-radius: 5px;
+    width: calc(10px + 45vw);
+    min-width: 300px;
+    height: 300px;
+    background-color: #EDEDED;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputBox {
+    padding: 7vh 2vw 7vh 2vw;
+    width: 200px;
+    button {
+        width: 200px;
+        height: 50px;
+        margin-bottom: 20px;
+        color: white;
+        background-color: #009473;
+        border: none;
+        border-radius: 5px;
+
+        h3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            svg {
+                margin-right: 10px;
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+
+    .groupBtn {
+        display: inline-flex;
+
+        button {
+            width: auto;
+            height: auto;
+            padding: 10px 20px;
+            background-color: white;
+            color: black;
+            font-size: 14px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-right: 10px;
+        }
+
+        .btnCustomWidth {
+            width: 120px;
+        }
+    }
+}
