@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import StepProgress from "../step_progress";
 import Kerry from './kerry.png';
 import Scb from './scb.jpg';
-import img_product from '../shopping/workplace.jpg';
+import img_product from '../checkout/workplace.jpg';
 
 import { ReactComponent as Circle } from './circle.svg';
 import { ReactComponent as Drawing } from './drawing.svg';
