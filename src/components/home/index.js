@@ -94,7 +94,7 @@ const HomeComponent = (props) => {
                     </ol>
                     <button>
                         <S21OrderIcon />
-                        <Link to="/order-1-product-config"><b>สั่งซื้อสินค้า</b></Link>
+                        <Link to="/form_step_shopping"><b>สั่งซื้อสินค้า</b></Link>
                     </button>
 
                 </section>

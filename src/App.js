@@ -28,7 +28,7 @@ function App() {
                 <Route path="/" exact component={HomeComponent} />
                 <Route path="/customize-2" exact component={UploadFileComponent} />
                 <Route path="/myorder" exact component={ApproveLayoutComponent} />
-                <Route path="/order-1-product-config" component={Order1ProductConfigComponent} />
+                {/* <Route path="/order-1-product-config" component={Order1ProductConfigComponent} /> */}
                 <Route path="/shopping" exact component={ShoppingComponent} />
                 <Route path="/in_cart" exact component={InCartComponent} />
                 <Route path="/form_step_shopping" exact component={FormStepShopping} />

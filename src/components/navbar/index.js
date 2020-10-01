@@ -46,7 +46,7 @@ const NavBarComponent = ({ history }) => {
                     <li><Link to={{pathname: "/", 
                     // hash: "#ourWorks",  
                     state: {scrollToOurWorks: true}}}>ตัวอย่างผลงาน</Link></li>
-                    <li><button><Link to="/order-1-product-config">สั่งทำสติกเกอร์</Link></button></li>
+                    <li><button><Link to="/form_step_shopping">สั่งทำสติกเกอร์</Link></button></li>
                 </ul>
 
                 <div className={`${styles.burger} ${isBurgerToggled ? styles.toggle : ""}`} 
