@@ -15,6 +15,9 @@ import AdminLoginComponent from './components/admin-login';
 import AdminNavBarComponent from "./components/admin-navbar";
 import AdminOrderComponent from "./components/admin-order";
 
+
+import HomeMemberComponent from "./components/home-member";
+
 function App() {
     let url = window.location.pathname;
     let admin = url.search("admin")
@@ -32,6 +35,8 @@ function App() {
 
                 <Route path="/admin/login" exact component={AdminLoginComponent} />
                 <Route path="/admin/myorder" exact component={AdminOrderComponent} />
+
+                <Route path="/member" exact component={HomeMemberComponent} />
             </Switch>
             
         </div>
