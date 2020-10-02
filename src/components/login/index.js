@@ -1,5 +1,5 @@
 import React from "react";
-import {Field} from 'formik';
+import {Field, ErrorMessage} from 'formik';
 
 import styles from './index.module.scss';
 
@@ -8,12 +8,12 @@ const LoginComponent = () => {
     <>
         
             <div className={styles.formControl}>
-                <p>อีเมล</p>
-                <Field name="username" type="text" placeholder=""/>
+                <p>อีเมล <ErrorMessage name="email" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
+                <Field name="email" type="text" placeholder=""/>
             </div>
 
             <div className={styles.formControl}>
-                <p>รหัสผ่าน</p>
+                <p>รหัสผ่าน <ErrorMessage name="password" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
                 <Field name="password" type="text" placeholder=""/>
             </div>
             <div className={styles.containerRow}>
