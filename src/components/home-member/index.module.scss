@@ -122,6 +122,22 @@
     padding: 3px 20px;
 }
 
+.greenStatus {
+    background-color: #21B54D;
+  }
+  .redStatus {
+    background-color: #CF3C3C;
+  }
+  .blueStatus {
+    background-color: #6DB9FF;
+  }
+  .yellowStatus {
+    background-color: #FFE146;
+  }
+  .orangeStatus {
+    background-color: #FF9F46;
+  }
+  
 @media only screen and (max-width: 320px) {
     .contain {  
         .borderCard {

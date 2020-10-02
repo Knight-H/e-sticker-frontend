@@ -226,11 +226,10 @@ const ShoppingComponent = () => {
                             
                         </div>
                     </div>
-                    <Link className={styles.link} to="/approve">
+
                     <button className={styles.buttonNext}>
                         ถัดไป
                     </button>
-                    </Link>
                 </div>
                 
             </section>

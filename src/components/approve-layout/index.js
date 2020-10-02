@@ -8,7 +8,7 @@ import GroupDeliveryPayment from "../group-delivery-payment";
 
 const ApproveLayoutComponent = () => {
     const [selectStep] = useState(3);
-    const [guestMode] = useState(true);
+    const [guestMode] = useState(false);
 
     const [expandCard, setExpandCard] = useState(0);
     return (

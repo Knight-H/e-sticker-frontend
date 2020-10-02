@@ -26,7 +26,7 @@ function App() {
             {`${admin}` === '-1' ? <NavBarComponent /> : <AdminNavBarComponent />}
             <Switch>
                 <Route path="/" exact component={HomeComponent} />
-                <Route path="/customize-2" exact component={UploadFileComponent} />
+                {/* <Route path="/customize-2" exact component={UploadFileComponent} /> */}
                 <Route path="/myorder" exact component={ApproveLayoutComponent} />
                 {/* <Route path="/order-1-product-config" component={Order1ProductConfigComponent} /> */}
                 <Route path="/shopping" exact component={ShoppingComponent} />

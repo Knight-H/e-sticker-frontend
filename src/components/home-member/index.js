@@ -6,6 +6,23 @@ import { ReactComponent as IconPhone } from './icon-phone.svg';
 import { ReactComponent as IconUser } from './icon-user.svg';
 import { ReactComponent as IconLogout } from './icon-logout.svg';
 
+const LabelSatus = ({status}) => {
+    if (status === 1) {
+        return <label className={styles.orangeLabel}>สถานะ: กำลังดำเนินการ</label>
+    } else if (status === 2) {
+        return <label className={`${styles.orangeLabel} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
+    } else if (status === 3) {
+        return <label className={`${styles.orangeLabel} ${styles.blueStatus}`}>สถานะ: อยู่ระหว่างจัดส่ง</label>
+    } else if (status === 4) {
+        return <label className={`${styles.orangeLabel} ${styles.redStatus}`}>สถานะ: ขอคืนเงิน</label>
+    } else if (status === 5) {
+        return <label className={`${styles.orangeLabel} ${styles.greenStatus}`}>สถานะ: คืนเงินสำเร็จ</label>
+    } else if (status === 6) {
+        return <label className={`${styles.orangeLabel} ${styles.greenStatus}`}>สถานะ: รายการสำเร็จ</label>
+    }
+}
+
+
 const HomeMemberComponent = (props) => {
     return (
         <main className={styles.wrapContent}>
@@ -21,77 +38,30 @@ const HomeMemberComponent = (props) => {
             <label className={styles.greenLabel}><IconLogout />ออกจากระบบ</label>
 
             <section className={styles.contain}>
-                <article className={styles.borderCard}>
-                    <h1 className={styles.title}>ออเดอร์หมายเลข #DW0001</h1>
-                    <label className={styles.orangeLabel}>สถานะ: กำลังดำเนินการ</label>
-                    <table>
-                        <tr>
-                            <td className={styles.iconCol}><Circle /></td>
-                            <td className={styles.detailCol}>
-                                <h4>สติกเกอร์แบบกลม</h4>
-                                <p>กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm </p>
-                            </td>
-                            <td className={styles.qtyCol}><p>300ชิ้น</p></td>
-                            <td className={styles.priceCol}><p>500฿</p></td>
-                        </tr>
-                    </table>
 
-                    <button type="button">ดูรายละเอียด</button>
-                </article>
+                {fakeAPI.map((fakeAPI) => {
+                    return (
+                        <article className={styles.borderCard}>
+                            <h1 className={styles.title}>ออเดอร์หมายเลข {fakeAPI.orderNumber}</h1>
+                            <LabelSatus status={fakeAPI.statusOrder}/>
+                            <table>
+                                {fakeAPI.listOrder.map((list) => (
+                                    <tr>
+                                    <td className={styles.iconCol}><Circle /></td>
+                                    <td className={styles.detailCol}>
+                                        <h4>{list.titalStriker}</h4>
+                                        <p>{list.detailStriker}</p>
+                                    </td>
+                                    <td className={styles.qtyCol}><p>{list.qtyStriker}ชิ้น</p></td>
+                                    <td className={styles.priceCol}><p>{list.priceStriker}฿</p></td>
+                                </tr>
+                                ))}
+                            </table>
 
-                <article className={styles.borderCard}>
-                    <h1 className={styles.title}>ออเดอร์หมายเลข #DW0002</h1>
-                    <label className={styles.orangeLabel}>สถานะ: กำลังดำเนินการ</label>
-                    <table>
-                        <tr>
-                            <td className={styles.iconCol}><Circle /></td>
-                            <td className={styles.detailCol}>
-                                <h4>สติกเกอร์แบบกลม</h4>
-                                <p>กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm </p>
-                            </td>
-                            <td className={styles.qtyCol}><p>300ชิ้น</p></td>
-                            <td className={styles.priceCol}><p>500฿</p></td>
-                        </tr>
-
-                        <tr>
-                            <td className={styles.iconCol}><Circle /></td>
-                            <td className={styles.detailCol}>
-                                <h4>สติกเกอร์แบบกลม</h4>
-                                <p>กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm </p>
-                            </td>
-                            <td className={styles.qtyCol}><p>300ชิ้น</p></td>
-                            <td className={styles.priceCol}><p>500฿</p></td>
-                        </tr>
-                    </table>
-                    <button type="button">ดูรายละเอียด</button>
-                </article>
-
-                <article className={styles.borderCard}>
-                    <h1 className={styles.title}>ออเดอร์หมายเลข #DW0002</h1>
-                    <label className={styles.orangeLabel}>สถานะ: กำลังดำเนินการ</label>
-                    <table>
-                        <tr>
-                            <td className={styles.iconCol}><Circle /></td>
-                            <td className={styles.detailCol}>
-                                <h4>สติกเกอร์แบบกลม</h4>
-                                <p>กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm </p>
-                            </td>
-                            <td className={styles.qtyCol}><p>300ชิ้น</p></td>
-                            <td className={styles.priceCol}><p>500฿</p></td>
-                        </tr>
-
-                        <tr>
-                            <td className={styles.iconCol}><Circle /></td>
-                            <td className={styles.detailCol}>
-                                <h4>สติกเกอร์แบบกลม</h4>
-                                <p>กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm </p>
-                            </td>
-                            <td className={styles.qtyCol}><p>300ชิ้น</p></td>
-                            <td className={styles.priceCol}><p>500฿</p></td>
-                        </tr>
-                    </table>
-                    <button type="button">ดูรายละเอียด</button>
-                </article>
+                            <button type="button">ดูรายละเอียด</button>
+                        </article>
+                    )
+                })}
 
             </section>
         </main>
@@ -99,3 +69,96 @@ const HomeMemberComponent = (props) => {
 }
 
 export default HomeMemberComponent;
+
+
+const fakeAPI = [
+    {
+        orderNumber: "#DW0001",
+        statusOrder: 1,
+        // image: ???
+        listOrder: [
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            },
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            },
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            }
+        ]
+    },
+    {
+        orderNumber: "#DW0002",
+        statusOrder: 2,
+        // image: ???
+        listOrder: [
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            }
+        ]
+    },
+    {
+        orderNumber: "#DW0003",
+        statusOrder: 3,
+        // image: ???
+        listOrder: [
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            }
+        ]
+    },
+    {
+        orderNumber: "#DW0004",
+        statusOrder: 4,
+        // image: ???
+        listOrder: [
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            },
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            }
+        ]
+    },
+    {
+        orderNumber: "#DW0005",
+        statusOrder: 5,
+        // image: ???
+        listOrder: [
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            },
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            }
+        ]
+    }
+];

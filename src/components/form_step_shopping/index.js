@@ -96,7 +96,7 @@ const App = () => (
       }}
       onSubmit={async values => sleep(300).then(() => console.log("Wizard submit >>>", values))}
     >
-      {/* <WizardStep
+      <WizardStep
         onSubmit={() => console.log("Step1 onSubmit")}
         validationSchema={Yup.object({
           kindSticker: Yup.string().required("กรุณาเลือกรูปแบบ"),
@@ -109,7 +109,7 @@ const App = () => (
         })}
       >
         <Order1ProductConfigComponent Field={Field} ErrorMessage={ErrorMessage} />
-      </WizardStep> */}
+      </WizardStep>
       <WizardStep
         onSubmit={() => console.log("Step2 onSubmit")}
         validationSchema={Yup.object({
