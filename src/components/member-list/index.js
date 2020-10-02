@@ -15,6 +15,7 @@ const useInputChange = () => {
 }
 
 const MemberListComponent = (props) => {
+    // API [GET] /admin/
     var _apiData = fake_data;
     var statusFilter = {
         ALL: "แสดงทั้งหมด",

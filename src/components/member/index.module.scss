@@ -1,0 +1,186 @@
+@import "../../variables";
+
+.container {
+
+    margin:  30px auto 0px auto;
+
+    display: flex;
+    flex-direction: column;
+
+    max-width: 1200px;
+    
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-family: SarabunRegular;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 23px;
+        margin-bottom: 10px;
+    }
+    
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    margin:  10px auto 10px auto;
+    padding: 10px;
+
+    p {
+        margin: auto 10px auto 0px;
+    }
+}
+
+.flexWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.loginCredentials {
+    flex: 1;
+
+    padding: 30px 35px;
+    border: 1px solid #009473;
+    border-radius: 5px;
+}
+
+.userInfo {
+    flex: 2;
+
+    padding: 30px 85px;
+}
+
+.greenButton{
+    margin-top: 20px;
+    width: 123px;
+    height: 36px;
+    color:white;
+
+    border: none;
+    background: #009473;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+
+.selectBox {
+    position: relative;
+    display: block;
+    width: 150px;
+    font-size: 14px;
+    color: black;
+    border: 0.5px solid #009473;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+.selectBoxCurrent {
+    position: relative;
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    outline: none;
+}
+
+.selectBoxCurrent:focus + .selectBoxList {
+    opacity: 1;
+    -webkit-animation-name: none;
+            animation-name: none;
+}
+
+.selectBoxCurrent:focus + .selectBoxList .selectBoxOption {
+    cursor: pointer;
+}
+
+.selectBoxCurrent:focus .select-box__icon {
+    -webkit-transform: translateY(-50%) rotate(180deg);
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.select-box__icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 20px;
+    opacity: 0.3;
+    transition: 0.2s ease;
+}
+
+.selectBoxValue {
+    display: flex;
+}
+
+.selectBoxValue svg {
+    position: absolute;
+    left: 115px;
+    top: 10px;
+    width: 11px;
+    height: 11px;
+}
+
+.selectBoxInput {
+    display: none;
+}
+
+.selectBoxInput:checked + .selectBoxInputText {
+    display: block;
+}
+
+.selectBoxInputText {
+    display: none;
+    width: 100px;
+    margin: 10px;
+    padding: 7px 15px;
+    border-radius: 5px;
+}
+
+.comboBoxStatusGreen {
+    background-color: #21B54D;
+}
+
+.comboBoxStatusRed {
+    background-color: #CF3C3C;
+}
+
+.selectBoxList {
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    -webkit-animation-name: HideList;
+            animation-name: HideList;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+    -webkit-animation-timing-function: step-start;
+            animation-timing-function: step-start;
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+
+    li {
+        background-color: #EDEDED;
+        padding: 5px;
+    }
+}
+
+.selectBoxOption {
+    display: block;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.selectBoxOption:hover, .selectBoxOption:focus {
+    color: #546c84;
+    background-color: #fbfbfb;
+}
