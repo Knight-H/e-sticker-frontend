@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AdminKpi from "../admin-kpi";
 import styles from './index.module.scss';
 import fake_data from "./fake-api.json";
+import { Link } from 'react-router-dom';
 
 const useInputChange = () => {
     const [input, setInput] = useState({})
@@ -129,7 +130,7 @@ const AdminComponent = (props) => {
                                         </td>
                                         <td>{dataObjectMapped.shipping_id}</td>
                                         <td>{dataObjectMapped.reposiable_name}</td>
-                                        <td>{dataObjectMapped.organize}</td>
+                                        <td><Link to={"/admin/myorder" + "?order_id=" + dataObjectMapped.order_id}>{dataObjectMapped.organize}</Link></td>
                                     </tr>
                                 )
                             })

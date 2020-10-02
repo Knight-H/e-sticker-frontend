@@ -1,9 +1,9 @@
-import React, {useState}  from "react";
+import React, {useState, useEffect}  from "react";
 import styles from './index.module.scss';
 import { ReactComponent as IconArrow } from './icon-arrow.svg';
 import LocationFieldsComponent from '../location-fields';
 import LoginCredentialsComponent from '../login-credentials';
-
+import { Formik, Field, Form } from "formik";
 
 const useInputChange = () => {
     const [input, setInput] = useState({})
@@ -24,6 +24,12 @@ const MemberComponent = () => {
         setDropDawn(e.value);
     };
 
+    useEffect(() => {
+        let url = window.location.search;
+        const urlParams = new URLSearchParams(url);
+        const userID = urlParams.get('user_id');
+    }, []);
+
 
     return (
         <main className={styles.container}>
@@ -39,6 +45,9 @@ const MemberComponent = () => {
                 </section>
 
                 <section className={styles.userInfo}>
+                    {/* <Formik initialValues={{ name: "", email: "" }} onSubmit={async values => { await new Promise(resolve => setTimeout(resolve, 500)); alert(JSON.stringify(values, null, 2));}}>
+                    <button type="submit" className={styles.greenButton} >บันทึก</button>
+                    </Formik> */}
                     < LocationFieldsComponent />
                     <div className={styles.row}>
                         <p>สถานะ</p>
@@ -61,7 +70,7 @@ const MemberComponent = () => {
                         </div>
                     </div>
                     
-                    <button className={styles.greenButton}>บันทึก</button>
+                    <button type="submit" className={styles.greenButton} >บันทึก</button>
                     
                 </section>
                 
