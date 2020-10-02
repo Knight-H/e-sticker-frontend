@@ -1,4 +1,6 @@
 import React from "react";
+import {Field} from 'formik';
+
 import styles from './index.module.scss';
 
 const LoginComponent = () => {
@@ -7,15 +9,15 @@ const LoginComponent = () => {
         
             <div className={styles.formControl}>
                 <p>อีเมล</p>
-                <div ><input type="text" value=""/></div>
+                <Field name="username" type="text" placeholder=""/>
             </div>
 
             <div className={styles.formControl}>
                 <p>รหัสผ่าน</p>
-                <div ><input type="text" value=""/></div>
+                <Field name="password" type="text" placeholder=""/>
             </div>
             <div className={styles.containerRow}>
-                <button className={styles.buttonGreen}>เข้าสู่ระบบ</button>
+                <button type="submit" className={styles.buttonGreen}>เข้าสู่ระบบ</button>
                 <button className={styles.buttonBlue}>เข้าสู่ระบบด้วย Facebook</button>
             </div>
             <br/><br/>

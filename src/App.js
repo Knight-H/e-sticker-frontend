@@ -40,9 +40,9 @@ function App() {
                 <Route path="/admin-login" exact component={AdminLoginComponent} />
                 <Route path="/admin-order" exact component={AdminOrderComponent} />
 
-                <Route path="/member-login" exact component={MemberLoginComponent} />
-                <Route path="/member-register" exact component={MemberRegsterComponent} />
-                <Route path="/member-account" exact component={MemberAccountComponent} />
+                <Route path="/login" exact component={MemberLoginComponent} />
+                <Route path="/register" exact component={MemberRegsterComponent} />
+                <Route path="/member/setting" exact component={MemberAccountComponent} />
 
             </Switch>
             
