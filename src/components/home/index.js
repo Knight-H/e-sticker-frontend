@@ -60,16 +60,16 @@ const HomeComponent = (props) => {
                 <section className={styles.section1}>
                     <button>
                         <S11SampleIcon />
-                    ขอชุดตัวอย่างสติกเกอร์
-                </button>
+                        ขอชุดตัวอย่างสติกเกอร์
+                    </button>
                     <button>
                         <S12BasketIcon />
-                    ขั้นตอนการสั่งซื้อ
-                </button>
+                        ขั้นตอนการสั่งซื้อ
+                    </button>
                     <button>
                         <S13StatusIcon />
-                    ดูสถานะการสั่งซื้อ
-                </button>
+                        ดูสถานะการสั่งซื้อ
+                    </button>
                 </section>
 
                 <section id="stepsOrder" ref={stepsOrder} className={styles.section2}>
@@ -111,24 +111,24 @@ const HomeComponent = (props) => {
                         </div>
                         <div className={styles.card}>
                             PP ขาว
-                    <S32PPWhiteIcon id="s32Svg" />
+                            <S32PPWhiteIcon id="s32Svg" />
                             <button>
                                 ดูตัวอย่าง
-                    </button>
+                            </button>
                         </div>
                         <div className={styles.card}>
                             PP เงิน
-                    <S33PPSilverIcon id="s33Svg" />
+                            <S33PPSilverIcon id="s33Svg" />
                             <button>
                                 ดูตัวอย่าง
-                    </button>
+                            </button>
                         </div>
                         <div className={styles.card}>
                             PP ใส
-                    <S34PPTransIcon id="s34Svg" />
+                            <S34PPTransIcon id="s34Svg" />
                             <button>
                                 ดูตัวอย่าง
-                    </button>
+                            </button>
                         </div>
                     </div>
 
@@ -151,7 +151,7 @@ const HomeComponent = (props) => {
                 <button className={styles.orderButton}>
                     <S51OrderIcon />
                     <Link to="/order-1-product-config">สั่งซื้อสติกเกอร์</Link>
-            </button>
+                </button>
             </main>
 
             <FooterComponent />

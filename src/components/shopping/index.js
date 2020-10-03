@@ -8,8 +8,11 @@ import logoSiamCommercialBank from './SiamCommercialBank.jpg';
 import logoCreditCard from './credit.png';
 
 import { Redirect } from "react-router-dom";
+import LocationFieldsComponent from '../location-fields';
+
 // import { ErrorMessage, Field } from "formik";
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 const ShoppingComponent = () => {
     const [selectStep] = useState(2);
     const [checkedBox, setCheckedBox] = useState(false);
@@ -98,6 +101,8 @@ const ShoppingComponent = () => {
                 </div>
 
                 <div className={styles.boxChild2}>
+                {/* WHERE THE HELL IS THE FIELDS????!?!?!?!?!?? YOU FUCKING CUT IT DOWN AND YOU DONT HAVE THIS SHIT? WTF? */}
+
                     <h2>เลือก การจัดส่ง</h2>
                     <div className={styles.containerRow}>
                         <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${0}` && styles.active}`} onClick={() => setShipment(0)}>
@@ -168,67 +173,11 @@ const ShoppingComponent = () => {
                             ข้อมูลเดียวกับที่อยู่
                         </div>
                     </div>
-
+                    
+                    {/* THIS CAN BE IMPROVED TO REACT METHOD of showing by state!!!!!! no need to use CSS */}
                     <div className={checkedBox ? styles.contentDisplayBlock : styles.contentDisplayNone}>
                         <h2>ระบุที่อยู่</h2>
-                        <div className={styles.gridContainer}>
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>อีเมล*</p>
-                                    <div ><input type="text" value="" /></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>เบอร์โทรศัพท์*</p>
-                                    <div ><input type="text" value="" /></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>ที่อยู่*</p>
-                                    <div ><input type="text" value="" /></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>ชื่อ นามสกุล*</p>
-                                    <div ><input type="text" value="" /></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>แขวง*</p>
-                                    <div ><input type="text" value="" /></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>เขต*</p>
-                                    <div ><input type="text" value="" /></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>จังหวัด*</p>
-                                    <div ><input type="text" value="" /></div>
-                                </div>
-                            </div>
-
-                            <div className={styles.gridItem}>
-                                <div className={styles.formControl}>
-                                    <p>รหัสไปรษณีย์*</p>
-                                    <div ><input type="text" value="" /></div>
-                                </div>
-                            </div>
-
-                        </div>
+                        <LocationFieldsComponent/>
                     </div>
 
                         <button type="sumbit" className={styles.buttonNext} onClick={() => sleep(500).then(() => setCheckSubmit(true))}>

@@ -11,12 +11,16 @@ import FormStepShopping from "./components/form_step_shopping";
 
 import ShoppingComponent from "./components/shopping";
 import InCartComponent from "./components/incart";
+
+import AdminOrderList from "./components/admin_order_list";
 import AdminLoginComponent from './components/admin-login';
 import AdminNavBarComponent from "./components/admin-navbar";
 import AdminOrderComponent from "./components/admin-order";
 
-
 import HomeMemberComponent from "./components/home-member";
+import MemberLoginComponent from "./components/member-login";
+import MemberRegsterComponent from "./components/member-register";
+import MemberAccountComponent from "./components/member-account";
 
 function App() {
     let url = window.location.pathname;
@@ -32,11 +36,16 @@ function App() {
                 <Route path="/shopping" exact component={ShoppingComponent} />
                 <Route path="/in_cart" exact component={InCartComponent} />
                 <Route path="/form_step_shopping" exact component={FormStepShopping} />
+                <Route path="/admin_order_list" exact component={AdminOrderList} />
 
                 <Route path="/admin/login" exact component={AdminLoginComponent} />
                 <Route path="/admin/myorder" exact component={AdminOrderComponent} />
 
                 <Route path="/member" exact component={HomeMemberComponent} />
+
+                <Route path="/login" exact component={MemberLoginComponent} />
+                <Route path="/register" exact component={MemberRegsterComponent} />
+                <Route path="/member/setting" exact component={MemberAccountComponent} />
             </Switch>
             
         </div>
