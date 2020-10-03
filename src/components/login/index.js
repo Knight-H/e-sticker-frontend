@@ -1,4 +1,6 @@
 import React from "react";
+import {Field, ErrorMessage} from 'formik';
+
 import styles from './index.module.scss';
 
 const LoginComponent = () => {
@@ -6,16 +8,16 @@ const LoginComponent = () => {
     <>
         
             <div className={styles.formControl}>
-                <p>อีเมล</p>
-                <div ><input type="text" value=""/></div>
+                <p>อีเมล <ErrorMessage name="email" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
+                <Field name="email" type="text" placeholder=""/>
             </div>
 
             <div className={styles.formControl}>
-                <p>รหัสผ่าน</p>
-                <div ><input type="text" value=""/></div>
+                <p>รหัสผ่าน <ErrorMessage name="password" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
+                <Field name="password" type="text" placeholder=""/>
             </div>
             <div className={styles.containerRow}>
-                <button className={styles.buttonGreen}>เข้าสู่ระบบ</button>
+                <button type="submit" className={styles.buttonGreen}>เข้าสู่ระบบ</button>
                 <button className={styles.buttonBlue}>เข้าสู่ระบบด้วย Facebook</button>
                 <button className={styles.buttonLine}>เข้าสู่ระบบด้วย Line</button>
             </div>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
 import styles from './index.module.scss';
@@ -7,6 +7,8 @@ import { ReactComponent as ProfileIcon } from './profile-icon.svg';
 import { ReactComponent as ShoppingCart } from './shopping-cart.svg';
 import { ReactComponent as Logo } from './logo.svg';
 
+
+import useWindowSize from '../../hooks/useWindowSize';
 
 // const stepsOrderScroll = () => {
 //     const { pathname, hash } = window.location;
@@ -19,6 +21,24 @@ import { ReactComponent as Logo } from './logo.svg';
 
 const NavBarComponent = ({ history }) => {
     const [isBurgerToggled, setIsBurgerToggled] = useState(false);
+    const {width} = useWindowSize();
+
+    // If the window is greater than 768, unToggle the Burger.
+    useEffect(() => {
+        if (width > 768){
+            setIsBurgerToggled(false);
+        }
+    }, [width]);
+
+    // Not sure if this is the correct way to prevent scrolling when modal is open.
+    // From Answer #2 of https://stackoverflow.com/questions/54989513/react-prevent-scroll-when-modal-is-open
+    useEffect(() => {
+        if (isBurgerToggled) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [isBurgerToggled]);
 
     return (
         <header>
