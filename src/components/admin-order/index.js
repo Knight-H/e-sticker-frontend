@@ -6,7 +6,7 @@ import { withFormik } from 'formik';
 
 import Kerry from '../approve-layout/kerry.png';
 import Scb from '../approve-layout/scb.jpg';
-import img_product from '../shopping/workplace.jpg';
+import img_product from '../checkout/workplace.jpg';
 
 import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
 import { ReactComponent as Circle } from '../approve-layout/circle.svg';
