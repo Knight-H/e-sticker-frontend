@@ -17,6 +17,7 @@ import AdminNavBarComponent from "./components/admin-navbar";
 import AdminOrderComponent from "./components/admin-order";
 
 import MemberComponent from "./components/member";
+import MemberSettingComponent from "./components/member-setting";
 import MemberLoginComponent from "./components/member-login";
 import MemberRegsterComponent from "./components/member-register";
 import MemberAccountComponent from "./components/member-account";
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/admin-order" exact component={AdminOrderComponent} />
 
                 <Route path="/admin/member" exact component={MemberComponent} />
+                <Route path="/admin/member-setting" exact component={MemberSettingComponent} />
                 <Route path="/member-login" exact component={MemberLoginComponent} />
                 <Route path="/member-register" exact component={MemberRegsterComponent} />
                 <Route path="/member-account" exact component={MemberAccountComponent} />
