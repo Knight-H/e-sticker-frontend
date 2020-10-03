@@ -10,10 +10,10 @@ const AdminLoginComponent = () => {
             <form className={styles.formAdminLogin}>
                 <h3>Stickerwish Admin Login</h3>
                 <label>อีเมล</label>
-                <TextInput name="email" />
+                <TextInput className="inputText" name="email" />
 
                 <label>รหัสผ่าน</label>
-                <PasswordInput name="password" />
+                <PasswordInput className="inputText" name="password" />
 
                 <button type="button">เข้าสู่ระบบ</button>
             </form>

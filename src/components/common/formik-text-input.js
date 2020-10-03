@@ -10,7 +10,7 @@ const TextInput = ({ ...props }) => {
 
     return (
         <>
-            <input type='text' className="inputText" {...field} {...props} />
+            <input type='text' {...field} {...props} />
             {props.redBorderForError !== "error-in-table"
                 ?
                 meta.touched && meta.error ? (

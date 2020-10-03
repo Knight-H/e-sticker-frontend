@@ -24,8 +24,9 @@ const ApproveLayoutComponent = () => {
             }
 
             <h1 className={styles.title}>รายการออเดอร์</h1>
-            <p>ออเดอร์หมายเลข #DW0001
-                <label className={styles.waitApproval}>กำลังดำเนินการ</label>
+            <p>ออเดอร์หมายเลข {fakeAPI[0].orderNumber}
+                {/* <label className={styles.waitApproval}>กำลังดำเนินการ</label> */}
+                <LabelSatus status={fakeAPI[0].statusOrder}/>
             </p>
 
             <section className={styles.stepProgressBar}>
@@ -33,7 +34,7 @@ const ApproveLayoutComponent = () => {
             </section>
 
             <section>
-                <CardOrder expandCard={expandCard} setExpandCard={setExpandCard} />
+                <CardOrder expandCard={expandCard} setExpandCard={setExpandCard} fakeAPI={fakeAPI[0]} />
             </section>
 
             <section className={styles.previewImage}>
@@ -49,3 +50,54 @@ const ApproveLayoutComponent = () => {
 };
 
 export default ApproveLayoutComponent;
+
+
+const fakeAPI = [
+    {
+        orderNumber: "#DW0001",
+        statusOrder: 1,
+        // image: ???
+        listOrder: [
+            {
+                orderID: "ITM00001",
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500,
+                status: 1
+            },
+            {
+                orderID: "ITM00002",
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500,
+                status: 1
+            },
+            {
+                orderID: "ITM00003",
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500,
+                status: 2
+            }
+        ]
+    }
+]
+
+const LabelSatus = ({status}) => {
+    if (status === 1) {
+        return <label className={`${styles.waitApproval} ${styles.orangeStatus}`}>สถานะ: กำลังดำเนินการ</label>
+    } else if (status === 2) {
+        return <label className={`${styles.waitApproval} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
+    } else if (status === 3) {
+        return <label className={`${styles.waitApproval} ${styles.blueStatus}`}>สถานะ: อยู่ระหว่างจัดส่ง</label>
+    } else if (status === 4) {
+        return <label className={`${styles.waitApproval} ${styles.redStatus}`}>สถานะ: ขอคืนเงิน</label>
+    } else if (status === 5) {
+        return <label className={`${styles.waitApproval} ${styles.greenStatus}`}>สถานะ: คืนเงินสำเร็จ</label>
+    } else if (status === 6) {
+        return <label className={`${styles.waitApproval} ${styles.greenStatus}`}>สถานะ: รายการสำเร็จ</label>
+    }
+}

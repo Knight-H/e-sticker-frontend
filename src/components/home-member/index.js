@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from './index.module.scss';
 
 import { ReactComponent as Circle } from '../approve-layout/circle.svg';
 import { ReactComponent as IconPhone } from './icon-phone.svg';
 import { ReactComponent as IconUser } from './icon-user.svg';
 import { ReactComponent as IconLogout } from './icon-logout.svg';
+import { withFormik } from 'formik';
+import { useFormikContext } from 'formik';
 
 const LabelSatus = ({status}) => {
     if (status === 1) {
@@ -24,6 +26,12 @@ const LabelSatus = ({status}) => {
 
 
 const HomeMemberComponent = (props) => {
+    const { values, errors, touched, setFieldValue, validateField } = useFormikContext();
+
+    useEffect(() => {
+        setFieldValue("objectOrder", fakeAPI, false)
+    })
+
     return (
         <main className={styles.wrapContent}>
             <h1 className={styles.title}>รายการออเดอร์</h1>
@@ -39,7 +47,7 @@ const HomeMemberComponent = (props) => {
 
             <section className={styles.contain}>
 
-                {fakeAPI.map((fakeAPI) => {
+                {values.objectOrder.map((fakeAPI) => {
                     return (
                         <article className={styles.borderCard}>
                             <h1 className={styles.title}>ออเดอร์หมายเลข {fakeAPI.orderNumber}</h1>
@@ -68,7 +76,13 @@ const HomeMemberComponent = (props) => {
     )
 }
 
-export default HomeMemberComponent;
+const EnhancedHomeMemberComponentComponent = withFormik({
+    mapPropsToValues: (props) => ({
+        objectOrder: []
+    })
+})(HomeMemberComponent);
+
+export default EnhancedHomeMemberComponentComponent;
 
 
 const fakeAPI = [

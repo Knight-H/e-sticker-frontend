@@ -10,7 +10,7 @@ const PasswordInput = ({ ...props }) => {
 
     return (
         <>
-            <input type='password' className="inputText" {...field} {...props} />
+            <input type='password' {...field} {...props} />
             {props.redBorderForError !== "error-in-table"
                 ?
                 meta.touched && meta.error ? (

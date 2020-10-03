@@ -36,7 +36,6 @@
 
     .waitApproval {
         border-radius: 17px;
-        background-color: #FF9F46;
         padding: 5px 20px;
         font-size: 12px;
         margin-bottom: 3vh;
@@ -63,6 +62,23 @@
     text-align: right;
 }
 
+.greenStatus {
+    background-color: #21B54D;
+  }
+  .redStatus {
+    background-color: #CF3C3C;
+  }
+  .blueStatus {
+    background-color: #6DB9FF;
+  }
+  .yellowStatus {
+    background-color: #FFE146;
+  }
+  .orangeStatus {
+    background-color: #FF9F46;
+  }
+  
+  
 @media only screen and (max-width: 900px) {
     .wrapContent .groupDeliveryPayment .groupDelivery {
         flex-basis: 100%;
