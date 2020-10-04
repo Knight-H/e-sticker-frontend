@@ -35,14 +35,14 @@
     }
 }
 
-.contain {
+.container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    align-items: baseline;
 
     margin-top: 2.5vh;
-    
+    height: 120vh;
+    overflow-x: scroll;
     .borderCard {
         border: 1px solid #009473;
         border-radius: 20px;
@@ -113,13 +113,17 @@
     }
 }
 
-.orangeLabel {
+.statusLabel {
     background-color: #FF9F46;
     border-radius: 10px;
 
     font-size: 12px;
 
     padding: 3px 20px;
+}
+
+.orangeLabel {
+    background-color: #FF9F46;
 }
 
 .greenStatus {
@@ -139,7 +143,7 @@
   }
   
 @media only screen and (max-width: 320px) {
-    .contain {  
+    .container {  
         .borderCard {
             margin: 10px 0 10px 0;
             table {

@@ -11,8 +11,6 @@ import ShoppingComponent from "./../shopping";
 import { withFormik } from 'formik';
 import { useFormikContext } from 'formik';
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
 // Wizard is a single Formik instance whose children are each page of the
 // multi-step form. The form is submitted on each forward transition (can only
 // progress with valid input), whereas a backwards step is allowed with
@@ -25,7 +23,6 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
   const [stepNumber] = useState(0);
   const steps = React.Children.toArray(children);
   const step = steps[values.stepProgress];
-  console.log("values", values)
   return (
     <>
       {step}
@@ -36,7 +33,6 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
 const WizardStep = ({ children }) => children;
 
 const AppComponent = () => {
-  // const { values, errors, touched, setFieldValue, validateField } = useFormikContext();
   return (
     <Wizard>
       <WizardStep>
@@ -44,9 +40,6 @@ const AppComponent = () => {
       </WizardStep>
       <WizardStep>
         <UploadFileComponent />
-      </WizardStep>
-      <WizardStep>
-        <ShoppingComponent />
       </WizardStep>
     </Wizard>
   );
@@ -56,19 +49,74 @@ const EnhancedAppComponent = withFormik({
   mapPropsToValues: (props) => ({
     stepProgress: 0,
     // Step one
-    kindSticker: '',
-    materialSticker: '',
-    coatingStricker: '',
-    dieCutStricker: '',
+    kindSticker: 0,
+    materialSticker: 0,
+    coatingStricker: 0,
+    dieCutStricker: 0,
     widthStricker: '',
     heightStricker: '',
-    quantityStricker: '',
+    quantityStricker: 0,
 
     // Step two
     approvalStricker: 0,
+    isCheckUploadFileStricker: false,
     uploadFileStricker: [],
     remarkStricker: '',
-  })
+  }),
+  validate: values => {
+    const errors = {};
+
+    // Step 1
+    if (values.stepProgress === 0) {
+      if (values.kindSticker === 0) {
+        errors.kindSticker = "Require"
+      }
+      if (values.materialSticker === 0) {
+        errors.materialSticker = "Require"
+      }
+      if (values.coatingStricker === 0) {
+        errors.coatingStricker = "Require"
+      }
+      if (values.materialSticker === 0) {
+        errors.materialSticker = "Require"
+      }
+      if (values.dieCutStricker === 0) {
+        errors.dieCutStricker = "Require"
+      }
+      if (values.widthStricker === "") {
+        errors.widthStricker = "Require"
+      }
+      if (values.heightStricker === "") {
+        errors.heightStricker = "Require"
+      }
+      if (values.quantityStricker === 0) {
+        errors.quantityStricker = "Require"
+      }
+    } else if (values.stepProgress === 1) {
+
+      // Step two
+      if (values.approvalStricker === 0) {
+        errors.approvalStricker = "Require"
+      }
+      if (values.isCheckUploadFileStricker === false) {
+        errors.uploadFileStricker = "Require"
+      }
+    }
+    return errors;
+  },
+  handleSubmit: (values, { setSubmitting }) => {
+    console.log("values", values)
+    if (values.stepProgress === 0) {
+      console.log(">>>>>>0")
+      values.stepProgress = 1
+    } else {
+      console.log(">>>>>>1")
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+      }, 0);
+    }
+  }
 })(AppComponent);
 
 export default EnhancedAppComponent;

@@ -5,10 +5,13 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  flex-direction: row;
   .square {
+      // flex-basis: 40%;
       height: 510px;
       width: 566px;
       background-color: #EDEDED;
+      border-radius: 20px;
       margin-right: 50px;
   }
   
@@ -29,7 +32,6 @@
       border: 0.5px solid #009473;
       border-radius: 2px;
       padding: 5px 20px;
-      margin-bottom: 4vh;
       svg {
         width: 18px;
         height: 18px;
@@ -48,8 +50,6 @@
   }
 }
 
-// .link {
-//   text-decoration: none;
   .btnCart {
     background-color: #009473;
     border: none;
@@ -68,19 +68,37 @@
       height: 18px;
     }
   }
-// }
 
-@media only screen and (max-width: 810px) {
+  .btnBack {
+    // box-shadow: 0px 9px 22px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    border: 2px solid #009473;
+    
+    padding: 7px 10px;
+    margin-top: 1vh;
+
+    font-size: 15px;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+
+    color: #000000;
+  }
+
+@media only screen and (max-width: 860px) {
       .wrapContent {
         .square {
-          height: 410px;
-          width: 466px;
+          height: 400px;
+          width: 366px;
+        }
+        .rightContent {
+          margin-top: 0;
         }
       }
 }
 
 
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 500px) {
       .wrapContent {
         .square {
           margin-right: 0;
@@ -162,6 +180,7 @@
   margin-left: 5px;
 }
 .selectBoxList {
+  z-index: 1;
   margin: 0;
   position: absolute;
   width: 100%;

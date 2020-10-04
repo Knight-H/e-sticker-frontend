@@ -1,24 +1,16 @@
 import React, { useState } from "react";
 import StepProgress from "../step_progress";
 import styles from './index.module.scss';
-
+import { Field, Form, ErrorMessage } from 'formik';
 import { useFormikContext } from 'formik';
-import { validateFiledID, isEmpty, isObject, setNestedObjectValues } from '../helper.js';
 
-import SelectInput from '../common/formik-select-input';
-import TextInput from '../common/formik-text-input';
+import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
+import { ReactComponent as IconRectangular } from './icon-rectangular.svg';
+import { ReactComponent as IconCircle } from './icon-circle.svg';
 
 const Order1ProductConfigComponent = (props) => {
-    const { values, setFieldValue, validateForm, setTouched, setErrors } = useFormikContext();
     const [selectStep] = useState(1);
-
-    const validateConfigurationFiledID = (...args) => validateFiledID(...args);
-    const validateMaterialFiledID = (...args) => validateFiledID(...args);
-    const validateCoatingFiledID = (...args) => validateFiledID(...args);
-    const validateDieCutFiledID = (...args) => validateFiledID(...args);
-    const validateWidthFiledID = (...args) => validateFiledID(...args);
-    const validateHeightFiledID = (...args) => validateFiledID(...args);
-    const validateQuantityFiledID = (...args) => validateFiledID(...args);
+    const { values } = useFormikContext();
 
     return (
         <main>
@@ -29,80 +21,110 @@ const Order1ProductConfigComponent = (props) => {
             <div className={styles.wrapContent}>
                 <img className={styles.square} alt="Box Square for display" />
 
-
                 <section className={styles.rightContent}>
-
-                    <div className={styles.dropdownSelect}>
-                        <label htmlFor="stickerConfiguration">รูปแบบสติกเกอร์</label>
-                        <SelectInput name="kindSticker" validate={validateConfigurationFiledID}>
-                            <option value=''></option>
-                            <option value="circular">แบบกลม</option>
-                            <option value="rectangular">แบบเหลี่ยม</option>
-                            <option value="dicut">ไดคัทตามรูป</option>
-                        </SelectInput>
-                    </div>
-
-                    <div className={styles.dropdownSelect}>
-                        <label htmlFor="material">เนื้อวัสดุ</label>
-                        <SelectInput name="materialSticker" validate={validateMaterialFiledID}>
-                            <option value=""></option>
-                            <option value="paper-art">กระดาษ Art</option>
-                            <option value="pp-white">PP สีขาว</option>
-                            <option value="pp-silver">PP สีเงิน</option>
-                            <option value="pp-trans">PP สีใส</option>
-                        </SelectInput>
-                    </div>
-
-                    <div className={styles.dropdownSelect}>
-                        <label htmlFor="coating">การเคลือบผิว</label>
-                        <SelectInput name="coatingStricker" validate={validateCoatingFiledID}>
-                            <option value=""></option>
-                            <option value="coat-trans">เคลือบใส</option>
-                            <option value="coat-matte">เคลือบด้าน</option>
-                            <option value="coat-none">ไม่เคลือบ</option>
-                        </SelectInput>
-                    </div>
-
-                    <div className={styles.dropdownSelect}>
-                        <label htmlFor="dicut">วิธีไดคัตภาพ</label>
-                        <SelectInput name="dieCutStricker" validate={validateDieCutFiledID}>
-                            <option value=""></option>
-                            <option value="dicut-1mm">กินเนื้อ 1 มม.</option>
-                        </SelectInput>
-                    </div>
-
-                    <div className={styles.sizeSelect}>
-                        <label htmlFor="size">ขนาด</label>
-                        <div className={styles.sizeWrapper}>
-                            <TextInput name="widthStricker" validate={validateWidthFiledID} />
-                            <TextInput name="heightStricker" validate={validateHeightFiledID} />
-                        </div>
-                    </div>
-
-                    <div className={styles.dropdownSelect}>
-                        <label htmlFor="quantity">จำนวน</label>
-                        <SelectInput name="quantityStricker" validate={validateQuantityFiledID}>
-                            <option value=""></option>
-                            <option value="100pc">100 ชิ้น / 1,500 THB</option>
-                        </SelectInput>
-                        <button type="button" className={styles.addQuantityButton}>
-                            + 50 ชิ้น เพิ่มเพียง 300 THB
-                        </button>
-                    </div>
-
-                    <button type="button" className={styles.nextButton}
-                        onClick={() => validateForm().then(
-                            (err) => {
-                                setTouched(setNestedObjectValues(values, true))
-                                setErrors(err);
-                                if (isEmpty(err)) {
-                                    setFieldValue("stepProgress", 1, false)
+                    <Form>
+                        <div className={styles.dropdownSelect}>
+                            <label htmlFor="stickerConfiguration">รูปแบบสติกเกอร์<ErrorMessage name="kindSticker" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="kindSticker" values={values} options={[
+                                {
+                                    image: IconCircle,
+                                    value: "circular",
+                                    name: "แบบกลม"
+                                },
+                                {
+                                    image: IconRectangular,
+                                    value: "rectangular",
+                                    name: "แบบเหลี่ยม"
                                 }
-                            }
-                        )}>
-                        ถัดไป
-                    </button>
+                                ,
+                                {
+                                    image: IconRectangular,
+                                    value: "dicut",
+                                    name: "ไดคัทตามรูป"
+                                }
+                            ]} />
+                        </div>
 
+                        <div className={styles.dropdownSelect}>
+                            <label htmlFor="material">เนื้อวัสดุ<ErrorMessage name="materialSticker" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="materialSticker" values={values} options={[
+                                {
+                                    image: IconCircle,
+                                    value: "paper-art",
+                                    name: "กระดาษ Art"
+                                },
+                                {
+                                    image: IconRectangular,
+                                    value: "pp-silver",
+                                    name: "PP สีเงิน"
+                                }
+                                ,
+                                {
+                                    image: IconRectangular,
+                                    value: "pp-trans",
+                                    name: "PP สีใส"
+                                }
+                            ]} />
+                        </div>
+
+                        <div className={styles.dropdownSelect}>
+                            <label htmlFor="coating">การเคลือบผิว<ErrorMessage name="coatingStricker" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="coatingStricker" values={values} options={[
+                                {
+                                    image: IconCircle,
+                                    value: "coat-trans",
+                                    name: "เคลือบใส"
+                                },
+                                {
+                                    image: IconRectangular,
+                                    value: "coat-matte",
+                                    name: "เคลือบด้าน"
+                                }
+                                ,
+                                {
+                                    image: IconRectangular,
+                                    value: "coat-none",
+                                    name: "ไม่เคลือบ"
+                                }
+                            ]} />
+                        </div>
+
+                        <div className={styles.dropdownSelect}>
+                            <label htmlFor="dicut">วิธีไดคัตภาพ<ErrorMessage name="dieCutStricker" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="dieCutStricker" values={values} options={[
+                                {
+                                    image: IconCircle,
+                                    value: "dicut-1mm",
+                                    name: "กินเนื้อ 1 มม."
+                                }
+                            ]} />
+                        </div>
+
+                        <div className={styles.sizeSelect}>
+                            <label htmlFor="size">ขนาด<ErrorMessage name="widthStricker" render={msg => <span className="error">{msg}</span>} />
+                            <ErrorMessage name="heightStricker" render={msg => <span className="error">{msg}</span>} /></label>
+                            <div className={styles.sizeWrapper}>
+                                <Field name="widthStricker" type="text" placeholder="กว้าง..." />
+                                <Field name="heightStricker" type="text" placeholder="ยาว..." />
+                            </div>
+                        </div>
+
+                        <div className={styles.dropdownSelect}>
+                            <label htmlFor="quantity">จำนวน<ErrorMessage name="quantityStricker" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="quantityStricker" values={values} options={[
+                                {
+                                    image: IconCircle,
+                                    value: "100pc",
+                                    name: "100 ชิ้น / 1,500 THB"
+                                }
+                            ]} />
+                            <button type="button" className={styles.addQuantityButton}>
+                                + 50 ชิ้น เพิ่มเพียง 300 THB
+                        </button>
+                        </div>
+
+                        <button type="submit" className={styles.nextButton}>ถัดไป</button> 
+                    </Form>
                 </section>
             </div>
         </main>
@@ -110,3 +132,41 @@ const Order1ProductConfigComponent = (props) => {
 }
 
 export default Order1ProductConfigComponent;
+
+const SelectBox = ({ values, name, options }) => {
+    return (
+        <div className={styles.selectBox}>
+            <div className={styles.selectBoxCurrent} tabindex="1">
+                {options.map((list, index) => {
+                    let lastIndex = index + 1;
+                    return (
+                        <div className={styles.selectBoxValue}>
+                            <Field name={name} type="radio" className={styles.selectBoxInput} value={list.value} id={`${name}-${lastIndex}`}
+                                checked={`${values[name]}` === `${list.value}` ? true : false} />
+                            <p className={styles.selectBoxInputText}><list.image className={styles.positionIcon} />{list.name}</p>
+                        </div>
+                    )
+                })}
+
+                <div className={styles.selectBoxValue}>
+                    <Field name={name} type="radio" className={styles.selectBoxInput} value="0" id={`${name}-0`}
+                        checked={`${values[name]}` === `${0}` ? true : false} />
+                    <p className={styles.selectBoxInputText}>กรุณาเลือก...</p><IconArrow />
+                </div>
+            </div>
+            <ul className={styles.selectBoxList}>
+                {options.map((list, index) => {
+                    let lastIndex = index + 1;
+                    return (
+                        <li>
+                            <label className={styles.selectBoxOption} for={`${name}-${lastIndex}`}><list.image width="16px" style={{ marginRight: "10px" }} />{list.name}</label>
+                        </li>
+                    )
+                })}
+                <li>
+                    <label className={styles.selectBoxOption} for={`${name}-0`}>กรุณาเลือก...</label>
+                </li>
+            </ul>
+        </div>
+    )
+};

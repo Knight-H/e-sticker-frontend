@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import styles from './index.module.scss';
 
-import { ReactComponent as Drawing } from '../approve-layout/drawing.svg';
 import { ReactComponent as IconCheckSVG } from '../approve-layout/icon-check.svg';
 
 const PreviewImageComponent = () => {
     return (
         <>
             <div className={styles.square}>
-                <Drawing />
+
             </div>
 
             <div className={styles.inputBox}>

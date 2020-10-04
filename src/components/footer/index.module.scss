@@ -13,6 +13,7 @@
 
 .bgFooter {
     background-image: url('./bg-footer.svg');
+    background-repeat:no-repeat;
     // background-size: 100%;
     padding-bottom: 1%;
     display: flex;
@@ -24,7 +25,7 @@
         // padding-left: 10%;
     }
     ul {
-        flex-basis: 40%;
+        flex-basis: 20%;
         list-style-type: none;
         padding: 2vw 0 0 0vw;
         li {
@@ -71,7 +72,7 @@
             background-color: #1774EB;
     
             .squareWhite {
-                width: 120px;
+                width: 140px;
                 margin-left: 20px;
             }
         }
@@ -86,8 +87,13 @@
     }
 };
 
-@media only screen and (max-width: 950px) {
-    .listContract {
-        display: none;
-    }
+@media only screen and (max-width: 570px) {
+    .bgFooter {
+        ul {
+            flex-basis: 40%;
+        };
+        .colQrCode {
+            display: none;
+        }
+    }    
 }

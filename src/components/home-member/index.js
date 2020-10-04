@@ -10,17 +10,17 @@ import { useFormikContext } from 'formik';
 
 const LabelSatus = ({status}) => {
     if (status === 1) {
-        return <label className={styles.orangeLabel}>สถานะ: กำลังดำเนินการ</label>
+        return <label className={`${styles.statusLabel} ${styles.orangeLabel}`}>สถานะ: กำลังดำเนินการ</label>
     } else if (status === 2) {
-        return <label className={`${styles.orangeLabel} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
+        return <label className={`${styles.statusLabel} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
     } else if (status === 3) {
-        return <label className={`${styles.orangeLabel} ${styles.blueStatus}`}>สถานะ: อยู่ระหว่างจัดส่ง</label>
+        return <label className={`${styles.statusLabel} ${styles.blueStatus}`}>สถานะ: อยู่ระหว่างจัดส่ง</label>
     } else if (status === 4) {
-        return <label className={`${styles.orangeLabel} ${styles.redStatus}`}>สถานะ: ขอคืนเงิน</label>
+        return <label className={`${styles.statusLabel} ${styles.redStatus}`}>สถานะ: ขอคืนเงิน</label>
     } else if (status === 5) {
-        return <label className={`${styles.orangeLabel} ${styles.greenStatus}`}>สถานะ: คืนเงินสำเร็จ</label>
+        return <label className={`${styles.statusLabel} ${styles.greenStatus}`}>สถานะ: คืนเงินสำเร็จ</label>
     } else if (status === 6) {
-        return <label className={`${styles.orangeLabel} ${styles.greenStatus}`}>สถานะ: รายการสำเร็จ</label>
+        return <label className={`${styles.statusLabel} ${styles.greenStatus}`}>สถานะ: รายการสำเร็จ</label>
     }
 }
 
@@ -45,7 +45,7 @@ const HomeMemberComponent = (props) => {
             <label className={styles.greenLabel}><IconUser />จัดการบัญชี</label>
             <label className={styles.greenLabel}><IconLogout />ออกจากระบบ</label>
 
-            <section className={styles.contain}>
+            <section className={styles.container}>
 
                 {values.objectOrder.map((fakeAPI) => {
                     return (
@@ -159,6 +159,44 @@ const fakeAPI = [
     {
         orderNumber: "#DW0005",
         statusOrder: 5,
+        // image: ???
+        listOrder: [
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            },
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            }
+        ]
+    },
+    {
+        orderNumber: "#DW0005",
+        statusOrder: 5,
+        // image: ???
+        listOrder: [
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            },
+            {
+                titalStriker: "สติกเกอร์แบบกลม",
+                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
+                qtyStriker: 300,
+                priceStriker: 500
+            }
+        ]
+    },
+    {
+        orderNumber: "#DW0005",
+        statusOrder: 6,
         // image: ???
         listOrder: [
             {
