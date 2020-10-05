@@ -8,13 +8,14 @@ import ApproveLayoutComponent from "./components/approve-layout";
 import Order1ProductConfigComponent from "./components/order-1-product-config";
 import FormStepShopping from "./components/form_step_shopping";
 
-import CartComponent from "./components/cart";
 import CheckoutComponent from "./components/checkout";
+import CartComponent from "./components/cart";
 
 import AdminListComponent from "./components/admin";
 import AdminLoginComponent from './components/admin-login';
 import AdminNavBarComponent from "./components/admin-navbar";
 import AdminOrderComponent from "./components/admin-order";
+import AdminPassword from "./components/admin-password";
 
 import MemberComponent from "./components/member";
 import MemberSettingComponent from "./components/member-setting";
@@ -37,13 +38,14 @@ function App() {
                 <Route path="/checkout" exact component={CheckoutComponent} />
                 <Route path="/cart" exact component={CartComponent} />
                 <Route path="/form_step_shopping" exact component={FormStepShopping} />
-                
+
                 <Route path="/admin" exact component={AdminListComponent} />
                 <Route path="/admin-login" exact component={AdminLoginComponent} />
                 <Route path="/admin-order" exact component={AdminOrderComponent} />
 
                 <Route path="/admin/member" exact component={MemberComponent} />
                 <Route path="/admin/member-setting" exact component={MemberSettingComponent} />
+                <Route path="/admin/password" exact component={AdminPassword} />
                 <Route path="/member-login" exact component={MemberLoginComponent} />
                 <Route path="/member-register" exact component={MemberRegsterComponent} />
                 <Route path="/member-account" exact component={MemberAccountComponent} />
@@ -53,7 +55,7 @@ function App() {
                 <Route path="/member/setting" exact component={MemberAccountComponent} />
 
             </Switch>
-            
+
         </div>
     );
 }
