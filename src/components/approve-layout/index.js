@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from './index.module.scss';
+import { withFormik } from 'formik';
 
 import StepProgress from "../step_progress";
 import CardOrder from "../card-order";
@@ -25,7 +26,6 @@ const ApproveLayoutComponent = () => {
 
             <h1 className={styles.title}>รายการออเดอร์</h1>
             <p>ออเดอร์หมายเลข {fakeAPI[0].orderNumber}
-                {/* <label className={styles.waitApproval}>กำลังดำเนินการ</label> */}
                 <LabelSatus status={fakeAPI[0].statusOrder}/>
             </p>
 
@@ -49,7 +49,14 @@ const ApproveLayoutComponent = () => {
     );
 };
 
-export default ApproveLayoutComponent;
+const EnhancedApproveLayoutComponent = withFormik({
+    mapPropsToValues: (props) => ({
+        massage: "",
+        uploadFileStricker: []
+    })
+})(ApproveLayoutComponent);
+
+export default EnhancedApproveLayoutComponent;
 
 
 const fakeAPI = [
@@ -88,16 +95,16 @@ const fakeAPI = [
 
 const LabelSatus = ({status}) => {
     if (status === 1) {
-        return <label className={`${styles.waitApproval} ${styles.orangeStatus}`}>สถานะ: กำลังดำเนินการ</label>
+        return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: กำลังดำเนินการ</label>
     } else if (status === 2) {
-        return <label className={`${styles.waitApproval} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
+        return <label className={`${styles.labelStatus} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
     } else if (status === 3) {
-        return <label className={`${styles.waitApproval} ${styles.blueStatus}`}>สถานะ: อยู่ระหว่างจัดส่ง</label>
+        return <label className={`${styles.labelStatus} ${styles.blueStatus}`}>สถานะ: อยู่ระหว่างจัดส่ง</label>
     } else if (status === 4) {
-        return <label className={`${styles.waitApproval} ${styles.redStatus}`}>สถานะ: ขอคืนเงิน</label>
+        return <label className={`${styles.labelStatus} ${styles.redStatus}`}>สถานะ: ขอคืนเงิน</label>
     } else if (status === 5) {
-        return <label className={`${styles.waitApproval} ${styles.greenStatus}`}>สถานะ: คืนเงินสำเร็จ</label>
+        return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: คืนเงินสำเร็จ</label>
     } else if (status === 6) {
-        return <label className={`${styles.waitApproval} ${styles.greenStatus}`}>สถานะ: รายการสำเร็จ</label>
+        return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: รายการสำเร็จ</label>
     }
 }

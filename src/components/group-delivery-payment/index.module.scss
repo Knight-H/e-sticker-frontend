@@ -1,7 +1,7 @@
 .groupDelivery {
     flex-basis: 50%;
 
-    .containInformationCustomer{
+    .containerInformationCustomer{
         margin-top: 20px;
         display: flex;
         flex-wrap: wrap;
@@ -17,7 +17,7 @@
         }
     }
 
-    .containInformation {
+    .containerInformation {
         h4 {
             margin: 0 0 20px 0;
         }
@@ -95,7 +95,7 @@
     .groupDelivery {
         flex-basis: 100%;
     
-        .containInformationCustomer{
+        .containerInformationCustomer{
             ul {
                 flex-basis: 100%;
             }

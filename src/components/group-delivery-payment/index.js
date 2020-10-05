@@ -10,7 +10,7 @@ const GroupDeliveryPaymentComponent = () => {
         <>
             <div className={styles.groupDelivery}>
                 <h3>การจัดส่ง</h3>
-                <div className={styles.containInformationCustomer}>
+                <div className={styles.containerInformationCustomer}>
                     <ul>
                         <li>นายลูกค้า สติกเกอร์</li>
                         <li>110 ซอย สาธุประดิษฐ์ 58
@@ -23,7 +23,7 @@ const GroupDeliveryPaymentComponent = () => {
                     </ul>
                 </div>
 
-                <div className={styles.containInformation}>
+                <div className={styles.containerInformation}>
                     <h4>จัดส่งโดย</h4>
                     <img src={Kerry} className={styles.deliveryBy} alt="kerry" />
                     <br />

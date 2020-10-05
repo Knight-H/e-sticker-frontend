@@ -2,11 +2,9 @@
 // https://github.com/formium/formik/blob/master/examples/MultistepWizard.js
 // https://medium.com/javascript-in-plain-english/how-to-create-a-multi-step-form-with-react-hooks-53a85efdff62
 import React, { useState } from "react";
-import * as Yup from "yup";
 
 import Order1ProductConfigComponent from "./../order-1-product-config";
 import UploadFileComponent from "./../upload-file";
-import ShoppingComponent from "./../shopping";
 
 import { withFormik } from 'formik';
 import { useFormikContext } from 'formik';
