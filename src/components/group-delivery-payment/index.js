@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 
 import Kerry from '../approve-layout/kerry.png';
 import Scb from '../approve-layout/scb.jpg';
-import img_product from '../shopping/workplace.jpg';
+import IconCircle from '../order-1-product-config/icon-circle.svg';
 
 const GroupDeliveryPaymentComponent = () => {
     return (
@@ -49,7 +49,7 @@ const GroupDeliveryPaymentComponent = () => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><img src={img_product} alt="Product" /></td>
+                            <td><img src={IconCircle} alt="Product" /></td>
                             <td style={{ minWidth: "60px" }}>
                                 <p>สติกเกอร์แบบกลม</p>
                                 <span>กระดาษอาร์ต - เคลือบด้าน -กินเนื้อ 1 มม. - ขนาด 10x20 mm </span>

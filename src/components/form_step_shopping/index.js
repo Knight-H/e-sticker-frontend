@@ -1,7 +1,7 @@
 // TEST `MultistepWizard`
 // https://github.com/formium/formik/blob/master/examples/MultistepWizard.js
 // https://medium.com/javascript-in-plain-english/how-to-create-a-multi-step-form-with-react-hooks-53a85efdff62
-import React, { useState } from "react";
+import React from "react";
 
 import Order1ProductConfigComponent from "./../order-1-product-config";
 import UploadFileComponent from "./../upload-file";
@@ -16,9 +16,8 @@ import { useFormikContext } from 'formik';
 // transition. Each page has an optional submit handler, and the top-level
 // submit is called when the final page is submitted.
 const Wizard = ({ children, initialValues, onSubmit }) => {
-  const { values, errors, touched, setFieldValue, validateField } = useFormikContext();
+  const { values } = useFormikContext();
 
-  const [stepNumber] = useState(0);
   const steps = React.Children.toArray(children);
   const step = steps[values.stepProgress];
   return (

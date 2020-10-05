@@ -19,6 +19,7 @@ const LoginComponent = () => {
             <div className={styles.containerRow}>
                 <button type="submit" className={styles.buttonGreen}>เข้าสู่ระบบ</button>
                 <button className={styles.buttonBlue}>เข้าสู่ระบบด้วย Facebook</button>
+                <button className={styles.buttonLine}>เข้าสู่ระบบด้วย Line</button>
             </div>
             <br/><br/>
             <div className={styles.containerRow}>
@@ -27,6 +28,7 @@ const LoginComponent = () => {
                     <div className={styles.containerRow}>
                     <button className={styles.buttonWhile}>สมัครสมาชิก</button>
                     <button className={styles.buttonBlue}>สมัครด้วย Facebook</button>
+                    <button className={styles.buttonLine}>สมัครด้วย Line</button>
                     </div>
                 </div>
             </div>

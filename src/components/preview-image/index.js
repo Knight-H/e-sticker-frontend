@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from './index.module.scss';
 import { Field } from 'formik';
-import { useFormikContext } from 'formik';
 
 import { ReactComponent as IconCheckSVG } from '../approve-layout/icon-check.svg';
 import { ReactComponent as IconCircle } from '../order-1-product-config/icon-circle.svg';
 
 const PreviewImageComponent = () => {
-    const { values, setFieldValue } = useFormikContext();
-    console.log("values", values)
     const handleChange = event => {
         if (event.target.files) {
             // setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), false)

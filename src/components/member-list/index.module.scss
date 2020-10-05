@@ -36,16 +36,6 @@
     // border: 3px solid red;
 }
 
-.containerStart {
-    justify-content: flex-start;
-}
-
-.containerEnd {
-    justify-content: flex-end;
-}
-
-
-
 .adminTable {
     display: flex;
     width: 100%;
@@ -117,5 +107,13 @@
     border: 2px solid #009473;
     border-radius: 5px;
     padding: 0px 0px 0px 5px;
-    margin: auto;
+    margin: auto 10px auto 0px;
+}
+
+.divButton {
+    cursor:pointer;
+}
+
+.divButtonActive {
+    background-color: khaki;
 }
