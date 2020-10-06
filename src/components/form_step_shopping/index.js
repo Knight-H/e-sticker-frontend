@@ -6,8 +6,7 @@ import React from "react";
 import Order1ProductConfigComponent from "./../order-1-product-config";
 import UploadFileComponent from "./../upload-file";
 
-import { withFormik } from 'formik';
-import { useFormikContext } from 'formik';
+import { withFormik, useFormikContext } from 'formik';
 
 // Wizard is a single Formik instance whose children are each page of the
 // multi-step form. The form is submitted on each forward transition (can only
