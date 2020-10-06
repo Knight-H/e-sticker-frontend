@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import StepProgress from "../step_progress";
 import styles from './index.module.scss';
 import img_product from './workplace.jpg';
@@ -7,22 +7,28 @@ import logoKrungthaiBank from './KrungthaiBank.jpg';
 import logoSiamCommercialBank from './SiamCommercialBank.jpg';
 import logoCreditCard from './credit.png';
 
-import { Link } from "react-router-dom";
-// import { ErrorMessage, Field } from "formik";
+import { Redirect } from "react-router-dom";
 import LocationFieldsComponent from '../location-fields';
+
+// import { ErrorMessage, Field } from "formik";
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const ShoppingComponent = () => {
     const [selectStep] = useState(2);
     const [checkedBox, setCheckedBox] = useState(false);
     const [shipment, setShipment] = useState(0);
     const [bank, setBank] = useState(0);
+    const [checkSubmit, setCheckSubmit] = useState(false);
 
+    if (checkSubmit) {
+        return <Redirect to="/myorder" />
+    }
     return (
         <main>
             <section className={styles.section1}>
-                <StepProgress stepIndex={selectStep}/>
+                <StepProgress stepIndex={selectStep} />
             </section>
-            
+
             <section className={styles.section2}>
                 <div className={styles.boxChild1}>
                     <h2>สรุปออเดอร์</h2>
@@ -34,7 +40,7 @@ const ShoppingComponent = () => {
                                     <th>จำนวน</th>
                                     <th>มูลค่า</th>
                                 </tr>
-                                
+
                             </thead>
                             <tbody>
                                 <tr>
@@ -100,10 +106,10 @@ const ShoppingComponent = () => {
                     <h2>เลือก การจัดส่ง</h2>
                     <div className={styles.containerRow}>
                         <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${0}` && styles.active}`} onClick={() => setShipment(0)}>
-                                <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
-                                <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
-                                <div className={styles.price}>50บาท</div>
-                            </div>
+                            <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
+                            <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
+                            <div className={styles.price}>50บาท</div>
+                        </div>
 
                         <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${1}` && styles.active}`} onClick={() => setShipment(1)}>
                             <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
@@ -173,13 +179,12 @@ const ShoppingComponent = () => {
                         <h2>ระบุที่อยู่</h2>
                         <LocationFieldsComponent/>
                     </div>
-                    <Link className={styles.link} to="/approve">
-                    <button className={styles.buttonNext}>
-                        ถัดไป
+
+                        <button type="sumbit" className={styles.buttonNext} onClick={() => sleep(500).then(() => setCheckSubmit(true))}>
+                            ถัดไป
                     </button>
-                    </Link>
                 </div>
-                
+
             </section>
         </main>
     );

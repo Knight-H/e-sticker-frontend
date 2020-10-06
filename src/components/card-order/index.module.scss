@@ -1,0 +1,52 @@
+.card {
+    cursor: pointer;
+    height: 184px;
+    border: 1px solid #009473;
+    border-radius: 20px;
+    padding: 10px 20px;
+    position: relative;
+    margin-right: 10px;
+    .waitApproval {
+        border-radius: 17px;
+        background-color: #FF9F46;
+        position: absolute;
+        top: 130px;
+        left: 20px;
+        padding: 10px 20px;
+        font-size: 14px;
+        margin-bottom: 3vh;
+    }
+    .description {
+        svg, h4, p, .quality, .price {
+            position: absolute;
+            top: 55px;
+            left: 24px;
+            font-weight: normal;
+        }
+
+        h4 {
+            top: 40px;
+            left: 70px;
+        }
+
+        p {
+            font-size: 12px;
+            top: 65px;
+            left: 70px;
+        }
+
+        .quality {
+            top: 95px;
+            left: 70px;
+        }
+
+        .price {
+            top: 95px;
+            left: 150px;
+        }
+    }
+}
+
+.card:hover, .active {
+    border: 5px solid #009473;
+}

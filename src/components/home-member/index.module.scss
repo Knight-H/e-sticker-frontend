@@ -1,0 +1,156 @@
+.wrapContent {
+    padding: 3vh 10vw;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 3.5vh;
+}
+
+.details {
+    font-size: 14px;
+    margin-bottom: 1.5vh;
+}
+
+.greenLabel {
+    display: inline-flex;
+    
+
+    font-size: 14px;
+    color: white;
+
+    width: auto;
+    padding: 19px 40px;
+    margin: 10px 20px 0 0;
+
+    background-color: #009473;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    svg {
+        margin-right: 5px;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    margin-top: 2.5vh;
+    height: 120vh;
+    overflow-x: scroll;
+    .borderCard {
+        border: 1px solid #009473;
+        border-radius: 20px;
+
+        width: auto;
+        padding: 20px;
+        margin: 10px 30px 10px 0;
+
+        .title {
+            font-size: 17px;
+            font-weight: normal;
+            margin: 0 0 10px 0;
+        }
+
+        table {
+            margin: 10px 0;
+
+            .iconCol {
+                width: 50px;
+            }
+
+            .qtyCol, .priceCol {
+                width: auto;
+            }
+
+            .qtyCol {
+                padding: 0 20px 0 10px;
+            }
+
+            .detailCol {
+                width: 250px;
+            }
+
+            tr {
+                margin-bottom: 10px;
+                
+                td {
+                    h4 {
+                        font-weight: normal;
+                        font-size: 15px;
+                    }
+
+                    p {
+                        font-size: 12px;
+                        margin-bottom: 10px;
+                    }
+
+                    svg {
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+            }
+        }
+
+        button {
+            background-color: #009473;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border: none;
+
+            font-size: 14px;
+            color: white;
+
+            width: 100%;
+            padding: 15px;
+        }
+    }
+}
+
+.statusLabel {
+    background-color: #FF9F46;
+    border-radius: 10px;
+
+    font-size: 12px;
+
+    padding: 3px 20px;
+}
+
+.orangeLabel {
+    background-color: #FF9F46;
+}
+
+.greenStatus {
+    background-color: #21B54D;
+  }
+  .redStatus {
+    background-color: #CF3C3C;
+  }
+  .blueStatus {
+    background-color: #6DB9FF;
+  }
+  .yellowStatus {
+    background-color: #FFE146;
+  }
+  .orangeStatus {
+    background-color: #FF9F46;
+  }
+  
+@media only screen and (max-width: 320px) {
+    .container {  
+        .borderCard {
+            margin: 10px 0 10px 0;
+            table {
+                .qtyCol {
+                    padding: 0 0px;
+                }
+            }
+        }
+    }
+}

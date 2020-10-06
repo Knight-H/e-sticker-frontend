@@ -94,7 +94,7 @@ const HomeComponent = (props) => {
                     </ol>
                     <button>
                         <S21OrderIcon />
-                        <Link to="/order-1-product-config"><b>สั่งซื้อสินค้า</b></Link>
+                        <Link to="/customize"><b>สั่งซื้อสินค้า</b></Link>
                     </button>
 
                 </section>
@@ -150,7 +150,7 @@ const HomeComponent = (props) => {
 
                 <button className={styles.orderButton}>
                     <S51OrderIcon />
-                    <Link to="/order-1-product-config">สั่งซื้อสติกเกอร์</Link>
+                    <Link to="/customize">สั่งซื้อสติกเกอร์</Link>
                 </button>
             </main>
 
