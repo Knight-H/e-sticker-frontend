@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './index.module.scss';
+import { useFormikContext } from 'formik';
 
 import { ReactComponent as Circle } from '../approve-layout/circle.svg';
 
@@ -7,45 +8,25 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 const CardOrderComponent = (props) => {
+    const { values, setFieldValue } = useFormikContext();
+
     return (
         <Carousel responsive={responsive}>
-            <div className={`${styles.card} ${`${props.expandCard}` === `${0}` && styles.active}`} onClick={() => props.setExpandCard(0)}>
-                <h4>หมายเลขรายการ ITM00001</h4>
-                <div className={styles.description}>
-                    <Circle />
-                    <h4>สติกเกอร์แบบกลม</h4>
-                    <p>กระดาษอาร์ต - เคลือบด้าน - ขนาด 10x20 mm </p>
-                    <h4 className={styles.quality}>300ชิ้น</h4>
-                    <h4 className={styles.price}>500฿</h4>
-                </div>
-
-                <label className={styles.waitApproval}>กำลังดำเนินการ</label>
-            </div>
-            <div className={`${styles.card} ${`${props.expandCard}` === `${1}` && styles.active}`} onClick={() => props.setExpandCard(1)}>
-                <h4>หมายเลขรายการ ITM00001</h4>
-                <div className={styles.description}>
-                    <Circle />
-                    <h4>สติกเกอร์แบบกลม</h4>
-                    <p>กระดาษอาร์ต - เคลือบด้าน - ขนาด 10x20 mm </p>
-                    <h4 className={styles.quality}>300ชิ้น</h4>
-                    <h4 className={styles.price}>500฿</h4>
-                </div>
-
-                <label className={styles.waitApproval}>กำลังดำเนินการ</label>
-            </div>
-            <div className={`${styles.card} ${`${props.expandCard}` === `${2}` && styles.active}`} onClick={() => props.setExpandCard(2)}>
-                <h4>หมายเลขรายการ ITM00001</h4>
-                <div className={styles.description}>
-                    <Circle />
-                    <h4>สติกเกอร์แบบกลม</h4>
-                    <p>กระดาษอาร์ต - เคลือบด้าน - ขนาด 10x20 mm </p>
-                    <h4 className={styles.quality}>300ชิ้น</h4>
-                    <h4 className={styles.price}>500฿</h4>
-                </div>
-
-                <label className={styles.waitApproval}>กำลังดำเนินการ</label>
-            </div>
-            <div>Item 4</div>
+            {values.orderID.listOrder.map((listCard, index) => {
+                return (
+                    <div className={`${styles.card} ${`${values.expandCard}` === `${index}` && styles.active}`} onClick={() => setFieldValue("expandCard", index, false)}>
+                        <h4>หมายเลขรายการ {listCard.orderID}</h4>
+                        <div className={styles.description}>
+                            <Circle />
+                            <h4>{listCard.titalStriker}</h4>
+                            <p>{listCard.detailStriker}</p>
+                            <h4 className={styles.quality}>{listCard.qtyStriker}ชิ้น</h4>
+                            <h4 className={styles.price}>{listCard.priceStriker}฿</h4>
+                        </div>
+                        <LabelSatus status={listCard.status} />
+                    </div>
+                )
+            })}
         </Carousel>
     )
 }
@@ -72,3 +53,11 @@ const responsive = {
         items: 1
     }
 };
+
+const LabelSatus = ({ status }) => {
+    if (status === 1) {
+        return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: รออนุมัติแบบ</label>
+    } else if (status === 2) {
+        return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: อนุมัติแบบ</label>
+    }
+}

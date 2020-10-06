@@ -27,6 +27,22 @@
     margin-right: 10px;
 }
 
+.fileMsg {
+    padding: 5px 10px;
+    
+    background-color: #ffffff;
+    border-radius: 5px;
+
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.dowloadFileMsg {
+    cursor: pointer;
+    
+    font-size: 10px;
+}
+
 .massageTypeFile {
     padding: 7px 10px;
 
@@ -65,7 +81,7 @@
 
 .square {
     border-radius: 5px;
-    width: 700px;
+    width: 60%;
     min-width: 300px;
     height: 300px;
     background-color: #EDEDED;

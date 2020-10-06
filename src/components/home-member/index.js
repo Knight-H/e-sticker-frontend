@@ -26,7 +26,7 @@ const LabelSatus = ({status}) => {
 
 
 const HomeMemberComponent = (props) => {
-    const { values, errors, touched, setFieldValue, validateField } = useFormikContext();
+    const { values, setFieldValue } = useFormikContext();
 
     useEffect(() => {
         setFieldValue("objectOrder", fakeAPI, false)

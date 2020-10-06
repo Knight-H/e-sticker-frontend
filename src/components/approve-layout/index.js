@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from './index.module.scss';
-import { withFormik } from 'formik';
+import { withFormik, useFormikContext, Field } from 'formik';
 
 import StepProgress from "../step_progress";
 import CardOrder from "../card-order";
@@ -8,10 +8,10 @@ import PreviewImage from "../preview-image";
 import GroupDeliveryPayment from "../group-delivery-payment";
 
 const ApproveLayoutComponent = () => {
+    const { values } = useFormikContext();
     const [selectStep] = useState(3);
-    const [guestMode] = useState(false);
+    const [guestMode] = useState(true);
 
-    const [expandCard, setExpandCard] = useState(0);
     return (
         <main className={styles.wrapContent}>
 
@@ -19,14 +19,14 @@ const ApproveLayoutComponent = () => {
                 <>
                     <h1 className={styles.title}>ตรวจสอบสถานะออเดอร์</h1>
                     <p>หมายเลขออเดอร์</p>
-                    <input class={styles.inputGreen} type="text"></input>
-                    <button type="button" className={styles.btnGreen}>ตรวจสอบสถานะ</button>
+                    <Field name="orderNumber" className={styles.inputGreen} />
+                    <button type="button" className={styles.btnGreen} onClick={() => alert(values.orderNumber)}>ตรวจสอบสถานะ</button>
                 </>
             }
 
             <h1 className={styles.title}>รายการออเดอร์</h1>
-            <p>ออเดอร์หมายเลข {fakeAPI[0].orderNumber}
-                <LabelSatus status={fakeAPI[0].statusOrder}/>
+            <p>ออเดอร์หมายเลข {values.orderID.orderNumber}
+                <LabelSatus status={values.orderID.statusOrder}/>
             </p>
 
             <section className={styles.stepProgressBar}>
@@ -34,7 +34,7 @@ const ApproveLayoutComponent = () => {
             </section>
 
             <section>
-                <CardOrder expandCard={expandCard} setExpandCard={setExpandCard} fakeAPI={fakeAPI[0]} />
+                <CardOrder />
             </section>
 
             <section className={styles.previewImage}>
@@ -51,8 +51,11 @@ const ApproveLayoutComponent = () => {
 
 const EnhancedApproveLayoutComponent = withFormik({
     mapPropsToValues: (props) => ({
-        massage: "",
-        uploadFileStricker: []
+        massage: "",  //สำหรับ Chat Room
+        orderNumber: "", //สำหรับค้นหาเลขที่ออเดอร์
+        expandCard: 0, //สำหรับเลือกว่ากด Card ไหน
+
+        orderID: fakeAPI[0],
     })
 })(ApproveLayoutComponent);
 
@@ -71,7 +74,22 @@ const fakeAPI = [
                 detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
                 qtyStriker: 300,
                 priceStriker: 500,
-                status: 1
+                status: 1,
+
+                listMsg: [
+                    {
+                        content: "สวัสดีครับ",
+                        by: "ลูกค้า",
+                    },
+                    {
+                        content: "สวัสดีครับ",
+                        by: "พนักงาน",
+                    },
+                    {
+                        content: "เด่วจะส่งแบบให้นะครับ",
+                        by: "ลูกค้า",
+                    }
+                ]
             },
             {
                 orderID: "ITM00002",
@@ -79,7 +97,14 @@ const fakeAPI = [
                 detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
                 qtyStriker: 300,
                 priceStriker: 500,
-                status: 1
+                status: 1,
+
+                listMsg: [
+                    {
+                        content: "สวัสดีครับ",
+                        by: "ลูกค้า",
+                    }
+                ]
             },
             {
                 orderID: "ITM00003",
@@ -87,9 +112,28 @@ const fakeAPI = [
                 detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
                 qtyStriker: 300,
                 priceStriker: 500,
-                status: 2
+                status: 2,
+
+                listMsg: [
+                    {
+                        content: "สวัสดีครับ",
+                        by: "ลูกค้า",
+                    },
+                    {
+                        content: "สวัสดีครับ",
+                        by: "พนักงาน",
+                    },
+                    {
+                        content: "เด่วจะส่งแบบให้นะครับ",
+                        by: "ลูกค้า",
+                    },
+                    {
+                        content: "ส่งมาได้เลยครับ",
+                        by: "พนักงาน",
+                    },
+                ]
             }
-        ]
+        ],
     }
 ]
 
