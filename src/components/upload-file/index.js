@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from './index.module.scss';
-import { useFormikContext } from 'formik';
-import { Field, Form, ErrorMessage } from 'formik';
+import { useFormikContext, Field, Form, ErrorMessage } from 'formik';
 
 import StepProgress from "../step_progress";
 
