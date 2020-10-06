@@ -1,17 +1,4 @@
 import React, {useState, useEffect} from "react";
-import { useFormikContext } from 'formik';
-import { withFormik, Form, Field, ErrorMessage } from 'formik';
-
-import StepProgress from "../step_progress";
-import LocationFieldsComponent from '../location-fields';
-
-import styles from './index.module.scss';
-import logoCreditCard from './credit.png';
-import img_product from './workplace.jpg';
-import logoBangkokBank from './BangkokBank.png';
-import logoKrungthaiBank from './KrungthaiBank.jpg';
-import logoSiamCommercialBank from './SiamCommercialBank.jpg';
-
 import fake_data from "./fake-api.json";
 
 const CartComponent = () => {
@@ -222,7 +209,6 @@ const EnhancedCartComponent = withFormik({
     }),
     validate: values => {
         const errors = {};
-        console.log("values", values)
         if (values.orderID === "") { errors.orderID = "Required" }
         if (values.priceTotal === "") { errors.priceTotal = "Required" }
         if (values.shippingDate === "") { errors.shippingDate = "Required" }
