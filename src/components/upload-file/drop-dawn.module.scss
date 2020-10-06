@@ -21,11 +21,11 @@
   .selectBoxCurrent:focus + .selectBoxList .selectBoxOption {
     cursor: pointer;
   }
-  .selectBoxCurrent:focus .select-box__icon {
+  .selectBoxCurrent:focus .selectBoxIcon {
     -webkit-transform: translateY(-50%) rotate(180deg);
             transform: translateY(-50%) rotate(180deg);
   }
-  .select-box__icon {
+  .selectBoxIcon {
     position: absolute;
     top: 50%;
     right: 15px;
