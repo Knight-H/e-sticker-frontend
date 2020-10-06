@@ -21,8 +21,8 @@
     }
 
     li:before {
-        width: 30px;
-        height: 30px;
+        width: 34px;
+        height: 34px;
         content: counter(step);
         counter-increment: step;
         line-height: 30px;
@@ -65,5 +65,31 @@
     li.active + li:after {
         background-color: #009473;
         box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .progressbar {
+        li {
+            font-size: 0.88rem;
+        }
+    }
+}
+
+// iPhone 6/7/8
+@media only screen and (max-width: 380px) {
+    .progressbar {
+        li {
+            font-size: 0.85rem;
+        }
+    }
+}
+
+// iPhone 5
+@media only screen and (max-width: 325px) {
+    .progressbar {
+        li {
+            font-size: 0.7rem;
+        }
     }
 }

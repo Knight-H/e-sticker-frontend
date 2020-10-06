@@ -1,139 +1,119 @@
-// // TEST `MultistepWizard`
-// // https://github.com/formium/formik/blob/master/examples/MultistepWizard.js
-// // https://medium.com/javascript-in-plain-english/how-to-create-a-multi-step-form-with-react-hooks-53a85efdff62
-// import React, { useState } from "react";
-// import { ErrorMessage, Field, Form, Formik } from "formik";
-// import * as Yup from "yup";
+// TEST `MultistepWizard`
+// https://github.com/formium/formik/blob/master/examples/MultistepWizard.js
+// https://medium.com/javascript-in-plain-english/how-to-create-a-multi-step-form-with-react-hooks-53a85efdff62
+import React from "react";
 
-// import Order1ProductConfigComponent from "./../order-1-product-config";
-// import UploadFileComponent from "./../upload-file";
-// import ShoppingComponent from "./../shopping";
-// import ApproveLayoutComponent from "./../approve-layout";
+import Order1ProductConfigComponent from "./../order-1-product-config";
+import UploadFileComponent from "./../upload-file";
 
-// const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+import { withFormik } from 'formik';
+import { useFormikContext } from 'formik';
 
-// // Wizard is a single Formik instance whose children are each page of the
-// // multi-step form. The form is submitted on each forward transition (can only
-// // progress with valid input), whereas a backwards step is allowed with
-// // incomplete data. A snapshot of form state is used as initialValues after each
-// // transition. Each page has an optional submit handler, and the top-level
-// // submit is called when the final page is submitted.
-// const Wizard = ({ children, initialValues, onSubmit }) => {
-//     const [stepNumber, setStepNumber] = useState(0);
-//     const steps = React.Children.toArray(children);
-//     const [snapshot, setSnapshot] = useState(initialValues);
+// Wizard is a single Formik instance whose children are each page of the
+// multi-step form. The form is submitted on each forward transition (can only
+// progress with valid input), whereas a backwards step is allowed with
+// incomplete data. A snapshot of form state is used as initialValues after each
+// transition. Each page has an optional submit handler, and the top-level
+// submit is called when the final page is submitted.
+const Wizard = ({ children, initialValues, onSubmit }) => {
+  const { values } = useFormikContext();
 
-//     const step = steps[stepNumber];
-//     const totalSteps = steps.length;
-//     const isLastStep = stepNumber === totalSteps - 1;
+  const steps = React.Children.toArray(children);
+  const step = steps[values.stepProgress];
+  return (
+    <>
+      {step}
+    </>
+  );
+};
 
-//     const next = values => {
-//         setSnapshot(values);
-//         setStepNumber(Math.min(stepNumber + 1, totalSteps - 1));
-//     };
+const WizardStep = ({ children }) => children;
 
-//     const previous = values => {
-//         setSnapshot(values);
-//         setStepNumber(Math.max(stepNumber - 1, 0));
-//     };
+const AppComponent = () => {
+  return (
+    <Wizard>
+      <WizardStep>
+        <Order1ProductConfigComponent />
+      </WizardStep>
+      <WizardStep>
+        <UploadFileComponent />
+      </WizardStep>
+    </Wizard>
+  );
+};
 
-//     const handleSubmit = async (values, bag) => {
-//         if (step.props.onSubmit) {
-//             console.log("onSubmit")
-//             await step.props.onSubmit(values, bag);
-//         }
-//         if (isLastStep) {
-//             return onSubmit(values, bag);
-//         } else {
-//             bag.setTouched({});
-//             next(values);
-//         }
-//     };
+const EnhancedAppComponent = withFormik({
+  mapPropsToValues: (props) => ({
+    stepProgress: 0,
+    // Step one
+    kindSticker: 0,
+    materialSticker: 0,
+    coatingStricker: 0,
+    dieCutStricker: 0,
+    widthStricker: '',
+    heightStricker: '',
+    quantityStricker: 0,
 
-//   return (
-//     <Formik initialValues={snapshot} onSubmit={handleSubmit} validationSchema={step.props.validationSchema}>
-//         {formik => (
-//         <Form>
-//             {step}
-//             {/* <div style={{ display: "flex" }}>
-//                 {stepNumber > 0 && (
-//                     <button onClick={() => previous(formik.values)} type="button">
-//                     Back
-//                     </button>
-//                 )}
-//                 <div>
-//                     <button disabled={formik.isSubmitting} type="submit">
-//                         {isLastStep ? "Submit" : "Next"}
-//                     </button>
-//                 </div>
-//             </div> */}
-//         </Form>
-//         )}
-//     </Formik>
-//   );
-// };
+    // Step two
+    approvalStricker: 0,
+    isCheckUploadFileStricker: false,
+    uploadFileStricker: [],
+    remarkStricker: '',
+  }),
+  validate: values => {
+    const errors = {};
 
-// const WizardStep = ({ children }) => children;
+    // Step 1
+    if (values.stepProgress === 0) {
+      if (values.kindSticker === 0) {
+        errors.kindSticker = "Require"
+      }
+      if (values.materialSticker === 0) {
+        errors.materialSticker = "Require"
+      }
+      if (values.coatingStricker === 0) {
+        errors.coatingStricker = "Require"
+      }
+      if (values.materialSticker === 0) {
+        errors.materialSticker = "Require"
+      }
+      if (values.dieCutStricker === 0) {
+        errors.dieCutStricker = "Require"
+      }
+      if (values.widthStricker === "") {
+        errors.widthStricker = "Require"
+      }
+      if (values.heightStricker === "") {
+        errors.heightStricker = "Require"
+      }
+      if (values.quantityStricker === 0) {
+        errors.quantityStricker = "Require"
+      }
+    } else if (values.stepProgress === 1) {
 
-// const App = () => (
-//   <div>
-//     {/* <h1>Formik Multistep Wizard</h1> */}
-//     <Wizard
-//       initialValues={{
-//         shipment: "-1",
-//         banking: -1,
-//         isExportTax: 0,
-//         email: "",
-//         phone: "",
-//         address: "",
-//         firstName_lastName: "",
-//         district: "",
-//         zone: "",
-//         province: "",
-//         postalCode: ""
-//       }}
-//       onSubmit={async values => sleep(300).then(() => console.log("Wizard submit >>>", values)) }
-//     >
-//       <WizardStep
-//         onSubmit={() => console.log("Step1 onSubmit")}
-//         // validationSchema={Yup.object({
-//         //   firstName: Yup.string().required("required"),
-//         //   lastName: Yup.string().required("required")
-//         // })}
-//       >
-//         <Order1ProductConfigComponent />
-//       </WizardStep>
-//       <WizardStep
-//         onSubmit={() => console.log("Step2 onSubmit")}
-//         // validationSchema={Yup.object({
-//         //   firstName: Yup.string().required("required"),
-//         //   lastName: Yup.string().required("required")
-//         // })}
-//       >
-//         <UploadFileComponent />
-//       </WizardStep>
-//       <WizardStep
-//         onSubmit={() => console.log("Step3 onSubmit")}
-//         // validationSchema={Yup.object({
-//         //     shipment: Yup.string().min(3, 'โปรดเลือก').required(),
-//         // })}
-//       >
-//         <ShoppingComponent />
+      // Step two
+      if (values.approvalStricker === 0) {
+        errors.approvalStricker = "Require"
+      }
+      if (values.isCheckUploadFileStricker === false) {
+        errors.uploadFileStricker = "Require"
+      }
+    }
+    return errors;
+  },
+  handleSubmit: (values, { setSubmitting }) => {
+    console.log("values", values)
+    if (values.stepProgress === 0) {
+      console.log(">>>>>>0")
+      values.stepProgress = 1
+    } else {
+      console.log(">>>>>>1")
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+      }, 0);
+    }
+  }
+})(AppComponent);
 
-//       </WizardStep>
-
-//       <WizardStep
-//         onSubmit={() => console.log("Step4 onSubmit")}
-//         // validationSchema={Yup.object({
-//         //   email: Yup.string()
-//         //     .email("Invalid email address")
-//         //     .required("required")
-//         // })}
-//       >
-//         <ApproveLayoutComponent />
-//       </WizardStep>
-//     </Wizard>
-//   </div>
-// );
-
-// export default App;
+export default EnhancedAppComponent;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from './index.module.scss';
-import { Link } from "react-router-dom";
+import { useFormikContext } from 'formik';
+import { Field, Form, ErrorMessage } from 'formik';
 
 import StepProgress from "../step_progress";
 
@@ -9,20 +10,14 @@ import { ReactComponent as IconCart } from './icon-cart.svg';
 import { ReactComponent as IconArrow } from './icon-arrow.svg';
 import { ReactComponent as IconCheckSVG } from './icon-check.svg';
 
-import IconCheck from './icon-check.png';
-const UploadFileComponent = () => {
-    const [file, setFile] = useState("");
+const UploadFileComponent = (props) => {
+    const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(2);
-    const [dropDawn, setDropDawn] = useState(0);
-
-    const handleChangeDropDawn = (e) => {
-        // console.log("e>>>", e.value)
-        setDropDawn(e.value);
-    };
 
     const handleChange = event => {
         if (event.target.files) {
-            setFile(URL.createObjectURL(event.target.files[0]))
+            setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), false)
+            setFieldValue("isCheckUploadFileStricker", true, false)
         }
     }
 
@@ -31,59 +26,73 @@ const UploadFileComponent = () => {
             <section style={{ display: "flex" }}>
                 <StepProgress stepIndex={selectStep} />
             </section>
-            <section className={styles.wrapContent}>
-                <img src={file} className={styles.square} alt="."/>
+            <section>
+                <Form className={styles.wrapContent}>
+                    <img src={values.uploadFileStricker} className={styles.square} alt="." />
 
-                <div className={styles.rightContent}>
-                    <label className={styles.label}>อนุมัติรูปแบบงาน</label>
+                    <div className={styles.rightContent}>
+                        <label className={styles.label}>อนุมัติรูปแบบงาน<ErrorMessage name="approvalStricker" render={msg => <span className="error">{msg}</span>} /></label>
+                        <SelectBox name="approvalStricker" values={values} options={[
+                            {
+                                image: IconCheckSVG,
+                                value: "needApproval",
+                                name: "ต้องการอนุมัติ"
+                            }
+                        ]} />
 
-                    <div className={styles.selectBox}>
-                        <div className={styles.selectBoxCurrent} tabindex="1">
-                            <div className={styles.selectBoxValue}>
-                                <input className={styles.selectBoxInput} type="radio" id="1" value="1" checked={`${dropDawn}` === `${1}` ? true : false}
-                                    onChange={(e) => handleChangeDropDawn(e.target)} />
-                                <p className={styles.selectBoxInputText}><IconCheckSVG className={styles.positionIcon}/>ต้องการอนุมัติ</p>
-                            </div>
-                            <div className={styles.selectBoxValue}>
-                                <input className={styles.selectBoxInput} type="radio" id="0" value="0" checked={`${dropDawn}` === `${0}` ? true : false}
-                                    onChange={(e) => handleChangeDropDawn(e.target)} />
-                                <p className={styles.selectBoxInputText}>กรุณาเลือก...</p>
-                                <IconArrow />
-                            </div>
-                        </div>
-                        <ul className={styles.selectBoxList}>
-                            <li>
-                                <label className={styles.selectBoxOption} for="1"><img src={IconCheck} width="16px" style={{marginRight: "10px"}} alt="."/>ต้องการอนุมัติ</label>
-                            </li>
-                            <li>
-                                <label className={styles.selectBoxOption} for="0">กรุณาเลือก...</label>{/* aria-hidden="aria-hidden" */}
-                            </li>
-                        </ul>
+                        <label className={styles.label} style={{ marginTop: "10px" }}>อัพโหลดไฟล์งาน{!values.isCheckUploadFileStricker && <spna className="error">*Require</spna>}</label>
+                        <input type="file" id="file" onChange={(e) => handleChange(e)} />
+                        <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
+                            <IconUploadFile />อัพโหลดไฟล์</label>
+
+                        <label className={styles.label}>เพิ่มเติม</label>
+                        <Field name="remarkStricker" as="textarea" rows="6" />
+
+                        <button type="submit" className={styles.btnCart} disabled={!values.isCheckUploadFileStricker && true}><IconCart /><b>ใส่ในตะกร้า</b></button>
+                        <button type="button" className={styles.btnBack} onClick={() => setFieldValue("stepProgress", 0, false)}>ย้อนกลับ</button>
                     </div>
-
-                    <label className={styles.label} style={{ marginTop: "10px" }}>อัพโหลดไฟล์งาน</label>
-
-                    <input type="file" id="file" onChange={(e) => handleChange(e)} />
-                    <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
-                        <IconUploadFile />
-                    อัพโหลดไฟล์
-                </label>
-
-                    <label className={styles.label}>เพิ่มเติม</label>
-                    <textarea rows="5"></textarea>
-
-                    <Link className={styles.link} to="/shopping">
-                        <button type="button" className={styles.btnCart}><IconCart /><b>ใส่ในตะกร้า</b></button>
-                    </Link> 
-                    {/* <div className={styles.link}>
-                        <button className={styles.btnCart}>
-                            <IconCart /><b>ใส่ในตะกร้า</b>
-                        </button>
-                    </div>*/}
-                </div>
+                </Form>
             </section>
         </main>
     );
 };
 
 export default UploadFileComponent;
+
+const SelectBox = ({ values, name, options }) => {
+    return (
+        <div className={styles.selectBox}>
+            <div className={styles.selectBoxCurrent} tabindex="1">
+                {options.map((list, index) => {
+                    let lastIndex = index + 1;
+                    return (
+                        <div className={styles.selectBoxValue}>
+                            <Field name={name} type="radio" className={styles.selectBoxInput} value={list.value} id={`${name}-${lastIndex}`}
+                                checked={`${values[name]}` === `${list.value}` ? true : false} />
+                            <p className={styles.selectBoxInputText}><list.image className={styles.positionIcon} />{list.name}</p>
+                        </div>
+                    )
+                })}
+
+                <div className={styles.selectBoxValue}>
+                    <Field name={name} type="radio" className={styles.selectBoxInput} value="0" id={`${name}-0`}
+                        checked={`${values[name]}` === `${0}` ? true : false} />
+                    <p className={styles.selectBoxInputText}>กรุณาเลือก...</p><IconArrow />
+                </div>
+            </div>
+            <ul className={styles.selectBoxList}>
+                {options.map((list, index) => {
+                    let lastIndex = index + 1;
+                    return (
+                        <li>
+                            <label className={styles.selectBoxOption} for={`${name}-${lastIndex}`}><list.image width="16px" style={{ marginRight: "10px" }} />{list.name}</label>
+                        </li>
+                    )
+                })}
+                <li>
+                    <label className={styles.selectBoxOption} for={`${name}-0`}>กรุณาเลือก...</label>
+                </li>
+            </ul>
+        </div>
+    )
+};
