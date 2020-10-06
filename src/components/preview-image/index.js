@@ -42,6 +42,7 @@ const PreviewImageComponent = () => {
                     )
                 })}
 
+                {/* CSS สำหรับ File */}
                 {/* <article className={`${styles.newMsg} ${styles.flexEnd}`}>
                     <p className={styles.massage}><label className={styles.fileMsg}>ตัวอย่างงาน.ai</label><span className={styles.dowloadFileMsg}>ดาวน์โหลด.</span></p>
                     <div className={styles.groupUser}>
