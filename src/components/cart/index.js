@@ -1,5 +1,16 @@
 import React, {useState, useEffect} from "react";
+import { useFormikContext, withFormik, Form, Field, ErrorMessage } from 'formik';
+
+import StepProgress from "../step_progress";
+import LocationFieldsComponent from '../location-fields';
+
 import fake_data from "./fake-api.json";
+import styles from './index.module.scss';
+import logoCreditCard from './credit.png';		
+import img_product from './workplace.jpg';		
+import logoBangkokBank from './BangkokBank.png';		
+import logoKrungthaiBank from './KrungthaiBank.jpg';		
+import logoSiamCommercialBank from './SiamCommercialBank.jpg';
 
 const CartComponent = () => {
     // API [GET] /order/
