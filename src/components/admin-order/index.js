@@ -11,13 +11,11 @@ import GroupDeliveryPayment from "../group-delivery-payment";
 import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
 
 const AdminOrderComponent = () => {
-    const [dropDawn, setDropDawn] = useState(0);
+    const { values } = useFormikContext();
+    // const [dropDawn, setDropDawn] = useState(0);
     const [selectStep] = useState(3);
     const [expandCard, setExpandCard] = useState(0);
 
-    const handleChangeDropDawn = (e) => {
-        setDropDawn(e.value);
-    };
     return (
         <main className={styles.wrapContent}>
 
@@ -27,70 +25,39 @@ const AdminOrderComponent = () => {
 
             <h1 className={styles.title}>รายการออเดอร์</h1>
             <p>ออเดอร์หมายเลข #DW0001
-
-                <div className={styles.selectBox}>
-                    <div className={styles.selectBoxCurrent} tabIndex="1">
-                        <div className={styles.selectBoxValue}>
-                            <input className={styles.selectBoxInput} type="radio" id="5" value="5" checked={`${dropDawn}` === `${5}` ? true : false}
-                                onChange={(e) => handleChangeDropDawn(e.target)}
-                            />
-                            <p className={`${styles.selectBoxInputText} ${styles.greenStatus}`}>สถาน: รายการสำเร็จ</p>
-                        </div>
-                        <div className={styles.selectBoxValue}>
-                            <input className={styles.selectBoxInput} type="radio" id="4" value="4" checked={`${dropDawn}` === `${4}` ? true : false}
-                                onChange={(e) => handleChangeDropDawn(e.target)}
-                            />
-                            <p className={`${styles.selectBoxInputText} ${styles.greenStatus}`}>สถาน: คืนเงินสำเร็จ</p>
-                        </div>
-                        <div className={styles.selectBoxValue}>
-                            <input className={styles.selectBoxInput} type="radio" id="3" value="3" checked={`${dropDawn}` === `${3}` ? true : false}
-                                onChange={(e) => handleChangeDropDawn(e.target)}
-                            />
-                            <p className={`${styles.selectBoxInputText} ${styles.redStatus}`}>สถาน: ขอคืนเงิน</p>
-                        </div>
-                        <div className={styles.selectBoxValue}>
-                            <input className={styles.selectBoxInput} type="radio" id="2" value="2" checked={`${dropDawn}` === `${2}` ? true : false}
-                                onChange={(e) => handleChangeDropDawn(e.target)}
-                            />
-                            <p className={`${styles.selectBoxInputText} ${styles.blueStatus}`}>สถาน: อยู่ระหว่างจัดส่ง</p>
-                        </div>
-                        <div className={styles.selectBoxValue}>
-                            <input className={styles.selectBoxInput} type="radio" id="1" value="1" checked={`${dropDawn}` === `${1}` ? true : false}
-                                onChange={(e) => handleChangeDropDawn(e.target)}
-                            />
-                            <p className={`${styles.selectBoxInputText} ${styles.yellowStatus}`}>สถาน: กำลังผลิตสินค้า</p>
-                        </div>
-                        <div className={styles.selectBoxValue}>
-                            <input className={styles.selectBoxInput} type="radio" id="0" value="0" checked={`${dropDawn}` === `${0}` ? true : false}
-                                onChange={(e) => handleChangeDropDawn(e.target)}
-                            />
-                            <p className={`${styles.selectBoxInputText} ${styles.orangeStatus}`}>สถาน: รอการอนุมัติแบบ</p>
-                            <IconArrow />
-                        </div>
-                    </div>
-                    <ul className={styles.selectBoxList}>
-                        <li>
-                            <label className={`${styles.selectBoxOption} ${styles.greenStatus}`} htmlFor="5">สถาน: รายการสำเร็จ</label>
-                        </li>
-                        <li>
-                            <label className={`${styles.selectBoxOption} ${styles.greenStatus}`} htmlFor="4">สถาน: คืนเงินสำเร็จ</label>
-                        </li>
-                        <li>
-                            <label className={`${styles.selectBoxOption} ${styles.redStatus}`} htmlFor="3">สถาน: ขอคืนเงิน</label>
-                        </li>
-                        <li>
-                            <label className={`${styles.selectBoxOption} ${styles.blueStatus}`} htmlFor="2">สถาน: อยู่ระหว่างจัดส่ง</label>
-                        </li>
-                        <li>
-                            <label className={`${styles.selectBoxOption} ${styles.yellowStatus}`} htmlFor="1">สถาน: กำลังผลิตสินค้า</label>
-                        </li>
-                        <li>
-                            <label className={`${styles.selectBoxOption} ${styles.orangeStatus}`} htmlFor="0">สถาน: รอการอนุมัติแบบ</label>
-                        </li>
-                    </ul>
-                </div>
-
-                <button type="button" className={styles.btnWhite}>บันทึก</button>
+            <SelectBox name="editStatus" values={values} options={[
+                    {
+                        color: "orangeStatus",
+                        value: "1",
+                        name: "รอการอนุมัติแบบ"
+                    },
+                    {
+                        color: "yellowStatus",
+                        value: "2",
+                        name: "กำลังผลิตสินค้า"
+                    },
+                    {
+                        color: "blueStatus",
+                        value: "3",
+                        name: "อยู่ระหว่างจัดส่ง"
+                    },
+                    {
+                        color: "redStatus",
+                        value: "4",
+                        name: "ขอคืนเงิน"
+                    },
+                    {
+                        color: "greenStatus",
+                        value: "5",
+                        name: "คืนเงินสำเร็จ"
+                    },
+                    {
+                        color: "greenStatus",
+                        value: "6",
+                        name: "รายการสำเร็จ"
+                    }
+                ]} />
+                <button type="button" className={styles.btnWhite} onClick={() => alert(values.editStatus)}>บันทึก</button>
             </p>
 
             <section className={styles.stepProgressBar}>
@@ -116,6 +83,7 @@ const AdminOrderComponent = () => {
 
 const EnhancedAdminOrderComponent = withFormik({
     mapPropsToValues: (props) => ({
+        editStatus: fakeAPI[0].statusOrder,
         massage: "",  //สำหรับ Chat Room
         orderNumber: "", //สำหรับค้นหาเลขที่ออเดอร์
         expandCard: 0, //สำหรับเลือกว่ากด Card ไหน
@@ -200,3 +168,41 @@ const fakeAPI = [
         ],
     }
 ]
+
+const SelectBox = ({ values, name, options }) => {
+    return (
+        <div className={styles.selectBox}>
+            <div className={styles.selectBoxCurrent} tabindex="1">
+                {options.map((list, index) => {
+                    let lastIndex = index + 1;
+                    return (
+                        <div className={styles.selectBoxValue}>
+                            <Field name={name} type="radio" className={styles.selectBoxInput} value={list.value} id={`${name}-${lastIndex}`}
+                                checked={`${values[name]}` === `${list.value}` ? true : false} />
+                            <p className={`${styles.selectBoxInputText} ${styles[list.color]}`}>{list.name}</p>
+                        </div>
+                    )
+                })}
+
+                <div className={styles.selectBoxValue}>
+                    <Field name={name} type="radio" className={styles.selectBoxInput} value="0" id={`${name}-0`}
+                        checked={`${values[name]}` === `${0}` ? true : false} />
+                    <p className={styles.selectBoxInputText}>กรุณาเลือก...</p><IconArrow />
+                </div>
+            </div>
+            <ul className={styles.selectBoxList}>
+                {options.map((list, index) => {
+                    let lastIndex = index + 1;
+                    return (
+                        <li>
+                            <label className={`${styles.selectBoxOption} ${styles[list.color]}`} for={`${name}-${lastIndex}`}>{list.name}</label>
+                        </li>
+                    )
+                })}
+                <li>
+                    <label className={styles.selectBoxOption} for={`${name}-0`}>กรุณาเลือก...</label>
+                </li>
+            </ul>
+        </div>
+    )
+};
