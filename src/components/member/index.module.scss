@@ -1,5 +1,44 @@
 @import "../../variables";
 
+
+.section1 {
+    width: 90%;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    // border: 3px solid red;
+}
+
+.flexWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.formControl {
+    // margin-top: 10px;
+    // border: 3px solid red;
+
+    width: 100%;
+
+    p {
+        margin: 0px;
+        padding-bottom: 5px;
+    }
+
+    input {
+        border: 1px solid #009473;
+        border-radius: 5px;
+        height: 30px;
+        width: 100%;
+        padding: 0px 0px 0px 5px;
+
+        margin-bottom: 5px;
+    }
+}
+
+
 .container {
 
     margin:  30px auto 0px auto;
