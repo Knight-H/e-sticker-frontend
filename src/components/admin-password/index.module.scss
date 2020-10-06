@@ -1,0 +1,69 @@
+@import "../../variables";
+
+.formControl {
+    margin: 5px 10px;
+    // border: 3px solid red;
+
+    p {
+        margin: 0px;
+        padding-bottom: 5px;
+    }
+
+    input {
+        border: 1px solid #009473;
+        border-radius: 5px;
+        height: 30px;
+        width: 100%;
+        padding: 0px 0px 0px 5px;
+
+        margin-bottom: 5px;
+    }
+}
+
+.buttonGreen {
+    margin-top: 20px;
+    width: 150px;
+    height: 36px;
+    color:white;
+
+    border: none;
+    background: #009473;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.passwordChange {
+    flex: 1;
+
+    padding: 30px 35px;
+    border: 1px solid #009473;
+    border-radius: 5px;
+}
+
+.container {
+
+    margin: 30px auto;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    width: auto;
+
+    h2 {
+        margin-bottom: 20px;
+    }
+    
+}
+
+
+
+.section1 {
+    width: 90%;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    // border: 3px solid red;
+}
+

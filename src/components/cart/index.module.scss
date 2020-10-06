@@ -1,4 +1,5 @@
-// @import "../../variables";
+@import "../../variables";
+
 .section1 {
     width: 80%;
     margin: 0px auto 0 auto;
@@ -26,23 +27,19 @@
     padding: 10px;
 
     h2 {
-        margin-bottom: 20px;
+        margin: 25px 0px 10px 0px;
     }
 }
 
 .boxChild2 {
     // background-color: pink;
     flex: 1 1 400px;
-    padding: 10px;
+    padding: 15px;
 
     h2 {
-        margin-bottom: 20px;
-        font-weight: 100;
+        margin: 25px 0px 10px 0px;
     }
 }
-
-
-
 
 .wrapTable {
     padding: 30px 35px;
@@ -88,10 +85,6 @@
     // border: 3px solid blue;
 }
 
-.flexNoWrap {
-    flex-wrap: nowrap;
-}
-
 .containerCol {
     margin: 0px;
     display: flex;
@@ -116,7 +109,84 @@
     padding: 0px 0px;
 }
 
+.boxRadiusSmall {
+    padding: 10px;
+    border: 1px solid #009473;
+    border-radius: 5px;
+    margin: 2px 10px;
+    cursor: pointer;
+    align-items: center;
 
+    .dateReceiveDesciption {
+        font-size: 0.7rem;
+        padding: 0px;
+        color: #000000;
+    }
+
+    .dateReceive {
+        font-size: 1.0rem;
+        padding: 0px;
+        font-weight: bold;
+        // color: #009473;
+    }
+
+    .price {
+        font-size: 0.75rem;
+        padding: 0px;
+        // color: #009473;
+    }
+}
+
+.active {
+    background-color: #009473;
+    div {
+        color: white;
+    }
+}
+
+.deactive {
+    background-color: white;
+    div {
+        color: #009473;
+    }
+}
+
+.deactive:hover {
+    div {
+        color: white;
+    }
+}
+
+.boxRadiusSmall:hover {
+    background-color: #009473;
+    color: white;
+}
+
+.logoBank {
+    border-radius: 80%;
+    width: 42px;
+    height: 42px;
+}
+
+.containerColBank {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0px 0px 0px 10px;
+}
+
+.buttonNext {
+    background-color: #009473;
+    color: white;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    font-size: 0.7rem;
+}
 
 .buttonGreen {
     background-color: #009473;
@@ -127,14 +197,44 @@
     border: 1px solid #eeeeee;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
     font-size: 0.7rem;
+    align-items: center;
+    justify-content: center;
 }
-.buttonGreenFit {
-    background-color: #009473;
-    color: white;
-    padding: 12px 20px;
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #eeeeee;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-    font-size: 1.1rem;
+
+.contentDisplayBlock {
+    display: block;
+}
+
+.contentDisplayNone {
+    display: none;
+}
+
+.flexNoWrap {
+    flex-wrap: nowrap;
+}
+
+.selectBoxInput {
+    display: none;
+}
+
+.selectBoxInput:checked + .selectBoxInputText {
+    display: block;
+}
+
+.selectBoxOption {
+    display: block;
+    padding: 0px;
+}
+
+.selectBoxList{
+    display: flex;
+    flex-direction: row;
+}
+
+.selectBoxCurrent:focus + .selectBoxList .selectBoxOption {
+    cursor: pointer;
+}
+
+.optionShipping {
+    list-style-type: none;
 }

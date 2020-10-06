@@ -1,37 +1,16 @@
-import React, { useState } from "react";
-import StepProgress from "../step_progress";
+import React from "react";
+import { withFormik, Form } from 'formik';
+
+import LoginComponent from '../login';
 import styles from './index.module.scss';
 import img_product from './workplace.jpg';
-import logoBangkokBank from './BangkokBank.png';
-import logoKrungthaiBank from './KrungthaiBank.jpg';
-import logoSiamCommercialBank from './SiamCommercialBank.jpg';
-import logoCreditCard from './credit.png';
 
-import { Redirect } from "react-router-dom";
-import LocationFieldsComponent from '../location-fields';
-
-// import { ErrorMessage, Field } from "formik";
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-const ShoppingComponent = () => {
-    const [selectStep] = useState(2);
-    const [checkedBox, setCheckedBox] = useState(false);
-    const [shipment, setShipment] = useState(0);
-    const [bank, setBank] = useState(0);
-    const [checkSubmit, setCheckSubmit] = useState(false);
-
-    if (checkSubmit) {
-        return <Redirect to="/myorder" />
-    }
+const CartComponent = () => {
     return (
         <main>
-            <section className={styles.section1}>
-                <StepProgress stepIndex={selectStep} />
-            </section>
-
             <section className={styles.section2}>
                 <div className={styles.boxChild1}>
-                    <h2>สรุปออเดอร์</h2>
+                    <h2>ตะกร้าสินค้า</h2>
                     <div className={styles.wrapTable}>
                         <table className={styles.tableCustom}>
                             <thead className={styles.borderBottom}>
@@ -40,7 +19,6 @@ const ShoppingComponent = () => {
                                     <th>จำนวน</th>
                                     <th>มูลค่า</th>
                                 </tr>
-
                             </thead>
                             <tbody>
                                 <tr>
@@ -71,123 +49,58 @@ const ShoppingComponent = () => {
                                 </tr>
                             </tbody>
                             <tfoot className={styles.borderTop}>
-                                <tr>
+                                <tr className={styles.borderTop}>
                                     <td colspan="2">ค่าสินค้ารวม</td>
                                     <td className={styles.textCenter}>1000฿</td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="2">VAT 7%</td>
-                                    <td className={styles.textCenter}>70฿</td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="2">
-                                        <div className={styles.containerCol}>
-                                            <div className={styles.name}>ค่าจัดส่ง</div>
-                                            <div className={styles.desciption}>ลงทะเบียน - 5 วันทำการ - 50 บาท</div>
-                                        </div>
-                                    </td>
-                                    <td className={styles.textCenter}>50฿</td>
-                                </tr>
-
-                                <tr className={styles.borderTop}>
-                                    <td colspan="2">รวมทั้งหมด</td>
-                                    <td className={styles.textCenter}>1120฿</td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
+                    <button className={styles.buttonGreen}>สั่งสินค้าอย่างอื่น</button>
                 </div>
 
                 <div className={styles.boxChild2}>
-                {/* WHERE THE HELL IS THE FIELDS????!?!?!?!?!?? YOU FUCKING CUT IT DOWN AND YOU DONT HAVE THIS SHIT? WTF? */}
-
-                    <h2>เลือก การจัดส่ง</h2>
-                    <div className={styles.containerRow}>
-                        <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${0}` && styles.active}`} onClick={() => setShipment(0)}>
-                            <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
-                            <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
-                            <div className={styles.price}>50บาท</div>
-                        </div>
-
-                        <div className={`${styles.boxRadiusSmall} ${`${shipment}` === `${1}` && styles.active}`} onClick={() => setShipment(1)}>
-                            <div className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</div>
-                            <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
-                            <div className={styles.price}>50บาท</div>
-                        </div>
-                    </div>
-
-                    <h2>ชำระเงิน</h2>
-                    <div className={styles.containerCol}>
-                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${0}` && styles.active}`} onClick={() => setBank(0)}>
-                            <div className={styles.containerRow}>
-                                <div className={styles.containerColBank}>
-                                    <img src={logoBangkokBank} alt="Product" className={styles.logoBank} />
-                                </div>
-                                <div className={styles.containerColBank}>
-                                    Bangkok Bank
-                                </div>
-                            </div>
-                        </div>
-                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${1}` && styles.active}`} onClick={() => setBank(1)}>
-                            <div className={styles.containerRow}>
-                                <div className={styles.containerColBank}>
-                                    <img src={logoSiamCommercialBank} alt="Product" className={styles.logoBank} />
-                                </div>
-                                <div className={styles.containerColBank}>
-                                    Siam Commercial Bank
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${2}` && styles.active}`} onClick={() => setBank(2)}>
-                            <div className={styles.containerRow}>
-                                <div className={styles.containerColBank}>
-                                    <img src={logoKrungthaiBank} alt="Product" className={styles.logoBank} />
-                                </div>
-                                <div className={styles.containerColBank}>
-                                    Krungthai Bank
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={`${styles.boxRadiusSmall} ${`${bank}` === `${3}` && styles.active}`} onClick={() => setBank(3)}>
-                            <div className={styles.containerRow}>
-                                <div className={styles.containerColBank}>
-                                    <img src={logoCreditCard} alt="Product" className={styles.logoBank} />
-                                </div>
-                                <div className={styles.containerColBank}>
-                                    Credit / Debit
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h2>ออกใบกำกับภาษี</h2>
-                    <div className={styles.containerRow}>
-                        <div className={styles.containerColBank}>
-                            <input type="checkbox" value="" onClick={() => setCheckedBox(!checkedBox)}></input>
-                        </div>
-                        <div className={styles.containerColBank}>
-                            ข้อมูลเดียวกับที่อยู่
-                        </div>
+                    <h2>ระบบสมาชิก</h2>
+                    <div className={styles.wrapTable}>
+                        <Form>
+                            <LoginComponent />
+                        </Form>
                     </div>
                     
-                    {/* THIS CAN BE IMPROVED TO REACT METHOD of showing by state!!!!!! no need to use CSS */}
-                    <div className={checkedBox ? styles.contentDisplayBlock : styles.contentDisplayNone}>
-                        <h2>ระบุที่อยู่</h2>
-                        <LocationFieldsComponent/>
-                    </div>
-
-                        <button type="sumbit" className={styles.buttonNext} onClick={() => sleep(500).then(() => setCheckSubmit(true))}>
-                            ถัดไป
-                    </button>
+                    <br /><br />
+                    <h2>Checkout as Guest</h2>
+                    <button className={styles.buttonGreenFit}>Checkout as Guest</button>
                 </div>
-
             </section>
         </main>
     );
 };
 
-export default ShoppingComponent;
+const EnhancedMemberCartComponent = withFormik({
+    mapPropsToValues: () => ({
+        email: '',
+        password: ''
+    }),
+    validate: values => {
+        const errors = {};
+
+        if (values.email === "") {
+            errors.email = "Required"
+        }
+
+        if (values.password === "") {
+            errors.password = "Required"
+        }
+
+        return errors;
+    },
+    handleSubmit: (values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 0);
+    },
+    displayName: 'CartComponentForm',
+})(CartComponent);
+
+export default EnhancedMemberCartComponent;

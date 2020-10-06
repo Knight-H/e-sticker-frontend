@@ -48,7 +48,7 @@ const MemberComponent = () => {
                     {/* <Formik initialValues={{ name: "", email: "" }} onSubmit={async values => { await new Promise(resolve => setTimeout(resolve, 500)); alert(JSON.stringify(values, null, 2));}}>
                     <button type="submit" className={styles.greenButton} >บันทึก</button>
                     </Formik> */}
-                    < LocationFieldsComponent />
+                    {/* < LocationFieldsComponent /> */}
                     <div className={styles.row}>
                         <p>สถานะ</p>
                         <div className={styles.selectBox}>

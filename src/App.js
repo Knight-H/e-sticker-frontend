@@ -39,7 +39,8 @@ function App() {
                 <Route path="/member" exact component={HomeMemberComponent} />
                 <Route path="/checkout" exact component={CheckoutComponent} />
                 <Route path="/cart" exact component={CartComponent} />
-                
+                <Route path="/form_step_shopping" exact component={FormStepShopping} />
+
                 <Route path="/admin" exact component={AdminListComponent} />
 
                 <Route path="/admin/member" exact component={MemberComponent} />
@@ -52,7 +53,7 @@ function App() {
                 <Route path="/register" exact component={MemberRegsterComponent} />
                 <Route path="/member/setting" exact component={MemberAccountComponent} />
             </Switch>
-            
+
         </div>
     );
 }
