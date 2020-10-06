@@ -63,7 +63,7 @@ let MemberComponent = (props) => {
                                 <div className={styles.selectBox}>
 
                                     {/* Display option when dropdown is hidden */}
-                                    <div className={styles.selectBoxCurrent}>
+                                    <div className={styles.selectBoxCurrent} tabIndex="0">
                                         <div className={`${styles.selectBoxValue}`}>
                                             <Field className={styles.selectBoxInput} type="radio" id="0" value="0" checked={`${values.accountState}` === `${0}` ? true : false} onChange={(e) => handleChangeDropDawn(e.target)} />
                                             <p className={`${styles.selectBoxInputText}  ${styles.comboBoxStatusGreen}`}>ปกติ</p>
