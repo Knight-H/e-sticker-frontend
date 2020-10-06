@@ -5,7 +5,7 @@ import LocationFieldsComponent from '../location-fields';
 import LoginCredentialsComponent from '../login-credentials';
 import AdminKpi from '../admin-kpi'
 
-import { Formik, Field, Form, useFormik, withFormik, ErrorMessage } from "formik";
+import { Field, withFormik, ErrorMessage, Form } from "formik";
 
 const PasswordChangeComponent = (props) => {
     const {
@@ -19,19 +19,24 @@ const PasswordChangeComponent = (props) => {
     return (
 
         <>
-            <form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <section className={styles.loginCredentials}>
                     <div className={styles.flexWrapper}>
 
                         {/* if email is provided, display the email in the disabled text input field */}
-                        {props.email ?
-                            <div className={styles.formControl}>
-                                <p>อีเมล</p>
-                                <div className={styles.formControl}>
-                                    <Field name="email" type="text" disabled value={props.email} />
-                                </div>
-                            </div>
-                            : <></>
+                        {values.email ?
+                            (
+                                <>
+                                    <div className={styles.formControl}>
+                                        <p>อีเมล</p>
+                                        <div className={styles.formControl}>
+                                            <Field name="email" type="text" disabled value={values.email} />
+                                        </div>
+                                    </div>
+                                    <div className={styles.horizontalSpacer}></div>
+                                </>
+                            )
+                            : (<></>)
                         }
 
                         <div className={styles.formControl}>
@@ -44,20 +49,25 @@ const PasswordChangeComponent = (props) => {
                             </div>
                         </div>
 
+                        <div className={styles.horizontalSpacer}></div>
+
                         <button type="submit" className={styles.greenButton}>เปลี่ยนรหัสผ่าน</button>
 
                     </div>
                 </section>
-            </form>
+            </Form>
         </>
     )
 }
 
 export const EnhancedPasswordChangeComponent = withFormik({
-    mapPropsToValues: () => ({
-        password: '',
-        password_repeat: ''
-    }),
+    mapPropsToValues: (props) => {
+        return ({
+            email: props.email,
+            password: '',
+            password_repeat: ''
+        })
+    },
     validate: values => {
         const errors = {}
 
@@ -84,17 +94,6 @@ export const EnhancedPasswordChangeComponent = withFormik({
 
 
 
-const useInputChange = () => {
-    const [input, setInput] = useState({})
-
-    const handleInputChange = (e) => setInput({
-        ...input,
-        [e.currentTarget.name]: e.currentTarget.value
-    })
-
-    return [input, handleInputChange]
-}
-
 const MemberSettingComponent = () => {
     // const [selectMonth, setSelectMonth] = useInputChange();
     // const [dropDawn, setDropDawn] = useState(0);
@@ -119,15 +118,7 @@ const MemberSettingComponent = () => {
             <main className={styles.section1}>
 
                 <h3>เปลี่ยนรหัสผ่าน</h3>
-
-                {/* <div className={styles.flexWrapper}> */}
-
-                {/* <section className={styles.loginCredentials}> */}
-
                 <EnhancedPasswordChangeComponent email="admin@gmail.com" />
-                {/* </section> */}
-
-                {/* </div> */}
 
             </main>
         </>
