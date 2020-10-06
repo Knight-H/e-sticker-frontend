@@ -6,8 +6,8 @@ import HomeComponent from "./components/home";
 import ApproveLayoutComponent from "./components/approve-layout";
 import FormStepShopping from "./components/form_step_shopping";
 
-import CheckoutComponent from "./components/checkout";
 import CartComponent from "./components/cart";
+import CheckoutComponent from "./components/checkout";
 
 import AdminListComponent from "./components/admin";
 import AdminLoginComponent from './components/admin-login';

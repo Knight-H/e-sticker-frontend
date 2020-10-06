@@ -1,17 +1,4 @@
-import React, {useState} from "react";
-import { useFormikContext } from 'formik';
-import { withFormik, Form, Field, ErrorMessage } from 'formik';
-
-import StepProgress from "../step_progress";
-import LocationFieldsComponent from '../location-fields';
-
-import styles from './index.module.scss';
-import logoCreditCard from './credit.png';
-import img_product from './workplace.jpg';
-import logoBangkokBank from './BangkokBank.png';
-import logoKrungthaiBank from './KrungthaiBank.jpg';
-import logoSiamCommercialBank from './SiamCommercialBank.jpg';
-
+import React, {useState, useEffect} from "react";
 import fake_data from "./fake-api.json";
 
 const CartComponent = () => {
@@ -21,7 +8,11 @@ const CartComponent = () => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(2);
     const [checkedBox, setCheckedBox] = useState(false);
-    const [bank, setBank] = useState(0);
+
+    useEffect(() => {
+        setFieldValue("priceTotal", _apiData.priceTotal, false);
+        setFieldValue("orderID", _apiData.orderID, false);
+    }, [_apiData]);
 
     return (
         <>
@@ -89,7 +80,6 @@ const CartComponent = () => {
                                     <tr className={styles.borderTop}>
                                         <td colspan="2">รวมทั้งหมด</td>
                                         <td className={styles.textCenter}>{_apiData.priceTotal}฿</td>
-                                        <Field name="priceTotal" type="text"  />
                                     </tr>
                                 </tfoot>
                             </table>
@@ -219,7 +209,7 @@ const EnhancedCartComponent = withFormik({
     }),
     validate: values => {
         const errors = {};
-        // if (values.orderID === "") { errors.orderID = "Required" }
+        if (values.orderID === "") { errors.orderID = "Required" }
         if (values.priceTotal === "") { errors.priceTotal = "Required" }
         if (values.shippingDate === "") { errors.shippingDate = "Required" }
         if (values.payment === "") { errors.payment = "Required" }
