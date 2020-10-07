@@ -65,9 +65,7 @@ export const LoginCredentialsComponent2 = ({ isRegistering = true }) => {
                     </div>
                 </> :
                 <>
-                    <Field type="submit" className={styles.greenButton}>
-                        เปลี่ยนรหัสผ่าน
-                    </Field>
+                    <Field type="submit" className={styles.greenButton} value="เปลี่ยนรหัสผ่าน" />
                 </>
             }
 
