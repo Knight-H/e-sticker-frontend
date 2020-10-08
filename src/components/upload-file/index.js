@@ -45,7 +45,7 @@ const UploadFileComponent = (props) => {
                             <IconUploadFile />อัพโหลดไฟล์</label>
 
                         <label className={styles.label}>เพิ่มเติม</label>
-                        <Field name="remarkStricker" as="textarea" rows="6" />
+                        <Field name="comment" as="textarea" rows="6" />
 
                         <button type="submit" className={styles.btnCart} disabled={!values.isCheckUploadFileStricker && true}><IconCart /><b>ใส่ในตะกร้า</b></button>
                         <button type="button" className={styles.btnBack} onClick={() => setFieldValue("stepProgress", 0, false)}>ย้อนกลับ</button>

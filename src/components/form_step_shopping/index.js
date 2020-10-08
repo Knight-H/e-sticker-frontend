@@ -45,48 +45,45 @@ const EnhancedAppComponent = withFormik({
   mapPropsToValues: (props) => ({
     stepProgress: 0,
     // Step one
-    kindSticker: 0,
-    materialSticker: 0,
-    coatingStricker: 0,
-    dieCutStricker: 0,
-    widthStricker: '',
-    heightStricker: '',
-    quantityStricker: 0,
+    shape: 0,
+    material: 0,
+    coat: 0,
+    cutting: 0,
+    width: '',
+    height: '',
+    units: 0,
 
     // Step two
     approvalStricker: 0,
     isCheckUploadFileStricker: false,
     uploadFileStricker: [],
-    remarkStricker: '',
+    comment: '',
   }),
   validate: values => {
     const errors = {};
 
     // Step 1
     if (values.stepProgress === 0) {
-      if (values.kindSticker === 0) {
-        errors.kindSticker = "Require"
+      if (values.shape === 0) {
+        errors.shape = "Require"
       }
-      if (values.materialSticker === 0) {
-        errors.materialSticker = "Require"
+      if (values.material === 0) {
+        errors.material = "Require"
       }
-      if (values.coatingStricker === 0) {
-        errors.coatingStricker = "Require"
+      if (values.coat === 0) {
+        errors.coat = "Require"
       }
-      if (values.materialSticker === 0) {
-        errors.materialSticker = "Require"
+      if (values.cutting === 0) {
+        errors.cutting = "Require"
       }
-      if (values.dieCutStricker === 0) {
-        errors.dieCutStricker = "Require"
+      if (values.width === "") {
+        errors.width = "Require"
       }
-      if (values.widthStricker === "") {
-        errors.widthStricker = "Require"
+      if (values.height === "") {
+        errors.height = "Require"
       }
-      if (values.heightStricker === "") {
-        errors.heightStricker = "Require"
-      }
-      if (values.quantityStricker === 0) {
-        errors.quantityStricker = "Require"
+      if (values.units === 0) {
+        errors.units = "Require"
       }
     } else if (values.stepProgress === 1) {
 

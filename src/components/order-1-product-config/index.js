@@ -24,8 +24,8 @@ const Order1ProductConfigComponent = (props) => {
                 <section className={styles.rightContent}>
                     <Form>
                         <div className={styles.dropdownSelect}>
-                            <label htmlFor="stickerConfiguration">รูปแบบสติกเกอร์<ErrorMessage name="kindSticker" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="kindSticker" values={values} options={[
+                            <label htmlFor="stickerConfiguration">รูปแบบสติกเกอร์<ErrorMessage name="shape" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="shape" values={values} options={[
                                 {
                                     image: IconCircle,
                                     value: "circular",
@@ -46,8 +46,8 @@ const Order1ProductConfigComponent = (props) => {
                         </div>
 
                         <div className={styles.dropdownSelect}>
-                            <label htmlFor="material">เนื้อวัสดุ<ErrorMessage name="materialSticker" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="materialSticker" values={values} options={[
+                            <label htmlFor="material">เนื้อวัสดุ<ErrorMessage name="material" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="material" values={values} options={[
                                 {
                                     image: IconCircle,
                                     value: "paper-art",
@@ -68,8 +68,8 @@ const Order1ProductConfigComponent = (props) => {
                         </div>
 
                         <div className={styles.dropdownSelect}>
-                            <label htmlFor="coating">การเคลือบผิว<ErrorMessage name="coatingStricker" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="coatingStricker" values={values} options={[
+                            <label htmlFor="coating">การเคลือบผิว<ErrorMessage name="coat" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="coat" values={values} options={[
                                 {
                                     image: IconCircle,
                                     value: "coat-trans",
@@ -90,8 +90,8 @@ const Order1ProductConfigComponent = (props) => {
                         </div>
 
                         <div className={styles.dropdownSelect}>
-                            <label htmlFor="dicut">วิธีไดคัตภาพ<ErrorMessage name="dieCutStricker" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="dieCutStricker" values={values} options={[
+                            <label htmlFor="dicut">วิธีไดคัตภาพ<ErrorMessage name="cutting" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="cutting" values={values} options={[
                                 {
                                     image: IconCircle,
                                     value: "dicut-1mm",
@@ -101,17 +101,17 @@ const Order1ProductConfigComponent = (props) => {
                         </div>
 
                         <div className={styles.sizeSelect}>
-                            <label htmlFor="size">ขนาด<ErrorMessage name="widthStricker" render={msg => <span className="error">{msg}</span>} />
-                            <ErrorMessage name="heightStricker" render={msg => <span className="error">{msg}</span>} /></label>
+                            <label htmlFor="size">ขนาด<ErrorMessage name="width" render={msg => <span className="error">{msg}</span>} />
+                            <ErrorMessage name="height" render={msg => <span className="error">{msg}</span>} /></label>
                             <div className={styles.sizeWrapper}>
-                                <Field name="widthStricker" type="text" placeholder="กว้าง..." />
-                                <Field name="heightStricker" type="text" placeholder="ยาว..." />
+                                <Field name="width" type="text" placeholder="กว้าง..." />
+                                <Field name="height" type="text" placeholder="ยาว..." />
                             </div>
                         </div>
 
                         <div className={styles.dropdownSelect}>
-                            <label htmlFor="quantity">จำนวน<ErrorMessage name="quantityStricker" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="quantityStricker" values={values} options={[
+                            <label htmlFor="quantity">จำนวน<ErrorMessage name="units" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="units" values={values} options={[
                                 {
                                     image: IconCircle,
                                     value: "100pc",
