@@ -76,19 +76,20 @@ const AdminOrderComponent = () => {
                 <GroupDeliveryPayment />
             </section>
 
-
         </main >
     );
 };
 
 const EnhancedAdminOrderComponent = withFormik({
     mapPropsToValues: (props) => ({
-        editStatus: fakeAPI[0].statusOrder,
+        editStatus: fakeAPI[0].status,
         massage: "",  //สำหรับ Chat Room
         orderNumber: "", //สำหรับค้นหาเลขที่ออเดอร์
         expandCard: 0, //สำหรับเลือกว่ากด Card ไหน
 
-        orderID: fakeAPI[0],
+        orderID: fakeAPI[0].orderID,
+        status: fakeAPI[0].status,
+        itemsList: fakeAPI[0].itemsList,
     })
 })(AdminOrderComponent);
 
@@ -96,78 +97,50 @@ export default EnhancedAdminOrderComponent;
 
 const fakeAPI = [
     {
-        orderNumber: "#DW0001",
-        statusOrder: 1,
+        orderNumber: "DW0001",
+        status: 1,
         // image: ???
-        listOrder: [
+        itemsList: [
             {
                 orderID: "ITM00001",
-                titalStriker: "สติกเกอร์แบบกลม",
-                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
-                qtyStriker: 300,
-                priceStriker: 500,
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
                 status: 1,
 
-                listMsg: [
+                messages: [
                     {
+                        type: "text",
                         content: "สวัสดีครับ",
-                        by: "ลูกค้า",
-                    },
-                    {
-                        content: "สวัสดีครับ",
-                        by: "พนักงาน",
-                    },
-                    {
-                        content: "เด่วจะส่งแบบให้นะครับ",
-                        by: "ลูกค้า",
-                    }
-                ]
-            },
-            {
-                orderID: "ITM00002",
-                titalStriker: "สติกเกอร์แบบกลม",
-                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
-                qtyStriker: 300,
-                priceStriker: 500,
-                status: 1,
+                        info: "",
+                        by: "ลูกค้า"
 
-                listMsg: [
+                    },
                     {
+                        type: "text",
                         content: "สวัสดีครับ",
-                        by: "ลูกค้า",
-                    }
-                ]
-            },
-            {
-                orderID: "ITM00003",
-                titalStriker: "สติกเกอร์แบบกลม",
-                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
-                qtyStriker: 300,
-                priceStriker: 500,
-                status: 2,
+                        info: "",
+                        by: "พนักงาน"
 
-                listMsg: [
-                    {
-                        content: "สวัสดีครับ",
-                        by: "ลูกค้า",
                     },
                     {
-                        content: "สวัสดีครับ",
-                        by: "พนักงาน",
-                    },
-                    {
+                        type: "text",
                         content: "เด่วจะส่งแบบให้นะครับ",
-                        by: "ลูกค้า",
-                    },
-                    {
-                        content: "ส่งมาได้เลยครับ",
-                        by: "พนักงาน",
-                    },
+                        info: "",
+                        by: "ลูกค้า"
+
+                    }
                 ]
             }
-        ],
+        ]
     }
 ]
+
 
 const SelectBox = ({ values, name, options }) => {
     return (

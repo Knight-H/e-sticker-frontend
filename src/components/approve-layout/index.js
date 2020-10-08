@@ -8,9 +8,19 @@ import PreviewImage from "../preview-image";
 import GroupDeliveryPayment from "../group-delivery-payment";
 
 const ApproveLayoutComponent = () => {
-    const { values } = useFormikContext();
+    const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(3);
     const [guestMode] = useState(true);
+
+    const searchOrderNumber = () => {
+        let orderNumber = fakeAPI.find(orderNumber => `${orderNumber.orderNumber}` === `${values.orderNumber}`);
+        if (orderNumber) {
+            console.log("orderNumber", orderNumber)
+            setFieldValue("orderID", orderNumber.orderNumber);
+            setFieldValue("status", orderNumber.status);
+            setFieldValue("itemsList", orderNumber.itemsList);
+        }
+    };
 
     return (
         <main className={styles.wrapContent}>
@@ -20,42 +30,46 @@ const ApproveLayoutComponent = () => {
                     <h1 className={styles.title}>ตรวจสอบสถานะออเดอร์</h1>
                     <p>หมายเลขออเดอร์</p>
                     <Field name="orderNumber" className={styles.inputGreen} />
-                    <button type="button" className={styles.btnGreen} onClick={() => alert(values.orderNumber)}>ตรวจสอบสถานะ</button>
+                    <button type="button" className={styles.btnGreen} onClick={() => searchOrderNumber()}>ตรวจสอบสถานะ</button>
                 </>
             }
 
-            <h1 className={styles.title}>รายการออเดอร์</h1>
-            <p>ออเดอร์หมายเลข {values.orderID.orderNumber}
-                <LabelSatus status={values.orderID.statusOrder}/>
-            </p>
+            {values.orderID && <>
+                <h1 className={styles.title}>รายการออเดอร์</h1>
+                <p>ออเดอร์หมายเลข #{values.orderID}
+                    <LabelSatus status={values.status} />
+                </p>
 
-            <section className={styles.stepProgressBar}>
-                <StepProgress stepIndex={selectStep} />
-            </section>
+                <section className={styles.stepProgressBar}>
+                    <StepProgress stepIndex={selectStep} />
+                </section>
 
-            <section>
-                <CardOrder />
-            </section>
+                <section>
+                    <CardOrder />
+                </section>
 
-            <section className={styles.previewImage}>
-                <PreviewImage />
-            </section>
+                <section className={styles.previewImage}>
+                    <PreviewImage />
+                </section>
 
-            <section className={styles.groupDeliveryPayment} style={ guestMode ? { border: '1px solid #009473' } : {}}>
-                <GroupDeliveryPayment />
-            </section>
-
+                <section className={styles.groupDeliveryPayment} style={guestMode ? { border: '1px solid #009473' } : {}}>
+                    <GroupDeliveryPayment />
+                </section>
+            </>
+            }
         </main >
     );
 };
 
 const EnhancedApproveLayoutComponent = withFormik({
     mapPropsToValues: (props) => ({
-        massage: "",  //สำหรับ Chat Room
-        orderNumber: "", //สำหรับค้นหาเลขที่ออเดอร์
+        orderNumber: '', //สำหรับค้นหาหมายเลขออเดอร์
+        massage: '',  //สำหรับ Chat Room
         expandCard: 0, //สำหรับเลือกว่ากด Card ไหน
 
-        orderID: fakeAPI[0],
+        orderID: '',
+        status: '',
+        itemsList: [],
     })
 })(ApproveLayoutComponent);
 
@@ -64,80 +78,51 @@ export default EnhancedApproveLayoutComponent;
 
 const fakeAPI = [
     {
-        orderNumber: "#DW0001",
-        statusOrder: 1,
+        orderNumber: "DW0001",
+        status: 1,
         // image: ???
-        listOrder: [
+        itemsList: [
             {
                 orderID: "ITM00001",
-                titalStriker: "สติกเกอร์แบบกลม",
-                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
-                qtyStriker: 300,
-                priceStriker: 500,
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
                 status: 1,
 
-                listMsg: [
+                messages: [
                     {
+                        type: "text",
                         content: "สวัสดีครับ",
-                        by: "ลูกค้า",
-                    },
-                    {
-                        content: "สวัสดีครับ",
-                        by: "พนักงาน",
-                    },
-                    {
-                        content: "เด่วจะส่งแบบให้นะครับ",
-                        by: "ลูกค้า",
-                    }
-                ]
-            },
-            {
-                orderID: "ITM00002",
-                titalStriker: "สติกเกอร์แบบกลม",
-                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
-                qtyStriker: 300,
-                priceStriker: 500,
-                status: 1,
+                        info: "",
+                        by: "ลูกค้า"
 
-                listMsg: [
+                    },
                     {
+                        type: "text",
                         content: "สวัสดีครับ",
-                        by: "ลูกค้า",
-                    }
-                ]
-            },
-            {
-                orderID: "ITM00003",
-                titalStriker: "สติกเกอร์แบบกลม",
-                detailStriker: "กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm",
-                qtyStriker: 300,
-                priceStriker: 500,
-                status: 2,
+                        info: "",
+                        by: "พนักงาน"
 
-                listMsg: [
-                    {
-                        content: "สวัสดีครับ",
-                        by: "ลูกค้า",
                     },
                     {
-                        content: "สวัสดีครับ",
-                        by: "พนักงาน",
-                    },
-                    {
+                        type: "text",
                         content: "เด่วจะส่งแบบให้นะครับ",
-                        by: "ลูกค้า",
-                    },
-                    {
-                        content: "ส่งมาได้เลยครับ",
-                        by: "พนักงาน",
-                    },
+                        info: "",
+                        by: "ลูกค้า"
+
+                    }
                 ]
             }
-        ],
+        ]
     }
 ]
 
-const LabelSatus = ({status}) => {
+const LabelSatus = ({ status }) => {
     if (status === 1) {
         return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: กำลังดำเนินการ</label>
     } else if (status === 2) {
@@ -150,5 +135,7 @@ const LabelSatus = ({status}) => {
         return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: คืนเงินสำเร็จ</label>
     } else if (status === 6) {
         return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: รายการสำเร็จ</label>
+    } else {
+        return <label></label>
     }
 }

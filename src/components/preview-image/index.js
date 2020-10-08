@@ -18,7 +18,7 @@ const PreviewImageComponent = () => {
     return (
         <>
             <div className={styles.square}>
-                {values.orderID.listOrder[values.expandCard].listMsg.map((listMsg) => {
+                {values.itemsList[values.expandCard].messages.map((listMsg) => {
                     return (
                         <article className={`${styles.newMsg} ${listMsg.by === "ลูกค้า" && styles.flexEnd}`}>
                             {listMsg.by === "ลูกค้า" ?
@@ -53,7 +53,7 @@ const PreviewImageComponent = () => {
             </div>
 
             <div className={styles.inputBox}>
-                {`${values.orderID.listOrder[values.expandCard].status}` === `${1}` &&  
+                {`${values.itemsList[values.expandCard].status}` === `${1}` &&  
                 <button type="button" onClick={() => alert(values.orderID.listOrder[values.expandCard].status)}><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>}
                 <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." />
 
