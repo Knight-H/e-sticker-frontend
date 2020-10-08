@@ -38,7 +38,7 @@ const NavBarComponent = ({ history, itemCount }) => {
 
     // Update when the cart item count changes
     useEffect(() => {
-        setItemCountInCart(3)
+        setItemCountInCart(99)
     }, [itemCountInCart])
 
     // Not sure if this is the correct way to prevent scrolling when modal is open.
