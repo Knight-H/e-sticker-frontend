@@ -12,16 +12,16 @@ const CardOrderComponent = (props) => {
 
     return (
         <Carousel responsive={responsive}>
-            {values.orderID.listOrder.map((listCard, index) => {
+            {values.itemsList.map((listCard, index) => {
                 return (
                     <div className={`${styles.card} ${`${values.expandCard}` === `${index}` && styles.active}`} onClick={() => setFieldValue("expandCard", index, false)}>
                         <h4>หมายเลขรายการ {listCard.orderID}</h4>
                         <div className={styles.description}>
                             <Circle />
-                            <h4>{listCard.titalStriker}</h4>
-                            <p>{listCard.detailStriker}</p>
-                            <h4 className={styles.quality}>{listCard.qtyStriker}ชิ้น</h4>
-                            <h4 className={styles.price}>{listCard.priceStriker}฿</h4>
+                            <h4>{listCard.shape}</h4>
+                            <p>{listCard.material} - {listCard.coat} - {listCard.cutting} - ขนาด {listCard.width}x{listCard.height} mm.</p>
+                            <h4 className={styles.quality}>{listCard.units}ชิ้น</h4>
+                            <h4 className={styles.price}>{listCard.price}฿</h4>
                         </div>
                         <LabelSatus status={listCard.status} />
                     </div>

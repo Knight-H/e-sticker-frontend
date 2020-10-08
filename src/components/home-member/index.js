@@ -8,7 +8,7 @@ import { ReactComponent as IconLogout } from './icon-logout.svg';
 import { withFormik } from 'formik';
 import { useFormikContext } from 'formik';
 
-const LabelSatus = ({status}) => {
+const LabelSatus = ({ status }) => {
     if (status === 1) {
         return <label className={`${styles.statusLabel} ${styles.orangeLabel}`}>สถานะ: กำลังดำเนินการ</label>
     } else if (status === 2) {
@@ -28,10 +28,6 @@ const LabelSatus = ({status}) => {
 const HomeMemberComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
 
-    useEffect(() => {
-        setFieldValue("objectOrder", fakeAPI, false)
-    })
-
     return (
         <main className={styles.wrapContent}>
             <h1 className={styles.title}>รายการออเดอร์</h1>
@@ -50,19 +46,19 @@ const HomeMemberComponent = (props) => {
                 {values.objectOrder.map((fakeAPI) => {
                     return (
                         <article className={styles.borderCard}>
-                            <h1 className={styles.title}>ออเดอร์หมายเลข {fakeAPI.orderNumber}</h1>
-                            <LabelSatus status={fakeAPI.statusOrder}/>
+                            <h1 className={styles.title}>ออเดอร์หมายเลข {fakeAPI.orderID}</h1>
+                            <LabelSatus status={fakeAPI.status} />
                             <table>
-                                {fakeAPI.listOrder.map((list) => (
+                                {fakeAPI.itemsList.map((list) => (
                                     <tr>
-                                    <td className={styles.iconCol}><Circle /></td>
-                                    <td className={styles.detailCol}>
-                                        <h4>{list.titalStriker}</h4>
-                                        <p>{list.detailStriker}</p>
-                                    </td>
-                                    <td className={styles.qtyCol}><p>{list.qtyStriker}ชิ้น</p></td>
-                                    <td className={styles.priceCol}><p>{list.priceStriker}฿</p></td>
-                                </tr>
+                                        <td className={styles.iconCol}><Circle /></td>
+                                        <td className={styles.detailCol}>
+                                            <h4>{list.shape}</h4>
+                                            <p>{list.material} - {list.coat} - {list.cutting} - ขนาด {list.width}x{list.height} mm.</p>
+                                        </td>
+                                        <td className={styles.qtyCol}><p>{list.units}ชิ้น</p></td>
+                                        <td className={styles.priceCol}><p>{list.price}฿</p></td>
+                                    </tr>
                                 ))}
                             </table>
 
@@ -78,7 +74,7 @@ const HomeMemberComponent = (props) => {
 
 const EnhancedHomeMemberComponentComponent = withFormik({
     mapPropsToValues: (props) => ({
-        objectOrder: []
+        objectOrder: fakeRealAPI
     })
 })(HomeMemberComponent);
 
@@ -214,3 +210,228 @@ const fakeAPI = [
         ]
     }
 ];
+
+const fakeRealAPI = [
+    {
+        orderID: 'DW0001',
+        status: 1,
+        itemsList: [
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+        ]
+    },
+    {
+        orderID: 'DW0002',
+        status: 2,
+        itemsList: [
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            }
+        ]
+    },
+    {
+        orderID: 'DW0003',
+        status: 3,
+        itemsList: [
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            }
+        ]
+    },
+    {
+        orderID: 'DW0004',
+        status: 4,
+        itemsList: [
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+        ]
+    },
+    {
+        orderID: 'DW0001',
+        status: 1,
+        itemsList: [
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+        ]
+    },
+    {
+        orderID: 'DW0001',
+        status: 1,
+        itemsList: [
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+        ]
+    },
+    {
+        orderID: 'DW0001',
+        status: 1,
+        itemsList: [
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+            {
+                shape: 'สติกเกอร์แบบกลม',
+                material: 'กระดาษอาร์ต',
+                coat: 'เคลือบด้าน',
+                cutting: 'กินเนื้อ 1 มม.',
+                width: '10',
+                height: '20',
+                units: '300',
+                price: '500',
+            },
+        ]
+    },
+]
