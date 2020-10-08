@@ -9,12 +9,12 @@ const LoginComponent = () => {
 
             <div className={styles.formControl}>
                 <p>อีเมล <ErrorMessage name="email" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></p>
-                <Field name="email" type="text" placeholder="" />
+                <Field name="email" type="email" placeholder="" />
             </div>
 
             <div className={styles.formControl}>
                 <p>รหัสผ่าน <ErrorMessage name="password" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></p>
-                <Field name="password" type="text" placeholder="" />
+                <Field name="password" type="password" placeholder="" />
             </div>
             <div className={styles.containerRow}>
                 <button type="submit" className={styles.buttonGreen}>เข้าสู่ระบบ</button>

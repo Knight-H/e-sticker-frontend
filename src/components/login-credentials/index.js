@@ -41,7 +41,7 @@ export const LoginCredentialsComponent2 = ({ isRegistering = true }) => {
             <div className={styles.formControl}>
                 <p>อีเมล</p>
                 <div>
-                    <Field name="email" type="text" />
+                    <Field name="email" type="email" />
                 </div>
             </div>
 
