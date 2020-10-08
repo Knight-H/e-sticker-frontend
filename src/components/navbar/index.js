@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
 import styles from './index.module.scss';
@@ -16,19 +16,30 @@ import useWindowSize from '../../hooks/useWindowSize';
 //         const stepsOrderElement = document.querySelector('#stepsOrder');
 //     stepsOrderElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
 //     }
-    
+
 // }
 
-const NavBarComponent = ({ history }) => {
+
+
+
+const NavBarComponent = ({ history, itemCount }) => {
     const [isBurgerToggled, setIsBurgerToggled] = useState(false);
-    const {width} = useWindowSize();
+
+    // Maybe this should be moved out and made reusable instead of passing in
+    const [itemCountInCart, setItemCountInCart] = useState(itemCount)
+    const { width } = useWindowSize();
 
     // If the window is greater than 768, unToggle the Burger.
     useEffect(() => {
-        if (width > 768){
+        if (width > 768) {
             setIsBurgerToggled(false);
         }
     }, [width]);
+
+    // Update when the cart item count changes
+    useEffect(() => {
+        setItemCountInCart(3)
+    }, [itemCountInCart])
 
     // Not sure if this is the correct way to prevent scrolling when modal is open.
     // From Answer #2 of https://stackoverflow.com/questions/54989513/react-prevent-scroll-when-modal-is-open
@@ -49,7 +60,7 @@ const NavBarComponent = ({ history }) => {
                 </button>
                 <button>
                     <ShoppingCart />
-                    ตะกร้าสินค้า
+                    ตะกร้าสินค้า {itemCountInCart ? ("(" + itemCountInCart + ")") : (<></>)}
                 </button>
             </div>
             <nav className={styles.navBar}>
@@ -59,17 +70,19 @@ const NavBarComponent = ({ history }) => {
                     <li><Link to={{
                         pathname: "/",
                         // hash: "#stepsOrder",
-                        state: {scrollToStepsOrder: true}
-                    }} 
+                        state: { scrollToStepsOrder: true }
+                    }}
                     // onClick={stepsOrderScroll}
                     >วิธีการสั่งซื้อ</Link></li>
-                    <li><Link to={{pathname: "/", 
-                    // hash: "#ourWorks",  
-                    state: {scrollToOurWorks: true}}}>ตัวอย่างผลงาน</Link></li>
+                    <li><Link to={{
+                        pathname: "/",
+                        // hash: "#ourWorks",  
+                        state: { scrollToOurWorks: true }
+                    }}>ตัวอย่างผลงาน</Link></li>
                     <li><button><Link to="/customize">สั่งทำสติกเกอร์</Link></button></li>
                 </ul>
 
-                <div className={`${styles.burger} ${isBurgerToggled ? styles.toggle : ""}`} 
+                <div className={`${styles.burger} ${isBurgerToggled ? styles.toggle : ""}`}
                     onClick={e => setIsBurgerToggled(!isBurgerToggled)}>
                     <div className={styles.line1}></div>
                     <div className={styles.line2}></div>
