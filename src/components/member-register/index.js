@@ -2,7 +2,9 @@ import React from "react";
 import styles from './index.module.scss';
 
 import LocationFieldsComponent from '../location-fields';
-import LoginCredentialsComponent from '../login-credentials';
+import LoginCredentialsComponent, { LoginCredentialsComponent2 } from '../login-credentials';
+
+import { withFormik, Field, Form } from 'formik'
 
 const MemberRegisterComponent = () => {
 
@@ -12,22 +14,55 @@ const MemberRegisterComponent = () => {
             <h2>สมัครสมาชิก</h2>
             <div className={styles.flexWrapper}>
 
-                <section className={styles.loginCredentials}>
-                    <LoginCredentialsComponent />
-                </section>
+                <Form>
+                    <section className={styles.loginCredentials}>
+                        <LoginCredentialsComponent2 isRegistering={true} />
+                    </section>
 
-                <section className={styles.userInfo}>
-                    < LocationFieldsComponent onlyLocation={true}/>
+                    <section className={styles.userInfo}>
+                        < LocationFieldsComponent onlyLocation={true} />
+                    </section>
 
-                    <button className={styles.greenButton}>สมัครสมาชิก</button>
-
-                </section>
-
+                    <Field type="submit" className={styles.greenButton} value="สมัครสมาชิก" />
+                </Form>
             </div>
-
 
         </main>
     );
 }
 
-export default MemberRegisterComponent;
+const EnchancedMemberRegisterComponent = withFormik({
+    mapPropsToValues: () => {
+        return {
+
+            email: '',
+            password: '',
+            password_repeat: '',
+            phoneNumber: '',
+
+            address: '',
+            fullname: '',
+
+            district: '',
+            zone: '',
+
+            provice: '',
+            zip: '',
+        }
+    },
+    validate: (values) => {
+        const errors = {}
+
+        // TODO add validation
+
+        return errors
+    },
+    handleSubmit: (values) => {
+        setTimeout(() => {
+            console.log(values)
+            alert(JSON.stringify(values, null, 2))
+        }, 0)
+    }
+})(MemberRegisterComponent)
+
+export default EnchancedMemberRegisterComponent;
