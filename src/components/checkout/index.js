@@ -4,8 +4,12 @@ import { withFormik, Form } from 'formik';
 import LoginComponent from '../login';
 import styles from './index.module.scss';
 import img_product from './workplace.jpg';
+import fake_data from "./fake-api.json";
 
-const CartComponent = () => {
+const CheckoutComponent = () => {
+    // API [GET] /order/
+    var _apiData = fake_data;
+
     return (
         <main>
             <section className={styles.section2}>
@@ -21,32 +25,25 @@ const CartComponent = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div className={[styles.containerRow, styles.flexNoWrap].join(' ')}>
-                                            <img src={img_product} className={styles.productPreview} alt="Product" />
-                                            <div className={styles.containerCol}>
-                                                <div className={styles.name}>สติกเกอร์แบบกลม</div>
-                                                <div className={styles.desciption}>กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className={styles.textCenter}>300</td>
-                                    <td className={styles.textCenter}>500฿</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div className={[styles.containerRow, styles.flexNoWrap].join(' ')}>
-                                            <img src={img_product} className={styles.productPreview} alt="Product" />
-                                            <div className={styles.containerCol}>
-                                                <div className={styles.name}>สติกเกอร์แบบเหลี่ยม</div>
-                                                <div className={styles.desciption}>กระดาษอาร์ต - เคลือบด้าน - กินเนื้อ 1 มม. - ขนาด 10x20 mm</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className={styles.textCenter}>300</td>
-                                    <td className={styles.textCenter}>500฿</td>
-                                </tr>
+                                {
+                                    _apiData.data.map((dataObjectMapped, index) => {
+                                        return (
+                                            <tr>
+                                                <td>
+                                                    <div className={`${styles.containerRow} ${styles.flexNoWrap}`}>
+                                                        <img src={img_product} className={styles.productPreview} alt="Product" />
+                                                        <div className={styles.containerCol}>
+                                                            <div className={styles.name}>{dataObjectMapped.name}</div>
+                                                            <div className={styles.desciption}>{dataObjectMapped.description}</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className={styles.textCenter}>{dataObjectMapped.amount}</td>
+                                                <td className={styles.textCenter}>{dataObjectMapped.price}฿</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
                             </tbody>
                             <tfoot className={styles.borderTop}>
                                 <tr className={styles.borderTop}>
@@ -76,7 +73,7 @@ const CartComponent = () => {
     );
 };
 
-const EnhancedMemberCartComponent = withFormik({
+const EnhancedCheckoutComponent = withFormik({
     mapPropsToValues: () => ({
         email: '',
         password: ''
@@ -100,7 +97,7 @@ const EnhancedMemberCartComponent = withFormik({
           setSubmitting(false);
         }, 0);
     },
-    displayName: 'CartComponentForm',
-})(CartComponent);
+    displayName: 'CheckoutComponent',
+})(CheckoutComponent);
 
-export default EnhancedMemberCartComponent;
+export default EnhancedCheckoutComponent;
