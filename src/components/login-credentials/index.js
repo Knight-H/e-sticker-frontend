@@ -51,7 +51,7 @@ export const LoginCredentialsComponent2 = ({ isRegistering = true }) => {
                     <Field name="password" type="password" />
                 </div>
                 <div>
-                    <Field name="password_repeat" type="password" placeholder="รหัดผ่านอีกครัง" />
+                    <Field name="password_repeat" type="password" placeholder="รหัสผ่านอีกครัง" />
                 </div>
             </div>
 
