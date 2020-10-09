@@ -1,14 +1,36 @@
 @import "../../variables";
 
+// .container {
+
+//     margin:  30px auto 0px auto;
+
+//     display: flex;
+//     flex-direction: column;
+
+//     max-width: 1200px;
+    
+
+//     h2 {
+//         margin-bottom: 20px;
+//     }
+    
+// }
+
 .container {
 
-    margin:  30px auto 0px auto;
+    // Contain page content 
+
+    @media screen and (min-width: 768px){  // width >= 768
+        padding: 30px 10vw 0 5vw; // Follow NavBar
+    }
+    @media not screen and (min-width: 768px){  // width < 768
+        margin: 30px auto 0px auto;
+    }
 
     display: flex;
     flex-direction: column;
 
     max-width: 1200px;
-    
 
     h2 {
         margin-bottom: 20px;
@@ -16,13 +38,54 @@
     
 }
 
+@mixin conditionalFlexing {
+
+    // Ensure the component isn't squeezed before wrapping
+
+    @media screen and (min-width: 768px){
+        flex-direction: row;
+    }
+    @media screen and (max-width: 767px){
+        flex-direction: column;
+    }
+}
+
+@mixin conditionalWidth {
+
+    // Fix component size when screen is large otherwise 100%
+
+    @media screen and (min-width: 768px){
+        width: 450px;
+    }
+    @media screen and (max-width: 767px){
+        width: 100%;
+    }
+}
+
+@mixin conditionalPadding {
+
+    // Different padding when there are 2 columns
+
+    @media screen and (min-width: 768px){  // width >= 768
+        padding: 30px 85px;
+    }
+    @media not screen and (min-width: 768px){  // width < 768
+        padding: 15px;
+    }
+}
+
 .flexWrapper{
+    @include conditionalFlexing();
+
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
 }
 
+
 .loginCredentials {
+    @include conditionalWidth;
+
     flex: 1;
 
     padding: 30px 35px;
@@ -31,9 +94,16 @@
 }
 
 .userInfo {
+    @include conditionalPadding();
+    
     flex: 2;
 
-    padding: 30px 85px;
+    // Override default behavior
+    
+    div { // Reason: Does not align with button
+        margin: 0;
+    }
+
 }
 
 .greenButton{

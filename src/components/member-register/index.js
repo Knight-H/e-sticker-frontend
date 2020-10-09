@@ -11,20 +11,21 @@ const MemberRegisterComponent = () => {
     return (
         <main className={styles.container}>
 
-            <h2>สมัครสมาชิก</h2>
-            <div className={styles.flexWrapper}>
+            <div style={{ padding: "10px", width: "100%" }}>
+                <h2>สมัครสมาชิก</h2>
 
-                <Form>
+                <Form className={styles.flexWrapper}>
                     <section className={styles.loginCredentials}>
                         <LoginCredentialsComponent2 isRegistering={true} />
                     </section>
 
                     <section className={styles.userInfo}>
                         < LocationFieldsComponent onlyLocation={true} />
+                        <Field type="submit" className={styles.greenButton} value="สมัครสมาชิก" />
                     </section>
 
-                    <Field type="submit" className={styles.greenButton} value="สมัครสมาชิก" />
                 </Form>
+
             </div>
 
         </main>
