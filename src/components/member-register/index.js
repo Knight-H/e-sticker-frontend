@@ -9,24 +9,22 @@ import { withFormik, Field, Form } from 'formik'
 const MemberRegisterComponent = () => {
 
     return (
-        <main className={styles.container}>
+        <main className={styles.pageContainer}>
 
-            <div style={{ padding: "10px", width: "100%" }}>
-                <h2>สมัครสมาชิก</h2>
+            <h2>สมัครสมาชิก</h2>
 
-                <Form className={styles.flexWrapper}>
-                    <section className={styles.loginCredentials}>
-                        <LoginCredentialsComponent2 isRegistering={true} />
-                    </section>
+            <Form className={styles.flexWrapper}>
 
-                    <section className={styles.userInfo}>
-                        < LocationFieldsComponent onlyLocation={true} />
-                        <Field type="submit" className={styles.greenButton} value="สมัครสมาชิก" />
-                    </section>
+                <section className={styles.loginCredentials}>
+                    <LoginCredentialsComponent2 isRegistering={true} />
+                </section>
 
-                </Form>
+                <section className={styles.userInfo}>
+                    < LocationFieldsComponent onlyLocation={true} />
+                    <Field type="submit" className={styles.greenButton} value="สมัครสมาชิก" />
+                </section>
 
-            </div>
+            </Form>
 
         </main>
     );
