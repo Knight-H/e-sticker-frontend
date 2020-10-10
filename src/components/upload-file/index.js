@@ -39,7 +39,7 @@ const UploadFileComponent = (props) => {
                             }
                         ]} />
 
-                        <label className={styles.label} style={{ marginTop: "10px" }}>อัพโหลดไฟล์งาน{!values.isCheckUploadFileStricker && <spna className="error">*Require</spna>}</label>
+                        <label className={styles.label} style={{ marginTop: "10px" }}>อัพโหลดไฟล์งาน{!values.isCheckUploadFileStricker && <spna className="error">*กรุณาระบุ</spna>}</label>
                         <input type="file" id="file" onChange={(e) => handleChange(e)} />
                         <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
                             <IconUploadFile />อัพโหลดไฟล์</label>

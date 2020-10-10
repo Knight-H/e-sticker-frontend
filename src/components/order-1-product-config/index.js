@@ -102,7 +102,7 @@ const Order1ProductConfigComponent = (props) => {
 
                         <div className={styles.sizeSelect}>
                             <label htmlFor="size">ขนาด<ErrorMessage name="width" render={msg => <span className="error">{msg}</span>} />
-                            <ErrorMessage name="height" render={msg => <span className="error">{msg}</span>} /></label>
+                                <ErrorMessage name="height" render={msg => <span className="error">{msg}</span>} /></label>
                             <div className={styles.sizeWrapper}>
                                 <Field name="width" type="text" placeholder="กว้าง..." />
                                 <Field name="height" type="text" placeholder="ยาว..." />
@@ -116,14 +116,16 @@ const Order1ProductConfigComponent = (props) => {
                                     image: IconCircle,
                                     value: "100pc",
                                     name: "100 ชิ้น / 1,500 THB"
+                                },
+                                {
+                                    image: IconCircle,
+                                    value: "100pc",
+                                    name: "150 ชิ้น / 2,000 THB"
                                 }
                             ]} />
-                            <button type="button" className={styles.addQuantityButton}>
-                                + 50 ชิ้น เพิ่มเพียง 300 THB
-                        </button>
                         </div>
 
-                        <button type="submit" className={styles.nextButton}>ถัดไป</button> 
+                        <button type="submit" className={styles.nextButton}>ถัดไป</button>
                     </Form>
                 </section>
             </div>

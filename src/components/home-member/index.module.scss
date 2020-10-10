@@ -37,19 +37,18 @@
 
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
 
     margin-top: 2.5vh;
-    height: 120vh;
-    overflow-x: scroll;
     .borderCard {
         border: 1px solid #009473;
         border-radius: 20px;
 
-        width: fit-content;
+        width: 350px;
+        height: fit-content;
         padding: 20px;
-        margin: 10px 30px 10px 0;
+        margin: 10px 8px 10px 0;
 
         .title {
             font-size: 17px;
@@ -142,6 +141,16 @@
     background-color: #FF9F46;
   }
   
+
+  @media only screen and (max-width: 768px) {
+    .container {  
+        .borderCard {
+            width: 290px;
+        }
+    }
+}
+
+
 @media only screen and (max-width: 320px) {
     .container {  
         .borderCard {

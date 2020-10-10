@@ -19,7 +19,7 @@ const AdminOrderComponent = () => {
     return (
         <main className={styles.wrapContent}>
 
-            <section>
+            <section className={styles.section1}>
                 <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>
 
