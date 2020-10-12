@@ -13,7 +13,7 @@ const LocationFieldsComponent = ({ onlyLocation = false, email = null, emailDisa
                     <div className={styles.gridItem}>
                         <div className={styles.formControl}>
                             <p>อีเมล* <ErrorMessage name="email" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
-                            <Field name="email" type="email" value={email} disabled={emailDisabled} />
+                            <Field name="email" type="email" value={email || undefined} disabled={emailDisabled} />
                         </div>
                     </div>
 

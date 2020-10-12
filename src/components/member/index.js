@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import styles from './index.module.scss';
 import { ReactComponent as IconArrow } from './icon-arrow.svg';
 import LocationFieldsComponent from '../location-fields';
-import LoginCredentialsComponent from '../login-credentials';
+import LoginCredentialsComponent, { LoginCredentialsComponent2 } from '../login-credentials';
 import AdminKpi from '../admin-kpi';
 import { Formik, Field, Form, withFormik } from "formik";
+
 
 // const useInputChange = () => {
 //     const [input, setInput] = useState({})
@@ -28,6 +29,7 @@ let MemberComponent = (props) => {
         setDropDawn(e.value);
     };
 
+    console.log(styles)
     // const [accountState, setAccountState] = useState(0)
 
     // useEffect(() => {
@@ -37,25 +39,25 @@ let MemberComponent = (props) => {
     // }, []);
 
     return (
-        <main className={styles.container}>
+        <main className={styles.pageContainer}>
 
             <section className={styles.section1}>
                 <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>
 
-            <section className={styles.section1}>
+            {/* <section className={styles.section1}> */}
 
                 <h2>รายสมาชิก - จัดการบัญชี</h2>
                 <h3>สมาชิกหมายเลข MEM0001</h3>
 
-                <div className={styles.flexWrapper}>
+                <div className={styles.testExists}>
 
-                    <section className={styles.loginCredentials}>
-                        <LoginCredentialsComponent isRegistering={false} />
+                    <section className={styles.testExists}>
+                    {/* <section style={{padding: "100px"}}> */}
+                        <LoginCredentialsComponent2 isRegistering={false} />
                     </section>
 
-                    <section className={styles.userInfo}>
-                        <Form>
+                        <Form className={styles.userInfo}>
                             <LocationFieldsComponent onlyLocation={false} />
 
                             <div className={styles.row}>
@@ -77,8 +79,8 @@ let MemberComponent = (props) => {
 
                                     {/* The dropdown options */}
                                     <ul className={styles.selectBoxList}>
-                                        <li><label className={`${styles.selectBoxOption} ${styles.comboBoxStatusGreen}`} for="0">ปกติ</label></li>
-                                        <li><label className={`${styles.selectBoxOption} ${styles.comboBoxStatusRed}`} for="1">แบน</label></li>
+                                        <li><label className={`${styles.selectBoxOption} ${styles.comboBoxStatusGreen}`} value="0">ปกติ</label></li>
+                                        <li><label className={`${styles.selectBoxOption} ${styles.comboBoxStatusRed}`} value="1">แบน</label></li>
                                     </ul>
 
                                 </div>
@@ -86,10 +88,9 @@ let MemberComponent = (props) => {
 
                             <Field type="submit" className={styles.greenButton} value="บันทึก" />
                         </Form>
-                    </section>
 
                 </div>
-            </section>
+            {/* </section> */}
         </main>
     )
 }
@@ -123,5 +124,5 @@ const EnhancedMemberComponent = withFormik({
     }
 })(MemberComponent)
 
-MemberComponent = EnhancedMemberComponent
-export default MemberComponent;
+// MemberComponent = EnhancedMemberComponent
+export default EnhancedMemberComponent;

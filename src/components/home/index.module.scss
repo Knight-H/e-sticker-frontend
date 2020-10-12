@@ -304,14 +304,17 @@
 
     }
     .cardWrapper {
-        display:flex;
-        flex-wrap: wrap;
+        display: flex;
+        flex-direction: row;
+        // flex-wrap: wrap;
+        overflow-x: scroll;
         // width: 80%;
-        // margin:auto;
-        justify-content: center;
+        // margin: auto;
+        // justify-content: center;
     }
     .card {
-        width: 237px;
+        // width: 237px;
+        min-width: 237px;
         height: 310px;
         margin: 10px;
         padding-top: 24px;
@@ -327,7 +330,11 @@
         justify-content: flex-start;
         align-items: center;
 
-        position:relative;
+        position: relative;
+
+        // flex: 1;
+        // flex-grow: 1;
+        // flex-basis: 0;
 
         button {
             position:absolute;
