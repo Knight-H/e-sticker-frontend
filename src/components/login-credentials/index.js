@@ -35,13 +35,13 @@ const LoginCredentialsComponent = ({ isRegistering = true }) => {
     );
 }
 
-export const LoginCredentialsComponent2 = ({ isRegistering = true }) => {
+export const LoginCredentialsComponent2 = ({ isRegistering = true, email = "", emailDisabled = false }) => {
     return (
         <>
             <div className={styles.formControl}>
                 <p>อีเมล</p>
                 <div>
-                    <Field name="email" type="email" />
+                    <Field name="email" type="email" value={email} disabled={emailDisabled} />
                 </div>
             </div>
 
@@ -51,7 +51,7 @@ export const LoginCredentialsComponent2 = ({ isRegistering = true }) => {
                     <Field name="password" type="password" />
                 </div>
                 <div>
-                    <Field name="password_repeat" type="password" placeholder="รหัดผ่านอีกครัง" />
+                    <Field name="password_repeat" type="password" placeholder="รหัสผ่านอีกครัง" />
                 </div>
             </div>
 

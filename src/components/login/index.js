@@ -24,16 +24,16 @@ const LoginComponent = () => {
             <br />
             <br />
             <div className={styles.containerRow}>
-                {/* <div className={styles.containerCol}> */}
-                <p className={styles.smallText}>ยังไม่เป็นสมาชิก?</p>
-                {/* <div className={styles.containerRow}> */}
-                <div>
-                    <button className={styles.buttonWhile}>สมัครสมาชิก</button>
-                    <button className={styles.buttonBlue}>สมัครด้วย Facebook</button>
-                    <button className={styles.buttonLine}>สมัครด้วย Line</button>
+                <div className={styles.containerCol}>
+                    <p className={styles.smallText}>ยังไม่เป็นสมาชิก?</p>
+                    <div className={styles.containerRow}>
+                        <div>
+                            <button className={styles.buttonWhile}>สมัครสมาชิก</button>
+                            <button className={styles.buttonBlue}>สมัครด้วย Facebook</button>
+                            <button className={styles.buttonLine}>สมัครด้วย Line</button>
+                        </div>
+                    </div>
                 </div>
-                {/* </div> */}
-                {/* </div> */}
             </div>
 
         </>

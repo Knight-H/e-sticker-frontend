@@ -1,16 +1,21 @@
 @import "../../variables";
 
 .container {
-
+    
     margin:  50px auto 0px auto;
-
+    
     display: flex;
     flex-direction: column;
-
-    // width: 450px;
+    
+    @media screen and (min-width: 768px){
+        width: 450px;
+    }
+    @media screen and (max-width: 767px){
+        width: 100%;
+    }
 
     h2 {
-        margin: 0px 0px 20px 10px;
+        margin: 5px 0px 20px 10px;
     }
     
 }
