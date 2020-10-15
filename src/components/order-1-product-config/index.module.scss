@@ -175,7 +175,7 @@
 .selectBoxValue {
   display: flex;
 }
-.selectBoxValue svg {
+.selectBoxValue img, .selectBoxValue svg {
   z-index: -1;
   position: absolute;
   left: 180px;
