@@ -57,7 +57,7 @@ const Order1ProductConfigComponent = (props) => {
 
                         <div className={styles.sizeSelect}>
                             <label htmlFor="size">ขนาด<ErrorMessage name="width" render={msg => <span className="error">{msg}</span>} />
-                            <ErrorMessage name="height" render={msg => <span className="error">{msg}</span>} /></label>
+                                <ErrorMessage name="height" render={msg => <span className="error">{msg}</span>} /></label>
                             <div className={styles.sizeWrapper}>
                                 <Field name="width" type="text" placeholder="กว้าง..." />
                                 <Field name="height" type="text" placeholder="ยาว..." />

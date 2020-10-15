@@ -78,7 +78,7 @@ const EnhancedAppComponent = withFormik({
 
     // Step two
     approvalStricker: 0,
-    isCheckUploadFileStricker: false,
+    isCheckUploadFileStricker: 0,
     uploadFileStricker: [],
     comment: '',
   }),
@@ -87,44 +87,44 @@ const EnhancedAppComponent = withFormik({
 
     // Step 1
     if (values.stepProgress === 0) {
-      if (values.shape === 0) {
-        errors.shape = "Require"
+      if (!values.shape) {
+        errors.shape = "*กรุณาระบุ"
       }
-      if (values.material === 0) {
-        errors.material = "Require"
+      if (!values.material) {
+        errors.material = "*กรุณาระบุ"
       }
-      if (values.coat === 0) {
-        errors.coat = "Require"
+      if (!values.coat) {
+        errors.coat = "*กรุณาระบุ"
       }
-      if (values.cutting === 0) {
-        errors.cutting = "Require"
+      if (!values.cutting) {
+        errors.cutting = "*กรุณาระบุ"
       }
-      if (values.width === "") {
-        errors.width = "Require"
+      if (!values.width === "") {
+        errors.width = "*กรุณาระบุ"
       }
-      if (values.height === "") {
-        errors.height = "Require"
+      if (!values.height === "") {
+        errors.height = "*กรุณาระบุ"
       }
-      if (values.units === 0) {
-        errors.units = "Require"
+      if (!values.units) {
+        errors.units = "*กรุณาระบุ"
       }
     } else if (values.stepProgress === 1) {
 
       // Step two
-      if (values.approvalStricker === 0) {
-        errors.approvalStricker = "Require"
+      if (!values.approvalStricker) {
+        errors.approvalStricker = "*กรุณาระบุ"
       }
-      if (values.isCheckUploadFileStricker === false) {
-        errors.uploadFileStricker = "Require"
+      if (!values.isCheckUploadFileStricker === false) {
+        errors.uploadFileStricker = "*กรุณาระบุ"
       }
     }
     return errors;
   },
-  handleSubmit: (values, { setSubmitting }) => {
+  handleSubmit: (values, { setSubmitting, setFieldValue }) => {
     console.log("values", values)
     if (values.stepProgress === 0) {
       console.log(">>>>>>0")
-      values.stepProgress = 1
+      setFieldValue("stepProgress", 1, false);
     } else {
       console.log(">>>>>>1")
       setTimeout(() => {
