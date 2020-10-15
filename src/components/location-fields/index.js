@@ -3,7 +3,7 @@ import { Field, ErrorMessage } from 'formik';
 
 import styles from './index.module.scss';
 
-const LocationFieldsComponent = ({ onlyLocation = false }) => {
+const LocationFieldsComponent = ({ onlyLocation = false, email = null, emailDisabled = false }) => {
     return (
         <div className={styles.gridContainer}>
             {/*  GRID ITEM ISN"T EVEN USED? DONT EVEN HAVE SCSS WTF? */}
@@ -13,7 +13,7 @@ const LocationFieldsComponent = ({ onlyLocation = false }) => {
                     <div className={styles.gridItem}>
                         <div className={styles.formControl}>
                             <p>อีเมล* <ErrorMessage name="email" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
-                            <Field name="email" type="email"/>
+                            <Field name="email" type="email" value={email} disabled={emailDisabled} />
                         </div>
                     </div>
 

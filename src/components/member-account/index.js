@@ -7,9 +7,10 @@ import { Form, Field, withFormik } from 'formik'
 
 
 const EnhancedLoginCredentialsComponent = withFormik({
-    mapPropsToValues: () => {
+    enableReinitialize: true,
+    mapPropsToValues: (props) => {
         return {
-            email: '',
+            email: props.email,
             password: '',
             password_repeat: '',
         }
@@ -27,12 +28,10 @@ const EnhancedLoginCredentialsComponent = withFormik({
             alert(JSON.stringify(values, null, 2))
         }, 0)
     }
-})(() => {
+})((props) => {
     return (
-        <Form>
-            <section className={styles.loginCredentials}>
-                <LoginCredentialsComponent2 isRegistering={false} />
-            </section>
+        <Form className={styles.loginCredentials}>
+            <LoginCredentialsComponent2 isRegistering={false} {...props} />
         </Form>
     )
 })
@@ -40,6 +39,9 @@ const EnhancedLoginCredentialsComponent = withFormik({
 const EnchancedLocationFieldsComponent = withFormik({
     mapPropsToValues: () => {
         return {
+
+            phone: '',
+
             address: '',
             fullname: '',
 
@@ -63,13 +65,10 @@ const EnchancedLocationFieldsComponent = withFormik({
             alert(JSON.stringify(values, null, 2))
         }, 0)
     }
-})(() => {
+})((props) => {
     return (
-        <Form>
-            <section className={styles.userInfo}>
-                < LocationFieldsComponent onlyLocation={true} />
-            </section>
-
+        <Form className={styles.userInfo} >
+            <LocationFieldsComponent {...props} />
             <Field type="submit" className={styles.greenButton} value="อัปเดตข้อมูล" />
         </Form>
     )
@@ -77,18 +76,18 @@ const EnchancedLocationFieldsComponent = withFormik({
 
 const MemberAccountComponent = () => {
     return (
-        <main className={styles.container}>
+        <main className={styles.pageContainer}>
 
-            <h2>รายการสมาชิก</h2>
+            <h2>มุมสมาชิก - จัดการบัญชี</h2>
+            {/* <h3>สวัสดีคุณ  customer_name  เลือกเมนูการใช้งานได้เลยค่ะ</h3> */}
             <h3>หมายเลขสมาชิก MEM0001</h3>
 
             <div className={styles.flexWrapper}>
 
-                <EnhancedLoginCredentialsComponent />
-                <EnchancedLocationFieldsComponent />
+                <EnhancedLoginCredentialsComponent email="demo@asd" emailDisabled={true} />
+                <EnchancedLocationFieldsComponent onlyLocation={false} email="demo@asd" emailDisabled={true} />
 
             </div>
-
 
         </main>
     );

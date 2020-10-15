@@ -6,10 +6,12 @@ import { ReactComponent as EditPen } from './edit-pen.svg';
 import { ReactComponent as IconRock } from './icon-rock.svg';
 import { ReactComponent as LockOut } from './lock-out.svg';
 
+import auth from '../../firebase/index.js'
+
 const AdminNavBarComponent = ({ history }) => {
     const [isBurgerToggled, setIsBurgerToggled] = useState(false);
     let url = window.location.pathname;
-    console.log("url", url)
+
     return (
         <header>
             <nav className={styles.navBar}>
@@ -26,7 +28,12 @@ const AdminNavBarComponent = ({ history }) => {
                             }}
                             // onClick={stepsOrderScroll}
                             ><IconRock />เปลี่ยนรหัสผ่าน</Link></li>
-                            <li><Link to={{
+                            <li><Link onClick={() => {
+                                auth.signOut().then(response => {
+                                    console.log("response", response)
+                                })
+                            }}
+                                to={{
                                 pathname: "/",
                                 // hash: "#ourWorks",  
                                 state: { scrollToOurWorks: true }
