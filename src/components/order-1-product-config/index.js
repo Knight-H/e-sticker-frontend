@@ -5,12 +5,10 @@ import { Field, Form, ErrorMessage } from 'formik';
 import { useFormikContext } from 'formik';
 
 import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
-import { ReactComponent as IconRectangular } from './icon-rectangular.svg';
-import { ReactComponent as IconCircle } from './icon-circle.svg';
 
 const Order1ProductConfigComponent = (props) => {
-    const [selectStep] = useState(1);
-    const { values } = useFormikContext();
+    const [selectStep ] = useState(1);
+    const { values, setFieldValue } = useFormikContext();
 
     return (
         <main>
@@ -19,13 +17,13 @@ const Order1ProductConfigComponent = (props) => {
             </section>
 
             <div className={styles.wrapContent}>
-                <img className={styles.square} alt="Box Square for display" />
+                <img className={styles.square} src={values.showImageUrl} alt="." />
 
                 <section className={styles.rightContent}>
                     <Form>
                         <div className={styles.dropdownSelect}>
                             <label htmlFor="stickerConfiguration">รูปแบบสติกเกอร์<ErrorMessage name="shape" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="shape" values={values} options={[values.optionShape]} />
+                            <SelectBox name="shape" values={values} options={[values.optionShape]} setFieldValue={setFieldValue} />
                         </div>
 
                         <div className={styles.dropdownSelect}>
@@ -91,6 +89,8 @@ const Order1ProductConfigComponent = (props) => {
 export default Order1ProductConfigComponent;
 
 const SelectBox = ({ values, name, options }) => {
+    const { setFieldValue } = useFormikContext();
+
     if (values.checkLoadOption) {
         return (
             <div className={styles.selectBox}>
@@ -116,7 +116,7 @@ const SelectBox = ({ values, name, options }) => {
                     {options.map((list, index) => {
                         let lastIndex = index + 1;
                         return (
-                            <li>
+                            <li onClick={() => setFieldValue("showImageUrl", list.image, false)}>
                                 <label className={styles.selectBoxOption} for={`${name}-${lastIndex}`}>
                                     <img src={list.image} alt="." width="16px" style={{ marginRight: "10px" }} />{list.name}
                                 </label>

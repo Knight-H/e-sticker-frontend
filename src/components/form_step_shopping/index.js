@@ -58,6 +58,8 @@ const AppComponent = () => {
 
 const EnhancedAppComponent = withFormik({
   mapPropsToValues: (props) => ({
+    showImageUrl: '',
+
     checkLoadOption: false,
     optionShape: [],
     optionMaterial: [],
