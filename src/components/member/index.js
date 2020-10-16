@@ -24,7 +24,7 @@ import { i18_th } from "../common-scss/i18_text";
 
 
 
-let EnhancedLoginComponent = withFormik({
+export let EnhancedLoginComponent = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
         return {
@@ -55,7 +55,7 @@ let EnhancedLoginComponent = withFormik({
     )
 })
 
-let EnhancedLocationFields = withFormik({
+export let EnhancedLocationFields = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
 
