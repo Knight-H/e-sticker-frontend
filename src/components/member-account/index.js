@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from './index.module.scss';
 
 import LocationFieldsComponent from '../location-fields';
@@ -6,11 +6,15 @@ import { LoginCredentialsComponent2 } from '../login-credentials';
 import { Form, Field, withFormik } from 'formik'
 
 
+import { i18_th } from '../common-scss/i18_text'
+import Axios from "axios";
+import auth, { db } from "../../firebase";
+
 const EnhancedLoginCredentialsComponent = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
         return {
-            email: props.email,
+            email: props.email || '',
             password: '',
             password_repeat: '',
         }
@@ -18,7 +22,15 @@ const EnhancedLoginCredentialsComponent = withFormik({
     validate: (values) => {
         const errors = {}
 
-        // TODO validation
+        Object.entries(values).forEach(([fieldName, fieldValue]) => {
+            if (!fieldValue) {
+                errors[fieldName] = i18_th.required
+            }
+        })
+
+        if (values.password !== values.password_repeat) {
+            errors["password"] = i18_th.password_repeat_different
+        }
 
         return errors
     },
@@ -37,9 +49,10 @@ const EnhancedLoginCredentialsComponent = withFormik({
 })
 
 const EnchancedLocationFieldsComponent = withFormik({
-    mapPropsToValues: () => {
+    mapPropsToValues: (props) => {
         return {
 
+            email: props.email || '',
             phone: '',
 
             address: '',
@@ -55,7 +68,11 @@ const EnchancedLocationFieldsComponent = withFormik({
     validate: (values) => {
         const errors = {}
 
-        // TODO validation
+        Object.entries(values).forEach(([fieldName, fieldValue]) => {
+            if (!fieldValue) {
+                errors[fieldName] = i18_th.required
+            }
+        })
 
         return errors
     },
@@ -66,6 +83,19 @@ const EnchancedLocationFieldsComponent = withFormik({
         }, 0)
     }
 })((props) => {
+
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                db.collection("customers").where("myID", "==", user.uid).get().then((querySnapshot) => {
+                    if (querySnapshot.size === 1){
+                        // Setup page fields
+                    }
+                })
+            }
+        })
+    }, [])
+
     return (
         <Form className={styles.userInfo} >
             <LocationFieldsComponent {...props} />
@@ -74,56 +104,26 @@ const EnchancedLocationFieldsComponent = withFormik({
     )
 })
 
-const MemberAccountComponent = () => {
+const MemberAccountComponent = (props) => {
+
+    const currentEmail = "demo123@mail.com"
+
     return (
         <main className={styles.pageContainer}>
 
             <h2>มุมสมาชิก - จัดการบัญชี</h2>
-            {/* <h3>สวัสดีคุณ  customer_name  เลือกเมนูการใช้งานได้เลยค่ะ</h3> */}
+            <h3>สวัสดีคุณ  customer_name  เลือกเมนูการใช้งานได้เลยค่ะ</h3>
             <h3>หมายเลขสมาชิก MEM0001</h3>
 
             <div className={styles.flexWrapper}>
 
-                <EnhancedLoginCredentialsComponent email="demo@asd" emailDisabled={true} />
-                <EnchancedLocationFieldsComponent onlyLocation={false} email="demo@asd" emailDisabled={true} />
+                <EnhancedLoginCredentialsComponent email={currentEmail} emailDisabled={true} />
+                <EnchancedLocationFieldsComponent onlyLocation={false} email={currentEmail} emailDisabled={true} />
 
             </div>
 
         </main>
     );
 }
-
-
-const EnhancedMemberAccountComponent = withFormik({
-    mapPropsToValues: () => {
-        return {
-
-            email: '',
-            password: '',
-            password_repeat: '',
-            phoneNumber: '',
-
-            address: '',
-            fullname: '',
-
-            district: '',
-            zone: '',
-
-            provice: '',
-            zip: '',
-        }
-    },
-    validate: (values) => {
-        const errors = {}
-
-        return errors
-    },
-    handleSubmit: (values) => {
-        setTimeout(() => {
-            console.log(values)
-            alert(JSON.stringify(values, null, 2))
-        }, 0)
-    }
-})(MemberAccountComponent)
 
 export default MemberAccountComponent;
