@@ -16,6 +16,7 @@
     "react-multi-carousel": "^2.5.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "tmux": "^1.0.0",
     "yarn": "^1.22.10",
     "yup": "^0.29.3"
   },

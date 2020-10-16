@@ -7,6 +7,7 @@ import Order1ProductConfigComponent from "./../order-1-product-config";
 import UploadFileComponent from "./../upload-file";
 import axios from "axios";
 import { withFormik, useFormikContext } from 'formik';
+import auth from '../../firebase/index.js';
 
 // Wizard is a single Formik instance whose children are each page of the
 // multi-step form. The form is submitted on each forward transition (can only
@@ -23,7 +24,6 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
   useEffect(() => {
     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions`)
       .then(res => {
-        console.log("res.data[0]", res.data[0])
         setFieldValue("checkLoadOption", res.data[0], false);
         setFieldValue("optionShape", res.data[0].shape, false);
         setFieldValue("optionMaterial", res.data[0].material, false);
@@ -109,28 +109,53 @@ const EnhancedAppComponent = withFormik({
         errors.units = "*กรุณาระบุ"
       }
     } else if (values.stepProgress === 1) {
-
       // Step two
       if (!values.approvalStricker) {
         errors.approvalStricker = "*กรุณาระบุ"
       }
-      if (!values.isCheckUploadFileStricker === false) {
-        errors.uploadFileStricker = "*กรุณาระบุ"
-      }
     }
+
     return errors;
   },
-  handleSubmit: (values, { setSubmitting, setFieldValue }) => {
-    console.log("values", values)
+  handleSubmit: (values, { setFieldValue }) => {
+    console.log("values", values.stepProgress)
     if (values.stepProgress === 0) {
-      console.log(">>>>>>0")
       setFieldValue("stepProgress", 1, false);
     } else {
-      console.log(">>>>>>1")
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 0);
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          // User is signed in.
+          let data = {
+            "customerType": "member",
+            "itemsList ": [
+              {
+                "approveMethod": values.approvalStricker,
+                "coat": values.coat,
+                "cutting": values.cutting,
+                "comment": values.comment,
+                "units": values.units,
+                "material": values.material,
+                "width": values.width,
+                "price": values.units,
+                "shape": values.shape,
+                "height": values.height
+              }
+            ],
+            "customerID": user.uid,
+          };
+
+          axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
+            .then(res => {
+              console.log("res", res);
+            }).catch(function (err) {
+              console.log("err", err)
+            })
+
+        } else {
+          return;
+        }
+      });
     }
   }
 })(AppComponent);
