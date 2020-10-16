@@ -2,9 +2,8 @@ import React from "react";
 import styles from './index.module.scss';
 
 const AdminKpiComponent = (props) => {
-    console.log("props", props)
     return (
-        <main>
+        <main className={styles.containerKPI}>
             <article className={styles.cardOval}>
                 <p>คำสั่งซื้อ</p>
                 <h3>{props.kpi.order.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
