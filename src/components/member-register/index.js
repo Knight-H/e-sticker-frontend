@@ -58,7 +58,7 @@ const EnchancedMemberRegisterComponent = withFormik({
 
         // Assumes that all fields are required.
         Object.entries(values).forEach(([fieldName, fieldValue]) => {
-            console.log(fieldName, "-", fieldValue, "-", Boolean(fieldValue))
+            // console.log(fieldName, "-", fieldValue, "-", Boolean(fieldValue))
             if (!fieldValue) {
                 errors[fieldName] = i18.required
             }
@@ -70,8 +70,8 @@ const EnchancedMemberRegisterComponent = withFormik({
 
         return errors
     },
-    handleSubmit: dummyHandleSubmit,
-    _handleSubmit: (values) => {
+    // handleSubmit: dummyHandleSubmit,
+    handleSubmit: (values) => {
 
         auth.createUserWithEmailAndPassword(values.email, values.password).then((userCredential) => {
 
@@ -99,15 +99,20 @@ const EnchancedMemberRegisterComponent = withFormik({
             // userCredential.user.uid
 
         }).catch((reason) => {
-            console.log("error", reason)
-        }).finally(() => {
-
+            console.log("Error", reason)
+            let errorMsg = i18.account_creation_failed_general
+            if (reason.code === "auth/email-already-in-use") {
+                errorMsg = i18.account_creation_failed_email_already_exists
+            } else if (reason.code === "auth/weak-password"){
+                errorMsg = i18.account_creation_failed_password_too_weak
+            }
+            alert(errorMsg)
         })
 
-        setTimeout(() => {
-            console.log(values)
-            alert(JSON.stringify(values, null, 2))
-        }, 0)
+        // setTimeout(() => {
+        //     console.log(values)
+        //     alert(JSON.stringify(values, null, 2))
+        // }, 0)
     }
 })(MemberRegisterComponent)
 
