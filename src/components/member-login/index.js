@@ -41,22 +41,15 @@ const EnhancedMemberLoginComponent = withFormik({
     },
     // handleSubmit: dummyHandleSubmit,
 
-    handleSubmit: (values) => {
-
+    handleSubmit: (values, {props}) => {
         auth
             .signInWithEmailAndPassword(values.email, values.password)
             .then((res) => {
                 alert(i18_th.login_successful)
-                // this.props.history.push("/member/setting")
-                // props.history.route.push("/")
-                // res.user.ph
-                // console.log("res", res)
-                // setFieldValue("currentAdmin", true, false);
+                props.history.push("/")
             })
             .catch((error) => {
                 alert(i18_th.login_failed)
-                // console.log("Error", error)
-                // setFieldValue("currentAdmin", false, false);
             })
         // setTimeout(() => {
         //   alert(JSON.stringify(values, null, 2));
