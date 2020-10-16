@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './index.module.scss';
-import { Field } from 'formik'
+import { Field, ErrorMessage } from 'formik'
 
 const LoginCredentialsComponent = ({ isRegistering = true }) => {
     return (
@@ -35,18 +35,18 @@ const LoginCredentialsComponent = ({ isRegistering = true }) => {
     );
 }
 
-export const LoginCredentialsComponent2 = ({ isRegistering = true, email = "", emailDisabled = false }) => {
+export const LoginCredentialsComponent2 = ({ isRegistering = true, emailDisabled = false }) => {
     return (
         <>
             <div className={styles.formControl}>
-                <p>อีเมล</p>
+                <p>อีเมล <ErrorMessage name="email" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></p>
                 <div>
-                    <Field name="email" type="email" value={email} disabled={emailDisabled} />
+                    <Field name="email" type="email" disabled={emailDisabled} />
                 </div>
             </div>
 
             <div className={styles.formControl}>
-                <p>เปลี่ยนรหัสผ่าน</p>
+                <p>เปลี่ยนรหัสผ่าน <ErrorMessage name="password" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></p>
                 <div>
                     <Field name="password" type="password" />
                 </div>
@@ -58,14 +58,14 @@ export const LoginCredentialsComponent2 = ({ isRegistering = true, email = "", e
             {isRegistering ?
                 <>
                     <div className={styles.formControl}>
-                        <p>เบอร์โทรศัพท์</p>
+                        <p>เบอร์โทรศัพท์ <ErrorMessage name="phone" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></p>
                         <div>
-                            <Field name="phoneNumber" type="text" />
+                            <Field name="phone" type="text" />
                         </div>
                     </div>
                 </> :
                 <>
-                    <Field type="submit" className={styles.greenButton} value="เปลี่ยนรหัสผ่าน" />
+                    <Field name="submit" type="submit" className={styles.greenButton} value="เปลี่ยนรหัสผ่าน" />
                 </>
             }
 

@@ -1,10 +1,14 @@
 import React from "react";
 import styles from './index.module.scss';
+import auth, { db } from '../../firebase'
 
 import LocationFieldsComponent from '../location-fields';
 import LoginCredentialsComponent, { LoginCredentialsComponent2 } from '../login-credentials';
 
 import { withFormik, Field, Form } from 'formik'
+import Axios from "axios";
+import { dummyHandleSubmit, dummyValidateError } from "../common-scss/common";
+import { i18_th as i18 } from "../common-scss/i18_text";
 
 const MemberRegisterComponent = () => {
 
@@ -37,7 +41,7 @@ const EnchancedMemberRegisterComponent = withFormik({
             email: '',
             password: '',
             password_repeat: '',
-            phoneNumber: '',
+            phone: '',
 
             address: '',
             fullname: '',
@@ -52,11 +56,54 @@ const EnchancedMemberRegisterComponent = withFormik({
     validate: (values) => {
         const errors = {}
 
-        // TODO add validation
+        // Assumes that all fields are required.
+        Object.entries(values).forEach(([fieldName, fieldValue]) => {
+            console.log(fieldName, "-", fieldValue, "-", Boolean(fieldValue))
+            if (!fieldValue) {
+                errors[fieldName] = i18.required
+            }
+        })
+
+        if (values.password !== values.password_repeat) {
+            errors.password = i18.password_repeat_different
+        }
 
         return errors
     },
-    handleSubmit: (values) => {
+    handleSubmit: dummyHandleSubmit,
+    _handleSubmit: (values) => {
+
+        auth.createUserWithEmailAndPassword(values.email, values.password).then((userCredential) => {
+
+            const moreUserInfo = {}
+            Object.keys(values).filter((fieldName) => {
+                return !["password", "password_repeat"].includes(fieldName)
+            }).forEach((fieldName) => {
+                moreUserInfo[fieldName] = values[fieldName]
+            })
+
+            const docRef = db.collection("customers").doc(userCredential.user.uid)
+            docRef.set(moreUserInfo).then(() => {
+                console.log("registered user data saved")
+            }).catch((reason) => {
+                console.log("FB", reason)
+            })
+
+            // const sess = Axios.create({ baseURL: "https://asia-east2-digitalwish-sticker.cloudfunctions.net/" })
+            // Axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/customers", moreUserInfo).then((res) => {
+            //     console.log(res)
+            // }).catch((reason) => {
+            //     console.log("Error", reason)
+            // })
+
+            // userCredential.user.uid
+
+        }).catch((reason) => {
+            console.log("error", reason)
+        }).finally(() => {
+
+        })
+
         setTimeout(() => {
             console.log(values)
             alert(JSON.stringify(values, null, 2))

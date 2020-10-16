@@ -68,7 +68,7 @@
     // Different padding when there are 2 columns
 
     @media screen and (min-width: 768px){  // width >= 768
-        padding: 30px 85px;
+        padding: 0px 85px;
     }
     @media not screen and (min-width: 768px){  // width < 768
         padding: 15px;
