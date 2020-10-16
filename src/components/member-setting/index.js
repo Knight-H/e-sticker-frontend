@@ -4,11 +4,49 @@ import { ReactComponent as IconArrow } from './icon-arrow.svg';
 import LocationFieldsComponent from '../location-fields';
 import LoginCredentialsComponent from '../login-credentials';
 import AdminKpi from '../admin-kpi'
-import { EnhancedLocationFields, EnhancedLoginComponent } from '../member/index'
+import { EnhancedLoginComponent } from '../member/index'
 
+import { dummyHandleSubmit } from '../common-scss/common'
+import { i18_th } from '../common-scss/i18_text'
 import { Field, withFormik, ErrorMessage, Form } from "formik";
 
+let EnhancedLocationFieldsNoAccStatus = withFormik({
+    enableReinitialize: true,
+    mapPropsToValues: (props) => {
 
+        return {
+            email: props.email || '',
+            phone: '',
+            address: '',
+            fullname: '',
+
+            district: '',
+            zone: '',
+            provice: '',
+            zip: '',
+        }
+    },
+    validate: (values) => {
+        const errors = {}
+
+        console.log(values)
+        Object.entries(values).forEach(([fieldName, fieldValue]) => {
+            if (!fieldValue) {
+                errors[fieldName] = i18_th.required
+            }
+        })
+
+        return errors
+    },
+    handleSubmit: dummyHandleSubmit
+})((props) => {
+    return (
+        <Form className={styles.userInfo}>
+            <LocationFieldsComponent onlyLocation={false} {...props} />
+            <Field name="submit" type="submit" className={styles.greenButton} value="บันทึก" />
+        </Form>
+    )
+})
 
 
 let MemberSettingComponent = (props) => {
@@ -57,12 +95,12 @@ let MemberSettingComponent = (props) => {
             <section className={styles.section1}>
 
                 <h2>รายสมาชิก - จัดการบัญชี</h2>
-                <h3>สมาชิกหมายเลข MEM0001</h3>
+                {/* <h3>สมาชิกหมายเลข MEM0001</h3> */}
 
                 <div className={styles.flexWrapper}>
 
                     <EnhancedLoginComponent email={currentEmail} emailDisabled={true} />
-                    <EnhancedLocationFields email={currentEmail} emailDisabled={true} />
+                    <EnhancedLocationFieldsNoAccStatus email={currentEmail} emailDisabled={true} />
 
                 </div>
             </section>

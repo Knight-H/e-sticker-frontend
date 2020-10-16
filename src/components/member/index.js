@@ -50,7 +50,7 @@ export let EnhancedLoginComponent = withFormik({
 })((props) => {
     return (
         <Form className={styles.loginCredentials}>
-            <LoginCredentialsComponent2 isRegistering={false} />
+            <LoginCredentialsComponent2 isRegistering={false} {...props} />
         </Form>
     )
 })
