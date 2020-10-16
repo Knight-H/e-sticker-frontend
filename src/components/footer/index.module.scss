@@ -31,6 +31,7 @@
         li {
             // font-size: calc(8px + 0.5vw);
             margin-bottom: calc(1% + 0.1vw);
+            padding: 3px;
         };
     };
     .colQrCode {
@@ -90,7 +91,11 @@
 @media only screen and (max-width: 570px) {
     .bgFooter {
         ul {
-            flex-basis: 40%;
+            flex-basis: 100%;
+            li {
+                justify-content: center;
+                display: flex;
+            }
         };
         .colQrCode {
             display: none;

@@ -8,6 +8,8 @@
     flex-direction: column;
     flex-wrap: wrap;
     // border: 3px solid red;
+
+    overflow-x: scroll;
 }
 
 .flexWrapper{
@@ -92,7 +94,7 @@
 .userInfo {
     flex: 2;
 
-    padding: 30px 85px;
+    padding: 0px 85px;
 }
 
 .greenButton{
