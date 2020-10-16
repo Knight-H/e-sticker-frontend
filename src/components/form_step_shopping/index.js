@@ -24,11 +24,17 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
   useEffect(() => {
     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions`)
       .then(res => {
+        console.log("res.data[0]", res.data[0])
         setFieldValue("checkLoadOption", res.data[0], false);
         setFieldValue("optionShape", res.data[0].shape, false);
         setFieldValue("optionMaterial", res.data[0].material, false);
         setFieldValue("optionCuttingList", res.data[0].cuttingList, false);
         setFieldValue("optionUnitOptions", res.data[0].unitOptions, false);
+
+        setFieldValue("heightMax", res.data[0].heightMax, false);
+        setFieldValue("heightMin", res.data[0].heightMin, false);
+        setFieldValue("widthMax", res.data[0].widthMax, false);
+        setFieldValue("widthMin", res.data[0].widthMin, false);
       }).catch(function (err) {
         console.log("err", err)
       })
@@ -102,8 +108,20 @@ const EnhancedAppComponent = withFormik({
       if (!values.width === "") {
         errors.width = "*กรุณาระบุ"
       }
+      if (values.width > values.widthMax) {
+        errors.width = "*ขนาดใหญ่เกิน"
+      }
+      if (values.width < values.widthMin) {
+        errors.width = "*ขนาดเล็กเกิน"
+      }
       if (!values.height === "") {
         errors.height = "*กรุณาระบุ"
+      }
+      if (values.height > values.heightMax) {
+        errors.height = "*ขนาดใหญ่เกิน"
+      }
+      if (values.height < values.heightMin) {
+        errors.height = "*ขนาดเล็กเกิน"
       }
       if (!values.units) {
         errors.units = "*กรุณาระบุ"
