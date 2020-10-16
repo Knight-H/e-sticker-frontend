@@ -21,6 +21,14 @@
 
     h2 {
         margin-bottom: 20px;
+        font-family: SarabunRegular;
+        font-weight: normal;
+    }
+
+    h3 {
+        margin-bottom: 20px;
+        font-family: SarabunRegular;
+        font-weight: normal;
     }
     
 }
@@ -79,7 +87,7 @@
     // Different padding when there are 2 columns
 
     @media screen and (min-width: 768px){  // width >= 768
-        padding: 30px 85px;
+        padding: 0px 85px;
     }
     @media not screen and (min-width: 768px){  // width < 768
         padding: 15px;
@@ -95,6 +103,18 @@
 }
 
 
+@mixin InputDisabled {
+
+    // grey out disabled input field
+
+    input:disabled{
+        border-radius: 5px;
+        border-color:  #E9E9E9;
+        background-color: #E9E9E9;
+    }
+
+}
+
 .loginCredentials {
     @include conditionalWidth;
 
@@ -103,6 +123,9 @@
     padding: 30px 35px;
     border: 1px solid #009473;
     border-radius: 5px;
+
+    @include InputDisabled
+
 }
 
 .userInfo {
@@ -116,6 +139,7 @@
         margin: 0;
     }
 
+    @include InputDisabled;
 }
 
 .greenButton{

@@ -1,9 +1,13 @@
 import React from "react";
+import { withRouter } from 'react-router-dom'
 import { withFormik, Form } from 'formik';
 
 import styles from './index.module.scss';
 
 import LoginComponent from '../login';
+import auth from '../../firebase'
+import { dummyHandleSubmit } from "../common-scss/common";
+import { i18_th } from "../common-scss/i18_text";
 
 const MemberLoginComponent = () => {
 
@@ -35,13 +39,31 @@ const EnhancedMemberLoginComponent = withFormik({
 
         return errors;
     },
-    handleSubmit: (values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 0);
+    // handleSubmit: dummyHandleSubmit,
+
+    handleSubmit: (values) => {
+
+        auth
+            .signInWithEmailAndPassword(values.email, values.password)
+            .then((res) => {
+                alert(i18_th.login_successful)
+                // this.props.history.push("/member/setting")
+                // props.history.route.push("/")
+                // res.user.ph
+                // console.log("res", res)
+                // setFieldValue("currentAdmin", true, false);
+            })
+            .catch((error) => {
+                alert(i18_th.login_failed)
+                // console.log("Error", error)
+                // setFieldValue("currentAdmin", false, false);
+            })
+        // setTimeout(() => {
+        //   alert(JSON.stringify(values, null, 2));
+        //   setSubmitting(false);
+        // }, 0);
     },
     displayName: 'MemberLoginComponentForm',
-})(MemberLoginComponent);
+})(withRouter(MemberLoginComponent));
 
 export default EnhancedMemberLoginComponent;
