@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from './index.module.scss';
 
 import LocationFieldsComponent from '../location-fields';
@@ -7,6 +7,8 @@ import { Form, Field, withFormik } from 'formik'
 
 
 import { i18_th } from '../common-scss/i18_text'
+import Axios from "axios";
+import auth, { db } from "../../firebase";
 
 const EnhancedLoginCredentialsComponent = withFormik({
     enableReinitialize: true,
@@ -81,6 +83,19 @@ const EnchancedLocationFieldsComponent = withFormik({
         }, 0)
     }
 })((props) => {
+
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                db.collection("customers").where("myID", "==", user.uid).get().then((querySnapshot) => {
+                    if (querySnapshot.size === 1){
+                        // Setup page fields
+                    }
+                })
+            }
+        })
+    }, [])
+
     return (
         <Form className={styles.userInfo} >
             <LocationFieldsComponent {...props} />
