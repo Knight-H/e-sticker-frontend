@@ -44,7 +44,7 @@ function App() {
                 <Route path="/admin" exact component={AdminListComponent} />
 
                 <Route path="/admin/member" exact component={MemberComponent} />
-                <Route path="/admin/member-setting" exact component={MemberSettingComponent} />
+                <Route path="/admin/setting" exact component={MemberSettingComponent} />
                 <Route path="/member-login" exact component={MemberLoginComponent} />
                 <Route path="/member-register" exact component={MemberRegsterComponent} />
                 <Route path="/member-account" exact component={MemberAccountComponent} />
