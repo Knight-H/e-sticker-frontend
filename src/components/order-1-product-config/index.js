@@ -70,9 +70,9 @@ const Order1ProductConfigComponent = (props) => {
                                 return (
                                     <button type="button" className={`${styles.btnSelect} ${values.setActive === index && styles.active}`}
                                     onClick={() => {
-                                        setFieldValue("setActive", index, false);
-                                        setFieldValue("units", data.units, false);
-                                        setFieldValue("price", data.price, false);
+                                        setFieldValue("setActive", index, false)
+                                        setFieldValue("price", data.price, true)
+                                        setFieldValue("units", data.unit, true)
                                     }}>{data.unit}ชิ้น/{data.price}บาท</button> 
                                 )
                             })}

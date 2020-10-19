@@ -20,6 +20,13 @@ const ApproveLayoutComponent = () => {
             setFieldValue("orderID", res.data[0].orderID, false);
             setFieldValue("status", res.data[0].status, false);
             setFieldValue("itemsList", res.data[0].itemsList, false);
+            setFieldValue("shippingAddress", res.data[0].shippingAddress, false);
+
+            setFieldValue("shippingCourier", res.data[0].shippingCourier, false);
+            setFieldValue("itemsCost", res.data[0].itemsCost, false);
+            setFieldValue("shippingCost", res.data[0].shippingCost, false);
+            setFieldValue("vatCost", res.data[0].vatCost, false);
+            setFieldValue("totalCost", res.data[0].totalCost, false);
           }).catch(function (err) {
             console.log("err", err)
           })
@@ -62,11 +69,11 @@ const ApproveLayoutComponent = () => {
             </section>
 
             <section className={styles.previewImage}>
-                {/* <PreviewImage /> */}
+                <PreviewImage />
             </section>
 
             <section className={styles.groupDeliveryPayment} style={guestMode ? { border: '1px solid #009473' } : {}}>
-                {/* <GroupDeliveryPayment /> */}
+                <GroupDeliveryPayment />
             </section>
         </main >
     );
@@ -85,53 +92,6 @@ const EnhancedApproveLayoutComponent = withFormik({
 })(ApproveLayoutComponent);
 
 export default EnhancedApproveLayoutComponent;
-
-
-const fakeAPI = [
-    {
-        orderNumber: "DW0001",
-        status: 1,
-        // image: ???
-        itemsList: [
-            {
-                orderID: "ITM00001",
-                shape: 'สติกเกอร์แบบกลม',
-                material: 'กระดาษอาร์ต',
-                coat: 'เคลือบด้าน',
-                cutting: 'กินเนื้อ 1 มม.',
-                width: '10',
-                height: '20',
-                units: '300',
-                price: '500',
-                status: 1,
-
-                messages: [
-                    {
-                        type: "text",
-                        content: "สวัสดีครับ",
-                        info: "",
-                        by: "ลูกค้า"
-
-                    },
-                    {
-                        type: "text",
-                        content: "สวัสดีครับ",
-                        info: "",
-                        by: "พนักงาน"
-
-                    },
-                    {
-                        type: "text",
-                        content: "เด่วจะส่งแบบให้นะครับ",
-                        info: "",
-                        by: "ลูกค้า"
-
-                    }
-                ]
-            }
-        ]
-    }
-]
 
 const LabelSatus = ({ status }) => {
     if (status === "กำลังดำเนินการ") {

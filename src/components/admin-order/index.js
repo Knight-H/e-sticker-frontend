@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withFormik, useFormikContext, Field } from 'formik';
 import styles from './index.module.scss';
+import axios from "axios";
 
 import StepProgress from "../step_progress";
 import AdminKpi from "../admin-kpi";
@@ -11,10 +12,27 @@ import GroupDeliveryPayment from "../group-delivery-payment";
 import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
 
 const AdminOrderComponent = () => {
-    const { values } = useFormikContext();
-    // const [dropDawn, setDropDawn] = useState(0);
+    const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(3);
-    const [expandCard, setExpandCard] = useState(0);
+
+    useEffect(() => {
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
+          .then(res => {
+            console.log("res.data[0]", res.data[0])
+            setFieldValue("orderID", res.data[0].orderID, false);
+            setFieldValue("status", res.data[0].status, false);
+            setFieldValue("itemsList", res.data[0].itemsList, false);
+            setFieldValue("shippingAddress", res.data[0].shippingAddress, false);
+
+            setFieldValue("shippingCourier", res.data[0].shippingCourier, false);
+            setFieldValue("itemsCost", res.data[0].itemsCost, false);
+            setFieldValue("shippingCost", res.data[0].shippingCost, false);
+            setFieldValue("vatCost", res.data[0].vatCost, false);
+            setFieldValue("totalCost", res.data[0].totalCost, false);
+          }).catch(function (err) {
+            console.log("err", err)
+          })
+      }, []);
 
     return (
         <main className={styles.wrapContent}>
@@ -65,7 +83,7 @@ const AdminOrderComponent = () => {
             </section>
 
             <section>
-                <CardOrder expandCard={expandCard} setExpandCard={setExpandCard} />
+                <CardOrder />
             </section>
 
             <section className={styles.previewImage}>

@@ -94,6 +94,7 @@ const EnhancedAppComponent = withFormik({
   validate: values => {
     const errors = {};
 
+    console.log("valie", values)
     // Step 1
     if (values.stepProgress === 0) {
       if (!values.shape) {
@@ -152,7 +153,7 @@ const EnhancedAppComponent = withFormik({
           storageRef.child(`${user.uid}/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
             .then((snapshot) => {
               snapshot.ref.getDownloadURL().then((url) => {
-
+                console.log("values.uploadFileStrickerForFirebase.name", values.uploadFileStrickerForFirebase.name)
                 let data = {
                   "customerType": "member",
                   "itemsList ": [
@@ -172,6 +173,7 @@ const EnhancedAppComponent = withFormik({
                         {
                           "type": "file",
                           "content": `${url}`,
+                          "info": `${values.uploadFileStrickerForFirebase.name}`,
                           "by": "customer"
                         }
                       ]
@@ -181,6 +183,7 @@ const EnhancedAppComponent = withFormik({
                   "customerID": user.uid,
                 };
 
+                console.log("data", data)
                 axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
                   .then(res => {
                     console.log("res", res);
