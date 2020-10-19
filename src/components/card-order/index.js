@@ -13,6 +13,7 @@ const CardOrderComponent = (props) => {
     return (
         <Carousel responsive={responsive}>
             {values.itemsList.map((listCard, index) => {
+                console.log("listCard", listCard.status)
                 return (
                     <div className={`${styles.card} ${`${values.expandCard}` === `${index}` && styles.active}`} onClick={() => setFieldValue("expandCard", index, false)}>
                         <h4>หมายเลขรายการ {listCard.orderID}</h4>
@@ -23,7 +24,7 @@ const CardOrderComponent = (props) => {
                             <h4 className={styles.quality}>{listCard.units}ชิ้น</h4>
                             <h4 className={styles.price}>{listCard.price}฿</h4>
                         </div>
-                        <LabelSatus status={listCard.status} />
+                        <LabelSatus status={listCard.approveMethod} />
                     </div>
                 )
             })}
@@ -55,9 +56,9 @@ const responsive = {
 };
 
 const LabelSatus = ({ status }) => {
-    if (status === 1) {
+    if (status === "รออนุมัติแบบ") {
         return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: รออนุมัติแบบ</label>
-    } else if (status === 2) {
+    } else if (status === "อนุมัติแบบ") {
         return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: อนุมัติแบบ</label>
     }
 }
