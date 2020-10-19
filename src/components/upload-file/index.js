@@ -15,8 +15,9 @@ const UploadFileComponent = (props) => {
 
     const handleChange = event => {
         if (event.target.files) {
-            setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), false)
-            setFieldValue("isCheckUploadFileStricker", true, false)
+            setFieldValue("uploadFileStrickerForFirebase", event.target.files[0], false);
+            setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), false);
+            setFieldValue("isCheckUploadFileStricker", true, false);
         }
     }
 

@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import { withFormik, useFormikContext } from 'formik';
 import { Field, Form, ErrorMessage } from 'formik';
 
-import auth from '../../firebase/index.js'
+import { auth } from '../../firebase/index.js'
 
 const AdminLoginComponent = () => {
     const { values } = useFormikContext();
@@ -17,15 +17,14 @@ const AdminLoginComponent = () => {
     return (
         <main>
             <Form className={styles.formAdminLogin}>
-                <h3>Stickerwish Admin Login<span style={{ color: "orange" }}>
-                    {values.currentAdmin === true ? "Login Success" : values.currentAdmin === false ? "Login False" : ""}</span>
-                </h3>
+                <h3>Stickerwish Admin Login</h3>
                 <label>อีเมล<ErrorMessage name="email" render={msg => <span className="error">{msg}</span>} /></label>
                 <Field name="email" type="email" className={styles.inputText} placeholder="" />
 
                 <label>รหัสผ่าน<ErrorMessage name="password" render={msg => <span className="error">{msg}</span>} /></label>
                 <Field name="password" type="password" className={styles.inputText} placeholder="" />
-
+                
+                {values.checkLogin && <p className="error" style={{ marginBottom: "10px"}}>username หรือ password ไม่ถูกต้อง</p>}
                 <button type="submit">เข้าสู่ระบบ</button>
             </Form>
         </main >
@@ -37,7 +36,7 @@ const EnhancedAdminLoginComponent = withFormik({
         email: '',
         password: '',
 
-        currentAdmin: ''
+        checkLogin: false
     }),
     validate: values => {
         const errors = {};
@@ -52,16 +51,17 @@ const EnhancedAdminLoginComponent = withFormik({
 
         return errors;
     },
-    handleSubmit: (values, { setFieldValue }) => {
+    handleSubmit: (values, { setFieldValue, props }) => {
         auth
             .signInWithEmailAndPassword(values.email, values.password)
             .then(res => {
                 console.log("uid", res.user.uid, "email", res.user.email)
-                setFieldValue("currentAdmin", true, false);
+                setFieldValue("checkLogin", false, false);
+                props.history.push("/admin")
             })
             .catch(error => {
                 console.log("Error", error)
-                setFieldValue("currentAdmin", false, false);
+                setFieldValue("checkLogin", true, false);
             })
     }
 })(AdminLoginComponent);

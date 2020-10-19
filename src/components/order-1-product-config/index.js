@@ -66,16 +66,16 @@ const Order1ProductConfigComponent = (props) => {
 
                         <div className={styles.dropdownSelect}>
                             <label htmlFor="quantity">จำนวน<ErrorMessage name="units" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="units" values={values} options={
-                                values.optionUnitOptions ? values.optionUnitOptions.map((data) => {
-                                    return (
-                                        {
-                                            image: data.imgUrl,
-                                            name: `${data.unit}-ชิ้น ${data.price}-บาท`
-                                        }
-                                    )
-                                }) : []
-                            } />
+                            {values.optionUnitOptions.map((data, index) => {
+                                return (
+                                    <button type="button" className={`${styles.btnSelect} ${values.setActive === index && styles.active}`}
+                                    onClick={() => {
+                                        setFieldValue("setActive", index, false);
+                                        setFieldValue("units", data.units, false);
+                                        setFieldValue("price", data.price, false);
+                                    }}>{data.unit}ชิ้น/{data.price}บาท</button> 
+                                )
+                            })}
                         </div>
 
                         <button type="submit" className={styles.nextButton}>ถัดไป</button>
@@ -132,4 +132,4 @@ const SelectBox = ({ values, name, options }) => {
     } else {
         return <div></div>
     }
-};
+};  

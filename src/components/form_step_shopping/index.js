@@ -7,7 +7,8 @@ import Order1ProductConfigComponent from "./../order-1-product-config";
 import UploadFileComponent from "./../upload-file";
 import axios from "axios";
 import { withFormik, useFormikContext } from 'formik';
-import auth from '../../firebase/index.js';
+import { auth } from '../../firebase/index.js';
+import firebaseApp from '../../firebase/index.js';
 
 // Wizard is a single Formik instance whose children are each page of the
 // multi-step form. The form is submitted on each forward transition (can only
@@ -81,11 +82,13 @@ const EnhancedAppComponent = withFormik({
     width: '',
     height: '',
     units: 0,
+    price: 0,
 
     // Step two
     approvalStricker: 0,
     isCheckUploadFileStricker: 0,
     uploadFileStricker: [],
+    uploadFileStrickerForFirebase: [],
     comment: '',
   }),
   validate: values => {
@@ -135,8 +138,7 @@ const EnhancedAppComponent = withFormik({
 
     return errors;
   },
-  handleSubmit: (values, { setFieldValue }) => {
-    console.log("values", values.stepProgress)
+  handleSubmit: (values, { setFieldValue, props }) => {
     if (values.stepProgress === 0) {
       setFieldValue("stepProgress", 1, false);
     } else {
@@ -144,33 +146,54 @@ const EnhancedAppComponent = withFormik({
       auth.onAuthStateChanged(user => {
         if (user) {
           // User is signed in.
-          let data = {
-            "customerType": "member",
-            "itemsList ": [
-              {
-                "approveMethod": values.approvalStricker,
-                "coat": values.coat,
-                "cutting": values.cutting,
-                "comment": values.comment,
-                "units": values.units,
-                "material": values.material,
-                "width": values.width,
-                "price": values.units,
-                "shape": values.shape,
-                "height": values.height
-              }
-            ],
-            "customerID": user.uid,
-          };
+          console.log("user", user)
 
-          axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
-            .then(res => {
-              console.log("res", res);
-            }).catch(function (err) {
-              console.log("err", err)
-            })
+          const storageRef = firebaseApp.storage().ref();
+          storageRef.child(`${user.uid}/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
+            .then((snapshot) => {
+              snapshot.ref.getDownloadURL().then((url) => {
+
+                let data = {
+                  "customerType": "member",
+                  "itemsList ": [
+                    {
+                      "approveMethod": values.approvalStricker,
+                      "coat": values.coat,
+                      "cutting": values.cutting,
+                      "comment": values.comment,
+                      "units": values.units,
+                      "material": values.material,
+                      "width": values.width,
+                      "price": values.price,
+                      "shape": values.shape,
+                      "height": values.height,
+
+                      "messages": [
+                        {
+                          "type": "file",
+                          "content": `${url}`,
+                          "by": "customer"
+                        }
+                      ]
+
+                    }
+                  ],
+                  "customerID": user.uid,
+                };
+
+                axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
+                  .then(res => {
+                    console.log("res", res);
+                    props.history.push("/checkout")
+                  }).catch(function (err) {
+                    console.log("err", err)
+                  })
+              });
+            }
+            );
 
         } else {
+          console.log(">>>>>");
           return;
         }
       });
