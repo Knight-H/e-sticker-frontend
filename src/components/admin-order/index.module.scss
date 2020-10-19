@@ -21,8 +21,8 @@
             flex-direction: row;
             // border: 1px solid #009473;
             border-radius: 20px;
-            padding: 30px 40px;
-            margin-top: 8vh;
+            padding: 30px 20px;
+            margin-top: 4vh;
          
         }
 
@@ -33,7 +33,7 @@
 }
 
 .btnWhite {
-    margin-left: 10px;
+    margin-left: 5px;
     font-size: 12px;
     padding: 10px 15px;
     background: #FFFFFF;
@@ -57,7 +57,7 @@
 
 
 .selectBox {
-        margin-left: 20px;
+        margin: 0 10px 5px 5px;
         position: relative;
         display: inline-block;
         width: 190px;

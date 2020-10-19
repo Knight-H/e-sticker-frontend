@@ -91,7 +91,7 @@
     }
 }
 
-@media only screen and (max-width: 414px) {
+@media only screen and (max-width: 415px) {
     .groupDelivery {
         flex-basis: 100%;
     
@@ -106,13 +106,6 @@
 
     .groupPayment {
         flex-basis: 100%;
-        table {
-            thead tr th, tbody tr td, tfoot tr td{
-                img {
-                    display: none
-                }
-            }
-        }
     }
 
 

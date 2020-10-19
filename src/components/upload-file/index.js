@@ -16,7 +16,7 @@ const UploadFileComponent = (props) => {
     const handleChange = event => {
         if (event.target.files) {
             setFieldValue("uploadFileStrickerForFirebase", event.target.files[0], false);
-            setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), false);
+            setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), true);
             setFieldValue("isCheckUploadFileStricker", true, false);
         }
     }
@@ -40,7 +40,7 @@ const UploadFileComponent = (props) => {
                             }
                         ]} />
 
-                        <label className={styles.label} style={{ marginTop: "10px" }}>อัพโหลดไฟล์งาน{!values.isCheckUploadFileStricker && <spna className="error">*กรุณาระบุ</spna>}</label>
+                        <label className={styles.label} style={{ marginTop: "10px" }}>อัพโหลดไฟล์งาน<ErrorMessage name="uploadFileStricker" render={msg => <span className="error">{msg}</span>} /></label>
                         <input type="file" id="file" onChange={(e) => handleChange(e)} />
                         <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
                             <IconUploadFile />อัพโหลดไฟล์</label>
@@ -48,7 +48,7 @@ const UploadFileComponent = (props) => {
                         <label className={styles.label}>เพิ่มเติม</label>
                         <Field name="comment" as="textarea" rows="6" />
 
-                        <button type="submit" className={styles.btnCart} disabled={!values.isCheckUploadFileStricker && true}><IconCart /><b>ใส่ในตะกร้า</b></button>
+                        <button type="submit" className={styles.btnCart}><IconCart /><b>ใส่ในตะกร้า</b></button>
                         <button type="button" className={styles.btnBack} onClick={() => setFieldValue("stepProgress", 0, false)}>ย้อนกลับ</button>
                     </div>
                 </Form>

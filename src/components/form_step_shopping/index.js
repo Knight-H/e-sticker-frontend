@@ -87,7 +87,7 @@ const EnhancedAppComponent = withFormik({
     // Step two
     approvalStricker: 0,
     isCheckUploadFileStricker: 0,
-    uploadFileStricker: [],
+    uploadFileStricker: '',
     uploadFileStrickerForFirebase: [],
     comment: '',
   }),
@@ -134,6 +134,9 @@ const EnhancedAppComponent = withFormik({
       // Step two
       if (!values.approvalStricker) {
         errors.approvalStricker = "*กรุณาระบุ"
+      }
+      if (!values.uploadFileStricker) {
+        errors.uploadFileStricker = "*กรุณาระบุ"
       }
     }
 
