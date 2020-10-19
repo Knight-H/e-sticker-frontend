@@ -54,8 +54,7 @@ const HomeMemberComponent = (props) => {
             <section className={styles.container}>
 
                 {values.objectOrder.map((fakeAPI) => {
-                    if (fakeAPI) {
-                        console.log("fakeAPI", fakeAPI);
+                    if (fakeAPI) {  
                         return (
                             <article className={styles.borderCard}>
                                 <h1 className={styles.title}>ออเดอร์หมายเลข {fakeAPI.orderID}</h1>
@@ -74,7 +73,7 @@ const HomeMemberComponent = (props) => {
                                     ))}
                                 </table>
 
-                                <button type="button">ดูรายละเอียด</button>
+                                <button type="button" onClick={() => props.history.push("/myorder")}>ดูรายละเอียด</button>
                             </article>
                         )
                     }
