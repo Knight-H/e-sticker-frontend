@@ -3,6 +3,7 @@ import { useFormikContext, withFormik, Form, Field, ErrorMessage } from 'formik'
 
 import StepProgress from "../step_progress";
 import LocationFieldsComponent from '../location-fields';
+import TaxFieldsComponent from '../tax-fields';
 
 import fake_data from "./fake-api.json";
 import styles from './index.module.scss';
@@ -52,7 +53,7 @@ const CartComponent = () => {
                                             return (
                                                 <tr>
                                                     <td>
-                                                        <div className={`${styles.containerRow} ${styles.flexNoWrap}`}>
+                                                        <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`}>
                                                             <img src={img_product} className={styles.productPreview} alt="Product" />
                                                             <div className={styles.containerCol}>
                                                                 <div className={styles.name}>{dataObjectMapped.name}</div>
@@ -99,6 +100,8 @@ const CartComponent = () => {
 
                     {/* Child Box #2 */}
                     <div className={styles.boxChild2}>
+                        <h2>ระบุที่อยู่</h2>
+                        <LocationFieldsComponent/>
                         <h2>เลือก การจัดส่ง <ErrorMessage name="shippingDate" render={msg => <span style={{color: "red"}}>{msg}</span>}/></h2>
                         
                         <SelectShipping name="shippingDate" id="shippingDate" values={values} options={[
@@ -124,9 +127,8 @@ const CartComponent = () => {
                             </div>
                         </div>
                         
-                        <div className={checkedBox ? styles.contentDisplayBlock : styles.contentDisplayNone}>
-                            <h2>ระบุที่อยู่</h2>
-                            <LocationFieldsComponent/>
+                        <div className={!checkedBox ? styles.contentDisplayBlock : styles.contentDisplayNone}>
+                            <TaxFieldsComponent/>
                         </div>
                         <button type="submit" className={styles.buttonNext}>ถัดไป</button>
                     </div>
@@ -209,6 +211,7 @@ const EnhancedCartComponent = withFormik({
         priceTotal: '',
         shippingDate: '',
         payment: '',
+
         email: '',
         phone: '',
         address: '',
@@ -216,24 +219,50 @@ const EnhancedCartComponent = withFormik({
         zone: '',
         provice: '',
         zip: '',
+
+        tax_email: '',
+        tax_phone: '',
+        tax_address: '',
+        tax_district: '',
+        tax_zone: '',
+        tax_provice: '',
+        tax_zip: '',
         checkedBoxInfo: false
     }),
     validate: values => {
         const errors = {};
+        if (values.email === "") { errors.email = "Required" }
+        if (values.phone === "") { errors.phone = "Required" }
+        if (values.address === "") { errors.address = "Required" }
+        if (values.fullname === "") { errors.fullname = "Required" }
+        if (values.district === "") { errors.district = "Required" }
+        if (values.zone === "") { errors.zone = "Required" }
+        if (values.provice === "") { errors.provice = "Required" }
+        if (values.zip === "") { errors.zip = "Required" }
         if (values.orderID === "") { errors.orderID = "Required" }
         if (values.priceTotal === "") { errors.priceTotal = "Required" }
         if (values.shippingDate === "") { errors.shippingDate = "Required" }
         if (values.payment === "") { errors.payment = "Required" }
 
-        if (values.checkedBoxInfo) {
-            if (values.email === "") { errors.email = "Required" }
-            if (values.phone === "") { errors.phone = "Required" }
-            if (values.address === "") { errors.address = "Required" }
-            if (values.fullname === "") { errors.fullname = "Required" }
-            if (values.district === "") { errors.district = "Required" }
-            if (values.zone === "") { errors.zone = "Required" }
-            if (values.provice === "") { errors.provice = "Required" }
-            if (values.zip === "") { errors.zip = "Required" }
+        if (!values.checkedBoxInfo) {
+            if (values.tax_email === "") { errors.tax_email = "Required" }
+            if (values.tax_phone === "") { errors.tax_phone = "Required" }
+            if (values.tax_address === "") { errors.tax_address = "Required" }
+            if (values.tax_fullname === "") { errors.tax_fullname = "Required" }
+            if (values.tax_district === "") { errors.tax_district = "Required" }
+            if (values.tax_zone === "") { errors.tax_zone = "Required" }
+            if (values.tax_provice === "") { errors.tax_provice = "Required" }
+            if (values.tax_zip === "") { errors.tax_zip = "Required" }
+        }
+        else {
+            values.tax_email = values.email;
+            values.tax_phone = values.phone;
+            values.tax_address = values.address;
+            values.tax_fullname = values.fullname;
+            values.tax_district = values.district;
+            values.tax_zone = values.zone;
+            values.tax_provice = values.provice;
+            values.tax_zip = values.zip;
         }
 
         return errors;

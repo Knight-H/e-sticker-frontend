@@ -85,6 +85,13 @@
     // border: 3px solid blue;
 }
 
+.containerRowCart {
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .containerCol {
     margin: 0px;
     display: flex;
@@ -237,4 +244,14 @@
 
 .optionShipping {
     list-style-type: none;
+}
+
+// https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart)
+@media only screen and (max-width: 420px) {
+    .containerRowCart {
+        margin: 0px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
 }
