@@ -56,7 +56,7 @@ const NavBarComponent = ({ history, itemCount }) => {
             <div className={styles.topBar}>
                 <button>
                     <ProfileIcon />
-                    เข้าสู่ระบบ
+                    <Link to="/login">เข้าสู่ระบบ</Link>
                 </button>
                 <button>
                     <ShoppingCart />
