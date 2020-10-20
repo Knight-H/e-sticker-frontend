@@ -63,10 +63,17 @@ const HomeComponent = (props) => {
                             <S11SampleIcon />
                         ขอชุดตัวอย่างสติกเกอร์
                     </button>
-                        <button>
-                            <S12BasketIcon />
+                        <Link to={{
+                            pathname: "/",
+                            // hash: "#stepsOrder",
+                            state: { scrollToStepsOrder: true }
+                        }}>
+                            <button >
+                                <S12BasketIcon />
                         ขั้นตอนการสั่งซื้อ
                     </button>
+
+                        </Link>
                         <button>
                             <S13StatusIcon />
                         ดูสถานะการสั่งซื้อ
