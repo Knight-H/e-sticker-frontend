@@ -30,6 +30,14 @@
         // min-width: 700px;
         overflow-x: scroll;
         display: flex;
+
+        padding: 10px;
+
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .horizontalScroller::-webkit-scrollbar {
+        display: none;
     }
 
     button{
@@ -220,13 +228,13 @@
             &::before {
                 content: '';
                 position: absolute;
-                height: 770px;
+                height: 600px;
                 width: 8px;
                 z-index: -1;
                 //   width: 6px;
                 background-color: #009473;
                 box-shadow: 0px 4px 11px rgba(0, 0, 0, 0.25);
-                top: 180px;
+                top: 100px;
                 bottom: 0;
                 // left: calc(50% - 742px/2);
 
@@ -238,7 +246,7 @@
 
             li {
                 display: flex;
-                height: 290px;
+                height: 200px;
                 // width: 320px;
 
                 align-items: center;
@@ -248,8 +256,8 @@
                     
                     flex-shrink: 0;
 
-                    width: 200px;
-                    height: 200px;
+                    width: 150px;
+                    height: 150px;
                     border-radius: calc(200px/2);
 
                     display: flex;
