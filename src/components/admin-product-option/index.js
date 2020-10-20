@@ -12,7 +12,11 @@ const AdminOrderComponent = () => {
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions`)
           .then(res => {
             console.log("res.data[0]", res.data[0])
-            // setFieldValue("orderID", res.data[0].orderID, false);
+            setFieldValue("shape", res.data[0].shape, false);
+            setFieldValue("material", res.data[0].material, false);
+            setFieldValue("coating", res.data[0].material.coating, false);
+            setFieldValue("cuttingList", res.data[0].cuttingList, false);
+            setFieldValue("unitOptions", res.data[0].unitOptions, false);
           }).catch(function (err) {
             console.log("err", err)
           })
@@ -35,52 +39,53 @@ const AdminOrderComponent = () => {
                         <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
                     </div>
                     <div>
-                        <button type="button" className={styles.btnListOption}>แบบกลม</button>
-                        <button type="button" className={styles.btnListOption}>แบบเหลี่ยม</button>
+                        <button type="button" className={styles.btnListOption}>{values.shape.name}</button>
                     </div>
                 </article>
                 <article className={styles.cardProductOption}>
-                    <h4>รูปแบบสติกเกอร์</h4>
+                    <h4>เนื้อวัสดุ</h4>
                     <div>
                         <button type="button" className={styles.btnOption}>เพิ่ม</button>
                         <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
                     </div>
                     <div>
-                        <button type="button" className={styles.btnListOption}>แบบกลม</button>
-                        <button type="button" className={styles.btnListOption}>แบบเหลี่ยม</button>
+                        <button type="button" className={styles.btnListOption}>{values.material.name}</button>
                     </div>
                 </article>
                 <article className={styles.cardProductOption}>
-                    <h4>รูปแบบสติกเกอร์</h4>
+                    <h4>การเคลือบผิว</h4>
                     <div>
                         <button type="button" className={styles.btnOption}>เพิ่ม</button>
                         <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
                     </div>
                     <div>
-                        <button type="button" className={styles.btnListOption}>แบบกลม</button>
-                        <button type="button" className={styles.btnListOption}>แบบเหลี่ยม</button>
+                        {values.coating.map((coating) => {
+                            return ( <button type="button" className={styles.btnListOption}>{coating.name}</button> )
+                        })}
                     </div>
                 </article>
                 <article className={styles.cardProductOption}>
-                    <h4>รูปแบบสติกเกอร์</h4>
+                    <h4>วิธีไดคัสภาพ</h4>
                     <div>
                         <button type="button" className={styles.btnOption}>เพิ่ม</button>
                         <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
                     </div>
                     <div>
-                        <button type="button" className={styles.btnListOption}>แบบกลม</button>
-                        <button type="button" className={styles.btnListOption}>แบบเหลี่ยม</button>
+                    {values.cuttingList.map((cuttingList) => {
+                            return ( <button type="button" className={styles.btnListOption}>{cuttingList.name}</button> )
+                        })}
                     </div>
                 </article>
                 <article className={styles.cardProductOption}>
-                    <h4>รูปแบบสติกเกอร์</h4>
+                    <h4>จำนวน / ราคา</h4>
                     <div>
                         <button type="button" className={styles.btnOption}>เพิ่ม</button>
                         <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
                     </div>
                     <div>
-                        <button type="button" className={styles.btnListOption}>แบบกลม</button>
-                        <button type="button" className={styles.btnListOption}>แบบเหลี่ยม</button>
+                    {values.unitOptions.map((unitOptions) => {
+                            return ( <button type="button" className={styles.btnListOption}>{unitOptions.unit}ชิ้น/{unitOptions.price}บาท</button> )
+                        })}
                     </div>
                 </article>
             </section>
@@ -90,7 +95,12 @@ const AdminOrderComponent = () => {
 
 const EnhancedAdminOrderComponent = withFormik({
     mapPropsToValues: (props) => ({
-        // editStatus:
+        shape: [],
+        material: [],
+        coating: [],
+        cuttingList: [],
+        unitOptions: [],
+
     })
 })(AdminOrderComponent);
 
