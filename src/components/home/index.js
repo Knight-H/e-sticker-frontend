@@ -58,18 +58,20 @@ const HomeComponent = (props) => {
                 <Banner className={styles.banner} />
 
                 <section className={styles.section1}>
-                    <button>
-                        <S11SampleIcon />
+                    <div className={styles.horizontalScroller}>
+                        <button>
+                            <S11SampleIcon />
                         ขอชุดตัวอย่างสติกเกอร์
                     </button>
-                    <button>
-                        <S12BasketIcon />
+                        <button>
+                            <S12BasketIcon />
                         ขั้นตอนการสั่งซื้อ
                     </button>
-                    <button>
-                        <S13StatusIcon />
+                        <button>
+                            <S13StatusIcon />
                         ดูสถานะการสั่งซื้อ
                     </button>
+                    </div>
                 </section>
 
                 <section id="stepsOrder" ref={stepsOrder} className={styles.section2}>
@@ -136,16 +138,12 @@ const HomeComponent = (props) => {
 
                 <section className={styles.section4}>
                     <S41LogoIcon />
-
                     <div>
                         <h2>เกี่ยวกับเรา</h2>
                         <p>
-
                             <b>Lorem Ipsum</b> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
                         </p>
                     </div>
-
-
                 </section>
 
                 <button className={styles.orderButton}>
