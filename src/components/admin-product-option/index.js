@@ -8,24 +8,15 @@ import AdminKpi from "../admin-kpi";
 const AdminOrderComponent = () => {
     const { values, setFieldValue } = useFormikContext();
 
-    // useEffect(() => {
-    //     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
-    //       .then(res => {
-    //         console.log("res.data[0]", res.data[0])
-    //         setFieldValue("orderID", res.data[0].orderID, false);
-    //         setFieldValue("status", res.data[0].status, false);
-    //         setFieldValue("itemsList", res.data[0].itemsList, false);
-    //         setFieldValue("shippingAddress", res.data[0].shippingAddress, false);
-
-    //         setFieldValue("shippingCourier", res.data[0].shippingCourier, false);
-    //         setFieldValue("itemsCost", res.data[0].itemsCost, false);
-    //         setFieldValue("shippingCost", res.data[0].shippingCost, false);
-    //         setFieldValue("vatCost", res.data[0].vatCost, false);
-    //         setFieldValue("totalCost", res.data[0].totalCost, false);
-    //       }).catch(function (err) {
-    //         console.log("err", err)
-    //       })
-    //   }, []);
+    useEffect(() => {
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions`)
+          .then(res => {
+            console.log("res.data[0]", res.data[0])
+            // setFieldValue("orderID", res.data[0].orderID, false);
+          }).catch(function (err) {
+            console.log("err", err)
+          })
+      }, []);
 
     return (
         <main className={styles.wrapContent}>
