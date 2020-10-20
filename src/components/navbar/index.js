@@ -51,12 +51,17 @@ const NavBarComponent = ({ history, itemCount }) => {
         }
     }, [isBurgerToggled]);
 
+    function onClickDisableBurger() {
+        // disable burger so user can scroll
+        setIsBurgerToggled(false)
+    }
+
     return (
         <header>
             <div className={styles.topBar}>
                 <button>
                     <ProfileIcon />
-                    เข้าสู่ระบบ
+                    <Link to="/login">เข้าสู่ระบบ</Link>
                 </button>
                 <button>
                     <ShoppingCart />
@@ -72,21 +77,30 @@ const NavBarComponent = ({ history, itemCount }) => {
             </div>
             <nav className={styles.navBar}>
                 <Logo onClick={() => history.push('/')} />
-                <ul className={`${styles.navLinks} ${isBurgerToggled ? styles.navActive : ""}`}>
-                    <li><Link to="/">หน้าแรก</Link></li>
+                <ul className={`${styles.navLinks} ${isBurgerToggled ? styles.navActive : styles.navInactive}`}>
+                    <li>
+                        <Link to="/" onClick={onClickDisableBurger}>หน้าแรก</Link>
+                    </li>
                     <li><Link to={{
                         pathname: "/",
                         // hash: "#stepsOrder",
                         state: { scrollToStepsOrder: true }
-                    }}
+                    }} onClick={onClickDisableBurger}
                     // onClick={stepsOrderScroll}
-                    >วิธีการสั่งซื้อ</Link></li>
-                    <li><Link to={{
-                        pathname: "/",
-                        // hash: "#ourWorks",  
-                        state: { scrollToOurWorks: true }
-                    }}>ตัวอย่างผลงาน</Link></li>
-                    <li><button><Link to="/customize">สั่งทำสติกเกอร์</Link></button></li>
+                    >วิธีการสั่งซื้อ</Link>
+                    </li>
+                    <li>
+                        <Link to={{
+                            pathname: "/",
+                            // hash: "#ourWorks",  
+                            state: { scrollToOurWorks: true }
+                        }} onClick={onClickDisableBurger}>ตัวอย่างผลงาน</Link>
+                    </li>
+                    <li>
+                        <button>
+                            <Link to="/customize" onClick={onClickDisableBurger}>สั่งทำสติกเกอร์</Link>
+                        </button>
+                    </li>
                 </ul>
 
                 <div className={`${styles.burger} ${isBurgerToggled ? styles.toggle : ""}`}

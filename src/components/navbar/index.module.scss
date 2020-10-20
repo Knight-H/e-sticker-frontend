@@ -117,8 +117,7 @@
     // }
 
     .navBar{
-        justify-content: space-around;
-        
+        // justify-content: space-around;
 
         // display:flex;
 
@@ -172,6 +171,13 @@
 
         .navActive {
             transform: translateX(0%);
+        }
+
+        .navInactive {
+            // https://stackoverflow.com/a/3695826
+            // Read ~2 answers for understanding and comparison
+            // tl;dr: display = gone entirely; visibility = invisible but presents
+            display: none;
         }
 
     }
