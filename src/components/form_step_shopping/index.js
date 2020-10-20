@@ -65,7 +65,7 @@ const AppComponent = () => {
 
 const EnhancedAppComponent = withFormik({
   mapPropsToValues: (props) => ({
-    showImageUrl: '',
+    showImageUrl: 'https://firebasestorage.googleapis.com/v0/b/digitalwish-sticker.appspot.com/o/original.png?alt=media&token=05a8becb-86a4-4f0c-bd71-d57bb9a82c2b',
 
     checkLoadOption: false,
     optionShape: [],
@@ -146,6 +146,8 @@ const EnhancedAppComponent = withFormik({
       setFieldValue("stepProgress", 1, false);
     } else {
       const storageRef = firebaseApp.storage().ref();
+      let timeStamp = new Date().toISOString().slice(0,10)
+
       auth.onAuthStateChanged(user => {
         if (user) {// User is signed in.
 
@@ -157,8 +159,8 @@ const EnhancedAppComponent = withFormik({
               // API PUT IF HAVE ORDER IN
               if (res.data.length) {
                 console.log("have item");
-                
-                storageRef.child(`${user.uid}/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
+
+                storageRef.child(`${user.uid}/${timeStamp}-${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
                   .then((snapshot) => {
                     snapshot.ref.getDownloadURL().then((url) => {
                       let data = {
@@ -192,7 +194,7 @@ const EnhancedAppComponent = withFormik({
                       axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${res.data[0].myID}`, cloneRes)
                         .then(res => {
                           console.log("res", res);
-                          props.history.push("/cart")
+                          props.history.push("/checkout")
                         }).catch(function (err) {
                           console.log("err", err.response)
                         })
@@ -203,12 +205,12 @@ const EnhancedAppComponent = withFormik({
               } else {
                 console.log("not have item");
                 // API POST IF NOT HAVE ITEM IN CART
-                
-                storageRef.child(`${user.uid}/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
+
+                storageRef.child(`${user.uid}/${timeStamp}-${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
                   .then((snapshot) => {
                     snapshot.ref.getDownloadURL().then((url) => {
                       let data = {
-                        "customerType": "member",
+                        
                         "itemsList": [
                           {
                             "approveMethod": values.approvalStricker,
@@ -240,7 +242,7 @@ const EnhancedAppComponent = withFormik({
                       axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
                         .then(res => {
                           console.log("res", res);
-                          props.history.push("/cart")
+                          props.history.push("/checkout")
                         }).catch(function (err) {
                           console.log("err", err)
                         })
@@ -254,21 +256,51 @@ const EnhancedAppComponent = withFormik({
             })
         } else {
           console.log("mode guest");
-          var cartLocal = localStorage.getItem("cart");
+          var cartLocal = JSON.parse(localStorage.getItem("cart"));
+          console.log("cartLocal", cartLocal)
           if (cartLocal) {
             console.log("have item");
+            storageRef.child(`guest/${timeStamp}-${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
+            .then((snapshot) => {
+              snapshot.ref.getDownloadURL().then((url) => {
+                let data = {
+                  "approveMethod": values.approvalStricker,
+                  "coat": values.coat,
+                  "cutting": values.cutting,
+                  "comment": values.comment,
+                  "units": values.units,
+                  "material": values.material,
+                  "width": values.width,
+                  "price": values.price,
+                  "shape": values.shape,
+                  "height": values.height,
+
+                  "messages": [
+                    {
+                      "type": "file",
+                      "content": `${url}`,
+                      "info": `${values.uploadFileStrickerForFirebase.name}`,
+                      "by": "customer"
+                    }
+                  ]
+                };
+                cartLocal.itemsList.push(data);
+                console.log('cartLocal', cartLocal)
+                localStorage.setItem("cart", JSON.stringify(cartLocal));
+                props.history.push("/checkout")
+              });
+            }
+            );
+
           } else {
             console.log("not have item");
-
-            
-            console.log(">>>>>>0")
-            storageRef.child(`guest/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
+            storageRef.child(`guest/${timeStamp}-${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
               .then((snapshot) => {
                 console.log(">>>>")
                 snapshot.ref.getDownloadURL().then((url) => {
                   console.log(">>>>>2")
                   let data = {
-                    "customerType": "member",
+                    
                     "itemsList": [
                       {
                         "approveMethod": values.approvalStricker,
@@ -295,11 +327,12 @@ const EnhancedAppComponent = withFormik({
                     ],
                     "customerID": "guest",
                   };
-                  localStorage.setItem("cart", data);
-                  console.log("localStorage.getItem(cart)", localStorage.getItem("cart"))
-
+                  localStorage.setItem("cart", JSON.stringify(data));
+                  console.log("localStorage.getItem(cart)", JSON.parse(localStorage.getItem("cart")))
+                  props.history.push("/checkout")
                 })
-              }).catch(function (err) {
+              })
+              .catch(function (err) {
                 console.log("err", err)
               })
           }

@@ -30,14 +30,14 @@ const CartComponent = () => {
             axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
                 .then(res => {
                     console.log("res", res.data[0])
-                    setFieldValue()
+                    setFieldValue("itemsList", res.data[0].itemsList, false);
                 }).catch(function (err) {
                     console.log("err", err)
                 })
         });
 
-        setFieldValue("priceTotal", _apiData.priceTotal, false);
-        setFieldValue("orderID", _apiData.orderID, false);
+        // setFieldValue("priceTotal", _apiData.priceTotal, false);
+        // setFieldValue("orderID", _apiData.orderID, false);
     }, []);
 
     return (
@@ -63,19 +63,19 @@ const CartComponent = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        _apiData.data.map((dataObjectMapped, index) => {
+                                        values.itemsList.map((dataObjectMapped) => {
                                             return (
                                                 <tr>
                                                     <td>
                                                         <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`}>
                                                             <img src={img_product} className={styles.productPreview} alt="Product" />
                                                             <div className={styles.containerCol}>
-                                                                <div className={styles.name}>{dataObjectMapped.name}</div>
-                                                                <div className={styles.desciption}>{dataObjectMapped.description}</div>
+                                                                <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
+                                                                <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className={styles.textCenter}>{dataObjectMapped.amount}</td>
+                                                    <td className={styles.textCenter}>{dataObjectMapped.units}</td>
                                                     <td className={styles.textCenter}>{dataObjectMapped.price}฿</td>
                                                 </tr>
                                             )
@@ -221,6 +221,8 @@ const SelectPayment = ({ values, name, options }) => {
 
 const EnhancedCartComponent = withFormik({
     mapPropsToValues: () => ({
+        itemsList: [],
+
         orderID: '',
         priceTotal: '',
         shippingDate: '',
