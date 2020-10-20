@@ -7,6 +7,7 @@ import StepProgress from "../step_progress";
 import CardOrder from "../card-order";
 import PreviewImage from "../preview-image";
 import GroupDeliveryPayment from "../group-delivery-payment";
+import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
 
 const ApproveLayoutComponent = () => {
     const { values, setFieldValue } = useFormikContext();
@@ -16,7 +17,7 @@ const ApproveLayoutComponent = () => {
     useEffect(() => {
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
           .then(res => {
-            console.log("res.data[0]", res.data[0])
+            // console.log("res.data[0]", res.data[0])
             setFieldValue("orderID", res.data[0].orderID, false);
             setFieldValue("status", res.data[0].status, false);
             setFieldValue("itemsList", res.data[0].itemsList, false);
@@ -94,17 +95,17 @@ const EnhancedApproveLayoutComponent = withFormik({
 export default EnhancedApproveLayoutComponent;
 
 const LabelSatus = ({ status }) => {
-    if (status === "กำลังดำเนินการ") {
+    if (status === STATUS_ORDERS_TYPE.DOING) {
         return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: กำลังดำเนินการ</label>
-    } else if (status === "กำลังผลิตสินค้า") {
+    } else if (status === STATUS_ORDERS_TYPE.PRODUCTION) {
         return <label className={`${styles.labelStatus} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
-    } else if (status === "อยู่ระหว่างจัดส่ง") {
+    } else if (status === STATUS_ORDERS_TYPE.DELIVERY) {
         return <label className={`${styles.labelStatus} ${styles.blueStatus}`}>สถานะ: อยู่ระหว่างจัดส่ง</label>
-    } else if (status === "ขอคืนเงิน") {
+    } else if (status === STATUS_ORDERS_TYPE.REFUND) {
         return <label className={`${styles.labelStatus} ${styles.redStatus}`}>สถานะ: ขอคืนเงิน</label>
-    } else if (status === "คืนเงินสำเร็จ") {
+    } else if (status === STATUS_ORDERS_TYPE.REFUNDED) {
         return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: คืนเงินสำเร็จ</label>
-    } else if (status === "รายการสำเร็จ") {
+    } else if (status === STATUS_ORDERS_TYPE.FINISH) {
         return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: รายการสำเร็จ</label>
     } else {
         return <label></label>

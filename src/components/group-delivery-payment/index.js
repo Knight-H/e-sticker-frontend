@@ -46,9 +46,9 @@ const GroupDeliveryPaymentComponent = () => {
                     <table>
                         <thead>
                             <tr>
-                                <th colspan="2" style={{ textAlign: "left" }}>สินค้า</th>
-                                <th className={styles.textRight}>จำนวน</th>
-                                <th className={styles.textRight}>มูลค่า</th>
+                                <th colspan="2"  className={styles.textLeft}>สินค้า</th>
+                                <th>จำนวน</th>
+                                <th>มูลค่า</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,16 +68,16 @@ const GroupDeliveryPaymentComponent = () => {
                         </tbody>
                         <tbody>
                             <tr>
-                                <td colspan="3" style={{ borderTop: "1px solid black" }}>ค่าสินค้ารวม</td>
-                                <td className={styles.textRight} style={{ borderTop: "1px solid black" }}>{values.itemsCost}฿</td>
+                                <td colspan="3" className={styles.borderTop}>ค่าสินค้ารวม</td>
+                                <td className={styles.textRight}  className={styles.borderTop}>{values.itemsCost}฿</td>
                             </tr>
                             <tr>
                                 <td colspan="3">ค่าจัดส่ง</td>
                                 <td className={styles.textRight}>{values.shippingCost}฿</td>
                             </tr>
                             <tr>
-                                <td colspan="3" style={{ borderBottom: "1px solid black" }}>ภาษี 7%</td>
-                                <td className={styles.textRight} style={{ borderBottom: "1px solid black" }}>{values.vatCost}฿</td>
+                                <td colspan="3"  className={styles.borderBottom}>ภาษี 7%</td>
+                                <td className={styles.textRight} className={styles.borderBottom}>{values.vatCost}฿</td>
                             </tr>
                         </tbody>
                         <tfoot>

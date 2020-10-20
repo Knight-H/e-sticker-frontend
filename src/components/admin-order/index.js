@@ -8,6 +8,7 @@ import AdminKpi from "../admin-kpi";
 import CardOrder from "../card-order";
 import PreviewImage from "../preview-image";
 import GroupDeliveryPayment from "../group-delivery-payment";
+import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
 
 import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
 
@@ -18,7 +19,7 @@ const AdminOrderComponent = () => {
     useEffect(() => {
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
           .then(res => {
-            console.log("res.data[0]", res.data[0])
+            // console.log("res.data[0]", res.data[0])
             setFieldValue("orderID", res.data[0].orderID, false);
             setFieldValue("status", res.data[0].status, false);
             setFieldValue("itemsList", res.data[0].itemsList, false);
@@ -46,33 +47,27 @@ const AdminOrderComponent = () => {
             <SelectBox name="editStatus" values={values} options={[
                     {
                         color: "orangeStatus",
-                        value: "1",
-                        name: "รอการอนุมัติแบบ"
+                        name: STATUS_ORDERS_TYPE.DOING
                     },
                     {
                         color: "yellowStatus",
-                        value: "2",
-                        name: "กำลังผลิตสินค้า"
+                        name: STATUS_ORDERS_TYPE.PRODUCTION
                     },
                     {
                         color: "blueStatus",
-                        value: "3",
-                        name: "อยู่ระหว่างจัดส่ง"
+                        name: STATUS_ORDERS_TYPE.DELIVERY
                     },
                     {
                         color: "redStatus",
-                        value: "4",
-                        name: "ขอคืนเงิน"
+                        name: STATUS_ORDERS_TYPE.REFUND
                     },
                     {
                         color: "greenStatus",
-                        value: "5",
-                        name: "คืนเงินสำเร็จ"
+                        name: STATUS_ORDERS_TYPE.REFUNDED
                     },
                     {
                         color: "greenStatus",
-                        value: "6",
-                        name: "รายการสำเร็จ"
+                        name: STATUS_ORDERS_TYPE.FINISH
                     }
                 ]} />
                 <button type="button" className={styles.btnWhite} onClick={() => alert(values.editStatus)}>บันทึก</button>
@@ -100,14 +95,14 @@ const AdminOrderComponent = () => {
 
 const EnhancedAdminOrderComponent = withFormik({
     mapPropsToValues: (props) => ({
-        editStatus: fakeAPI[0].status,
+        editStatus: 0,
         massage: "",  //สำหรับ Chat Room
         orderNumber: "", //สำหรับค้นหาเลขที่ออเดอร์
         expandCard: 0, //สำหรับเลือกว่ากด Card ไหน
 
-        orderID: fakeAPI[0].orderID,
-        status: fakeAPI[0].status,
-        itemsList: fakeAPI[0].itemsList,
+        orderID: [],
+        status: [],
+        itemsList: [],
     })
 })(AdminOrderComponent);
 
@@ -168,8 +163,8 @@ const SelectBox = ({ values, name, options }) => {
                     let lastIndex = index + 1;
                     return (
                         <div className={styles.selectBoxValue}>
-                            <Field name={name} type="radio" className={styles.selectBoxInput} value={list.value} id={`${name}-${lastIndex}`}
-                                checked={`${values[name]}` === `${list.value}` ? true : false} />
+                            <Field name={name} type="radio" className={styles.selectBoxInput} value={list.name} id={`${name}-${lastIndex}`}
+                                checked={`${values[name]}` === `${list.name}` ? true : false} />
                             <p className={`${styles.selectBoxInputText} ${styles[list.color]}`}>{list.name}</p>
                         </div>
                     )

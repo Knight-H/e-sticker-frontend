@@ -91,6 +91,18 @@
     }
 }
 
+.textLeft {
+    text-align: left;
+}
+
+.borderTop {
+    border-top: 1px solid black;
+}
+
+.borderBottom {
+    border-bottom: 1px solid black;
+}
+
 @media only screen and (max-width: 415px) {
     .groupDelivery {
         flex-basis: 100%;

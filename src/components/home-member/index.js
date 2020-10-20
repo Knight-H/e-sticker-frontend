@@ -8,19 +8,20 @@ import { ReactComponent as IconUser } from './icon-user.svg';
 import { ReactComponent as IconLogout } from './icon-logout.svg';
 import { withFormik } from 'formik';
 import { useFormikContext } from 'formik';
+import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
 
 const LabelSatus = ({ status }) => {
-    if (status === "กำลังดำเนินการ") {
+    if (status === STATUS_ORDERS_TYPE.DOING) {
         return <label className={`${styles.statusLabel} ${styles.orangeLabel}`}>สถานะ: กำลังดำเนินการ</label>
-    } else if (status === "กำลังผลิตสินค้า") {
+    } else if (status === STATUS_ORDERS_TYPE.PRODUCTION) {
         return <label className={`${styles.statusLabel} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
-    } else if (status === "อยู่ระหว่างจัดส่ง") {
+    } else if (status === STATUS_ORDERS_TYPE.DELIVERY) {
         return <label className={`${styles.statusLabel} ${styles.blueStatus}`}>สถานะ: อยู่ระหว่างจัดส่ง</label>
-    } else if (status === "ขอคืนเงิน") {
+    } else if (status === STATUS_ORDERS_TYPE.REFUND) {
         return <label className={`${styles.statusLabel} ${styles.redStatus}`}>สถานะ: ขอคืนเงิน</label>
-    } else if (status === "คืนเงินสำเร็จ") {
+    } else if (status === STATUS_ORDERS_TYPE.REFUNDED) {
         return <label className={`${styles.statusLabel} ${styles.greenStatus}`}>สถานะ: คืนเงินสำเร็จ</label>
-    } else if (status === "รายการสำเร็จ") {
+    } else if (status === STATUS_ORDERS_TYPE.FINISH) {
         return <label className={`${styles.statusLabel} ${styles.greenStatus}`}>สถานะ: รายการสำเร็จ</label>
     }
 }
