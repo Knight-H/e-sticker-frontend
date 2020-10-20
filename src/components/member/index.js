@@ -118,7 +118,7 @@ export let EnhancedLocationFields = withFormik({
 
     return (
         <Form className={styles.userInfo}>
-            <LocationFieldsComponent onlyLocation={false} />
+            <LocationFieldsComponent onlyLocation={false} {...props} />
 
             <div className={styles.row}>
                 <p>สถานะ</p>

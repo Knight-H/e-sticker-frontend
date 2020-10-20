@@ -42,9 +42,8 @@
     display: flex;
     width: 100%;
     margin: 0px auto 0 auto;
-    // border: 3px solid red;
     font-size: 0.8rem;
-    
+    overflow-x: scroll;
 
     table {
         border-collapse: collapse;
@@ -100,7 +99,6 @@
 .statusNormal {
     background-color: #E3E3E3;
 }
-
 
 .inputAdmin {
     width: 150px;
