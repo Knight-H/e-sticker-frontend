@@ -5,7 +5,7 @@ import { withFormik, Form } from 'formik';
 import styles from './index.module.scss';
 
 import LoginComponent from '../login';
-import auth from '../../firebase'
+import { auth } from '../../firebase';
 import { dummyHandleSubmit } from "../common-scss/common";
 import { i18_th } from "../common-scss/i18_text";
 

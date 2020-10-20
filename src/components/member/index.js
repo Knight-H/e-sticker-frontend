@@ -6,7 +6,7 @@ import LoginCredentialsComponent, { LoginCredentialsComponent2 } from '../login-
 import AdminKpi from '../admin-kpi';
 import { Formik, Field, Form, withFormik } from "formik";
 import { dummyHandleSubmit, dummyValidateError, DummyDiv } from "../common-scss/common"
-import auth from "../../firebase";
+import { auth } from "../../firebase";
 import axios from 'axios'
 import { i18_th } from "../common-scss/i18_text";
 
