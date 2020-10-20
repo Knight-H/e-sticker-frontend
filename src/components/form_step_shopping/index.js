@@ -25,7 +25,7 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
   useEffect(() => {
     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions`)
       .then(res => {
-        console.log("res.data[0]", res.data[0])
+        // console.log("res.data[0]", res.data[0])
         setFieldValue("checkLoadOption", res.data[0], false);
         setFieldValue("optionShape", res.data[0].shape, false);
         setFieldValue("optionMaterial", res.data[0].material, false);
@@ -94,7 +94,6 @@ const EnhancedAppComponent = withFormik({
   validate: values => {
     const errors = {};
 
-    console.log("valie", values)
     // Step 1
     if (values.stepProgress === 0) {
       if (!values.shape) {
@@ -146,60 +145,164 @@ const EnhancedAppComponent = withFormik({
     if (values.stepProgress === 0) {
       setFieldValue("stepProgress", 1, false);
     } else {
-
+      const storageRef = firebaseApp.storage().ref();
       auth.onAuthStateChanged(user => {
-        if (user) {
-          // User is signed in.
-          console.log("user", user)
+        if (user) {// User is signed in.
 
-          const storageRef = firebaseApp.storage().ref();
-          storageRef.child(`${user.uid}/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
-            .then((snapshot) => {
-              snapshot.ref.getDownloadURL().then((url) => {
-                console.log("values.uploadFileStrickerForFirebase.name", values.uploadFileStrickerForFirebase.name)
-                let data = {
-                  "customerType": "member",
-                  "itemsList ": [
-                    {
-                      "approveMethod": values.approvalStricker,
-                      "coat": values.coat,
-                      "cutting": values.cutting,
-                      "comment": values.comment,
-                      "units": values.units,
-                      "material": values.material,
-                      "width": values.width,
-                      "price": values.price,
-                      "shape": values.shape,
-                      "height": values.height,
+          // FETCH CART CHECK ITEM
+          axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
+            .then(res => {
+              console.log("res.data[0].myID", res.data[0]);
 
-                      "messages": [
-                        {
-                          "type": "file",
-                          "content": `${url}`,
-                          "info": `${values.uploadFileStrickerForFirebase.name}`,
-                          "by": "customer"
-                        }
-                      ]
+              // API PUT IF HAVE ORDER IN
+              if (res.data.length) {
+                console.log("have item");
+                
+                storageRef.child(`${user.uid}/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
+                  .then((snapshot) => {
+                    snapshot.ref.getDownloadURL().then((url) => {
+                      let data = {
+                        "approveMethod": values.approvalStricker,
+                        "coat": values.coat,
+                        "cutting": values.cutting,
+                        "comment": values.comment,
+                        "units": values.units,
+                        "material": values.material,
+                        "width": values.width,
+                        "price": values.price,
+                        "shape": values.shape,
+                        "height": values.height,
 
-                    }
-                  ],
-                  "customerID": user.uid,
-                };
+                        "messages": [
+                          {
+                            "type": "file",
+                            "content": `${url}`,
+                            "info": `${values.uploadFileStrickerForFirebase.name}`,
+                            "by": "customer"
+                          }
+                        ]
+                      };
+                      res.data[0].itemsList.push(data);
 
-                console.log("data", data)
-                axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
-                  .then(res => {
-                    console.log("res", res);
-                    props.history.push("/checkout")
-                  }).catch(function (err) {
-                    console.log("err", err)
-                  })
-              });
-            }
-            );
+                      let cloneRes = { ...res.data[0] }
+                      delete cloneRes.myID;
 
+                      console.log('res.data[0]', res.data[0])
+
+                      axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${res.data[0].myID}`, cloneRes)
+                        .then(res => {
+                          console.log("res", res);
+                          props.history.push("/cart")
+                        }).catch(function (err) {
+                          console.log("err", err.response)
+                        })
+                    });
+                  }
+                  );
+
+              } else {
+                console.log("not have item");
+                // API POST IF NOT HAVE ITEM IN CART
+                
+                storageRef.child(`${user.uid}/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
+                  .then((snapshot) => {
+                    snapshot.ref.getDownloadURL().then((url) => {
+                      let data = {
+                        "customerType": "member",
+                        "itemsList": [
+                          {
+                            "approveMethod": values.approvalStricker,
+                            "coat": values.coat,
+                            "cutting": values.cutting,
+                            "comment": values.comment,
+                            "units": values.units,
+                            "material": values.material,
+                            "width": values.width,
+                            "price": values.price,
+                            "shape": values.shape,
+                            "height": values.height,
+
+                            "messages": [
+                              {
+                                "type": "file",
+                                "content": `${url}`,
+                                "info": `${values.uploadFileStrickerForFirebase.name}`,
+                                "by": "customer"
+                              }
+                            ]
+
+                          }
+                        ],
+                        "customerID": user.uid,
+                      };
+
+                      console.log("data", data)
+                      axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
+                        .then(res => {
+                          console.log("res", res);
+                          props.history.push("/cart")
+                        }).catch(function (err) {
+                          console.log("err", err)
+                        })
+                    });
+                  }
+                  );
+
+              }
+            }).catch(function (err) {
+              console.log("err", err)
+            })
         } else {
-          console.log(">>>>>");
+          console.log("mode guest");
+          var cartLocal = localStorage.getItem("cart");
+          if (cartLocal) {
+            console.log("have item");
+          } else {
+            console.log("not have item");
+
+            
+            console.log(">>>>>>0")
+            storageRef.child(`guest/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
+              .then((snapshot) => {
+                console.log(">>>>")
+                snapshot.ref.getDownloadURL().then((url) => {
+                  console.log(">>>>>2")
+                  let data = {
+                    "customerType": "member",
+                    "itemsList": [
+                      {
+                        "approveMethod": values.approvalStricker,
+                        "coat": values.coat,
+                        "cutting": values.cutting,
+                        "comment": values.comment,
+                        "units": values.units,
+                        "material": values.material,
+                        "width": values.width,
+                        "price": values.price,
+                        "shape": values.shape,
+                        "height": values.height,
+
+                        "messages": [
+                          {
+                            "type": "file",
+                            "content": `${url}`,
+                            "info": `${values.uploadFileStrickerForFirebase.name}`,
+                            "by": "customer"
+                          }
+                        ]
+
+                      }
+                    ],
+                    "customerID": "guest",
+                  };
+                  localStorage.setItem("cart", data);
+                  console.log("localStorage.getItem(cart)", localStorage.getItem("cart"))
+
+                })
+              }).catch(function (err) {
+                console.log("err", err)
+              })
+          }
           return;
         }
       });
