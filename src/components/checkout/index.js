@@ -4,10 +4,7 @@ import { withFormik, Form, useFormikContext } from 'formik';
 import LoginComponent from '../login';
 import styles from './index.module.scss';
 import img_product from './workplace.jpg';
-import fake_data from "./fake-api.json";
 import { auth } from '../../firebase/index.js';
-import axios from "axios";
-import { EnhancedMemberLoginComponent } from '../member-login'
 
 import { axiosInst } from '../common-scss/common'
 
@@ -137,7 +134,7 @@ const EnhancedCheckoutComponent = withFormik({
             .then(res => {
                 console.log("uid", res.user.uid, "email", res.user.email)
                 setFieldValue("checkLoginComponant", false, false);
-                props.history.push("/myorder")
+                props.history.push("/cart")
             })
             .catch(error => {
                 console.log("Error", error)
