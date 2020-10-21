@@ -1,20 +1,23 @@
 import React from "react";
-import { Field, ErrorMessage } from 'formik';
+import { Field, ErrorMessage, useFormikContext } from 'formik';
 
 import styles from './index.module.scss';
 
 const LoginComponent = () => {
+    const { values, setFieldValue } = useFormikContext();
+    
     return (
         <>
 
             <div className={styles.formControl}>
-                <p>อีเมล <ErrorMessage name="email" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></p>
+                <p>อีเมล <ErrorMessage name="email" render={msg => <span className="error">{msg}</span>} /></p>
                 <Field name="email" type="email" placeholder="" />
             </div>
 
             <div className={styles.formControl}>
-                <p>รหัสผ่าน <ErrorMessage name="password" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></p>
+                <p>รหัสผ่าน <ErrorMessage name="password" render={msg => <span className="error">{msg}</span>} /></p>
                 <Field name="password" type="password" placeholder="" />
+                {values.checkLoginComponant && <p className={`error ${styles.marginBottom}`}>username หรือ password ไม่ถูกต้อง</p>}
             </div>
             <div className={styles.containerRow}>
                 <button type="submit" className={styles.buttonGreen}>เข้าสู่ระบบ</button>
