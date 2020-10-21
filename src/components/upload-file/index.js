@@ -28,7 +28,7 @@ const UploadFileComponent = (props) => {
             </section>
             <section>
                 <Form className={styles.wrapContent}>
-                    <img src={values.uploadFileStricker} className={styles.square} alt="." />
+                    <img src={values.uploadFileStricker ? values.uploadFileStricker : 'https://firebasestorage.googleapis.com/v0/b/digitalwish-sticker.appspot.com/o/original.png?alt=media&token=05a8becb-86a4-4f0c-bd71-d57bb9a82c2b'} className={styles.square} alt="." />
 
                     <div className={styles.rightContent}>
                         <label className={styles.label}>อนุมัติรูปแบบงาน<ErrorMessage name="approvalStricker" render={msg => <span className="error">{msg}</span>} /></label>
