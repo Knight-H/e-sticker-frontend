@@ -13,7 +13,7 @@ const EnhancedLoginCredentialsComponent = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
         return {
-            email: '',
+            email: props.userInfo.email || '',
             password: '',
             password_repeat: '',
         }
