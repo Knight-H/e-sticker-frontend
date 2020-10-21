@@ -16,7 +16,7 @@ const ApproveLayoutComponent = () => {
     useEffect(() => {
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
           .then(res => {
-            console.log("res.data[0]", res.data[0])
+           // console.log("res.data[0]", res.data[0])
             setFieldValue("orderID", res.data[0].orderID, false);
             setFieldValue("status", res.data[0].status, false);
             setFieldValue("itemsList", res.data[0].itemsList, false);
