@@ -24,7 +24,9 @@ const AdminLoginComponent = () => {
                 <label>รหัสผ่าน<ErrorMessage name="password" render={msg => <span className="error">{msg}</span>} /></label>
                 <Field name="password" type="password" className={styles.inputText} placeholder="" />
                 
-                {values.checkLogin && <p className="error" style={{ marginBottom: "10px"}}>username หรือ password ไม่ถูกต้อง</p>}
+                {values.checkLogin && 
+                    <p className="error" style={{ marginBottom: "10px"}}>username หรือ password ไม่ถูกต้อง</p>
+                }
                 <button type="submit">เข้าสู่ระบบ</button>
             </Form>
         </main >
