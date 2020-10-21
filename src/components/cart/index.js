@@ -25,16 +25,16 @@ const CartComponent = () => {
     const [checkedBox, setCheckedBox] = useState(false);
 
     useEffect(() => {
-        auth.onAuthStateChanged(user => {
-            // console.log("user", user.uid)
-            axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
-                .then(res => {
-                    // console.log("res", res.data[0])
-                    // setFieldValue()
-                }).catch(function (err) {
-                    console.log("err", err)
-                })
-        });
+        // auth.onAuthStateChanged(user => {
+        //     // console.log("user", user.uid)
+        //     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
+        //         .then(res => {
+        //             // console.log("res", res.data[0])
+        //             // setFieldValue()
+        //         }).catch(function (err) {
+        //             console.log("err", err)
+        //         })
+        // });
 
         setFieldValue("priceTotal", _apiData.priceTotal, false);
         setFieldValue("orderID", _apiData.orderID, false);
@@ -62,7 +62,7 @@ const CartComponent = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        _apiData.data.map((dataObjectMapped, index) => {
+                                        _apiData.data.map((dataObjectMapped) => {
                                             return (
                                                 <>
                                                     <tr>
