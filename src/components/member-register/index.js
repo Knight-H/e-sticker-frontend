@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './index.module.scss';
-import auth, { db } from '../../firebase'
+import { db, auth } from '../../firebase'
 
 import LocationFieldsComponent from '../location-fields';
 import LoginCredentialsComponent, { LoginCredentialsComponent2 } from '../login-credentials';

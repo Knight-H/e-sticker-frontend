@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useFormikContext, withFormik, Form, Field, ErrorMessage } from 'formik';
 
 import StepProgress from "../step_progress";
@@ -7,31 +7,45 @@ import TaxFieldsComponent from '../tax-fields';
 
 import fake_data from "./fake-api.json";
 import styles from './index.module.scss';
-import logoCreditCard from './credit.png';		
-import img_product from './workplace.jpg';		
-import logoBangkokBank from './BangkokBank.png';		
-import logoKrungthaiBank from './KrungthaiBank.jpg';		
+import logoCreditCard from './credit.png';
+import img_product from './workplace.jpg';
+import logoBangkokBank from './BangkokBank.png';
+import logoKrungthaiBank from './KrungthaiBank.jpg';
 import logoSiamCommercialBank from './SiamCommercialBank.jpg';
+
+import { auth } from '../../firebase/index.js';
+import axios from "axios";
 
 const CartComponent = () => {
     // API [GET] /order/
     var _apiData = fake_data;
-    
+
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(2);
     const [checkedBox, setCheckedBox] = useState(false);
 
     useEffect(() => {
+        auth.onAuthStateChanged(user => {
+            // console.log("user", user.uid)
+            axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
+                .then(res => {
+                    console.log("res", res.data[0])
+                    setFieldValue()
+                }).catch(function (err) {
+                    console.log("err", err)
+                })
+        });
+
         setFieldValue("priceTotal", _apiData.priceTotal, false);
         setFieldValue("orderID", _apiData.orderID, false);
-    }, [_apiData]);
+    }, []);
 
     return (
         <>
             <section className={styles.section1}>
-                <StepProgress stepIndex={selectStep}/>
+                <StepProgress stepIndex={selectStep} />
             </section>
-            
+
             <Form>
                 <section className={styles.section2}>
                     {/* Child Box #1 */}
@@ -45,7 +59,7 @@ const CartComponent = () => {
                                         <th>จำนวน</th>
                                         <th>มูลค่า</th>
                                     </tr>
-                                    
+
                                 </thead>
                                 <tbody>
                                     {
@@ -101,21 +115,21 @@ const CartComponent = () => {
                     {/* Child Box #2 */}
                     <div className={styles.boxChild2}>
                         <h2>ระบุที่อยู่</h2>
-                        <LocationFieldsComponent/>
-                        <h2>เลือก การจัดส่ง <ErrorMessage name="shippingDate" render={msg => <span style={{color: "red"}}>{msg}</span>}/></h2>
-                        
-                        <SelectShipping name="shippingDate" id="shippingDate" values={values} options={[
-                                {value: "dateType1", name: "dateType1"},
-                                {value: "dateType2", name: "dateType2"},
-                            ]} />
+                        <LocationFieldsComponent />
+                        <h2>เลือก การจัดส่ง <ErrorMessage name="shippingDate" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></h2>
 
-                        <h2>ชำระเงิน <ErrorMessage name="payment" render={msg => <span style={{color: "red"}}>{msg}</span>}/></h2>
+                        <SelectShipping name="shippingDate" id="shippingDate" values={values} options={[
+                            { value: "dateType1", name: "dateType1" },
+                            { value: "dateType2", name: "dateType2" },
+                        ]} />
+
+                        <h2>ชำระเงิน <ErrorMessage name="payment" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></h2>
                         <SelectPayment name="payment" id="payment" values={values} options={[
-                                {value: "bangkok", name: "Bangkok Bank", logoBank: logoBangkokBank},
-                                {value: "scb", name: "Siam Commercial Bank", logoBank: logoSiamCommercialBank},
-                                {value: "ktb", name: "Krungthai Bank", logoBank: logoKrungthaiBank},
-                                {value: "credit", name: "Credit / Debit", logoBank: logoCreditCard},
-                            ]} />
+                            { value: "bangkok", name: "Bangkok Bank", logoBank: logoBangkokBank },
+                            { value: "scb", name: "Siam Commercial Bank", logoBank: logoSiamCommercialBank },
+                            { value: "ktb", name: "Krungthai Bank", logoBank: logoKrungthaiBank },
+                            { value: "credit", name: "Credit / Debit", logoBank: logoCreditCard },
+                        ]} />
 
                         <h2>ออกใบกำกับภาษี</h2>
                         <div className={styles.containerRow}>
@@ -126,13 +140,13 @@ const CartComponent = () => {
                                 ข้อมูลเดียวกับที่อยู่
                             </div>
                         </div>
-                        
+
                         <div className={!checkedBox ? styles.contentDisplayBlock : styles.contentDisplayNone}>
-                            <TaxFieldsComponent/>
+                            <TaxFieldsComponent />
                         </div>
                         <button type="submit" className={styles.buttonNext}>ถัดไป</button>
                     </div>
-                    
+
                 </section>
             </Form>
         </>
@@ -154,7 +168,7 @@ const SelectShipping = ({ values, name, options }) => {
             <ul className={`${styles.selectBoxList}`}>
                 {options.map((list, index) => {
                     return (
-                        <li className={`${styles.optionShipping} ${styles.boxRadiusSmall} ${`${values.shippingDate}`===`${list.value}` ? styles.active:styles.deactive}`} >
+                        <li className={`${styles.optionShipping} ${styles.boxRadiusSmall} ${`${values.shippingDate}` === `${list.value}` ? styles.active : styles.deactive}`} >
                             <label className={styles.selectBoxOption} for={`${name}-${index + 1}`}>
                                 <p className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</p>
                                 <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
@@ -185,7 +199,7 @@ const SelectPayment = ({ values, name, options }) => {
             <ul className={`${styles.containerCol}`}>
                 {options.map((list, index) => {
                     return (
-                        <li className={`${styles.optionShipping} ${styles.boxRadiusSmall} ${`${values.payment}`===`${list.value}` ? styles.active:styles.deactive}`} >
+                        <li className={`${styles.optionShipping} ${styles.boxRadiusSmall} ${`${values.payment}` === `${list.value}` ? styles.active : styles.deactive}`} >
                             <label className={styles.selectBoxOption} for={`${name}-${index + 1}`}>
                                 <div className={styles.containerRow}>
                                     <div className={styles.containerColBank}>
@@ -269,8 +283,8 @@ const EnhancedCartComponent = withFormik({
     },
     handleSubmit: (values, { setSubmitting }) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
         }, 0);
     },
     displayName: 'CartComponentForm',

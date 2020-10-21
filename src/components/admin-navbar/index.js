@@ -6,7 +6,7 @@ import { ReactComponent as EditPen } from './edit-pen.svg';
 import { ReactComponent as IconRock } from './icon-rock.svg';
 import { ReactComponent as LockOut } from './lock-out.svg';
 
-import auth from '../../firebase/index.js'
+import { auth } from '../../firebase/index.js'
 
 const AdminNavBarComponent = ({ history }) => {
     const [isBurgerToggled, setIsBurgerToggled] = useState(false);

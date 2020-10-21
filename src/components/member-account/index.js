@@ -8,10 +8,7 @@ import { Form, Field, withFormik } from 'formik'
 
 import { i18_th } from '../common-scss/i18_text'
 import { axiosInst } from '../common-scss/common'
-import axios from "axios";
 import { db, auth } from "../../firebase";
-
-
 const EnhancedLoginCredentialsComponent = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
@@ -44,11 +41,6 @@ const EnhancedLoginCredentialsComponent = withFormik({
     }
 })((props) => {
 
-    const { userInfo } = props
-    useEffect(() => {
-        props.setFieldValue("email", userInfo.email)
-    }, [userInfo])
-
     return (
         <Form className={styles.loginCredentials}>
             <LoginCredentialsComponent2 isRegistering={false} {...props} />
@@ -57,6 +49,7 @@ const EnhancedLoginCredentialsComponent = withFormik({
 })
 
 const EnchancedLocationFieldsComponent = withFormik({
+
     enableReinitialize: true,
     mapPropsToValues: () => {
 
@@ -86,6 +79,7 @@ const EnchancedLocationFieldsComponent = withFormik({
 
         return errors
     },
+
     handleSubmit: async (values) => {
 
         const api = {
@@ -211,6 +205,7 @@ const EnchancedLocationFieldsComponent = withFormik({
     )
 })
 
+
 const MemberAccountComponent = () => {
 
     const [userInfo, setUserInfo] = useState({})
@@ -238,6 +233,7 @@ const MemberAccountComponent = () => {
 
     // }, [currentEmail])
 
+
     return (
         <main className={styles.pageContainer}>
 
@@ -247,8 +243,8 @@ const MemberAccountComponent = () => {
 
             <div className={styles.flexWrapper}>
 
-                <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} />
-                <EnchancedLocationFieldsComponent onlyLocation={false} emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
+                <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
+                <EnchancedLocationFieldsComponent onlyLocation={false}emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
 
             </div>
 
