@@ -9,6 +9,8 @@ import { ReactComponent as Logo } from './logo.svg';
 
 
 import useWindowSize from '../../hooks/useWindowSize';
+import { auth } from '../../firebase/index'
+import { i18_th } from '../common-scss/i18_text'
 
 // const stepsOrderScroll = () => {
 //     const { pathname, hash } = window.location;
@@ -51,6 +53,13 @@ const NavBarComponent = ({ history, itemCount }) => {
         }
     }, [isBurgerToggled]);
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            setIsLoggedIn(user?.uid ? true : false)
+        })
+    }, [isLoggedIn])
+
     function onClickDisableBurger() {
         // disable burger so user can scroll
         setIsBurgerToggled(false)
@@ -59,21 +68,34 @@ const NavBarComponent = ({ history, itemCount }) => {
     return (
         <header>
             <div className={styles.topBar}>
-                <button>
-                    <ProfileIcon />
-                    <Link to="/login">เข้าสู่ระบบ</Link>
-                </button>
-                <button>
-                    <ShoppingCart />
-                    ตะกร้าสินค้า {(() => {
-                        if (!Number.isInteger(itemCountInCart) || itemCountInCart === 0) {
-                            return ""
-                        } else if (itemCountInCart <= 99) {
-                            return "(" + itemCountInCart + ")"
-                        }
-                        return "(99+)"
-                    })()}
-                </button>
+
+                {(() => {
+                    return isLoggedIn ?
+                        <Link to="/member">
+                            <button>
+                                <ProfileIcon />{i18_th.account_my_account}
+                            </button>
+                        </Link>
+                        :
+                        <Link to="/login">
+                            <button>
+                                <ProfileIcon />{i18_th.account_login}
+                            </button>
+                        </Link>
+                })()}
+
+                <Link to="/cart">
+                    <button>
+                        <ShoppingCart />ตะกร้าสินค้า {(() => {
+                            if (!Number.isInteger(itemCountInCart) || itemCountInCart === 0) {
+                                return ""
+                            } else if (itemCountInCart <= 99) {
+                                return "(" + itemCountInCart + ")"
+                            }
+                            return "(99+)"
+                        })()}
+                    </button>
+                </Link>
             </div>
             <nav className={styles.navBar}>
                 <Logo onClick={() => history.push('/')} />
