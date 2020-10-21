@@ -20,25 +20,25 @@ const ApproveLayoutComponent = (props) => {
             if (user) {
                 let url = window.location.search;
                 const urlParams = new URLSearchParams(url);
-                let orderID = urlParams.get('orderID');
-                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders?orderID=${orderID}`)
+                let myID = urlParams.get('myID');
+                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
                     .then(res => {
-                        console.log("res.data[0]", res.data)
-                        setFieldValue("myID", res.data[0].myID, false);
+                        console.log("res.data", res.data)
+                        setFieldValue("myID", res.data.myID, false);
 
-                        setFieldValue("orderID", res.data[0].orderID, false);
-                        setFieldValue("status", res.data[0].status, false);
-                        setFieldValue("itemsList", res.data[0].itemsList, false);
-                        setFieldValue("shippingAddress", res.data[0].shippingAddress, false);
+                        setFieldValue("orderID", res.data.orderID, false);
+                        setFieldValue("status", res.data.status, false);
+                        setFieldValue("itemsList", res.data.itemsList, false);
+                        setFieldValue("shippingAddress", res.data.shippingAddress, false);
 
-                        setFieldValue("shippingCourier", res.data[0].shippingCourier, false);
-                        setFieldValue("itemsCost", res.data[0].itemsCost, false);
-                        setFieldValue("shippingCost", res.data[0].shippingCost, false);
-                        setFieldValue("vatCost", res.data[0].vatCost, false);
-                        setFieldValue("totalCost", res.data[0].totalCost, false);
+                        setFieldValue("shippingCourier", res.data.shippingCourier, false);
+                        setFieldValue("itemsCost", res.data.itemsCost, false);
+                        setFieldValue("shippingCost", res.data.shippingCost, false);
+                        setFieldValue("vatCost", res.data.vatCost, false);
+                        setFieldValue("totalCost", res.data.totalCost, false);
                     }).catch(function (err) {
                         console.log("err", err)
-                        props.history.push('/customize')
+                        // props.history.push('/customize')
                     })
             }
         })

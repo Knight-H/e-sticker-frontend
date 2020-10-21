@@ -96,7 +96,7 @@ const HomeMemberComponent = (props) => {
                                     ))}
                                 </table>
 
-                                <button type="button" onClick={() => props.history.push(`/myorder?orderID=${fakeAPI.orderID}`)}>ดูรายละเอียด</button>
+                                <button type="button" onClick={() => props.history.push(`/myorder?myID=${fakeAPI.myID}`)}>ดูรายละเอียด</button>
                             </article>
                         )
                     }
