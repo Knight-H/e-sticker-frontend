@@ -45,6 +45,8 @@
     padding: 30px 35px;
     border: 1px solid #009473;
     border-radius: 5px;
+    // column-count: 100px;
+
 }
 
 .tableCustom {
@@ -64,6 +66,13 @@
 .textCenter {
     text-align: center;
 }
+
+.textCenterMobileNewRow {
+    display: none;
+    text-align: right;
+    // column-span: 3;
+}
+
 
 .textLeft {
     text-align: left;
@@ -248,10 +257,38 @@
 
 // https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart)
 @media only screen and (max-width: 420px) {
-    .containerRowCart {
-        margin: 0px;
-        display: flex;
-        flex-direction: column;
+    .containerColBank {
+        font-size: 0.75rem;
+    }
+
+    .selectBoxList{
         flex-wrap: wrap;
+    }
+
+    .borderBottom {
+        display: none;
+    }
+
+    .wrapTable {
+        padding: 10px 15px;
+    }
+
+    .textCenterMobile {
+        display: none;
+    }
+
+    .tableCustom {
+        tr td {
+            margin: 0px;
+            width: 100%;
+            padding: 8px 0px;
+        }
+        .rowTr {
+            padding: 0px
+        }
+        .textCenterMobileNewRow {
+            font-size: 0.97rem;
+            display: table-cell;
+        }
     }
 }

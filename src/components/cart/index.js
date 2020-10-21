@@ -29,8 +29,8 @@ const CartComponent = () => {
             // console.log("user", user.uid)
             axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
                 .then(res => {
-                    console.log("res", res.data[0])
-                    setFieldValue()
+                    // console.log("res", res.data[0])
+                    // setFieldValue()
                 }).catch(function (err) {
                     console.log("err", err)
                 })
@@ -38,7 +38,7 @@ const CartComponent = () => {
 
         setFieldValue("priceTotal", _apiData.priceTotal, false);
         setFieldValue("orderID", _apiData.orderID, false);
-    }, []);
+    });
 
     return (
         <>
@@ -55,57 +55,76 @@ const CartComponent = () => {
                             <table className={styles.tableCustom}>
                                 <thead className={styles.borderBottom}>
                                     <tr>
-                                        <th className={styles.textLeft}>สินค้า</th>
+                                        <th colspan="3" className={styles.textLeft}>สินค้า</th>
                                         <th>จำนวน</th>
                                         <th>มูลค่า</th>
                                     </tr>
-
                                 </thead>
                                 <tbody>
                                     {
                                         _apiData.data.map((dataObjectMapped, index) => {
                                             return (
-                                                <tr>
-                                                    <td>
-                                                        <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`}>
-                                                            <img src={img_product} className={styles.productPreview} alt="Product" />
-                                                            <div className={styles.containerCol}>
-                                                                <div className={styles.name}>{dataObjectMapped.name}</div>
-                                                                <div className={styles.desciption}>{dataObjectMapped.description}</div>
+                                                <>
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`} >
+                                                                <img src={img_product} className={styles.productPreview} alt="Product" />
+                                                                <div className={styles.containerCol}>
+                                                                    <div className={styles.name}>{dataObjectMapped.name}</div>
+                                                                    <div className={styles.desciption}>{dataObjectMapped.description}</div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td className={styles.textCenter}>{dataObjectMapped.amount}</td>
-                                                    <td className={styles.textCenter}>{dataObjectMapped.price}฿</td>
-                                                </tr>
+                                                        </td>
+                                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.amount}</td>
+                                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.price}฿</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>จำนวน {dataObjectMapped.amount} ชิ้น</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>ราคา {dataObjectMapped.price}฿</td>
+                                                    </tr>
+                                                </>
                                             )
                                         })
                                     }
                                 </tbody>
                                 <tfoot className={styles.borderTop}>
                                     <tr>
-                                        <td colspan="2">ค่าสินค้ารวม</td>
-                                        <td className={styles.textCenter}>{_apiData.price}฿</td>
+                                        <td colspan="4">ค่าสินค้ารวม</td>
+                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{_apiData.price}฿</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={`${styles.textCenterMobileNewRow}`}>{_apiData.price}฿</td>
                                     </tr>
 
                                     <tr>
-                                        <td colspan="2">VAT 7%</td>
-                                        <td className={styles.textCenter}>{_apiData.vat}฿</td>
+                                        <td colspan="4">VAT 7%</td>
+                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{_apiData.vat}฿</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={`${styles.textCenterMobileNewRow} ${styles.rowTr}`}>{_apiData.vat}฿</td>
                                     </tr>
 
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="4">
                                             <div className={styles.containerCol}>
                                                 <div className={styles.name}>ค่าจัดส่ง</div>
                                                 <div className={styles.desciption}>ลงทะเบียน - 5 วันทำการ - 50 บาท</div>
                                             </div>
                                         </td>
-                                        <td className={styles.textCenter}>{_apiData.feeShipping}฿</td>
+                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{_apiData.feeShipping}฿</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={`${styles.textCenterMobileNewRow}`}>{_apiData.feeShipping}฿</td>
                                     </tr>
 
                                     <tr className={styles.borderTop}>
-                                        <td colspan="2">รวมทั้งหมด</td>
-                                        <td className={styles.textCenter}>{_apiData.priceTotal}฿</td>
+                                        <td colspan="4">รวมทั้งหมด</td>
+                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{_apiData.priceTotal}฿</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={`${styles.textCenterMobileNewRow}`}>{_apiData.priceTotal}฿</td>
                                     </tr>
                                 </tfoot>
                             </table>
