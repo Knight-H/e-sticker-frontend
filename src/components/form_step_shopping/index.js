@@ -7,6 +7,8 @@ import Order1ProductConfigComponent from "./../order-1-product-config";
 import UploadFileComponent from "./../upload-file";
 import axios from "axios";
 import { withFormik, useFormikContext } from 'formik';
+import { auth } from '../../firebase/index.js';
+import firebaseApp from '../../firebase/index.js';
 
 // Wizard is a single Formik instance whose children are each page of the
 // multi-step form. The form is submitted on each forward transition (can only
@@ -29,6 +31,11 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
         setFieldValue("optionMaterial", res.data[0].material, false);
         setFieldValue("optionCuttingList", res.data[0].cuttingList, false);
         setFieldValue("optionUnitOptions", res.data[0].unitOptions, false);
+
+        setFieldValue("heightMax", res.data[0].heightMax, false);
+        setFieldValue("heightMin", res.data[0].heightMin, false);
+        setFieldValue("widthMax", res.data[0].widthMax, false);
+        setFieldValue("widthMin", res.data[0].widthMin, false);
       }).catch(function (err) {
         console.log("err", err)
       })
@@ -75,16 +82,19 @@ const EnhancedAppComponent = withFormik({
     width: '',
     height: '',
     units: 0,
+    price: 0,
 
     // Step two
     approvalStricker: 0,
     isCheckUploadFileStricker: 0,
-    uploadFileStricker: [],
+    uploadFileStricker: '',
+    uploadFileStrickerForFirebase: [],
     comment: '',
   }),
   validate: values => {
     const errors = {};
 
+    console.log("valie", values)
     // Step 1
     if (values.stepProgress === 0) {
       if (!values.shape) {
@@ -102,35 +112,97 @@ const EnhancedAppComponent = withFormik({
       if (!values.width === "") {
         errors.width = "*กรุณาระบุ"
       }
+      if (values.width > values.widthMax) {
+        errors.width = "*ขนาดใหญ่เกิน"
+      }
+      if (values.width < values.widthMin) {
+        errors.width = "*ขนาดเล็กเกิน"
+      }
       if (!values.height === "") {
         errors.height = "*กรุณาระบุ"
+      }
+      if (values.height > values.heightMax) {
+        errors.height = "*ขนาดใหญ่เกิน"
+      }
+      if (values.height < values.heightMin) {
+        errors.height = "*ขนาดเล็กเกิน"
       }
       if (!values.units) {
         errors.units = "*กรุณาระบุ"
       }
     } else if (values.stepProgress === 1) {
-
       // Step two
       if (!values.approvalStricker) {
         errors.approvalStricker = "*กรุณาระบุ"
       }
-      if (!values.isCheckUploadFileStricker === false) {
+      if (!values.uploadFileStricker) {
         errors.uploadFileStricker = "*กรุณาระบุ"
       }
     }
+
     return errors;
   },
-  handleSubmit: (values, { setSubmitting, setFieldValue }) => {
-    console.log("values", values)
+  handleSubmit: (values, { setFieldValue, props }) => {
     if (values.stepProgress === 0) {
-      console.log(">>>>>>0")
       setFieldValue("stepProgress", 1, false);
     } else {
-      console.log(">>>>>>1")
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 0);
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          // User is signed in.
+          console.log("user", user)
+
+          const storageRef = firebaseApp.storage().ref();
+          storageRef.child(`${user.uid}/${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
+            .then((snapshot) => {
+              snapshot.ref.getDownloadURL().then((url) => {
+                console.log("values.uploadFileStrickerForFirebase.name", values.uploadFileStrickerForFirebase.name)
+                let data = {
+                  "customerType": "member",
+                  "itemsList ": [
+                    {
+                      "approveMethod": values.approvalStricker,
+                      "coat": values.coat,
+                      "cutting": values.cutting,
+                      "comment": values.comment,
+                      "units": values.units,
+                      "material": values.material,
+                      "width": values.width,
+                      "price": values.price,
+                      "shape": values.shape,
+                      "height": values.height,
+
+                      "messages": [
+                        {
+                          "type": "file",
+                          "content": `${url}`,
+                          "info": `${values.uploadFileStrickerForFirebase.name}`,
+                          "by": "customer"
+                        }
+                      ]
+
+                    }
+                  ],
+                  "customerID": user.uid,
+                };
+
+                console.log("data", data)
+                axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
+                  .then(res => {
+                    console.log("res", res);
+                    props.history.push("/checkout")
+                  }).catch(function (err) {
+                    console.log("err", err)
+                  })
+              });
+            }
+            );
+
+        } else {
+          console.log(">>>>>");
+          return;
+        }
+      });
     }
   }
 })(AppComponent);

@@ -13,6 +13,7 @@ import AdminListComponent from "./components/admin";
 import AdminLoginComponent from './components/admin-login';
 import AdminNavBarComponent from "./components/admin-navbar";
 import AdminOrderComponent from "./components/admin-order";
+import AdminProductOptionComponent from "./components/admin-product-option";
 
 import HomeMemberComponent from "./components/home-member";
 import MemberComponent from "./components/member";
@@ -52,6 +53,8 @@ function App() {
                 <Route path="/login" exact component={MemberLoginComponent} />
                 <Route path="/register" exact component={MemberRegsterComponent} />
                 <Route path="/member/setting" exact component={MemberAccountComponent} />
+
+                <Route path="/admin/product" exact component={AdminProductOptionComponent} />
             </Switch>
 
         </div>
