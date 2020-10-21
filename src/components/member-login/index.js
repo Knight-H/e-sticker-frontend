@@ -21,7 +21,7 @@ const MemberLoginComponent = () => {
     );
 }
 
-const EnhancedMemberLoginComponent = withFormik({
+export const EnhancedMemberLoginComponent = withFormik({
     mapPropsToValues: () => ({
         email: '',
         password: ''

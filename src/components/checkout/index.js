@@ -1,15 +1,43 @@
-import React from "react";
-import { withFormik, Form } from 'formik';
+import React, { useEffect } from "react";
+import { withFormik, Form, useFormikContext } from 'formik';
 
 import LoginComponent from '../login';
 import styles from './index.module.scss';
 import img_product from './workplace.jpg';
 import fake_data from "./fake-api.json";
+import { auth } from '../../firebase/index.js';
+import axios from "axios";
+import { EnhancedMemberLoginComponent } from '../member-login'
+
+import { axiosInst } from '../common-scss/common'
 
 const CheckoutComponent = (props) => {
-    // API [GET] /order/
-    var _apiData = fake_data;
+    const { values, setFieldValue } = useFormikContext();
 
+    useEffect(() => {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                axiosInst.get(`cart?customerID=${user.uid}`)
+                .then(res => {
+                    setFieldValue("checkLogin", true, false)
+                    console.log("res", res.data[0])
+                    setFieldValue("itemsList", res.data[0].itemsList, false);
+                }).catch(function (err) {
+                    console.log("err", err)
+                })
+            } else {
+                console.log(">>>>>guest")
+                var cartLocal = JSON.parse(localStorage.getItem("cart"));
+                if (cartLocal) {
+                    setFieldValue("itemsList", cartLocal.itemsList, false);
+                } else {
+                    return;
+                }
+            }
+        });
+    }, []);
+
+    let totalPrice = 0;
     return (
         <main>
             <section className={styles.section2}>
@@ -26,19 +54,20 @@ const CheckoutComponent = (props) => {
                             </thead>
                             <tbody>
                                 {
-                                    _apiData.data.map((dataObjectMapped, index) => {
+                                    values.itemsList.map((dataObjectMapped, index) => {
+                                        totalPrice = totalPrice + parseInt(dataObjectMapped.price)
                                         return (
                                             <tr>
                                                 <td>
                                                     <div className={`${styles.containerRow} ${styles.flexNoWrap}`}>
                                                         <img src={img_product} className={styles.productPreview} alt="Product" />
                                                         <div className={styles.containerCol}>
-                                                            <div className={styles.name}>{dataObjectMapped.name}</div>
-                                                            <div className={styles.desciption}>{dataObjectMapped.description}</div>
+                                                            <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
+                                                            <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className={styles.textCenter}>{dataObjectMapped.amount}</td>
+                                                <td className={styles.textCenter}>{dataObjectMapped.units}</td>
                                                 <td className={styles.textCenter}>{dataObjectMapped.price}฿</td>
                                             </tr>
                                         )
@@ -48,7 +77,7 @@ const CheckoutComponent = (props) => {
                             <tfoot className={styles.borderTop}>
                                 <tr className={styles.borderTop}>
                                     <td colspan="2">ค่าสินค้ารวม</td>
-                                    <td className={styles.textCenter}>1000฿</td>
+                                    <td className={styles.textCenter}>{totalPrice}฿</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -57,16 +86,24 @@ const CheckoutComponent = (props) => {
                 </div>
 
                 <div className={styles.boxChild2}>
-                    <h2>ระบบสมาชิก</h2>
-                    <div className={styles.wrapTable}>
-                        <Form>
-                            <LoginComponent />
-                        </Form>
-                    </div>
-                    
-                    <br /><br />
-                    <h2>Checkout as Guest</h2>
-                    <button className={styles.buttonGreenFit}>Checkout as Guest</button>
+                    {!values.checkLogin ?
+                        <>
+                            <h2>ระบบสมาชิก</h2>
+                            <div className={styles.wrapTable}>
+                                <Form>
+                                    <LoginComponent />
+                                </Form>
+                            </div>
+
+                            <br /><br />
+                            <h2>Checkout as Guest</h2>
+                            <button className={styles.buttonGreenFit} type="button" onClick={() => props.history.push("/cart")}>Checkout as Guest</button>
+                        </>
+                        :
+                        <>
+                            <button className={`${styles.buttonGreenFit} ${styles.checkLogin}`} onClick={() => props.history.push("/cart")}>Checkout</button>
+                        </>
+                    }
                 </div>
             </section>
         </main>
@@ -75,6 +112,10 @@ const CheckoutComponent = (props) => {
 
 const EnhancedCheckoutComponent = withFormik({
     mapPropsToValues: () => ({
+        itemsList: [],
+        checkLogin: false,
+        checkLoginComponant: false,
+
         email: '',
         password: ''
     }),
@@ -82,21 +123,27 @@ const EnhancedCheckoutComponent = withFormik({
         const errors = {};
 
         if (values.email === "") {
-            errors.email = "Required"
+            errors.email = "*กรุณากรอก"
         }
 
         if (values.password === "") {
-            errors.password = "Required"
+            errors.password = "*กรุณากรอก"
         }
         return errors;
     },
-    handleSubmit: (values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 0);
+    handleSubmit: (values, { setFieldValue, props }) => {
+        auth
+            .signInWithEmailAndPassword(values.email, values.password)
+            .then(res => {
+                console.log("uid", res.user.uid, "email", res.user.email)
+                setFieldValue("checkLoginComponant", false, false);
+                props.history.push("/myorder")
+            })
+            .catch(error => {
+                console.log("Error", error)
+                setFieldValue("checkLoginComponant", true, false);
+            })
     },
-    displayName: 'CheckoutComponent',
 })(CheckoutComponent);
 
 export default EnhancedCheckoutComponent;
