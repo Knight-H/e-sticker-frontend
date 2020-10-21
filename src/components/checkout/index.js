@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 import img_product from './workplace.jpg';
 import fake_data from "./fake-api.json";
 
-const CheckoutComponent = () => {
+const CheckoutComponent = (props) => {
     // API [GET] /order/
     var _apiData = fake_data;
 
@@ -53,7 +53,7 @@ const CheckoutComponent = () => {
                             </tfoot>
                         </table>
                     </div>
-                    <button className={styles.buttonGreen}>สั่งสินค้าอย่างอื่น</button>
+                    <button type="button" onClick={() => props.history.push("/customize")} className={styles.buttonGreen}>สั่งสินค้าอย่างอื่น</button>
                 </div>
 
                 <div className={styles.boxChild2}>
@@ -88,7 +88,6 @@ const EnhancedCheckoutComponent = withFormik({
         if (values.password === "") {
             errors.password = "Required"
         }
-
         return errors;
     },
     handleSubmit: (values, { setSubmitting }) => {

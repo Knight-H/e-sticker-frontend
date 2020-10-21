@@ -7,11 +7,9 @@ import { Form, Field, withFormik } from 'formik'
 
 
 import { i18_th } from '../common-scss/i18_text'
-
 import { axiosInst } from '../common-scss/common'
-
 import axios from "axios";
-import auth, { db } from "../../firebase";
+import { db, auth } from "../../firebase";
 
 
 const EnhancedLoginCredentialsComponent = withFormik({

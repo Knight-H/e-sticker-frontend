@@ -5,13 +5,15 @@ import config from './config'
 // import 'firebase/auth'
 
 
-firebase.initializeApp(config)
+export const firebaseApp = firebase.initializeApp(config)
 
 
 // if (!firebase.apps.length) {
 //   firebase.initializeApp(config)
 // }
 
-export const db = firebase.firestore()
+export const db = firebase.firestore();
 
-export default firebase.auth()
+export const auth = firebase.auth();
+
+export default firebaseApp;
