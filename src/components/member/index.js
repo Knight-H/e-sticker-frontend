@@ -7,6 +7,7 @@ import AdminKpi from '../admin-kpi';
 import { Formik, Field, Form, withFormik } from "formik";
 import { dummyHandleSubmit, dummyValidateError, DummyDiv } from "../common-scss/common"
 import auth from "../../firebase";
+import Firebase from 'firebase'
 import axios from 'axios'
 import { i18_th } from "../common-scss/i18_text";
 
@@ -46,7 +47,43 @@ export let EnhancedLoginComponent = withFormik({
 
         return errors
     },
-    handleSubmit: dummyHandleSubmit
+    handleSubmit: async (values) => {
+
+        // re-provide their sign-in credentials
+        // https://firebase.google.com/docs/auth/web/manage-users#re-authenticate_a_user
+
+        // Getting fresh credential
+        // https://stackoverflow.com/a/37812541
+
+        // Makeing credential object
+        // https://firebase.google.com/docs/reference/js/firebase.auth.EmailAuthProvider#.credential
+        // TL;DR use the Prototype(Class) itself's auth not the instance
+        // Firebase.auth IS NOT EQUAL TO Firebase.auth()
+
+        let freshCredential = null
+        try {
+            freshCredential = Firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, "admin123")
+        } catch (e) {
+            alert("eeee", e)
+        }
+
+        try {
+            await auth.currentUser.reauthenticateWithCredential(freshCredential)
+        } catch (e) {
+            alert(e)
+        }
+
+        try {
+            await auth.currentUser.updatePassword(values.password)
+
+            console.log("password changed ok")
+            alert(i18_th.account_password_change_success)
+        } catch (e) {
+            console.log("failed to change", e)
+            alert(i18_th.account_password_change_failed_general, e)
+        }
+
+    }
 })((props) => {
     return (
         <Form className={styles.loginCredentials}>
