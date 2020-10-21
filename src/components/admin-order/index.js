@@ -15,6 +15,7 @@ const AdminOrderComponent = () => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(3);
 
+    // GET Orders From API
     useEffect(() => {
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
           .then(res => {
