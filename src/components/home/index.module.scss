@@ -19,17 +19,23 @@
     justify-content: space-between;
     // align-items: center;
 
-    @media screen and (max-width: 768) {
-        overflow-x: scroll;
-    }
+    // flex-direction: column;
+
+    // @media screen and (max-width: 768) {
+    //     flex-direction: column;
+    // }
 
     .horizontalScroller {
         width: 100%;
         display: flex;
         justify-content: space-between;
         // min-width: 700px;
-        overflow-x: scroll;
-        display: flex;
+        // overflow-x: scroll;
+        
+        flex-direction: row;
+        @media screen and (max-width: 768px) {
+            flex-direction: column;
+        }
 
         padding: 10px;
 
@@ -44,7 +50,9 @@
 
         width: 25vw;
         @media screen and (max-width: 768px){
-            width: 180px;
+            // width: 180px;
+            width: 100%;
+            margin: 5px 0;
             min-width: 180px;
             // margin: 0 20px;
         }

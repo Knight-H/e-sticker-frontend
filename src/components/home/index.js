@@ -74,10 +74,16 @@ const HomeComponent = (props) => {
                     </button>
 
                         </Link>
-                        <button>
-                            <S13StatusIcon />
-                        ดูสถานะการสั่งซื้อ
-                    </button>
+                        <Link to={{
+                            pathname: "/myorder",
+                            // hash: "#stepsOrder",
+                            state: { scrollToStepsOrder: true }
+                        }}>
+
+                            <button>
+                                <S13StatusIcon /> ดูสถานะการสั่งซื้อ
+                        </button>
+                        </Link>
                     </div>
                 </section>
 
