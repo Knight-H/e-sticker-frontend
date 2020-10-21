@@ -9,31 +9,42 @@ import PreviewImage from "../preview-image";
 import GroupDeliveryPayment from "../group-delivery-payment";
 import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
 
-const ApproveLayoutComponent = () => {
+import { auth } from '../../firebase/index.js';
+const ApproveLayoutComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(3);
     const [guestMode] = useState(false);
 
     useEffect(() => {
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
-          .then(res => {
-            // console.log("res.data[0]", res.data[0])
-            setFieldValue("orderID", res.data[0].orderID, false);
-            setFieldValue("status", res.data[0].status, false);
-            setFieldValue("itemsList", res.data[0].itemsList, false);
-            setFieldValue("shippingAddress", res.data[0].shippingAddress, false);
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                let url = window.location.search;
+                const urlParams = new URLSearchParams(url);
+                let orderID = urlParams.get('orderID');
+                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders?orderID=${orderID}`)
+                    .then(res => {
+                        console.log("res.data[0]", res.data)
+                        setFieldValue("myID", res.data[0].myID, false);
 
-            setFieldValue("shippingCourier", res.data[0].shippingCourier, false);
-            setFieldValue("itemsCost", res.data[0].itemsCost, false);
-            setFieldValue("shippingCost", res.data[0].shippingCost, false);
-            setFieldValue("vatCost", res.data[0].vatCost, false);
-            setFieldValue("totalCost", res.data[0].totalCost, false);
-          }).catch(function (err) {
-            console.log("err", err)
-          })
-      }, []);
+                        setFieldValue("orderID", res.data[0].orderID, false);
+                        setFieldValue("status", res.data[0].status, false);
+                        setFieldValue("itemsList", res.data[0].itemsList, false);
+                        setFieldValue("shippingAddress", res.data[0].shippingAddress, false);
 
-      
+                        setFieldValue("shippingCourier", res.data[0].shippingCourier, false);
+                        setFieldValue("itemsCost", res.data[0].itemsCost, false);
+                        setFieldValue("shippingCost", res.data[0].shippingCost, false);
+                        setFieldValue("vatCost", res.data[0].vatCost, false);
+                        setFieldValue("totalCost", res.data[0].totalCost, false);
+                    }).catch(function (err) {
+                        console.log("err", err)
+                        props.history.push('/customize')
+                    })
+            }
+        })
+    }, []);
+
+
     // const searchOrderNumber = () => {
     //     let orderNumber = fakeAPI.find(orderNumber => `${orderNumber.orderNumber}` === `${values.orderNumber}`);
     //     if (orderNumber) {
@@ -43,7 +54,7 @@ const ApproveLayoutComponent = () => {
     //         setFieldValue("itemsList", orderNumber.itemsList);
     //     }
     // };
-    
+
     return (
         <main className={styles.wrapContent}>
 
