@@ -44,29 +44,54 @@ const CheckoutComponent = (props) => {
                         <table className={styles.tableCustom}>
                             <thead className={styles.borderBottom}>
                                 <tr>
-                                    <th className={styles.textLeft}>สินค้า</th>
+                                    <th colspan="3" className={styles.textLeft}>สินค้า</th>
                                     <th>จำนวน</th>
                                     <th>มูลค่า</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    values.itemsList.map((dataObjectMapped, index) => {
-                                        totalPrice = totalPrice + parseInt(dataObjectMapped.price)
+                                    _apiData.data.map((dataObjectMapped) => {
                                         return (
-                                            <tr>
-                                                <td>
-                                                    <div className={`${styles.containerRow} ${styles.flexNoWrap}`}>
-                                                        <img src={img_product} className={styles.productPreview} alt="Product" />
-                                                        <div className={styles.containerCol}>
-                                                            <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
-                                                            <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
+                                            <>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`} >
+                                                            <img src={img_product} className={styles.productPreview} alt="Product" />
+                                                            <div className={styles.containerCol}>
+                                                                <div className={styles.name}>{dataObjectMapped.name}</div>
+                                                                <div className={styles.desciption}>{dataObjectMapped.description}</div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td className={styles.textCenter}>{dataObjectMapped.units}</td>
-                                                <td className={styles.textCenter}>{dataObjectMapped.price}฿</td>
-                                            </tr>
+                                                    </td>
+                                                    <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.amount}</td>
+                                                    <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.price}฿</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>จำนวน {dataObjectMapped.amount} ชิ้น</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>ราคา {dataObjectMapped.price}฿</td>
+                                                </tr>
+                                            </>
+// =======
+//                                     values.itemsList.map((dataObjectMapped, index) => {
+//                                         totalPrice = totalPrice + parseInt(dataObjectMapped.price)
+//                                         return (
+//                                             <tr>
+//                                                 <td>
+//                                                     <div className={`${styles.containerRow} ${styles.flexNoWrap}`}>
+//                                                         <img src={img_product} className={styles.productPreview} alt="Product" />
+//                                                         <div className={styles.containerCol}>
+//                                                             <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
+//                                                             <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
+//                                                         </div>
+//                                                     </div>
+//                                                 </td>
+//                                                 <td className={styles.textCenter}>{dataObjectMapped.units}</td>
+//                                                 <td className={styles.textCenter}>{dataObjectMapped.price}฿</td>
+//                                             </tr>
+// >>>>>>> master
                                         )
                                     })
                                 }

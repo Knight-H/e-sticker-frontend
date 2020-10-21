@@ -30,18 +30,19 @@ const AdminComponent = (props) => {
         DONE: 0,
         CANCEL: 0
     }
-    var dateNow = new Date();
-    var monthNow = dateNow.getMonth();
+    // var dateNow = new Date();
+    // var monthNow = dateNow.getMonth();
 
     const [selectStatus, setSelectStatus] = useState(statusFilter.ALL);
     const [textSearch, setTextSearch] = useInputChange();
     const [selectMonth, setSelectMonth] = useInputChange(); //useState(monthNow))
     console.log("selectMonth", selectMonth)
-    _apiData.data.map((dataObjectMapped, index) => {
+    _apiData.data.map((dataObjectMapped) => {
         if (dataObjectMapped.status === statusFilter.DONE) { countOrder.DONE = countOrder.DONE+1; }
         else if (dataObjectMapped.status === statusFilter.DOING) { countOrder.DOING = countOrder.DOING+1; }
         else if (dataObjectMapped.status === statusFilter.CANCEL) { countOrder.CANCEL = countOrder.CANCEL+1; }
         countOrder.ALL = countOrder.ALL+1; 
+        return null;
     })
 
     return (
@@ -105,7 +106,7 @@ const AdminComponent = (props) => {
                     </thead>
                     <tbody>
                         {
-                            _apiData.data.map((dataObjectMapped, index) => {
+                            _apiData.data.map((dataObjectMapped) => {
                                 var statusOrder = styles.statusCancel;
                                 var textSearchMatch = dataObjectMapped.order_id.match(textSearch['search']);
 
@@ -113,7 +114,7 @@ const AdminComponent = (props) => {
                                 else if (dataObjectMapped.status === statusFilter.DOING) { statusOrder = styles.statusDoing; }
                                 else if (dataObjectMapped.status === statusFilter.CANCEL) { statusOrder = styles.statusCancel; }
 
-                                if ((selectStatus === dataObjectMapped.status || selectStatus == statusFilter.ALL) && (textSearchMatch !== null))
+                                if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)){
                                  return (
                                     <tr>
                                         <td>{dataObjectMapped.date}</td>
@@ -130,9 +131,12 @@ const AdminComponent = (props) => {
                                         </td>
                                         <td>{dataObjectMapped.shipping_id}</td>
                                         <td>{dataObjectMapped.reposiable_name}</td>
-                                        <td><Link to={"/admin/myorder" + "?order_id=" + dataObjectMapped.order_id}>{dataObjectMapped.organize}</Link></td>
+                                        <td><Link to={"/admin/myorder?order_id=" + dataObjectMapped.order_id}>{dataObjectMapped.organize}</Link></td>
                                     </tr>
-                                )
+                                )}
+                                else {
+                                    return null
+                                }
                             })
                         }
                         
