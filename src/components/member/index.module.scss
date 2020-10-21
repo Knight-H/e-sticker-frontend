@@ -12,6 +12,17 @@
     overflow-x: scroll;
 }
 
+.section2 {
+    width: 90%;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    // border: 3px solid red;
+
+    // overflow-x: scroll;
+}
+
 .formControl {
     // margin-top: 10px;
     // border: 3px solid red;
