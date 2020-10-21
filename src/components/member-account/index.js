@@ -243,8 +243,8 @@ const MemberAccountComponent = () => {
 
             <div className={styles.flexWrapper}>
 
-                <EnhancedLoginCredentialsComponent email={currentEmail} emailDisabled={true} />
-                <EnchancedLocationFieldsComponent onlyLocation={false} email={currentEmail} emailDisabled={true} />
+                <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
+                <EnchancedLocationFieldsComponent onlyLocation={false}emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
 
             </div>
 
