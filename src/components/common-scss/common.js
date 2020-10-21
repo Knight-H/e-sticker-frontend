@@ -1,6 +1,6 @@
 import React from 'react'
 import Firebase from 'firebase'
-import auth from '../../firebase/index'
+import {auth} from '../../firebase/index'
 import axios from 'axios'
 import { i18_th } from './i18_text'
 

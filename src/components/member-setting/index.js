@@ -92,7 +92,7 @@ let MemberSettingComponent = (props) => {
                 <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>
 
-            <section className={styles.section1}>
+            <section className={styles.section2}>
 
                 <h2>รายสมาชิก - จัดการบัญชี</h2>
                 {/* <h3>สมาชิกหมายเลข MEM0001</h3> */}

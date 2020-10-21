@@ -65,6 +65,17 @@
     overflow-x: scroll;
 }
 
+.section2 {
+    width: 90%;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    // border: 3px solid red;
+
+    // overflow-x: scroll;
+}
+
 .row {
     display: flex;
     flex-direction: row;
