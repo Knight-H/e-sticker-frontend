@@ -16,5 +16,9 @@ export const i18_th = {
 
     account_information_update_success: "Information updated!",
     account_information_update_failed_general: "Update failed!",
+
+    account_my_account: "My Profile",
+    account_login: "Login",
+    account_my_cart: "My Cart",
 }
 
