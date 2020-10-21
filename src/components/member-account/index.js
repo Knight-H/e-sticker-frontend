@@ -7,14 +7,16 @@ import { Form, Field, withFormik } from 'formik'
 
 
 import { i18_th } from '../common-scss/i18_text'
-import Axios from "axios";
+import { axiosInst } from '../common-scss/common'
+import axios from "axios";
 import { db, auth } from "../../firebase";
+
 
 const EnhancedLoginCredentialsComponent = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
         return {
-            email: props.email || '',
+            email: '',
             password: '',
             password_repeat: '',
         }
@@ -41,6 +43,12 @@ const EnhancedLoginCredentialsComponent = withFormik({
         }, 0)
     }
 })((props) => {
+
+    const { userInfo } = props
+    useEffect(() => {
+        props.setFieldValue("email", userInfo.email)
+    }, [userInfo])
+
     return (
         <Form className={styles.loginCredentials}>
             <LoginCredentialsComponent2 isRegistering={false} {...props} />
@@ -49,10 +57,12 @@ const EnhancedLoginCredentialsComponent = withFormik({
 })
 
 const EnchancedLocationFieldsComponent = withFormik({
-    mapPropsToValues: (props) => {
+    enableReinitialize: true,
+    mapPropsToValues: () => {
+
         return {
 
-            email: props.email || '',
+            email: '',
             phone: '',
 
             address: '',
@@ -76,25 +86,122 @@ const EnchancedLocationFieldsComponent = withFormik({
 
         return errors
     },
-    handleSubmit: (values) => {
-        setTimeout(() => {
-            console.log(values)
-            alert(JSON.stringify(values, null, 2))
-        }, 0)
+    handleSubmit: async (values) => {
+
+        const api = {
+            customers: "customers",
+            cart: "cart",
+            noti: "noti",
+            orders: "orders",
+            paymentOptions: "paymentOptions",
+            productOptions: "productOptions",
+            shippingOptions: "shippingOptions"
+        }
+
+        auth.onAuthStateChanged((user) => {
+            axiosInst.get(api.customers, { params: { customerID: user.uid } }).then((res) => {
+
+                const customerInfo = {}
+                Object.assign(customerInfo, { customerID: user.uid }) // ensure customerID exists
+
+                // Temp filter asdf
+                res.data.forEach((value) => {
+                    if (value['customerID'] === user.uid) return Object.assign(customerInfo, value)
+                })
+
+                // Assign updated values
+                Object.assign(customerInfo, values)
+
+                //     email: '',
+                // phone: '',
+
+                // address: '',
+                // fullname: '',
+
+                // district: '',
+                // zone: '',
+
+                // provice: '',
+                // zip: '',
+
+                const customerSchemaInfo = {
+                    Email: customerInfo?.email,
+                    shippingAddress: {
+                        address: customerInfo?.address,
+                        zip: customerInfo?.zip,
+                        city: null,
+                        county: null,
+                        province: customerInfo?.province,
+                        fullname: customerInfo?.fullname,
+                    },
+                    fullname: customerInfo?.fullname,
+                    phone: customerInfo?.phone
+                }
+
+                const documentKey = customerInfo.myID || null
+
+                // console.log("key", documentKey)
+                if (!documentKey) {
+                    // Make new if doesn't exist
+                    axiosInst.post(api.customers, customerSchemaInfo).then((res) => {
+                        alert(i18_th.account_information_update_success)
+                    }).catch((reason) => {
+                        alert(i18_th.account_information_update_failed_general, reason)
+                    })
+                } else {
+                    // Otherwise update
+                    axiosInst.put(api.customers + `/${documentKey}`, customerSchemaInfo).then((res) => {
+                        alert(i18_th.account_information_update_success)
+                    }).catch((reason) => {
+                        alert(i18_th.account_information_update_failed_general, reason)
+                    })
+                }
+            })
+        })
+
+        // const axiosInst = axios.create({
+        //     baseURL: "https://asia-east2-digitalwish-sticker.cloudfunctions.net/",
+        // })
+
+
+        // let res = null
+        // try {
+        //     res = await axiosInst.get(api.customers, {
+        //         params: {
+        //             myID: "DUfm5vSyoOhfuGThW3LDeVKAAbv1"
+        //         }
+        //     })
+        // } catch (e) {
+        //     console.log(e)
+        // }
+        // console.log(res.data)
+
+        // axiosInst.get(api.customers, { params: { customerInfo: "" } })
+
+        // axiosInst.post(api.customers, values).then((res) => {
+        //     alert(i18_th.account_information_update_success)
+        // }).catch((reason) => {
+        //     alert(i18_th.account_information_update_failed_general, reason)
+        // })
+
+        // axiosInst.post(api.customers + "/validate", values).then((res) => {
+        //     console.log("ok post", res)
+        // })
+
+        // setTimeout(() => {
+        //     console.log(values)
+        //     alert(JSON.stringify(values, null, 2))
+        // }, 0)
     }
 })((props) => {
 
+    const { userInfo } = props
+
     useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                db.collection("customers").where("myID", "==", user.uid).get().then((querySnapshot) => {
-                    if (querySnapshot.size === 1){
-                        // Setup page fields
-                    }
-                })
-            }
+        Object.entries(userInfo).forEach(([fieldName, fieldValue]) => {
+            props.setFieldValue(fieldName, fieldValue)
         })
-    }, [])
+    }, [userInfo])
 
     return (
         <Form className={styles.userInfo} >
@@ -104,9 +211,32 @@ const EnchancedLocationFieldsComponent = withFormik({
     )
 })
 
-const MemberAccountComponent = (props) => {
+const MemberAccountComponent = () => {
 
-    const currentEmail = "demo123@mail.com"
+    const [userInfo, setUserInfo] = useState({})
+
+    useEffect(() => {
+        // console.log(currentEmail)
+        auth.onAuthStateChanged((userCredential) => {
+            axiosInst.get("customers", {
+                params: {
+                    customerID: auth.currentUser.uid
+                }
+            }).then((res) => {
+                // Temporary for filtering the customer data
+                const customerInfo = res.data.filter((data) => {
+                    return data["customerID"] === auth.currentUser.uid
+                })[0]
+                // console.log("got:", customerInfo)
+
+                setUserInfo(customerInfo)
+            })
+        })
+    }, [userInfo])
+
+    // useEffect(() => {
+
+    // }, [currentEmail])
 
     return (
         <main className={styles.pageContainer}>
@@ -117,8 +247,8 @@ const MemberAccountComponent = (props) => {
 
             <div className={styles.flexWrapper}>
 
-                <EnhancedLoginCredentialsComponent email={currentEmail} emailDisabled={true} />
-                <EnchancedLocationFieldsComponent onlyLocation={false} email={currentEmail} emailDisabled={true} />
+                <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} />
+                <EnchancedLocationFieldsComponent onlyLocation={false} emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
 
             </div>
 
