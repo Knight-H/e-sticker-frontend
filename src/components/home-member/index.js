@@ -9,6 +9,7 @@ import { ReactComponent as IconLogout } from './icon-logout.svg';
 import { withFormik } from 'formik';
 import { useFormikContext } from 'formik';
 import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
+import { auth } from '../../firebase/index'
 
 const LabelSatus = ({ status }) => {
     if (status === STATUS_ORDERS_TYPE.DOING) {
@@ -49,13 +50,16 @@ const HomeMemberComponent = (props) => {
             <br />
 
             <label className={styles.greenLabel}><IconPhone />ดูคำสั่งซื้อ</label>
-            <label className={styles.greenLabel}><IconUser />จัดการบัญชี</label>
-            <label className={styles.greenLabel}><IconLogout />ออกจากระบบ</label>
+            <label className={styles.greenLabel} onClick={() => { props.history.push("/member/setting") }}><IconUser />จัดการบัญชี</label>
+            <label className={styles.greenLabel} onClick={() => {
+                auth.signOut()
+                props.history.push("/")
+            }}><IconLogout />ออกจากระบบ</label>
 
             <section className={styles.container}>
 
                 {values.objectOrder.map((fakeAPI) => {
-                    if (fakeAPI) {  
+                    if (fakeAPI) {
                         return (
                             <article className={styles.borderCard}>
                                 <h1 className={styles.title}>ออเดอร์หมายเลข {fakeAPI.orderID}</h1>
