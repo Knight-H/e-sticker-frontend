@@ -106,26 +106,14 @@ const EnchancedLocationFieldsComponent = withFormik({
                 // Assign updated values
                 Object.assign(customerInfo, values)
 
-                //     email: '',
-                // phone: '',
-
-                // address: '',
-                // fullname: '',
-
-                // district: '',
-                // zone: '',
-
-                // provice: '',
-                // zip: '',
-
                 const customerSchemaInfo = {
                     Email: customerInfo?.email,
                     shippingAddress: {
                         address: customerInfo?.address,
                         zip: customerInfo?.zip,
-                        city: null,
-                        county: null,
-                        province: customerInfo?.province,
+                        city: customerInfo?.zone,
+                        county: customerInfo?.district,
+                        province: customerInfo?.provice,
                         fullname: customerInfo?.fullname,
                     },
                     fullname: customerInfo?.fullname,
@@ -152,40 +140,6 @@ const EnchancedLocationFieldsComponent = withFormik({
                 }
             })
         })
-
-        // const axiosInst = axios.create({
-        //     baseURL: "https://asia-east2-digitalwish-sticker.cloudfunctions.net/",
-        // })
-
-
-        // let res = null
-        // try {
-        //     res = await axiosInst.get(api.customers, {
-        //         params: {
-        //             myID: "DUfm5vSyoOhfuGThW3LDeVKAAbv1"
-        //         }
-        //     })
-        // } catch (e) {
-        //     console.log(e)
-        // }
-        // console.log(res.data)
-
-        // axiosInst.get(api.customers, { params: { customerInfo: "" } })
-
-        // axiosInst.post(api.customers, values).then((res) => {
-        //     alert(i18_th.account_information_update_success)
-        // }).catch((reason) => {
-        //     alert(i18_th.account_information_update_failed_general, reason)
-        // })
-
-        // axiosInst.post(api.customers + "/validate", values).then((res) => {
-        //     console.log("ok post", res)
-        // })
-
-        // setTimeout(() => {
-        //     console.log(values)
-        //     alert(JSON.stringify(values, null, 2))
-        // }, 0)
     }
 })((props) => {
 
@@ -213,26 +167,29 @@ const MemberAccountComponent = () => {
     useEffect(() => {
         // console.log(currentEmail)
         auth.onAuthStateChanged((userCredential) => {
-            axiosInst.get("customers", {
-                params: {
-                    customerID: auth.currentUser.uid
-                }
-            }).then((res) => {
-                // Temporary for filtering the customer data
-                const customerInfo = res.data.filter((data) => {
-                    return data["customerID"] === auth.currentUser.uid
-                })[0]
-                // console.log("got:", customerInfo)
+            axiosInst.get(`customers/${auth.currentUser.uid}`).then((res) => {
+                // console.log(res, auth.currentUser.uid)
 
-                setUserInfo(customerInfo)
+                // Temporary for filtering the customer data
+                const custInfo = res.data
+
+                const formikSchema = {
+                    email: custInfo.Email,
+                    
+                    address: custInfo?.shippingAddress?.address,
+                    zip: custInfo?.shippingAddress?.zip,
+                    zone: custInfo?.shippingAddress?.city,
+                    district: custInfo?.shippingAddress?.county,
+
+                    provice: custInfo?.provice,
+                    fullname: custInfo?.fullname,
+                    phone: custInfo?.phone
+                }
+
+                setUserInfo(formikSchema)
             })
         })
-    }, [userInfo])
-
-    // useEffect(() => {
-
-    // }, [currentEmail])
-
+    }, [])
 
     return (
         <main className={styles.pageContainer}>
