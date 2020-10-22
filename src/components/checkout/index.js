@@ -15,15 +15,13 @@ const CheckoutComponent = (props) => {
         auth.onAuthStateChanged(user => {
             if (user) {
                 axiosInst.get(`cart?customerID=${user.uid}`)
-                .then(res => {
-                    setFieldValue("checkLogin", true, false)
-                    console.log("res", res.data[0])
-                    setFieldValue("itemsList", res.data[0].itemsList, false);
-                }).catch(function (err) {
-                    console.log("err", err)
-                })
+                    .then(res => {
+                        setFieldValue("checkLogin", true, false)
+                        setFieldValue("itemsList", res.data[0].itemsList, false);
+                    }).catch(function (err) {
+                        console.log("err", err)
+                    })
             } else {
-                console.log(">>>>>guest")
                 var cartLocal = JSON.parse(localStorage.getItem("cart"));
                 if (cartLocal) {
                     setFieldValue("itemsList", cartLocal.itemsList, false);
@@ -51,7 +49,7 @@ const CheckoutComponent = (props) => {
                             </thead>
                             <tbody>
                                 {
-                                    _apiData.data.map((dataObjectMapped) => {
+                                    values.itemsList.map((dataObjectMapped) => {
                                         return (
                                             <>
                                                 <tr>
@@ -59,39 +57,21 @@ const CheckoutComponent = (props) => {
                                                         <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`} >
                                                             <img src={img_product} className={styles.productPreview} alt="Product" />
                                                             <div className={styles.containerCol}>
-                                                                <div className={styles.name}>{dataObjectMapped.name}</div>
-                                                                <div className={styles.desciption}>{dataObjectMapped.description}</div>
+                                                                <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
+                                                                <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.amount}</td>
+                                                    <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.units}</td>
                                                     <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.price}฿</td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>จำนวน {dataObjectMapped.amount} ชิ้น</td>
+                                                    <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>จำนวน {dataObjectMapped.units} ชิ้น</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>ราคา {dataObjectMapped.price}฿</td>
                                                 </tr>
                                             </>
-// =======
-//                                     values.itemsList.map((dataObjectMapped, index) => {
-//                                         totalPrice = totalPrice + parseInt(dataObjectMapped.price)
-//                                         return (
-//                                             <tr>
-//                                                 <td>
-//                                                     <div className={`${styles.containerRow} ${styles.flexNoWrap}`}>
-//                                                         <img src={img_product} className={styles.productPreview} alt="Product" />
-//                                                         <div className={styles.containerCol}>
-//                                                             <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
-//                                                             <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
-//                                                         </div>
-//                                                     </div>
-//                                                 </td>
-//                                                 <td className={styles.textCenter}>{dataObjectMapped.units}</td>
-//                                                 <td className={styles.textCenter}>{dataObjectMapped.price}฿</td>
-//                                             </tr>
-// >>>>>>> master
                                         )
                                     })
                                 }
