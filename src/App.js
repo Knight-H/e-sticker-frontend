@@ -52,7 +52,6 @@ function App() {
                 <Route path="/admin/customer" exact component={MemberListComponent} />
                 <Route path="/login" exact component={MemberLoginComponent} />
                 <Route path="/register" exact component={MemberRegsterComponent} />
-                <Route path="/member/setting" exact component={MemberAccountComponent} />
 
                 <Route path="/admin/product" exact component={AdminProductOptionComponent} />
             </Switch>
