@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AdminKpi from "../admin-kpi";
 import styles from './index.module.scss';
-import fake_data from "./fake-api.json";
 import { Link } from 'react-router-dom';
 
 import { axiosInst } from '../common-scss/common'
@@ -18,7 +17,6 @@ const useInputChange = () => {
 }
 
 const AdminComponent = (props) => {
-    var _apiData = fake_data;
     var statusFilter = {
         ALL: "แสดงทั้งหมด",
         DOING: "กำลังดำเนินการ",
@@ -109,7 +107,7 @@ const AdminComponent = (props) => {
                             <th>วันที่ออเดอร์</th>
                             <th>เลขออเดอร์</th>
                             <th>เลขสมาชิก</th>
-                            <th>ช์่ิอ นามสกุล</th>
+                            <th>ชื่อ นามสกุล</th>
                             <th>เบอร์โทรศัพท์</th>
                             <th>รายการสินค้า</th>
                             <th>ราคารวม</th>

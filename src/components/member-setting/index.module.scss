@@ -64,7 +64,10 @@
 
     overflow-x: scroll;
 }
-
+.section1::-webkit-scrollbar {
+    display: none;
+  }
+  
 .section2 {
     width: 90%;
     margin: 30px auto;

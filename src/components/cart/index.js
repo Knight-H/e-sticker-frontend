@@ -30,15 +30,15 @@ const CartComponent = () => {
         // Fetch Shipping and Payment Option
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/paymentOptions`)
             .then(res => {
-                console.log("res.data[0].paymentOptions", res.data)
-                // setFieldValue("itemsList", res.data[0], false);
+                // console.log("res.data[0].paymentOptions", res.data)
+                // setFieldValue("paymentOptions", res.data[0], false);
             }).catch(function (err) {
                 console.log("err", err)
             });
 
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
             .then(res => {
-                console.log("res.data.shipptingoption", res.data)
+                // console.log("res.data.shipptingoption", res.data)
                 setFieldValue("shippingOptions", res.data, false);
             }).catch(function (err) {
                 console.log("err", err)
@@ -97,6 +97,7 @@ const CartComponent = () => {
 
     }, [checkedBox]);
 
+    let priceTotal = 0;
     return (
         <>
             <section className={styles.section1}>
@@ -120,12 +121,13 @@ const CartComponent = () => {
                                 <tbody>
                                     {
                                         values.itemsList.map((dataObjectMapped) => {
+                                            priceTotal = priceTotal + parseInt(dataObjectMapped.price);
                                             return (
                                                 <>
                                                     <tr>
                                                         <td colspan="3">
                                                             <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`} >
-                                                                <img src={img_product} className={styles.productPreview} alt="Product" />
+                                                                <img src={dataObjectMapped.messages[0].content} className={styles.productPreview} alt="Product" />
                                                                 <div className={styles.containerCol}>
                                                                     <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
                                                                     <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
@@ -149,10 +151,10 @@ const CartComponent = () => {
                                 <tfoot className={styles.borderTop}>
                                     <tr>
                                         <td colspan="4">ค่าสินค้ารวม</td>
-                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{_apiData.price}฿</td>
+                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{priceTotal}฿</td>
                                     </tr>
                                     <tr>
-                                        <td className={`${styles.textCenterMobileNewRow}`}>{_apiData.price}฿</td>
+                                        <td className={`${styles.textCenterMobileNewRow}`}>{priceTotal}฿</td>
                                     </tr>
 
                                     <tr>
@@ -178,10 +180,10 @@ const CartComponent = () => {
 
                                     <tr className={styles.borderTop}>
                                         <td colspan="4">รวมทั้งหมด</td>
-                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{_apiData.priceTotal}฿</td>
+                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{priceTotal + 50 + 70}฿</td>
                                     </tr>
                                     <tr>
-                                        <td className={`${styles.textCenterMobileNewRow}`}>{_apiData.priceTotal}฿</td>
+                                        <td className={`${styles.textCenterMobileNewRow}`}>{priceTotal + 50 + 70}฿</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -197,7 +199,6 @@ const CartComponent = () => {
                         {values.shippingOptions.map((shippingOptions, index) => {
                              var end_date = new Date();
                              end_date.setDate(end_date.getDate() + parseInt(shippingOptions.duration));
-                             console.log("shippingOption", shippingOption)
                             return (
                             <button type="button" className={`${styles.btnShippingOption} ${shippingOption === index && styles.active}`} onClick={() => {setShippingOption(index)}}>
                                 <p>รับสินค้าโดยประมาณ</p>

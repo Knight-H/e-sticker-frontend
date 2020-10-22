@@ -21,7 +21,11 @@ const ApproveLayoutComponent = (props) => {
                 let url = window.location.search;
                 const urlParams = new URLSearchParams(url);
                 let myID = urlParams.get('myID');
-                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
+                console.log("myID", myID)
+                if (!myID) { 
+                    props.history.push('/customize');
+                } else {
+                    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
                     .then(res => {
                         console.log("res.data", res.data)
                         setFieldValue("myID", res.data.myID, false);
@@ -38,8 +42,8 @@ const ApproveLayoutComponent = (props) => {
                         setFieldValue("totalCost", res.data.totalCost, false);
                     }).catch(function (err) {
                         console.log("err", err)
-                        // props.history.push('/customize')
                     })
+                }
             }
         })
     }, []);

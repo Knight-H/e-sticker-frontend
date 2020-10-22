@@ -7,6 +7,9 @@
     // border: 3px solid red;
     overflow-x: scroll;
 }
+.section1::-webkit-scrollbar {
+    display: none;
+  }
 
 .section2 {
     width: 90%;

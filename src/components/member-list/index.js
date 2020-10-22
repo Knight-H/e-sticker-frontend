@@ -93,7 +93,7 @@ const MemberListComponent = (props) => {
                     <thead>
                         <tr>
                             <th>เลขที่สมาชิก</th>
-                            <th>ช์่ิอ นามสกุล</th>
+                            <th>ชื่อ นามสกุล</th>
                             <th>เบอร์โทรศัพท์</th>
                             <th>อีเมล</th>
                             <th>ใช้งานล่าสุด</th>
