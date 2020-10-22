@@ -86,6 +86,7 @@ const EnchancedMemberRegisterComponent = withFormik({
     },
     // handleSubmit: dummyHandleSubmit,
     handleSubmit: (values, { props, setFieldValue }) => {
+
         auth.createUserWithEmailAndPassword(values.email, values.password).then((userCredential) => {
             // Also logged in
 
@@ -98,9 +99,24 @@ const EnchancedMemberRegisterComponent = withFormik({
                 moreUserInfo[fieldName] = values[fieldName]
             })
 
+            const customerSchemaInfo = {
+                Email: moreUserInfo?.email || '',
+                shippingAddress: {
+                    address: moreUserInfo?.address || '',
+                    zip: moreUserInfo?.zip || '',
+                    city: moreUserInfo?.zone || '',
+                    county: moreUserInfo?.district || '',
+                    provice: moreUserInfo?.provice || '',
+                    fullname: moreUserInfo?.fullname || '',
+                },
+                fullname: moreUserInfo?.fullname || '',
+                phone: moreUserInfo?.phone || ''
+            }
+            console.log(customerSchemaInfo)
+
             axiosInst.post("customers", {
                 uid: userCredential.user.uid,
-                data: moreUserInfo
+                data: customerSchemaInfo
             })
 
             props.history.push("/")
@@ -108,7 +124,7 @@ const EnchancedMemberRegisterComponent = withFormik({
         }).catch((reason) => {
             const { code, message } = reason
 
-            if (code === "auth/email-already-in-use"){
+            if (code === "auth/email-already-in-use") {
                 setFieldValue("isRegisterSuccessfulText", i18.account_creation_failed_email_already_exists, false)
             } else {
                 setFieldValue("isRegisterSuccessfulText", i18.account_creation_failed_general, false)

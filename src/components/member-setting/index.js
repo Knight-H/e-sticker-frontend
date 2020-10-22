@@ -10,6 +10,8 @@ import { dummyHandleSubmit } from '../common-scss/common'
 import { i18_th } from '../common-scss/i18_text'
 import { Field, withFormik, ErrorMessage, Form } from "formik";
 
+import { Intermediate } from '../member-account'
+
 let EnhancedLocationFieldsNoAccStatus = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
@@ -97,12 +99,7 @@ let MemberSettingComponent = (props) => {
                 <h2>รายสมาชิก - จัดการบัญชี</h2>
                 {/* <h3>สมาชิกหมายเลข MEM0001</h3> */}
 
-                <div className={styles.flexWrapper}>
-
-                    <EnhancedLoginComponent email={currentEmail} emailDisabled={true} />
-                    <EnhancedLocationFieldsNoAccStatus email={currentEmail} emailDisabled={true} />
-
-                </div>
+                <Intermediate />
             </section>
         </main>
     )

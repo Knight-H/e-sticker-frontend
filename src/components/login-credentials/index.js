@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './index.module.scss';
 import { Field, ErrorMessage } from 'formik'
+import { i18_th as i18 } from "../common-scss/i18_text";
 
 const LoginCredentialsComponent = ({ isRegistering = true }) => {
     return (
@@ -44,6 +45,17 @@ export const LoginCredentialsComponent2 = ({ isRegistering = true, emailDisabled
                     <Field name="email" type="email" disabled={emailDisabled} />
                 </div>
             </div>
+
+            {isRegistering ?
+                <></>
+                :
+                <div className={styles.formControl}>
+                    <p>{i18.label.password_previous} <ErrorMessage name="password_previous" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></p>
+                    <div>
+                        <Field name="password_previous" type="password" />
+                    </div>
+                </div>
+            }
 
             <div className={styles.formControl}>
                 <p>เปลี่ยนรหัสผ่าน <ErrorMessage name="password" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></p>

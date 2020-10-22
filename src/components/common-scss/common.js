@@ -39,7 +39,7 @@ export function DummyDiv(props) {
  * @param {string} oldPassword old password to be replaced
  * @param {string} newPassword new password to be used
  */
-export async function changePasswordHelper(firebaseUser, oldPassword, newPassword) {
+async function changePasswordHelper(firebaseUser, oldPassword, newPassword) {
 
     // re-provide their sign-in credentials
     // https://firebase.google.com/docs/auth/web/manage-users#re-authenticate_a_user
@@ -52,10 +52,12 @@ export async function changePasswordHelper(firebaseUser, oldPassword, newPasswor
     // TL;DR use the Prototype(Class) itself's auth not the instance
     // Firebase.auth IS NOT EQUAL TO Firebase.auth()
 
+    const currEmail = auth.currentUser.email
+
     // get credential
     let freshCredential = null
     try {
-        freshCredential = Firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, oldPassword)
+        freshCredential = Firebase.auth.EmailAuthProvider.credential(currEmail, oldPassword)
     } catch (e) {
         alert("eeee", e)
     }
