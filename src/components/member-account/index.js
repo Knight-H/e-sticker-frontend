@@ -176,14 +176,14 @@ const MemberAccountComponent = () => {
                 const formikSchema = {
                     email: custInfo.Email,
                     
-                    address: custInfo?.shippingAddress?.address,
-                    zip: custInfo?.shippingAddress?.zip,
-                    zone: custInfo?.shippingAddress?.city,
-                    district: custInfo?.shippingAddress?.county,
+                    address: custInfo?.shippingAddress?.address || '',
+                    zip: custInfo?.shippingAddress?.zip || '',
+                    zone: custInfo?.shippingAddress?.city || '',
+                    district: custInfo?.shippingAddress?.county || '',
 
-                    provice: custInfo?.provice,
-                    fullname: custInfo?.fullname,
-                    phone: custInfo?.phone
+                    provice: custInfo?.provice || '',
+                    fullname: custInfo?.fullname || '',
+                    phone: custInfo?.phone || ''
                 }
 
                 setUserInfo(formikSchema)
