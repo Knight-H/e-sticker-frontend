@@ -9,6 +9,7 @@ import { Form, Field, withFormik } from 'formik'
 import { i18_th as i18 } from '../common-scss/i18_text'
 import { axiosInst } from '../common-scss/common'
 import { db, auth } from "../../firebase";
+import Firebase from 'firebase'
 
 
 export const EnhancedLoginCredentialsComponent = withFormik({
@@ -16,6 +17,7 @@ export const EnhancedLoginCredentialsComponent = withFormik({
     mapPropsToValues: (props) => {
         return {
             email: props.userInfo.email || '',
+            password_previous: '',
             password: '',
             password_repeat: '',
         }
@@ -23,26 +25,53 @@ export const EnhancedLoginCredentialsComponent = withFormik({
     validate: (values) => {
         const errors = {}
 
-        Object.entries(values).forEach(([fieldName, fieldValue]) => {
-            if (!fieldValue) {
-                errors[fieldName] = i18.required
-            }
-        })
+        if (values.password_previous === "") {
+            errors.password_previous = i18.required
+        }
+
+        if (values.email === "") {
+            errors.email = i18.required
+        }
 
         if (values.password !== values.password_repeat) {
-            errors["password"] = i18.password_repeat_different
+            errors.password = i18.password_repeat_different
         }
 
         return errors
     },
-    handleSubmit: (values) => {
-        setTimeout(() => {
-            console.log(values)
-            alert(JSON.stringify(values, null, 2))
-        }, 0)
+    handleSubmit: async (values, { props }) => {
+
+        const oldPassword = values.password_previous
+        const newPassword = values.password
+
+        // get credential
+        let freshCredential = null
+        try {
+            freshCredential = Firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, oldPassword)
+        } catch (e) {
+            return props.setUpdateStatusText("Error:" + JSON.stringify(e))
+        }
+
+        // Referesh credential
+        try {
+            await auth.currentUser.reauthenticateWithCredential(freshCredential)
+        } catch (e) {
+            if (e.code === "auth/wrong-password") {
+            }
+            return props.setUpdateStatusText("Error2:" + JSON.stringify(e))
+        }
+
+        // Update password
+        try {
+            await auth.currentUser.updatePassword(newPassword)
+
+            return props.setUpdateStatusText(i18.account_password_change_success)
+        } catch (e) {
+            return props.setUpdateStatusText(i18.account_password_change_failed_general, e)
+        }
+
     }
 })((props) => {
-
     return (
         <Form className={styles.loginCredentials}>
             <LoginCredentialsComponent2 isRegistering={false} {...props} />
@@ -99,15 +128,19 @@ const EnchancedLocationFieldsComponent = withFormik({
         // return
 
         auth.onAuthStateChanged((user) => {
-            axiosInst.get(api.customers, { params: { customerID: user.uid } }).then((res) => {
+            axiosInst.get(api.customers + "/" + user.uid).then((res) => {
+
+                console.log(res)
 
                 const customerInfo = {}
                 Object.assign(customerInfo, { customerID: user.uid }) // ensure customerID exists
+                // Object.assign(customerInfo, res.data) //
+                // customerInfo = res.data
 
-                // Temp filter asdf
-                res.data.forEach((value) => {
-                    if (value['customerID'] === user.uid) return Object.assign(customerInfo, value)
-                })
+                // // Temp filter asdf
+                // res.data.forEach((value) => {
+                //     if (value['customerID'] === user.uid) return Object.assign(customerInfo, value)
+                // })
 
                 // Assign updated values
                 Object.assign(customerInfo, values)
@@ -236,6 +269,9 @@ const MemberAccountComponent = () => {
 
     return (
         <main className={styles.pageContainer}>
+            <h2>มุมสมาชิก - จัดการบัญชี</h2>
+            <h3>สวัสดีคุณ customer_name เลือกเมนูการใช้งานได้เลยค่ะ</h3>
+            <h3>หมายเลขสมาชิก MEM0001</h3>
             <Intermediate />
         </main>
     );
