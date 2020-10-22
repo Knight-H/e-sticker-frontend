@@ -11,7 +11,7 @@ import { auth } from "../../firebase";
 import Firebase from 'firebase'
 
 import axios from 'axios'
-import { i18_th } from "../common-scss/i18_text";
+import { i18_th as i18 } from "../common-scss/i18_text";
 
 // const useInputChange = () => {
 //     const [input, setInput] = useState({})
@@ -32,6 +32,7 @@ export let EnhancedLoginComponent = withFormik({
     mapPropsToValues: (props) => {
         return {
             email: props.email || "",
+            password_previous: "",
             password: "",
             password_repeat: ""
         }
@@ -39,50 +40,49 @@ export let EnhancedLoginComponent = withFormik({
     validate: (values) => {
         const errors = {}
 
+        if (values.password_previous === "") {
+            errors.password_previous = i18.required
+        }
+
         if (values.email === "") {
-            errors.email = "Required!"
+            errors.email = i18.required
         }
 
         if (values.password !== values.password_repeat) {
-            errors.password = "Different!"
+            errors.password = i18.password_repeat_different
         }
 
         return errors
     },
     handleSubmit: async (values) => {
 
-        // re-provide their sign-in credentials
-        // https://firebase.google.com/docs/auth/web/manage-users#re-authenticate_a_user
+        const oldPassword = values.password_previous
+        const newPassword = values.password
 
-        // Getting fresh credential
-        // https://stackoverflow.com/a/37812541
-
-        // Makeing credential object
-        // https://firebase.google.com/docs/reference/js/firebase.auth.EmailAuthProvider#.credential
-        // TL;DR use the Prototype(Class) itself's auth not the instance
-        // Firebase.auth IS NOT EQUAL TO Firebase.auth()
-
+        // get credential
         let freshCredential = null
         try {
-            freshCredential = Firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, "admin123")
+            freshCredential = Firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, oldPassword)
         } catch (e) {
-            alert("eeee", e)
+            return alert("Fail to get credential", e)
         }
 
+        // Referesh credential
         try {
             await auth.currentUser.reauthenticateWithCredential(freshCredential)
         } catch (e) {
-            alert(e)
+            return alert(e)
         }
 
+        // Update password
         try {
-            await auth.currentUser.updatePassword(values.password)
+            await auth.currentUser.updatePassword(newPassword)
 
             console.log("password changed ok")
-            alert(i18_th.account_password_change_success)
+            return alert(i18.account_password_change_success)
         } catch (e) {
             console.log("failed to change", e)
-            alert(i18_th.account_password_change_failed_general, e)
+            return alert(i18.account_password_change_failed_general, e)
         }
 
     }
@@ -118,7 +118,7 @@ export let EnhancedLocationFields = withFormik({
         console.log(values)
         Object.entries(values).forEach(([fieldName, fieldValue]) => {
             if (!fieldValue) {
-                errors[fieldName] = i18_th.required
+                errors[fieldName] = i18.required
             }
         })
 

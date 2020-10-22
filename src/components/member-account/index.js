@@ -6,14 +6,18 @@ import { LoginCredentialsComponent2 } from '../login-credentials';
 import { Form, Field, withFormik } from 'formik'
 
 
-import { i18_th } from '../common-scss/i18_text'
+import { i18_th as i18 } from '../common-scss/i18_text'
 import { axiosInst } from '../common-scss/common'
 import { db, auth } from "../../firebase";
-const EnhancedLoginCredentialsComponent = withFormik({
+import Firebase from 'firebase'
+
+
+export const EnhancedLoginCredentialsComponent = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
         return {
             email: props.userInfo.email || '',
+            password_previous: '',
             password: '',
             password_repeat: '',
         }
@@ -21,26 +25,55 @@ const EnhancedLoginCredentialsComponent = withFormik({
     validate: (values) => {
         const errors = {}
 
-        Object.entries(values).forEach(([fieldName, fieldValue]) => {
-            if (!fieldValue) {
-                errors[fieldName] = i18_th.required
-            }
-        })
+        if (values.password_previous === "") {
+            errors.password_previous = i18.required
+        }
+
+        if (values.email === "") {
+            errors.email = i18.required
+        }
 
         if (values.password !== values.password_repeat) {
-            errors["password"] = i18_th.password_repeat_different
+            errors.password = i18.password_repeat_different
         }
 
         return errors
     },
-    handleSubmit: (values) => {
-        setTimeout(() => {
-            console.log(values)
-            alert(JSON.stringify(values, null, 2))
-        }, 0)
+    handleSubmit: async (values, { props }) => {
+
+        const oldPassword = values.password_previous
+        const newPassword = values.password
+
+        // get credential
+        let freshCredential = null
+        try {
+            freshCredential = Firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, oldPassword)
+        } catch (e) {
+            return props.setUpdateStatusText("Error:" + JSON.stringify(e))
+        }
+
+        // Referesh credential
+        try {
+            await auth.currentUser.reauthenticateWithCredential(freshCredential)
+        } catch (e) {
+            if (e.code === "auth/wrong-password") {
+                return props.setUpdateStatusText(i18.password.wrong_previous_password)
+            } else {
+                return props.setUpdateStatusText(i18.password.wrong_general)
+            }
+        }
+
+        // Update password
+        try {
+            await auth.currentUser.updatePassword(newPassword)
+
+            return props.setUpdateStatusText(i18.account_password_change_success)
+        } catch (e) {
+            return props.setUpdateStatusText(i18.account_password_change_failed_general, e)
+        }
+
     }
 })((props) => {
-
     return (
         <Form className={styles.loginCredentials}>
             <LoginCredentialsComponent2 isRegistering={false} {...props} />
@@ -73,14 +106,14 @@ const EnchancedLocationFieldsComponent = withFormik({
 
         Object.entries(values).forEach(([fieldName, fieldValue]) => {
             if (!fieldValue) {
-                errors[fieldName] = i18_th.required
+                errors[fieldName] = i18.required
             }
         })
 
         return errors
     },
 
-    handleSubmit: async (values) => {
+    handleSubmit: async (values, { props }) => {
 
         const api = {
             customers: "customers",
@@ -92,16 +125,24 @@ const EnchancedLocationFieldsComponent = withFormik({
             shippingOptions: "shippingOptions"
         }
 
+        // props.setUpdateStatusText(i18.account_information_update_success)
+        // console.log(values)
+        // return
+
         auth.onAuthStateChanged((user) => {
-            axiosInst.get(api.customers, { params: { customerID: user.uid } }).then((res) => {
+            axiosInst.get(api.customers + "/" + user.uid).then((res) => {
+
+                console.log(res)
 
                 const customerInfo = {}
                 Object.assign(customerInfo, { customerID: user.uid }) // ensure customerID exists
+                // Object.assign(customerInfo, res.data) //
+                // customerInfo = res.data
 
-                // Temp filter asdf
-                res.data.forEach((value) => {
-                    if (value['customerID'] === user.uid) return Object.assign(customerInfo, value)
-                })
+                // // Temp filter asdf
+                // res.data.forEach((value) => {
+                //     if (value['customerID'] === user.uid) return Object.assign(customerInfo, value)
+                // })
 
                 // Assign updated values
                 Object.assign(customerInfo, values)
@@ -113,29 +154,40 @@ const EnchancedLocationFieldsComponent = withFormik({
                         zip: customerInfo?.zip || '',
                         city: customerInfo?.zone || '',
                         county: customerInfo?.district || '',
-                        province: customerInfo?.provice || '',
+                        provice: customerInfo?.provice || '',
                         fullname: customerInfo?.fullname || '',
                     },
                     fullname: customerInfo?.fullname || '',
                     phone: customerInfo?.phone || ''
                 }
 
+                // console.log("asdf", customerSchemaInfo)
+
                 const documentKey = customerInfo.myID || null
 
-                // console.log("key", documentKey)
                 if (!documentKey) {
                     // Make new if doesn't exist
-                    axiosInst.post(api.customers, customerSchemaInfo).then((res) => {
-                        alert(i18_th.account_information_update_success)
+
+                    const pack = {
+                        uid: user.uid,
+                        data: customerSchemaInfo
+                    }
+
+                    axiosInst.post(api.customers, pack).then((res) => {
+                        // alert(i18.account_information_update_success)
+                        props.setUpdateStatusText(i18.account_information_update_success)
                     }).catch((reason) => {
-                        alert(i18_th.account_information_update_failed_general, reason)
+                        // alert(i18.account_information_update_failed_general, reason)
+                        props.setUpdateStatusText(i18.account_information_update_failed_general)
                     })
                 } else {
                     // Otherwise update
                     axiosInst.put(api.customers + `/${documentKey}`, customerSchemaInfo).then((res) => {
-                        alert(i18_th.account_information_update_success)
+                        // alert(i18.account_information_update_success)
+                        props.setUpdateStatusText(i18.account_information_update_success)
                     }).catch((reason) => {
-                        alert(i18_th.account_information_update_failed_general, reason)
+                        // alert(i18.account_information_update_failed_general, reason)
+                        props.setUpdateStatusText(i18.account_information_update_failed_general)
                     })
                 }
             })
@@ -160,9 +212,10 @@ const EnchancedLocationFieldsComponent = withFormik({
 })
 
 
-const MemberAccountComponent = () => {
+export const Intermediate = () => {
 
     const [userInfo, setUserInfo] = useState({})
+    const [updateStatusText, setUpdateStatusText] = useState("　")
 
     useEffect(() => {
         // console.log(currentEmail)
@@ -173,17 +226,19 @@ const MemberAccountComponent = () => {
                 // Temporary for filtering the customer data
                 const custInfo = res.data
 
-                const formikSchema = {
-                    email: custInfo.Email,
-                    
-                    address: custInfo?.shippingAddress?.address,
-                    zip: custInfo?.shippingAddress?.zip,
-                    zone: custInfo?.shippingAddress?.city,
-                    district: custInfo?.shippingAddress?.county,
+                // console.log(custInfo)
 
-                    provice: custInfo?.provice,
-                    fullname: custInfo?.fullname,
-                    phone: custInfo?.phone
+                const formikSchema = {
+                    email: custInfo.Email || userCredential.email,
+
+                    address: custInfo?.shippingAddress?.address || '',
+                    zip: custInfo?.shippingAddress?.zip || '',
+                    zone: custInfo?.shippingAddress?.city || '',
+                    district: custInfo?.shippingAddress?.county || '',
+                    provice: custInfo?.shippingAddress?.provice || '',
+
+                    fullname: custInfo?.fullname || '',
+                    phone: custInfo?.phone || ''
                 }
 
                 setUserInfo(formikSchema)
@@ -192,19 +247,34 @@ const MemberAccountComponent = () => {
     }, [])
 
     return (
-        <main className={styles.pageContainer}>
-
-            <h2>มุมสมาชิก - จัดการบัญชี</h2>
-            <h3>สวัสดีคุณ  customer_name  เลือกเมนูการใช้งานได้เลยค่ะ</h3>
-            <h3>หมายเลขสมาชิก MEM0001</h3>
+        <>
+            {(() => {
+                if (updateStatusText === i18.account_information_update_success) {
+                    return (<p className={styles.accountCreateSuccess}>{updateStatusText}</p>)
+                } else if (updateStatusText !== null) {
+                    return (<p className={styles.accountCreateFailed}>{updateStatusText}</p>)
+                }
+                return (<p>　</p>)
+            })()}
 
             <div className={styles.flexWrapper}>
 
-                <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
-                <EnchancedLocationFieldsComponent onlyLocation={false}emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
+                <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} setUpdateStatusText={setUpdateStatusText} />
+                <EnchancedLocationFieldsComponent onlyLocation={false} emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} setUpdateStatusText={setUpdateStatusText} />
 
             </div>
+        </>
+    );
+}
 
+const MemberAccountComponent = () => {
+
+    return (
+        <main className={styles.pageContainer}>
+            <h2>มุมสมาชิก - จัดการบัญชี</h2>
+            <h3>สวัสดีคุณ customer_name เลือกเมนูการใช้งานได้เลยค่ะ</h3>
+            <h3>หมายเลขสมาชิก MEM0001</h3>
+            <Intermediate />
         </main>
     );
 }

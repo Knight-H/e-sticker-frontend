@@ -15,6 +15,7 @@ import logoSiamCommercialBank from './SiamCommercialBank.jpg';
 
 import { auth } from '../../firebase/index.js';
 import axios from "axios";
+import { axiosInst } from '../common-scss/common'
 
 const CartComponent = () => {
     // API [GET] /order/
@@ -23,38 +24,78 @@ const CartComponent = () => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(2);
     const [checkedBox, setCheckedBox] = useState(false);
+    const [shippingOption, setShippingOption] = useState(-1);
 
     useEffect(() => {
-        // auth.onAuthStateChanged(user => {
-        //     // console.log("user", user.uid)
-        //     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
-        //         .then(res => {
-        //             // console.log("res", res.data[0])
-        //             // setFieldValue()
-        //         }).catch(function (err) {
-        //             console.log("err", err)
-        //         })
-        // });
+        // Fetch Shipping and Payment Option
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/paymentOptions`)
+            .then(res => {
+                console.log("res.data[0].paymentOptions", res.data)
+                // setFieldValue("itemsList", res.data[0], false);
+            }).catch(function (err) {
+                console.log("err", err)
+            });
 
-        setFieldValue("priceTotal", _apiData.priceTotal, false);
-        setFieldValue("orderID", _apiData.orderID, false);
-    });
-// =======
-//         auth.onAuthStateChanged(user => {
-//             // console.log("user", user.uid)
-//             axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
-//                 .then(res => {
-//                     console.log("res", res.data[0])
-//                     setFieldValue("itemsList", res.data[0].itemsList, false);
-//                 }).catch(function (err) {
-//                     console.log("err", err)
-//                 })
-//         });
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
+            .then(res => {
+                console.log("res.data.shipptingoption", res.data)
+                setFieldValue("shippingOptions", res.data, false);
+            }).catch(function (err) {
+                console.log("err", err)
+            });
 
-//         // setFieldValue("priceTotal", _apiData.priceTotal, false);
-//         // setFieldValue("orderID", _apiData.orderID, false);
-//     }, []);
-// >>>>>>> master
+        auth.onAuthStateChanged(user => {
+            if (user) { // Login Mode
+                // Fetch Cart in Custimer Login
+                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
+                    .then(res => {
+                        setFieldValue("itemsList", res.data[0].itemsList, false);
+                    }).catch(function (err) {
+                        console.log("err", err)
+                    });
+
+                // IF Login fetch address
+                axiosInst.get("customers", {
+                    params: {
+                        customerID: auth.currentUser.uid
+                    }
+                }).then((res) => {
+                    // Temporary for filtering the customer data
+                    const customerInfo = res.data.filter((data) => {
+                        return data["customerID"] === auth.currentUser.uid
+                    })[0]
+                    setFieldValue("address", customerInfo.address, false);
+                    setFieldValue("district", customerInfo.district, false);
+                    setFieldValue("email", customerInfo.email, false);
+                    setFieldValue("fullname", customerInfo.fullname, false);
+                    setFieldValue("phone", customerInfo.phone, false);
+                    setFieldValue("provice", customerInfo.provice, false);
+                    setFieldValue("zip", customerInfo.zip, false);
+                    setFieldValue("zone", customerInfo.zone, false);
+                })
+
+            } else { // Guest Mode
+                var cartLocal = JSON.parse(localStorage.getItem("cart"));
+                if (cartLocal) {
+                    setFieldValue("itemsList", cartLocal.itemsList, false);
+                } else {
+                    return;
+                }
+            }
+        });
+
+    }, []);
+
+    useEffect(() => {
+        if (checkedBox) {
+            setFieldValue("billingFullname", values.fullname, false);
+            setFieldValue("billingFulladdress", `${values.address} ${values.district} ${values.zone} ${values.provice} ${values.zip}`, false);
+        } else {
+            setFieldValue("billingFullname", '', false);
+            setFieldValue("billingFulladdress", '', false);
+        }
+
+    }, [checkedBox]);
 
     return (
         <>
@@ -78,7 +119,7 @@ const CartComponent = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        _apiData.data.map((dataObjectMapped) => {
+                                        values.itemsList.map((dataObjectMapped) => {
                                             return (
                                                 <>
                                                     <tr>
@@ -86,36 +127,21 @@ const CartComponent = () => {
                                                             <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`} >
                                                                 <img src={img_product} className={styles.productPreview} alt="Product" />
                                                                 <div className={styles.containerCol}>
-                                                                    <div className={styles.name}>{dataObjectMapped.name}</div>
-                                                                    <div className={styles.desciption}>{dataObjectMapped.description}</div>
+                                                                    <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
+                                                                    <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.amount}</td>
+                                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.units}</td>
                                                         <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{dataObjectMapped.price}฿</td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>จำนวน {dataObjectMapped.amount} ชิ้น</td>
+                                                        <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>จำนวน {dataObjectMapped.units} ชิ้น</td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="3" className={`${styles.textCenterMobileNewRow}`}>ราคา {dataObjectMapped.price}฿</td>
                                                     </tr>
                                                 </>
-//                                         values.itemsList.map((dataObjectMapped) => {
-//                                             return (
-//                                                 <tr>
-//                                                     <td>
-//                                                         <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`}>
-//                                                             <img src={img_product} className={styles.productPreview} alt="Product" />
-//                                                             <div className={styles.containerCol}>
-//                                                                 <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
-//                                                                 <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
-//                                                             </div>
-//                                                         </div>
-//                                                     </td>
-//                                                     <td className={styles.textCenter}>{dataObjectMapped.units}</td>
-//                                                     <td className={styles.textCenter}>{dataObjectMapped.price}฿</td>
-//                                                 </tr>
                                             )
                                         })
                                     }
@@ -168,10 +194,18 @@ const CartComponent = () => {
                         <LocationFieldsComponent />
                         <h2>เลือก การจัดส่ง <ErrorMessage name="shippingDate" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></h2>
 
-                        <SelectShipping name="shippingDate" id="shippingDate" values={values} options={[
-                            { value: "dateType1", name: "dateType1" },
-                            { value: "dateType2", name: "dateType2" },
-                        ]} />
+                        {values.shippingOptions.map((shippingOptions, index) => {
+                             var end_date = new Date();
+                             end_date.setDate(end_date.getDate() + parseInt(shippingOptions.duration));
+                             console.log("shippingOption", shippingOption)
+                            return (
+                            <button type="button" className={`${styles.btnShippingOption} ${shippingOption === index && styles.active}`} onClick={() => {setShippingOption(index)}}>
+                                <p>รับสินค้าโดยประมาณ</p>
+                                <h4>{end_date.toISOString().slice(0, 10)} (5-7วัน)</h4>
+                                <p>{shippingOptions.rate}บาท</p>
+                            </button>
+                        )}
+                        )}
 
                         <h2>ชำระเงิน <ErrorMessage name="payment" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></h2>
                         <SelectPayment name="payment" id="payment" values={values} options={[
@@ -202,37 +236,6 @@ const CartComponent = () => {
         </>
     );
 };
-
-const SelectShipping = ({ values, name, options }) => {
-    return (
-        <div className={styles.containerRow}>
-            {options.map((list, index) => {
-                return (
-                    <div className={`${styles.boxRadiusSmall} ${styles.selectBoxInput}`}>
-                        <Field name={name} type="radio" value={list.value} id={`${name}-${index + 1}`}
-                            checked={`${values[name]}` === `${list.value}` ? true : false} />
-                    </div>
-                )
-            })}
-
-            <ul className={`${styles.selectBoxList}`}>
-                {options.map((list, index) => {
-                    return (
-                        <li className={`${styles.optionShipping} ${styles.boxRadiusSmall} ${`${values.shippingDate}` === `${list.value}` ? styles.active : styles.deactive}`} >
-                            <label className={styles.selectBoxOption} for={`${name}-${index + 1}`}>
-                                <p className={styles.dateReceiveDesciption}>รับสินค้าโดยประมาณ</p>
-                                <div className={styles.dateReceive}>14 สิงหา (5-7วัน)</div>
-                                <div className={styles.price}>50บาท</div>
-                            </label>
-                        </li>
-                    )
-                })}
-            </ul>
-
-        </div>
-    )
-};
-
 
 const SelectPayment = ({ values, name, options }) => {
     return (
@@ -272,6 +275,8 @@ const SelectPayment = ({ values, name, options }) => {
 const EnhancedCartComponent = withFormik({
     mapPropsToValues: () => ({
         itemsList: [],
+        paymentOptions: [],
+        shippingOptions: [],
 
         orderID: '',
         priceTotal: '',

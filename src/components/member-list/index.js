@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminKpi from "../admin-kpi";
 import styles from './index.module.scss';
 import fake_data from "./fake-api.json";
 import { Link } from 'react-router-dom';
+import { axiosInst } from '../common-scss/common'
 
 const useInputChange = () => {
     const [input, setInput] = useState({})
@@ -32,19 +33,27 @@ const MemberListComponent = (props) => {
     var dateNow = new Date();
     var monthNow = dateNow.getMonth();
 
+    const [customerArr, setCustomerArr] = useState([])
+    useEffect(() => {
+        axiosInst.get("customers").then((res) => {
+            console.log(res.data[0])
+            setCustomerArr(res.data)
+        })
+    }, [])
+
     const [selectStatus, setSelectStatus] = useState(statusFilter.ALL);
     const [textSearch, setTextSearch] = useInputChange();
     const [selectMonth, setSelectMonth] = useInputChange(); //useState(monthNow))
     _apiData.data.map((dataObjectMapped, index) => {
-        if (dataObjectMapped.status === statusFilter.ACTIVE) { countOrder.ACTIVE = countOrder.ACTIVE+1; }
-        else if (dataObjectMapped.status === statusFilter.BAN) { countOrder.BAN = countOrder.BAN+1; }
-        countOrder.ALL = countOrder.ALL+1; 
+        if (dataObjectMapped.status === statusFilter.ACTIVE) { countOrder.ACTIVE = countOrder.ACTIVE + 1; }
+        else if (dataObjectMapped.status === statusFilter.BAN) { countOrder.BAN = countOrder.BAN + 1; }
+        countOrder.ALL = countOrder.ALL + 1;
     })
 
     return (
         <React.Fragment>
             <section className={styles.section1}>
-                <AdminKpi kpi={{"order":10, "sales":1234567, "member": 1000}}/>
+                <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>
             <section className={styles.section2}>
                 <div className={`${styles.containerCol} ${styles.containerMargin}`}>
@@ -75,7 +84,7 @@ const MemberListComponent = (props) => {
                         <option value="11">พฤศจิกายน</option>
                         <option value="12">ธันวาคม</option>
                     </select>
-                
+
                     <input type="text" name="search" className={styles.inputAdmin} placeholder="ค้นหา" onChange={setTextSearch} />
                 </div>
             </section>
@@ -97,7 +106,43 @@ const MemberListComponent = (props) => {
                         </tr>
                         
                     </thead>
-                    <tbody>
+                    <tbody>{(() => {
+                        if (!Array.isArray(customerArr)) return
+                        return customerArr.map((dataObjectMapped) => {
+                            let statusOrder = styles.statusCancel
+                            console.log("dataObjectMapped.first_name", dataObjectMapped.first_name)
+
+                            const fullname = dataObjectMapped.fullname || ''
+                            let textSearchMatch = fullname.match(textSearch['search']);
+
+                            if (dataObjectMapped.status === statusFilter.ACTIVE) { statusOrder = styles.statusDone; }
+                            else if (dataObjectMapped.status === statusFilter.BAN) { statusOrder = styles.statusCancel; }
+
+                            if ((selectStatus === dataObjectMapped.status || selectStatus == statusFilter.ALL) && (textSearchMatch !== null)) {
+                                return (<tr>
+                                    <td>{dataObjectMapped.customerID}</td>
+                                    <td>{dataObjectMapped.fullname}</td>
+                                    <td>{dataObjectMapped.phone}</td>
+                                    <td>{dataObjectMapped.Email}</td>
+                                    <td>{dataObjectMapped?.last_login}</td>
+                                    <td>{dataObjectMapped?.last_order}</td>
+                                    <td>{dataObjectMapped?.amount_product}</td>
+                                    <td>{dataObjectMapped?.amount_order}</td>
+                                    <td>{dataObjectMapped?.total_order_price}</td>
+                                    <td>
+                                        <div className={`${styles.statusAdmin} ${styles.statusCenter} ${statusOrder}`}>
+                                            {dataObjectMapped.status}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <Link to={"/admin/member" + "?user_id=" + dataObjectMapped.customerID}>จัดการ</Link>
+                                    </td>
+                                </tr>)
+                            }
+                        })
+                    })()}</tbody>
+
+                    {/* <tbody>
                         {
                             _apiData.data.map((dataObjectMapped, index) => {
                                 var statusOrder = styles.statusCancel;
@@ -132,7 +177,7 @@ const MemberListComponent = (props) => {
                             })
                         }
                         
-                    </tbody>
+                    </tbody> */}
                 </table>
             </div>
         </React.Fragment>
