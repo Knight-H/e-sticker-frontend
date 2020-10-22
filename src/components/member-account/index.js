@@ -107,17 +107,17 @@ const EnchancedLocationFieldsComponent = withFormik({
                 Object.assign(customerInfo, values)
 
                 const customerSchemaInfo = {
-                    Email: customerInfo?.email,
+                    Email: customerInfo?.email || '',
                     shippingAddress: {
-                        address: customerInfo?.address,
-                        zip: customerInfo?.zip,
-                        city: customerInfo?.zone,
-                        county: customerInfo?.district,
-                        province: customerInfo?.provice,
-                        fullname: customerInfo?.fullname,
+                        address: customerInfo?.address || '',
+                        zip: customerInfo?.zip || '',
+                        city: customerInfo?.zone || '',
+                        county: customerInfo?.district || '',
+                        province: customerInfo?.provice || '',
+                        fullname: customerInfo?.fullname || '',
                     },
-                    fullname: customerInfo?.fullname,
-                    phone: customerInfo?.phone
+                    fullname: customerInfo?.fullname || '',
+                    phone: customerInfo?.phone || ''
                 }
 
                 const documentKey = customerInfo.myID || null
