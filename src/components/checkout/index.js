@@ -78,7 +78,7 @@ const CheckoutComponent = (props) => {
                             </tbody>
                             <tfoot className={styles.borderTop}>
                                 <tr className={styles.borderTop}>
-                                    <td colspan="2">ค่าสินค้ารวม</td>
+                                    <td colspan="4">ค่าสินค้ารวม</td>
                                     <td className={styles.textCenter}>{totalPrice}฿</td>
                                 </tr>
                             </tfoot>
