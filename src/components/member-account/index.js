@@ -6,7 +6,7 @@ import { LoginCredentialsComponent2 } from '../login-credentials';
 import { Form, Field, withFormik } from 'formik'
 
 
-import { i18_th } from '../common-scss/i18_text'
+import { i18_th as i18 } from '../common-scss/i18_text'
 import { axiosInst } from '../common-scss/common'
 import { db, auth } from "../../firebase";
 const EnhancedLoginCredentialsComponent = withFormik({
@@ -23,12 +23,12 @@ const EnhancedLoginCredentialsComponent = withFormik({
 
         Object.entries(values).forEach(([fieldName, fieldValue]) => {
             if (!fieldValue) {
-                errors[fieldName] = i18_th.required
+                errors[fieldName] = i18.required
             }
         })
 
         if (values.password !== values.password_repeat) {
-            errors["password"] = i18_th.password_repeat_different
+            errors["password"] = i18.password_repeat_different
         }
 
         return errors
@@ -73,14 +73,14 @@ const EnchancedLocationFieldsComponent = withFormik({
 
         Object.entries(values).forEach(([fieldName, fieldValue]) => {
             if (!fieldValue) {
-                errors[fieldName] = i18_th.required
+                errors[fieldName] = i18.required
             }
         })
 
         return errors
     },
 
-    handleSubmit: async (values) => {
+    handleSubmit: async (values, { props }) => {
 
         const api = {
             customers: "customers",
@@ -91,6 +91,10 @@ const EnchancedLocationFieldsComponent = withFormik({
             productOptions: "productOptions",
             shippingOptions: "shippingOptions"
         }
+
+        props.setUpdateStatusText(i18.account_information_update_success)
+        console.log(values)
+        return
 
         auth.onAuthStateChanged((user) => {
             axiosInst.get(api.customers, { params: { customerID: user.uid } }).then((res) => {
@@ -133,16 +137,16 @@ const EnchancedLocationFieldsComponent = withFormik({
                     }
 
                     axiosInst.post(api.customers, pack).then((res) => {
-                        alert(i18_th.account_information_update_success)
+                        alert(i18.account_information_update_success)
                     }).catch((reason) => {
-                        alert(i18_th.account_information_update_failed_general, reason)
+                        alert(i18.account_information_update_failed_general, reason)
                     })
                 } else {
                     // Otherwise update
                     axiosInst.put(api.customers + `/${documentKey}`, customerSchemaInfo).then((res) => {
-                        alert(i18_th.account_information_update_success)
+                        alert(i18.account_information_update_success)
                     }).catch((reason) => {
-                        alert(i18_th.account_information_update_failed_general, reason)
+                        alert(i18.account_information_update_failed_general, reason)
                     })
                 }
             })
@@ -170,6 +174,7 @@ const EnchancedLocationFieldsComponent = withFormik({
 const MemberAccountComponent = () => {
 
     const [userInfo, setUserInfo] = useState({})
+    const [updateStatusText, setUpdateStatusText] = useState("　")
 
     useEffect(() => {
         // console.log(currentEmail)
@@ -184,7 +189,7 @@ const MemberAccountComponent = () => {
 
                 const formikSchema = {
                     email: custInfo.Email || userCredential.email,
-                    
+
                     address: custInfo?.shippingAddress?.address || '',
                     zip: custInfo?.shippingAddress?.zip || '',
                     zone: custInfo?.shippingAddress?.city || '',
@@ -206,11 +211,19 @@ const MemberAccountComponent = () => {
             <h2>มุมสมาชิก - จัดการบัญชี</h2>
             <h3>สวัสดีคุณ  customer_name  เลือกเมนูการใช้งานได้เลยค่ะ</h3>
             <h3>หมายเลขสมาชิก MEM0001</h3>
+            {(() => {
+                if (updateStatusText === i18.account_information_update_success) {
+                    return (<p className={styles.accountCreateSuccess}>{updateStatusText}</p>)
+                } else if (updateStatusText !== null) {
+                    return (<p className={styles.accountCreateFailed}>{updateStatusText}</p>)
+                }
+                return (<p>　</p>)
+            })()}
 
             <div className={styles.flexWrapper}>
 
-                <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
-                <EnchancedLocationFieldsComponent onlyLocation={false}emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} />
+                <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} setUpdateStatusText={setUpdateStatusText} />
+                <EnchancedLocationFieldsComponent onlyLocation={false} emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} setUpdateStatusText={setUpdateStatusText} />
 
             </div>
 
