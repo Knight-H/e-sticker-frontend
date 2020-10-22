@@ -5,17 +5,26 @@ import { db, auth } from '../../firebase'
 import LocationFieldsComponent from '../location-fields';
 import LoginCredentialsComponent, { LoginCredentialsComponent2 } from '../login-credentials';
 
-import { withFormik, Field, Form } from 'formik'
-import Axios from "axios";
-import { dummyHandleSubmit, dummyValidateError } from "../common-scss/common";
+import { withFormik, Field, Form, useFormikContext } from 'formik'
+import { dummyHandleSubmit, dummyValidateError, axiosInst } from "../common-scss/common";
 import { i18_th as i18 } from "../common-scss/i18_text";
 
-const MemberRegisterComponent = () => {
+const MemberRegisterComponent = (props) => {
+    const { values } = useFormikContext()
 
     return (
         <main className={styles.pageContainer}>
 
             <h2>สมัครสมาชิก</h2>
+
+            {(() => {
+                if (values.isRegisterSuccessfulText === i18.account_creation_successful) {
+                    return (<p className={styles.accountCreateSuccess}>{values.isRegisterSuccessfulText}</p>)
+                } else if (values.isRegisterSuccessfulText !== null) {
+                    return (<p className={styles.accountCreateFailed}>{values.isRegisterSuccessfulText}</p>)
+                }
+                return (<p>　</p>)
+            })()}
 
             <Form className={styles.flexWrapper}>
 
@@ -35,8 +44,11 @@ const MemberRegisterComponent = () => {
 }
 
 const EnchancedMemberRegisterComponent = withFormik({
+    enableReinitialize: true,
     mapPropsToValues: () => {
         return {
+
+            isRegisterSuccessfulText: null,
 
             email: '',
             password: '',
@@ -57,7 +69,9 @@ const EnchancedMemberRegisterComponent = withFormik({
         const errors = {}
 
         // Assumes that all fields are required.
-        Object.entries(values).forEach(([fieldName, fieldValue]) => {
+        Object.entries(values).filter(([fieldName, fieldValue]) => {
+            return !["isRegisterSuccessfulText"].includes(fieldName)
+        }).forEach(([fieldName, fieldValue]) => {
             // console.log(fieldName, "-", fieldValue, "-", Boolean(fieldValue))
             if (!fieldValue) {
                 errors[fieldName] = i18.required
@@ -71,44 +85,50 @@ const EnchancedMemberRegisterComponent = withFormik({
         return errors
     },
     // handleSubmit: dummyHandleSubmit,
-    handleSubmit: async (values, { props }) => {
+    handleSubmit: (values, { props, setFieldValue }) => {
 
-        return new Promise((resolve, reject) => {
-            auth.createUserWithEmailAndPassword(values.email, values.password).then((userCredential) => {
-                // Also logged in
+        auth.createUserWithEmailAndPassword(values.email, values.password).then((userCredential) => {
+            // Also logged in
 
-                alert(i18.account_creation_successful)
+            const moreUserInfo = {}
+            Object.assign(moreUserInfo, { customerID: userCredential.user.uid })
 
-                const moreUserInfo = {}
-                Object.keys(values).filter((fieldName) => {
-                    return !["password", "password_repeat"].includes(fieldName)
-                }).forEach((fieldName) => {
-                    moreUserInfo[fieldName] = values[fieldName]
-                })
-                
-                const docRef = db.collection("customers").doc(userCredential.user.uid)
-                docRef.set(moreUserInfo).then(() => {
-                    console.log("registered user data saved")
-                }).catch((reason) => {
-                    console.log("FB", reason)
-                })
-
-                // const sess = Axios.create({ baseURL: "https://asia-east2-digitalwish-sticker.cloudfunctions.net/" })
-                // Axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/customers", moreUserInfo).then((res) => {
-                //     console.log(res)
-                // }).catch((reason) => {
-                //     console.log("Error", reason)
-                // })
-
-                // userCredential.user.uid
-                resolve()
-                props.history.push("/")
-                
-            }).catch((reason) => {
-                console.log("error", reason)
-                reject(reason)
+            Object.keys(values).filter((fieldName) => {
+                return !["password", "password_repeat", "isRegisterSuccessfulText"].includes(fieldName)
+            }).forEach((fieldName) => {
+                moreUserInfo[fieldName] = values[fieldName]
             })
 
+            const customerSchemaInfo = {
+                Email: moreUserInfo?.email || '',
+                shippingAddress: {
+                    address: moreUserInfo?.address || '',
+                    zip: moreUserInfo?.zip || '',
+                    city: moreUserInfo?.zone || '',
+                    county: moreUserInfo?.district || '',
+                    provice: moreUserInfo?.provice || '',
+                    fullname: moreUserInfo?.fullname || '',
+                },
+                fullname: moreUserInfo?.fullname || '',
+                phone: moreUserInfo?.phone || ''
+            }
+            console.log(customerSchemaInfo)
+
+            axiosInst.post("customers", {
+                uid: userCredential.user.uid,
+                data: customerSchemaInfo
+            })
+
+            props.history.push("/")
+
+        }).catch((reason) => {
+            const { code, message } = reason
+
+            if (code === "auth/email-already-in-use") {
+                setFieldValue("isRegisterSuccessfulText", i18.account_creation_failed_email_already_exists, false)
+            } else {
+                setFieldValue("isRegisterSuccessfulText", i18.account_creation_failed_general, false)
+            }
         })
     }
 })(MemberRegisterComponent)

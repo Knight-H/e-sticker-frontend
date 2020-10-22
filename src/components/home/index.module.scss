@@ -338,12 +338,15 @@
     }
     .cardWrapper {
         display:flex;
-        flex-wrap: wrap;
-        // width: 80%;
+        // flex-wrap: wrap;
+        flex-direction: row;
+        overflow-x: scroll;
+        width: 100%;
         // margin:auto;
-        justify-content: center;
+        // justify-content: center;
     }
     .card {
+        min-width: 220px;
         width: 237px;
         height: 310px;
         margin: 10px;
