@@ -113,19 +113,26 @@ const EnchancedLocationFieldsComponent = withFormik({
                         zip: customerInfo?.zip || '',
                         city: customerInfo?.zone || '',
                         county: customerInfo?.district || '',
-                        province: customerInfo?.provice || '',
+                        provice: customerInfo?.provice || '',
                         fullname: customerInfo?.fullname || '',
                     },
                     fullname: customerInfo?.fullname || '',
                     phone: customerInfo?.phone || ''
                 }
 
+                console.log("asdf", customerSchemaInfo)
+
                 const documentKey = customerInfo.myID || null
 
-                // console.log("key", documentKey)
                 if (!documentKey) {
                     // Make new if doesn't exist
-                    axiosInst.post(api.customers, customerSchemaInfo).then((res) => {
+
+                    const pack = {
+                        uid: user.uid,
+                        data: customerSchemaInfo
+                    }
+
+                    axiosInst.post(api.customers, pack).then((res) => {
                         alert(i18_th.account_information_update_success)
                     }).catch((reason) => {
                         alert(i18_th.account_information_update_failed_general, reason)
@@ -173,15 +180,17 @@ const MemberAccountComponent = () => {
                 // Temporary for filtering the customer data
                 const custInfo = res.data
 
+                // console.log(custInfo)
+
                 const formikSchema = {
-                    email: custInfo.Email,
+                    email: custInfo.Email || userCredential.email,
                     
                     address: custInfo?.shippingAddress?.address || '',
                     zip: custInfo?.shippingAddress?.zip || '',
                     zone: custInfo?.shippingAddress?.city || '',
                     district: custInfo?.shippingAddress?.county || '',
+                    provice: custInfo?.shippingAddress?.provice || '',
 
-                    provice: custInfo?.provice || '',
                     fullname: custInfo?.fullname || '',
                     phone: custInfo?.phone || ''
                 }
