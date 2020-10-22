@@ -322,6 +322,7 @@
     // height: 491px;
     display: flex;
     flex-direction: column;
+    overflow-x: scroll;
 
     
 
@@ -340,10 +341,9 @@
         display:flex;
         // flex-wrap: wrap;
         flex-direction: row;
-        overflow-x: scroll;
         width: 100%;
         // margin:auto;
-        // justify-content: center;
+        justify-content: center;
     }
     .card {
         min-width: 220px;
@@ -382,6 +382,11 @@
         
     }
 }
+
+.section3::-webkit-scrollbar {
+    display: none;
+  }
+  
 .section4 {
     // border: 2px solid red;
     max-width: 800px;

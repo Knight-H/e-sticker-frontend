@@ -8,6 +8,9 @@
 
     overflow-x: scroll;
 }
+.section1::-webkit-scrollbar {
+    display: none;
+  }
 
 .section2 {
     width: 90%;
@@ -66,7 +69,10 @@
 
     tr:nth-child(even) {background-color: #E3E3E3;}
 }
-
+.adminTable::-webkit-scrollbar {
+    display: none;
+  }
+  
 .statusAdmin {
     align-content: center;
     padding: 5px 1px;

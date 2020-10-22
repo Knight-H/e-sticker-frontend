@@ -5,6 +5,9 @@
     // border: 3px solid red;
     overflow-x: scroll;
 }
+.section1::-webkit-scrollbar {
+    display: none;
+  }
 
 .wrapContent {
     padding: 3vh 10vw;
@@ -39,7 +42,7 @@
 
         width: 100%;
         
-        padding: 5px 0px;
+        padding: 8px 0px;
 
         border: 1px solid #009473;
         background-color: white;
