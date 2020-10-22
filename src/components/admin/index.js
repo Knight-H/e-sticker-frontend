@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminKpi from "../admin-kpi";
 import styles from './index.module.scss';
 import fake_data from "./fake-api.json";
 import { Link } from 'react-router-dom';
+
+import { axiosInst } from '../common-scss/common'
 
 const useInputChange = () => {
     const [input, setInput] = useState({})
@@ -36,14 +38,28 @@ const AdminComponent = (props) => {
     const [selectStatus, setSelectStatus] = useState(statusFilter.ALL);
     const [textSearch, setTextSearch] = useInputChange();
     const [selectMonth, setSelectMonth] = useInputChange(); //useState(monthNow))
-    console.log("selectMonth", selectMonth)
-    _apiData.data.map((dataObjectMapped) => {
-        if (dataObjectMapped.status === statusFilter.DONE) { countOrder.DONE = countOrder.DONE+1; }
-        else if (dataObjectMapped.status === statusFilter.DOING) { countOrder.DOING = countOrder.DOING+1; }
-        else if (dataObjectMapped.status === statusFilter.CANCEL) { countOrder.CANCEL = countOrder.CANCEL+1; }
-        countOrder.ALL = countOrder.ALL+1; 
-        return null;
-    })
+    // console.log("selectMonth", selectMonth)
+
+    const [orderData, setOrderData] = useState(null)
+
+    useEffect(() => {
+        axiosInst.get("orders").then((res) => {
+            setOrderData(res.data)
+        }).catch((reason) => {
+            console.log(reason)
+        })
+    }, [])
+
+
+    if (Array.isArray(orderData)){
+        orderData.map((dataObjectMapped) => {
+            if (dataObjectMapped.status === statusFilter.DONE) { countOrder.DONE = countOrder.DONE + 1; }
+            else if (dataObjectMapped.status === statusFilter.DOING) { countOrder.DOING = countOrder.DOING + 1; }
+            else if (dataObjectMapped.status === statusFilter.CANCEL) { countOrder.CANCEL = countOrder.CANCEL + 1; }
+            countOrder.ALL = countOrder.ALL + 1;
+            return null;
+        })
+    }
 
     return (
         <React.Fragment>
@@ -82,7 +98,7 @@ const AdminComponent = (props) => {
                         <option value="11">พฤศจิกายน</option>
                         <option value="12">ธันวาคม</option>
                     </select>
-                
+
                     <input type="text" name="search" className={styles.inputAdmin} placeholder="ค้นหา" onChange={setTextSearch} />
                 </div>
             </section>
@@ -102,45 +118,46 @@ const AdminComponent = (props) => {
                             <th>ผู้รับผิดชอบ</th>
                             <th>จัดการ</th>
                         </tr>
-                        
+
                     </thead>
-                    <tbody>
-                        {
-                            _apiData.data.map((dataObjectMapped) => {
-                                var statusOrder = styles.statusCancel;
-                                var textSearchMatch = dataObjectMapped.order_id.match(textSearch['search']);
+                    <tbody>{(() => {
+                        if (orderData === null) return
+                        return orderData.map((dataObjectMapped) => {
 
-                                if (dataObjectMapped.status === statusFilter.DONE) { statusOrder = styles.statusDone; }
-                                else if (dataObjectMapped.status === statusFilter.DOING) { statusOrder = styles.statusDoing; }
-                                else if (dataObjectMapped.status === statusFilter.CANCEL) { statusOrder = styles.statusCancel; }
+                            var statusOrder = styles.statusCancel;
+                            var textSearchMatch = dataObjectMapped.orderID.match(textSearch['search']);
 
-                                if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)){
-                                 return (
-                                    <tr>
-                                        <td>{dataObjectMapped.date}</td>
-                                        <td>{dataObjectMapped.order_id}</td>
-                                        <td>{dataObjectMapped.user_id}</td>
-                                        <td>{dataObjectMapped.first_name} {dataObjectMapped.last_name}</td>
-                                        <td>{dataObjectMapped.phone}</td>
-                                        <td>{dataObjectMapped.order_number}</td>
-                                        <td>{dataObjectMapped.total_price}</td>
+                            if (dataObjectMapped.status === statusFilter.DONE) { statusOrder = styles.statusDone; }
+                            else if (dataObjectMapped.status === statusFilter.DOING) { statusOrder = styles.statusDoing; }
+                            else if (dataObjectMapped.status === statusFilter.CANCEL) { statusOrder = styles.statusCancel; }
+
+                            if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)) {
+                                console.log("hi", dataObjectMapped)
+                                return (
+                                    <tr key={dataObjectMapped.orderID}>
+                                        <td>{dataObjectMapped.timestamp}</td>
+                                        <td>{dataObjectMapped.orderID}</td>
+                                        <td>{dataObjectMapped.customerID}</td>
+                                        <td>{dataObjectMapped.shippingAddress.fullname}</td>
+                                        <td>{dataObjectMapped?.phone}</td>
+                                        <td>{dataObjectMapped?.itemsList?.length || 0}</td>
+                                        <td>{dataObjectMapped.totalCost}</td>
                                         <td>
                                             <div className={`${styles.statusAdmin} ${styles.statusCenter} ${statusOrder}`}>
                                                 {dataObjectMapped.status}
                                             </div>
                                         </td>
-                                        <td>{dataObjectMapped.shipping_id}</td>
-                                        <td>{dataObjectMapped.reposiable_name}</td>
-                                        <td><Link to={"/admin/myorder?order_id=" + dataObjectMapped.order_id}>{dataObjectMapped.organize}</Link></td>
+                                        <td>{dataObjectMapped.shippingNumber}</td>
+                                        <td>{dataObjectMapped?.reposiable_name}</td>
+                                        <td><Link to={"/myorder?order_id=" + dataObjectMapped.orderID}>จัดการ</Link></td>
                                     </tr>
-                                )}
-                                else {
-                                    return null
-                                }
-                            })
-                        }
-                        
-                    </tbody>
+                                )
+                            }
+                            else {
+                                return null
+                            }
+                        })
+                    })()}</tbody>
                 </table>
             </div>
         </React.Fragment>
