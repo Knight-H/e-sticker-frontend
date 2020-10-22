@@ -92,9 +92,9 @@ const EnchancedLocationFieldsComponent = withFormik({
             shippingOptions: "shippingOptions"
         }
 
-        props.setUpdateStatusText(i18.account_information_update_success)
-        console.log(values)
-        return
+        // props.setUpdateStatusText(i18.account_information_update_success)
+        // console.log(values)
+        // return
 
         auth.onAuthStateChanged((user) => {
             axiosInst.get(api.customers, { params: { customerID: user.uid } }).then((res) => {
@@ -124,7 +124,7 @@ const EnchancedLocationFieldsComponent = withFormik({
                     phone: customerInfo?.phone || ''
                 }
 
-                console.log("asdf", customerSchemaInfo)
+                // console.log("asdf", customerSchemaInfo)
 
                 const documentKey = customerInfo.myID || null
 
@@ -137,16 +137,20 @@ const EnchancedLocationFieldsComponent = withFormik({
                     }
 
                     axiosInst.post(api.customers, pack).then((res) => {
-                        alert(i18.account_information_update_success)
+                        // alert(i18.account_information_update_success)
+                        props.setUpdateStatusText(i18.account_information_update_success)
                     }).catch((reason) => {
-                        alert(i18.account_information_update_failed_general, reason)
+                        // alert(i18.account_information_update_failed_general, reason)
+                        props.setUpdateStatusText(i18.account_information_update_failed_general)
                     })
                 } else {
                     // Otherwise update
                     axiosInst.put(api.customers + `/${documentKey}`, customerSchemaInfo).then((res) => {
-                        alert(i18.account_information_update_success)
+                        // alert(i18.account_information_update_success)
+                        props.setUpdateStatusText(i18.account_information_update_success)
                     }).catch((reason) => {
-                        alert(i18.account_information_update_failed_general, reason)
+                        // alert(i18.account_information_update_failed_general, reason)
+                        props.setUpdateStatusText(i18.account_information_update_failed_general)
                     })
                 }
             })
