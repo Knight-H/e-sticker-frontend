@@ -9,7 +9,9 @@ import { Form, Field, withFormik } from 'formik'
 import { i18_th as i18 } from '../common-scss/i18_text'
 import { axiosInst } from '../common-scss/common'
 import { db, auth } from "../../firebase";
-const EnhancedLoginCredentialsComponent = withFormik({
+
+
+export const EnhancedLoginCredentialsComponent = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
         return {
@@ -175,7 +177,7 @@ const EnchancedLocationFieldsComponent = withFormik({
 })
 
 
-const MemberAccountComponent = () => {
+export const Intermediate = () => {
 
     const [userInfo, setUserInfo] = useState({})
     const [updateStatusText, setUpdateStatusText] = useState("　")
@@ -210,11 +212,7 @@ const MemberAccountComponent = () => {
     }, [])
 
     return (
-        <main className={styles.pageContainer}>
-
-            <h2>มุมสมาชิก - จัดการบัญชี</h2>
-            <h3>สวัสดีคุณ  customer_name  เลือกเมนูการใช้งานได้เลยค่ะ</h3>
-            <h3>หมายเลขสมาชิก MEM0001</h3>
+        <>
             {(() => {
                 if (updateStatusText === i18.account_information_update_success) {
                     return (<p className={styles.accountCreateSuccess}>{updateStatusText}</p>)
@@ -230,7 +228,15 @@ const MemberAccountComponent = () => {
                 <EnchancedLocationFieldsComponent onlyLocation={false} emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} setUpdateStatusText={setUpdateStatusText} />
 
             </div>
+        </>
+    );
+}
 
+const MemberAccountComponent = () => {
+
+    return (
+        <main className={styles.pageContainer}>
+            <Intermediate />
         </main>
     );
 }
