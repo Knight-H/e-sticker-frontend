@@ -220,13 +220,13 @@ export const Intermediate = () => {
     useEffect(() => {
         // console.log(currentEmail)
         auth.onAuthStateChanged((userCredential) => {
-            axiosInst.get(`customers/${auth.currentUser.uid}`).then((res) => {
+            axiosInst.get(`customers/${userCredential.uid}`).then((res) => {
                 // console.log(res, auth.currentUser.uid)
 
                 // Temporary for filtering the customer data
                 const custInfo = res.data
 
-                // console.log(custInfo)
+                console.log(res)
 
                 const formikSchema = {
                     email: custInfo.Email || userCredential.email,

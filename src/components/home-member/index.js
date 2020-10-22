@@ -52,7 +52,9 @@ const HomeMemberComponent = (props) => {
                     const customerInfo = res.data.filter((data) => {
                         return data["customerID"] === auth.currentUser.uid
                     })[0]
-                    setFieldValue("fullname", customerInfo.fullname, false);
+                    if (customerInfo) {
+                        setFieldValue("fullname", customerInfo.fullname, false);
+                    }
                 })
             }
         })
