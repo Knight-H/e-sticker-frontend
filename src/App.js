@@ -46,8 +46,6 @@ function App() {
 
                 <Route path="/admin/member" exact component={MemberComponent} />
                 <Route path="/admin/setting" exact component={MemberSettingComponent} />
-                <Route path="/member-login" exact component={MemberLoginComponent} />
-                <Route path="/member-register" exact component={MemberRegsterComponent} />
                 <Route path="/member/setting" exact component={MemberAccountComponent} />
                 <Route path="/admin/customer" exact component={MemberListComponent} />
                 <Route path="/login" exact component={MemberLoginComponent} />

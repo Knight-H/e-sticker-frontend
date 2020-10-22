@@ -2,9 +2,10 @@ import React from "react";
 import { Field, ErrorMessage, useFormikContext } from 'formik';
 
 import styles from './index.module.scss';
+import { Link } from "react-router-dom";
 
-const LoginComponent = () => {
-    const { values, setFieldValue } = useFormikContext();
+const LoginComponent = (props) => {
+    const { values } = useFormikContext();
     
     return (
         <>
@@ -21,23 +22,25 @@ const LoginComponent = () => {
             </div>
             <div className={styles.containerRow}>
                 <button type="submit" className={styles.buttonGreen}>เข้าสู่ระบบ</button>
-                <button className={styles.buttonBlue}>เข้าสู่ระบบด้วย Facebook</button>
-                <button className={styles.buttonLine}>เข้าสู่ระบบด้วย Line</button>
+                <button type="button" className={styles.buttonBlue}>เข้าสู่ระบบด้วย Facebook</button>
+                <button type="button" className={styles.buttonLine}>เข้าสู่ระบบด้วย Line</button>
             </div>
             <br />
             <br />
-            <div className={styles.containerRow}>
+            
                 <div className={styles.containerCol}>
+                <div className={styles.containerRow}>
                     <p className={styles.smallText}>ยังไม่เป็นสมาชิก?</p>
+                    </div>
                     <div className={styles.containerRow}>
                         <div>
-                            <button className={styles.buttonWhile}>สมัครสมาชิก</button>
-                            <button className={styles.buttonBlue}>สมัครด้วย Facebook</button>
-                            <button className={styles.buttonLine}>สมัครด้วย Line</button>
+                            <Link to="/register"><button type="button" className={styles.buttonWhile}>สมัครสมาชิก</button></Link>
+                            <button type="button" className={styles.buttonBlue}>สมัครด้วย Facebook</button>
+                            <button type="button" className={styles.buttonLine}>สมัครด้วย Line</button>
                         </div>
                     </div>
                 </div>
-            </div>
+           
 
         </>
     );
