@@ -32,6 +32,9 @@
     }
 
     .btnOption, .btnListOption {
+        display: flex;
+        justify-content: center;
+
         cursor: pointer;
 
         width: 100%;

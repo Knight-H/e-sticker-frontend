@@ -58,7 +58,7 @@ const AdminOrderComponent = () => {
                         <button type="button" className={styles.btnOption}>เพิ่ม</button>
                     </div>
                     <div>
-                        <button type="button" className={styles.btnListOption}>{values.material.name}</button>
+                        <button type="button" className={styles.btnListOption}><img src={values.material.imgUrl} className={styles.iconImage} alt="." />{values.material.name}</button>
                     </div>
                 </article>
                 <article className={styles.cardProductOption}>
@@ -68,7 +68,7 @@ const AdminOrderComponent = () => {
                     </div>
                     <div>
                         {values.coating.map((coating) => {
-                            return ( <button type="button" className={styles.btnListOption}>{coating.name}</button> )
+                            return ( <button type="button" className={styles.btnListOption}><img src={coating.imgUrl} className={styles.iconImage} alt="." />{coating.name}</button> )
                         })}
                     </div>
                 </article>
