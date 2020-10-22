@@ -6,6 +6,11 @@ export const i18_th = {
 
     password_repeat_different: "*รหัสต่างกัน",
 
+    password: {
+        wrong_previous_password: "wrong previous password",
+        wrong_general: "General wrong password"
+    },
+
     label: {
         password_previous: "Your old password"
     },

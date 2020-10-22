@@ -57,8 +57,10 @@ export const EnhancedLoginCredentialsComponent = withFormik({
             await auth.currentUser.reauthenticateWithCredential(freshCredential)
         } catch (e) {
             if (e.code === "auth/wrong-password") {
+                return props.setUpdateStatusText(i18.password.wrong_previous_password)
+            } else {
+                return props.setUpdateStatusText(i18.password.wrong_general)
             }
-            return props.setUpdateStatusText("Error2:" + JSON.stringify(e))
         }
 
         // Update password
