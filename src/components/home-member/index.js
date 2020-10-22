@@ -10,6 +10,7 @@ import { withFormik } from 'formik';
 import { useFormikContext } from 'formik';
 import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
 import { auth } from '../../firebase/index'
+import { axiosInst } from '../common-scss/common'
 
 const LabelSatus = ({ status }) => {
     if (status === STATUS_ORDERS_TYPE.DOING) {
@@ -31,21 +32,38 @@ const HomeMemberComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
 
     useEffect(() => {
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
-            .then(res => {
-                console.log("res.data[0]", res.data)
-                setFieldValue("objectOrder", res.data, false);
-            }).catch(function (err) {
-                console.log("err", err)
-            })
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders?customerID=${user.uid}`)
+                    .then(res => {
+                        console.log("res.data[0]", res.data)
+                        setFieldValue("objectOrder", res.data, false);
+                    }).catch(function (err) {
+                        console.log("err", err)
+                    })
+
+                // IF Login fetch address
+                axiosInst.get("customers", {
+                    params: {
+                        customerID: auth.currentUser.uid
+                    }
+                }).then((res) => {
+                    // Temporary for filtering the customer data
+                    const customerInfo = res.data.filter((data) => {
+                        return data["customerID"] === auth.currentUser.uid
+                    })[0]
+                    setFieldValue("fullname", customerInfo.fullname, false);
+                })
+            }
+        })
     }, []);
 
     return (
         <main className={styles.wrapContent}>
             <h1 className={styles.title}>รายการออเดอร์</h1>
 
-            <p className={styles.details}>สวัสดีคุณ  customer_name  เลือกเมนูการใช้งานได้เลยค่ะ</p>
-            <p className={styles.details}>หมายเลขสมาชิก MEM0001</p>
+            <p className={styles.details}>สวัสดีคุณ  {values.fullname}  เลือกเมนูการใช้งานได้เลยค่ะ</p>
+            {/* <p className={styles.details}>หมายเลขสมาชิก MEM0001</p> */}
 
             <br />
 
@@ -78,7 +96,7 @@ const HomeMemberComponent = (props) => {
                                     ))}
                                 </table>
 
-                                <button type="button" onClick={() => props.history.push("/myorder")}>ดูรายละเอียด</button>
+                                <button type="button" onClick={() => props.history.push(`/myorder?myID=${fakeAPI.myID}`)}>ดูรายละเอียด</button>
                             </article>
                         )
                     }

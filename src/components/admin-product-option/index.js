@@ -36,43 +36,39 @@ const AdminOrderComponent = () => {
                     <h4>รูปแบบสติกเกอร์</h4>
                     <div>
                         <button type="button" className={styles.btnOption}>เพิ่ม</button>
-                        <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
                     </div>
                     <div>
-                        <button type="button" className={styles.btnListOption}>{values.shape.name}</button>
-                    </div>
-                </article>
-                <article className={styles.cardProductOption}>
-                    <h4>เนื้อวัสดุ</h4>
-                    <div>
-                        <button type="button" className={styles.btnOption}>เพิ่ม</button>
-                        <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
-                    </div>
-                    <div>
-                        <button type="button" className={styles.btnListOption}>{values.material.name}</button>
-                    </div>
-                </article>
-                <article className={styles.cardProductOption}>
-                    <h4>การเคลือบผิว</h4>
-                    <div>
-                        <button type="button" className={styles.btnOption}>เพิ่ม</button>
-                        <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
-                    </div>
-                    <div>
-                        {values.coating.map((coating) => {
-                            return ( <button type="button" className={styles.btnListOption}>{coating.name}</button> )
-                        })}
+                        <button type="button" className={styles.btnListOption}><img src={values.shape.imgUrl} className={styles.iconImage} alt="." />{values.shape.name}</button>
                     </div>
                 </article>
                 <article className={styles.cardProductOption}>
                     <h4>วิธีไดคัสภาพ</h4>
                     <div>
                         <button type="button" className={styles.btnOption}>เพิ่ม</button>
-                        <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
                     </div>
                     <div>
                     {values.cuttingList.map((cuttingList) => {
-                            return ( <button type="button" className={styles.btnListOption}>{cuttingList.name}</button> )
+                            return ( <button type="button" className={styles.btnListOption}><img src={cuttingList.imgUrl} className={styles.iconImage} alt="." />{cuttingList.name}</button> )
+                        })}
+                    </div>
+                </article>
+                <article className={styles.cardProductOption}>
+                    <h4>เนื้อวัสดุ</h4>
+                    <div>
+                        <button type="button" className={styles.btnOption}>เพิ่ม</button>
+                    </div>
+                    <div>
+                        <button type="button" className={styles.btnListOption}><img src={values.material.imgUrl} className={styles.iconImage} alt="." />{values.material.name}</button>
+                    </div>
+                </article>
+                <article className={styles.cardProductOption}>
+                    <h4>การเคลือบผิว</h4>
+                    <div>
+                        <button type="button" className={styles.btnOption}>เพิ่ม</button>
+                    </div>
+                    <div>
+                        {values.coating.map((coating) => {
+                            return ( <button type="button" className={styles.btnListOption}><img src={coating.imgUrl} className={styles.iconImage} alt="." />{coating.name}</button> )
                         })}
                     </div>
                 </article>
@@ -80,7 +76,6 @@ const AdminOrderComponent = () => {
                     <h4>จำนวน / ราคา</h4>
                     <div>
                         <button type="button" className={styles.btnOption}>เพิ่ม</button>
-                        <button type="button" className={styles.btnOption} style={{ float: "right" }}>ลบ</button>
                     </div>
                     <div>
                     {values.unitOptions.map((unitOptions) => {
