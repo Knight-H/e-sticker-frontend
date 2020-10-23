@@ -2,6 +2,7 @@ import React from "react";
 import styles from './index.module.scss';
 import { Field } from 'formik';
 import { useFormikContext } from 'formik';
+import axios from "axios";
 
 import { ReactComponent as IconCheckSVG } from '../approve-layout/icon-check.svg';
 import { ReactComponent as IconCircle } from '../order-1-product-config/icon-circle.svg';
@@ -11,8 +12,33 @@ const PreviewImageComponent = () => {
 
     const handleChange = event => {
         if (event.target.files) {
-            // setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), false)
-            alert(JSON.stringify(URL.createObjectURL(event.target.files[0]), null, 2));
+            setFieldValue("uploadFileStrickerForFirebase", event.target.files[0], false);
+            setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), true);
+        }
+    }
+
+    const sendMessage = () => {
+        if (values.massage) {
+            let data = {
+                "messages": [
+                    ...values.itemsList[values.expandCard].messages,
+                    {
+                        "by": "customer",
+                        "content": values.massage,
+                        // "timestamp": "5 Oct 2020",
+                        "type": "text"
+                    }
+                ]
+            }
+            setFieldValue("massage", '', false)
+            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/order/${values.myID}`, data)
+                .then(res => {
+                    console.log("res", res);
+                }).catch(function (err) {
+                    console.log("err", err)
+                })
+        } else {
+
         }
     }
 
@@ -81,7 +107,7 @@ const PreviewImageComponent = () => {
                     <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." />
 
                     <div className={styles.btnGroup}>
-                        <button type="button" onClick={() => alert(values.massage)}>ส่ง</button>
+                        <button type="button" onClick={() => sendMessage()}>ส่ง</button>
                         <input type="file" id="file" onChange={(e) => handleChange(e)} />
                         <label for="file" className={styles.btnCustomWidth}>อัพโหลดไฟล์</label>
                     </div>

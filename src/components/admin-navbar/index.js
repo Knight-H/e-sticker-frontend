@@ -19,7 +19,35 @@ const AdminNavBarComponent = ({ history }) => {
 
                 {url !== "/admin-login" &&
                     <>
-                        <ul className={`${styles.navLinks} ${isBurgerToggled ? styles.navActive : ""}`}>
+                        {/* <Logo onClick={() => history.push('/')} /> */}
+                        <ul className={`${styles.navLinks} ${isBurgerToggled ? styles.navActive : styles.navInactive}`}>
+                            <li><Link to="/"><EditPen />ปรับแต่งตัวเลือก</Link></li>
+                            <li><Link to={{
+                                pathname: "/",
+                                // hash: "#stepsOrder",
+                                state: { scrollToStepsOrder: true }
+                            }}
+                            // onClick={stepsOrderScroll}
+                            ><IconRock />เปลี่ยนรหัสผ่าน</Link></li>
+                            <li><Link onClick={() => {
+                                auth.signOut().then(response => {
+                                    console.log("response", response)
+                                })
+                            }}
+                                to={{
+                                    pathname: "/",
+                                    // hash: "#ourWorks",  
+                                    state: { scrollToOurWorks: true }
+                                }}><LockOut />ออกจากระบบ</Link></li>
+                        </ul>
+
+                        <div className={`${styles.burger} ${isBurgerToggled ? styles.toggle : ""}`}
+                            onClick={e => setIsBurgerToggled(!isBurgerToggled)}>
+                            <div className={styles.line1}></div>
+                            <div className={styles.line2}></div>
+                            <div className={styles.line3}></div>
+                        </div>
+                        {/* <ul className={`${styles.navLinks} ${isBurgerToggled ? styles.navActive : ""}`}>
                             <li><Link to="/"><EditPen />ปรับแต่งตัวเลือก</Link></li>
                             <li><Link to={{
                                 pathname: "/",
@@ -45,7 +73,7 @@ const AdminNavBarComponent = ({ history }) => {
                             <div className={styles.line1}></div>
                             <div className={styles.line2}></div>
                             <div className={styles.line3}></div>
-                        </div>
+                        </div> */}
                     </>
                 }
             </nav>

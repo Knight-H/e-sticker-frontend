@@ -9,52 +9,85 @@ import PreviewImage from "../preview-image";
 import GroupDeliveryPayment from "../group-delivery-payment";
 import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
 
-const ApproveLayoutComponent = () => {
+import { auth } from '../../firebase/index.js';
+const ApproveLayoutComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(3);
-    const [guestMode] = useState(false);
+    const [guestMode, setGuestMode] = useState(false);
 
     useEffect(() => {
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
-          .then(res => {
-            // console.log("res.data[0]", res.data[0])
-            setFieldValue("orderID", res.data[0].orderID, false);
-            setFieldValue("status", res.data[0].status, false);
-            setFieldValue("itemsList", res.data[0].itemsList, false);
-            setFieldValue("shippingAddress", res.data[0].shippingAddress, false);
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                let url = window.location.search;
+                const urlParams = new URLSearchParams(url);
+                let myID = urlParams.get('myID');
+                console.log("myID", myID)
+                if (!myID) {
+                    props.history.push('/customize');
+                } else {
+                    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
+                        .then(res => {
+                            console.log("res.data", res.data)
+                            setFieldValue("myID", res.data.myID, false);
 
-            setFieldValue("shippingCourier", res.data[0].shippingCourier, false);
-            setFieldValue("itemsCost", res.data[0].itemsCost, false);
-            setFieldValue("shippingCost", res.data[0].shippingCost, false);
-            setFieldValue("vatCost", res.data[0].vatCost, false);
-            setFieldValue("totalCost", res.data[0].totalCost, false);
-          }).catch(function (err) {
-            console.log("err", err)
-          })
-      }, []);
+                            setFieldValue("orderID", res.data.orderID, false);
+                            setFieldValue("status", res.data.status, false);
+                            setFieldValue("itemsList", res.data.itemsList, false);
+                            setFieldValue("shippingAddress", res.data.shippingAddress, false);
 
-      
-    // const searchOrderNumber = () => {
-    //     let orderNumber = fakeAPI.find(orderNumber => `${orderNumber.orderNumber}` === `${values.orderNumber}`);
-    //     if (orderNumber) {
-    //         console.log("orderNumber", orderNumber)
-    //         setFieldValue("orderID", orderNumber.orderNumber);
-    //         setFieldValue("status", orderNumber.status);
-    //         setFieldValue("itemsList", orderNumber.itemsList);
-    //     }
-    // };
-    
+                            setFieldValue("shippingCourier", res.data.shippingCourier, false);
+                            setFieldValue("itemsCost", res.data.itemsCost, false);
+                            setFieldValue("shippingCost", res.data.shippingCost, false);
+                            setFieldValue("vatCost", res.data.vatCost, false);
+                            setFieldValue("totalCost", res.data.totalCost, false);
+                        }).catch(function (err) {
+                            console.log("err", err)
+                        })
+                }
+            } else {
+                setGuestMode(true)
+                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
+                    .then(res => {
+                        console.log("res.data", res.data)
+                        setFieldValue("allOrder", res.data, false);
+                    }).catch(function (err) {
+                        console.log("err", err)
+                    })
+            }
+        })
+    }, []);
+
+
+    const searchOrderNumber = () => {
+        let orderNumber = values.allOrder.find(orderNumber => `${orderNumber.orderID}` === `${values.orderNumber}`);
+        if (orderNumber) {
+            // console.log("orderNumber", orderNumber)
+            setFieldValue("myID", orderNumber.myID, false);
+
+            setFieldValue("orderID", orderNumber.orderID, false);
+            setFieldValue("status", orderNumber.status, false);
+            setFieldValue("itemsList", orderNumber.itemsList, false);
+            setFieldValue("shippingAddress", orderNumber.shippingAddress, false);
+
+            setFieldValue("shippingCourier", orderNumber.shippingCourier, false);
+            setFieldValue("itemsCost", orderNumber.itemsCost, false);
+            setFieldValue("shippingCost", orderNumber.shippingCost, false);
+            setFieldValue("vatCost", orderNumber.vatCost, false);
+            setFieldValue("totalCost", orderNumber.totalCost, false);
+        }
+    };
+
     return (
         <main className={styles.wrapContent}>
 
-            {/* {guestMode &&
+            {guestMode &&
                 <>
                     <h1 className={styles.title}>ตรวจสอบสถานะออเดอร์</h1>
                     <p>หมายเลขออเดอร์</p>
                     <Field name="orderNumber" className={styles.inputGreen} />
                     <button type="button" className={styles.btnGreen} onClick={() => searchOrderNumber()}>ตรวจสอบสถานะ</button>
                 </>
-            } */}
+            }
 
             <h1 className={styles.title}>รายการออเดอร์</h1>
             <p>ออเดอร์หมายเลข #{values.orderID}
@@ -89,6 +122,8 @@ const EnhancedApproveLayoutComponent = withFormik({
         orderID: '',
         status: '',
         itemsList: [],
+
+        allOrder: [],
     })
 })(ApproveLayoutComponent);
 

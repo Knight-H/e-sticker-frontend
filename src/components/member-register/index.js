@@ -100,17 +100,19 @@ const EnchancedMemberRegisterComponent = withFormik({
             })
 
             const customerSchemaInfo = {
-                Email: moreUserInfo?.email || '',
-                shippingAddress: {
+                email: moreUserInfo?.email || '',
+                // shippingAddress: {
                     address: moreUserInfo?.address || '',
                     zip: moreUserInfo?.zip || '',
-                    city: moreUserInfo?.zone || '',
+                    zone: moreUserInfo?.zone || '',
                     county: moreUserInfo?.district || '',
                     provice: moreUserInfo?.provice || '',
                     fullname: moreUserInfo?.fullname || '',
-                },
+                // },
                 fullname: moreUserInfo?.fullname || '',
-                phone: moreUserInfo?.phone || ''
+                phone: moreUserInfo?.phone || '',
+                customerID: userCredential.user.uid,
+                status: "ปกติ"
             }
             console.log(customerSchemaInfo)
 

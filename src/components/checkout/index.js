@@ -50,6 +50,7 @@ const CheckoutComponent = (props) => {
                             <tbody>
                                 {
                                     values.itemsList.map((dataObjectMapped) => {
+                                        totalPrice = totalPrice + parseInt(dataObjectMapped.price)
                                         return (
                                             <>
                                                 <tr>

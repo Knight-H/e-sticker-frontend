@@ -9,7 +9,7 @@ import { auth } from '../../firebase';
 import { dummyHandleSubmit } from "../common-scss/common";
 import { i18_th } from "../common-scss/i18_text";
 
-const MemberLoginComponent = () => {
+const MemberLoginComponent = (props) => {
 
     return(
         <main className={styles.container}>

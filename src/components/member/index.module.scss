@@ -3,7 +3,7 @@
 
 .section1 {
     width: 90%;
-    margin: 30px auto;
+    margin: 10px auto;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -11,10 +11,13 @@
 
     overflow-x: scroll;
 }
+.section1::-webkit-scrollbar {
+    display: none;
+  }
 
 .section2 {
     width: 90%;
-    margin: 30px auto;
+    margin: 0px auto;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -70,7 +73,7 @@
     }
 
     h3 {
-        margin-bottom: 20px;
+        // margin-bottom: 20px;
         font-family: SarabunRegular;
         font-weight: normal;
     }
