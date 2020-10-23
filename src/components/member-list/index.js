@@ -123,7 +123,7 @@ const MemberListComponent = (props) => {
                                     <td>{dataObjectMapped.customerID}</td>
                                     <td>{dataObjectMapped.fullname}</td>
                                     <td>{dataObjectMapped.phone}</td>
-                                    <td>{dataObjectMapped.Email}</td>
+                                    <td>{dataObjectMapped.email}</td>
                                     <td>{dataObjectMapped?.last_login}</td>
                                     <td>{dataObjectMapped?.last_order}</td>
                                     <td>{dataObjectMapped?.amount_product}</td>

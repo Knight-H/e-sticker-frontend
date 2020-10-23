@@ -39,7 +39,6 @@ const AdminComponent = (props) => {
     // console.log("selectMonth", selectMonth)
 
     const [orderData, setOrderData] = useState(null)
-
     useEffect(() => {
         axiosInst.get("orders").then((res) => {
             setOrderData(res.data)

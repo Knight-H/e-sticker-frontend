@@ -64,14 +64,14 @@ const CartComponent = () => {
                     const customerInfo = res.data.filter((data) => {
                         return data["customerID"] === auth.currentUser.uid
                     })[0]
-                    setFieldValue("address", customerInfo.address, false);
-                    setFieldValue("district", customerInfo.district, false);
+                    setFieldValue("address", customerInfo.shippingAddress.address, false);
+                    setFieldValue("county", customerInfo.shippingAddress.county, false);
                     setFieldValue("email", customerInfo.email, false);
                     setFieldValue("fullname", customerInfo.fullname, false);
                     setFieldValue("phone", customerInfo.phone, false);
-                    setFieldValue("provice", customerInfo.provice, false);
-                    setFieldValue("zip", customerInfo.zip, false);
-                    setFieldValue("zone", customerInfo.zone, false);
+                    setFieldValue("provice", customerInfo.shippingAddress.provice, false);
+                    setFieldValue("zip", customerInfo.shippingAddress.zip, false);
+                    setFieldValue("zone", customerInfo.shippingAddress.zone, false);
                 })
 
             } else { // Guest Mode
@@ -89,7 +89,7 @@ const CartComponent = () => {
     useEffect(() => {
         if (checkedBox) {
             setFieldValue("billingFullname", values.fullname, false);
-            setFieldValue("billingFulladdress", `${values.address} ${values.district} ${values.zone} ${values.provice} ${values.zip}`, false);
+            setFieldValue("billingFulladdress", `${values.address} ${values.county} ${values.zone} ${values.provice} ${values.zip}`, false);
         } else {
             setFieldValue("billingFullname", '', false);
             setFieldValue("billingFulladdress", '', false);
@@ -287,7 +287,7 @@ const EnhancedCartComponent = withFormik({
         email: '',
         phone: '',
         address: '',
-        district: '',
+        county: '',
         zone: '',
         provice: '',
         zip: '',
@@ -307,7 +307,7 @@ const EnhancedCartComponent = withFormik({
         if (values.phone === "") { errors.phone = "Required" }
         if (values.address === "") { errors.address = "Required" }
         if (values.fullname === "") { errors.fullname = "Required" }
-        if (values.district === "") { errors.district = "Required" }
+        if (values.county === "") { errors.county = "Required" }
         if (values.zone === "") { errors.zone = "Required" }
         if (values.provice === "") { errors.provice = "Required" }
         if (values.zip === "") { errors.zip = "Required" }
@@ -331,7 +331,7 @@ const EnhancedCartComponent = withFormik({
             values.tax_phone = values.phone;
             values.tax_address = values.address;
             values.tax_fullname = values.fullname;
-            values.tax_district = values.district;
+            values.tax_county = values.county;
             values.tax_zone = values.zone;
             values.tax_provice = values.provice;
             values.tax_zip = values.zip;
