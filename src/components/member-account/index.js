@@ -150,12 +150,12 @@ const EnchancedLocationFieldsComponent = withFormik({
                 const customerSchemaInfo = {
                     Email: customerInfo?.email || '',
                     shippingAddress: {
-                        address: customerInfo?.address || '',
-                        zip: customerInfo?.zip || '',
-                        city: customerInfo?.zone || '',
-                        county: customerInfo?.district || '',
-                        provice: customerInfo?.provice || '',
-                        fullname: customerInfo?.fullname || '',
+                        address: customerInfo?.shippingAddress?.address || '',
+                        zip: customerInfo?.shippingAddress?.zip || '',
+                        city: customerInfo?.shippingAddress?.zone || '',
+                        county: customerInfo?.shippingAddress?.district || '',
+                        provice: customerInfo?.shippingAddress?.provice || '',
+                        fullname: customerInfo?.shippingAddress?.fullname || '',
                     },
                     fullname: customerInfo?.fullname || '',
                     phone: customerInfo?.phone || ''

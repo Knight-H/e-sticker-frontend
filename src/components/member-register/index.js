@@ -101,14 +101,14 @@ const EnchancedMemberRegisterComponent = withFormik({
 
             const customerSchemaInfo = {
                 email: moreUserInfo?.email || '',
-                // shippingAddress: {
+                shippingAddress: {
                     address: moreUserInfo?.address || '',
                     zip: moreUserInfo?.zip || '',
                     zone: moreUserInfo?.zone || '',
                     county: moreUserInfo?.district || '',
                     provice: moreUserInfo?.provice || '',
                     fullname: moreUserInfo?.fullname || '',
-                // },
+                },
                 fullname: moreUserInfo?.fullname || '',
                 phone: moreUserInfo?.phone || '',
                 customerID: userCredential.user.uid,
