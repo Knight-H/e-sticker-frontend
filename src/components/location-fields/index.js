@@ -43,8 +43,8 @@ const LocationFieldsComponent = ({ onlyLocation = false, emailDisabled = false }
 
             <div className={styles.gridItem}>
                 <div className={styles.formControl}>
-                    <p>แขวง* <ErrorMessage name="county" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
-                    <Field name="county" type="text"/>
+                    <p>แขวง* <ErrorMessage name="district" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
+                    <Field name="district" type="text"/>
                 </div>
             </div>
 
