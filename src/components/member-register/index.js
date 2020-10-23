@@ -119,9 +119,13 @@ const EnchancedMemberRegisterComponent = withFormik({
             axiosInst.post("customers", {
                 uid: userCredential.user.uid,
                 data: customerSchemaInfo
-            })
+            }).then((res) => {
 
-            props.history.push("/")
+            }).catch((reason) => {
+                console.log(reason)
+            }).finally(() => {
+                props.history.push("/")
+            })
 
         }).catch((reason) => {
             const { code, message } = reason
