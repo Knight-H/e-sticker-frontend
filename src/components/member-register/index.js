@@ -1,12 +1,12 @@
 import React from "react";
 import styles from './index.module.scss';
-import { db, auth } from '../../firebase'
+import { auth } from '../../firebase'
 
 import LocationFieldsComponent from '../location-fields';
-import LoginCredentialsComponent, { LoginCredentialsComponent2 } from '../login-credentials';
+import { LoginCredentialsComponent2 } from '../login-credentials';
 
 import { withFormik, Field, Form, useFormikContext } from 'formik'
-import { dummyHandleSubmit, dummyValidateError, axiosInst } from "../common-scss/common";
+import { axiosInst } from "../common-scss/common";
 import { i18_th as i18 } from "../common-scss/i18_text";
 
 const MemberRegisterComponent = (props) => {
@@ -128,7 +128,7 @@ const EnchancedMemberRegisterComponent = withFormik({
             })
 
         }).catch((reason) => {
-            const { code, message } = reason
+            const { code } = reason
 
             if (code === "auth/email-already-in-use") {
                 setFieldValue("isRegisterSuccessfulText", i18.account_creation_failed_email_already_exists, false)

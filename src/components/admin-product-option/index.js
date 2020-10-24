@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { withFormik, useFormikContext, Field } from 'formik';
 import styles from './index.module.scss';
 import axios from "axios";
