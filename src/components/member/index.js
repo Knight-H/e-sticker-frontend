@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { withRouter } from 'react-router-dom'
 import styles from './index.module.scss';
 import { ReactComponent as IconArrow } from './icon-arrow.svg';
 import LocationFieldsComponent from '../location-fields';
 import LoginCredentialsComponent, { LoginCredentialsComponent2 } from '../login-credentials';
 import AdminKpi from '../admin-kpi';
 import { Formik, Field, Form, withFormik } from "formik";
-import { dummyHandleSubmit, dummyValidateError, DummyDiv } from "../common-scss/common"
+import { dummyHandleSubmit, dummyValidateError, DummyDiv, axiosInst } from "../common-scss/common"
+
+import { EnhancedLoginCredentialsComponent } from '../member-account/index'
 
 import { auth } from "../../firebase";
 import Firebase from 'firebase'
+import qs from 'qs'
 
 import axios from 'axios'
 import { i18_th as i18 } from "../common-scss/i18_text";
@@ -24,14 +28,12 @@ import { i18_th as i18 } from "../common-scss/i18_text";
 //     return [input, handleInputChange]
 // }
 
-
-
-
-export let EnhancedLoginComponent = withFormik({
+let EnhancedLoginComponent = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
+        const { userInfo } = props
         return {
-            email: props.email || "",
+            email: userInfo.email || userInfo.Email || props.email || "",
             password_previous: "",
             password: "",
             password_repeat: ""
@@ -94,7 +96,7 @@ export let EnhancedLoginComponent = withFormik({
     )
 })
 
-export let EnhancedLocationFields = withFormik({
+export let EnhancedLocationFields = withRouter(withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => {
 
@@ -115,8 +117,12 @@ export let EnhancedLocationFields = withFormik({
     validate: (values) => {
         const errors = {}
 
-        console.log(values)
+        // console.log(values)
         Object.entries(values).forEach(([fieldName, fieldValue]) => {
+
+            // Ignore accountState because the value 0 is used
+            // to indicate "Normal"
+            if (["accountState"].includes(fieldName)) { return }
             if (!fieldValue) {
                 errors[fieldName] = i18.required
             }
@@ -124,36 +130,64 @@ export let EnhancedLocationFields = withFormik({
 
         return errors
     },
-    handleSubmit: dummyHandleSubmit
+    handleSubmit: (values, { props }) => {
+
+        const moreUserInfo = Object.fromEntries(Object.entries(values).filter(([key, value]) => {
+            // 
+            return true
+        }))
+        Object.assign(values, props.userInfo)
+        console.log("moreUserInfo", moreUserInfo)
+
+        auth.onAuthStateChanged((userCredential) => {
+
+            const uid = userCredential.uid
+
+            const customerSchemaInfo = {
+                email: moreUserInfo?.email || moreUserInfo?.email || '',
+                shippingAddress: {
+                    address: moreUserInfo?.address || '',
+                    zip: moreUserInfo?.zip || '',
+                    zone: moreUserInfo?.zone || '',
+                    county: moreUserInfo?.district || '',
+                    provice: moreUserInfo?.provice || '',
+                    fullname: moreUserInfo?.fullname || '',
+                },
+                fullname: moreUserInfo?.fullname || '',
+                phone: moreUserInfo?.phone || '',
+                customerID: uid,
+                status: moreUserInfo?.accountState || moreUserInfo?.state || "ปกติ"
+            }
+            console.log("sent", customerSchemaInfo)
+
+            axiosInst.put(`customers/${uid}`, customerSchemaInfo).then((res) => {
+                props.setUpdateStatusText(i18.account_information_update_success)
+
+                console.log("Update sucessful")
+            }).catch((reason) => {
+                props.setUpdateStatusText(i18.account_information_update_failed_general)
+                console.log(reason)
+            }).finally(() => {
+                // console.log(props)
+                // props.history.push("/")
+            })
+        })
+    }
 })((props) => {
     const [dropDawn, setDropDawn] = useState(0);
 
-    const { values, setFieldValue } = props
+    const { values, setFieldValue, userInfo } = props
 
     const handleChangeDropDawn = (e) => {
         values.accountState = parseInt(e.value) || 0 // If error value then assume be 0 (Normal)
         setDropDawn(e.value);
     }
 
-    // useEffect(() => {
-
-    //     auth.signInWithEmailAndPassword("admin@admin.com", "admin123")
-    //     auth.onAuthStateChanged((user) => {
-    //         console.log("user", user.uid)   
-    //         axios.get("https://asia-east2-digitalwish-sticker.cloudfunctions.net/customers/" + user.uid).then((res) => {
-    //             console.log("'/customers/" + user.uid + "' got:", res.data)
-    //         })
-    //     })
-    // }, []);
-
-    // useEffect(async () => {
-
-    //     console.log("current user uid:", JSON.stringify(auth.onAuthStateChanged))
-    //     // Object.keys(values).forEach((key) => {
-    //     //     setFieldValue(key, testObj[key])
-    //     // })
-
-    // }, [])
+    useEffect(() => {
+        Object.entries(userInfo).forEach(([fieldKey, fieldValue]) => {
+            setFieldValue(fieldKey, fieldValue)
+        })
+    }, [userInfo])
 
     return (
         <Form className={styles.userInfo}>
@@ -186,42 +220,46 @@ export let EnhancedLocationFields = withFormik({
             <Field name="submit" type="submit" className={styles.greenButton} value="บันทึก" />
         </Form>
     )
-})
+}))
 
 let MemberComponent = (props) => {
 
-    // const emailState = useState("asdf")
+    const [userInfo, setUserInfo] = useState({})
+    const [updateStatusText, setUpdateStatusText] = useState("　")
 
-    // const [selectMonth, setSelectMonth] = useInputChange();
-    // const [dropDawn, setDropDawn] = useState(0);
+    useEffect(() => {
+        const urlParams = qs.parse(window.location.search, { ignoreQueryPrefix: true })
+        // console.log(urlParams)
 
-    // const { values } = props
+        axiosInst.get(`customers/${urlParams.user_id}`).then((res) => {
 
-    // const handleChangeDropDawn = (e) => {
-    //     values.accountState = parseInt(e.value) || 0 // If error value then assume be 0 (Normal)
-    //     setDropDawn(e.value);
-    // };
+            // React.setC
+            const custInfo = res.data
 
-    // const [accountState, setAccountState] = useState(0)
+            const formikSchema = {
+                email: custInfo.Email || custInfo.email,
 
-    // useEffect(() => {
-    //     let url = window.location.search;
-    //     const urlParams = new URLSearchParams(url);
-    //     const userID = urlParams.get('user_id');
-    // }, []);
+                address: custInfo?.shippingAddress?.address || '',
+                zip: custInfo?.shippingAddress?.zip || '',
+                zone: custInfo?.shippingAddress?.zone || '',
+                district: custInfo?.shippingAddress?.county || '',
+                provice: custInfo?.shippingAddress?.provice || '',
 
+                fullname: custInfo?.fullname || '',
+                phone: custInfo?.phone || '',
 
+                accountState: custInfo.status === "ปกติ" ? 0 : 1
+            }
 
-    // const [currentEmail, setCurrentEmail] = useState("asdf@ee")
-    // const [counter, setCounter] = useState(0)
+            console.log("Receive", formikSchema)
 
-    // useEffect(() => {
-    //     setInterval(()=>{
-    //         setCurrentEmail("kkkkkk@rtyu"+counter)
-    //         setCounter(counter + 1)
-    //     })
-    //     setFieldValue
-    // }, [currentEmail])
+            setUserInfo(formikSchema)
+
+        }).catch((reason) => {
+            console.log(reason)
+        })
+    }, [])
+
     const currentEmail = "123@123.123"
 
     return (
@@ -236,10 +274,18 @@ let MemberComponent = (props) => {
                 <h2>รายสมาชิก - จัดการบัญชี</h2>
                 <h3>สมาชิกหมายเลข MEM0001</h3>
 
+                {(() => {
+                    if (updateStatusText === i18.account_information_update_success) {
+                        return (<p className={styles.accountCreateSuccess}>{updateStatusText}</p>)
+                    } else if (updateStatusText !== null) {
+                        return (<p className={styles.accountCreateFailed}>{updateStatusText}</p>)
+                    }
+                    return (<p>　</p>)
+                })()}
                 <div className={styles.flexWrapper}>
 
-                    <EnhancedLoginComponent email={currentEmail} emailDisabled={true} />
-                    <EnhancedLocationFields email={currentEmail} emailDisabled={true} />
+                    <EnhancedLoginCredentialsComponent email={currentEmail} emailDisabled={true} userInfo={userInfo} setUpdateStatusText={setUpdateStatusText} setUserInfo={setUserInfo} />
+                    <EnhancedLocationFields email={currentEmail} emailDisabled={true} userInfo={userInfo} setUpdateStatusText={setUpdateStatusText} setUserInfo={setUserInfo} />
 
                 </div>
             </section>
@@ -281,4 +327,4 @@ const EnhancedMemberComponent = withFormik({
 // let memberComponent = MemberComponent
 
 
-export default (props) => { return (<MemberComponent />) }
+export default MemberComponent
