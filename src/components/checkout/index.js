@@ -100,11 +100,11 @@ const CheckoutComponent = (props) => {
 
                             <br /><br />
                             <h2>Checkout as Guest</h2>
-                            <button className={styles.buttonGreenFit} type="button" onClick={() => props.history.push("/cart")}>Checkout as Guest</button>
+                            <button className={styles.buttonGreenFit} type="button" onClick={() => props.history.push("/checkout")}>Checkout as Guest</button>
                         </>
                         :
                         <>
-                            <button className={`${styles.buttonGreenFit} ${styles.checkLogin}`} onClick={() => props.history.push("/cart")}>Checkout</button>
+                            <button className={`${styles.buttonGreenFit} ${styles.checkLogin}`} onClick={() => props.history.push("/checkout")}>Checkout</button>
                         </>
                     }
                 </div>
@@ -140,7 +140,7 @@ const EnhancedCheckoutComponent = withFormik({
             .then(res => {
                 console.log("uid", res.user.uid, "email", res.user.email)
                 setFieldValue("checkLoginComponant", false, false);
-                props.history.push("/cart")
+                props.history.push("/checkout")
             })
             .catch(error => {
                 console.log("Error", error)
