@@ -49,7 +49,7 @@ export const EnhancedMemberLoginComponent = withFormik({
                 props.history.push("/customize")
             })
             .catch((error) => {
-                alert(i18_th.login_failed)
+                alert(i18.login_failed)
             })
         // setTimeout(() => {
         //   alert(JSON.stringify(values, null, 2));
