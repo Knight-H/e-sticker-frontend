@@ -4,24 +4,32 @@ import styles from './index.module.scss';
 import axios from "axios";
 
 import AdminKpi from "../admin-kpi";
+import firebaseApp from '../../firebase/index.js';
 
 const AdminOrderComponent = () => {
     const { values, setFieldValue } = useFormikContext();
-
     // Fetch Optiom
     useEffect(() => {
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions`)
             .then(res => {
-                console.log("res.data[0]", res.data[0])
+                // console.log("res.data[0]", res.data[0])
+                setFieldValue("myID", res.data[0].myID, false);
                 setFieldValue("shape", res.data[0].shape, false);
                 setFieldValue("material", res.data[0].material, false);
-                // setFieldValue("coating", res.data[0].material, false);
                 setFieldValue("cuttingList", res.data[0].cuttingList, false);
                 setFieldValue("unitOptions", res.data[0].unitOptions, false);
             }).catch(function (err) {
                 console.log("err", err)
             })
-    }, []);
+
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
+            .then(res => {
+                console.log("res.data[0]", res.data)
+                setFieldValue("shippingOption", res.data, false);
+            }).catch(function (err) {
+                console.log("err", err)
+            })
+    }, [values.fetch]);
 
     // Seclect Coating form materail
     useEffect(() => {
@@ -31,69 +39,75 @@ const AdminOrderComponent = () => {
         }
     }, [values.materialSelected]);
 
-    const handleChange = event => {
+    const handleChangeImgAdd = event => {
         if (event.target.files) {
-            setFieldValue(`${values.modalAdd}-file`, event.target.files[0], false);
+            setFieldValue(`${values.modalAdd}File`, event.target.files[0], false);
         }
     }
 
     const addOption = () => {
+        const storageRef = firebaseApp.storage().ref();
+        let timeStamp = new Date().toISOString().slice(0, 10);
+
+        storageRef.child(`productOption/${timeStamp}-${values[`${values.modalAdd}File`]}`).put(values[`${values.modalAdd}File`])
+            .then((snapshot) => {
+                console.log(snapshot)
+                snapshot.ref.getDownloadURL().then((url) => {
+                    let data = {
+                        "name": values[`${values.modalAdd}Text`],
+                        "imgUrl": url
+                    }
+
+                    console.log("data", data)
+                    // axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/${values.myID}`, data)
+                    //     .then(res => {
+                    //         console.log("res", res);
+                    //         setFieldValue("fetchMsg", true, false);
+                    //     }).catch(function (err) {
+                    //         console.log("err", err)
+                    //     })
+
+                });
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const addOptionShipping = () => {
         let data = {
-            "name": values[`${values.modalAdd}-text`],
-            "imgUrl": ``
+            "courier": values[`${values.modalAdd}Courier`],
+            "duration": values[`${values.modalAdd}Duration`],
+            "rate": values[`${values.modalAdd}Rate`]
         }
-        console.log("data", data)
+        // console.log(data)
+        axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`, data)
+            .then(res => {
+                console.log("res", res);
+                setFieldValue("fetch", true, false);
+                setFieldValue("modalAdd", '', false)
+            }).catch(function (err) {
+                console.log("err", err)
+            })
     }
 
-    const ModalAdd = () => {
-        return (
-            <div className={styles.modal} style={{ display: values.modalAdd ? "block" : "none" }}>
-                <div className={styles.modalContent}>
-                    <div>
-                        <span className={styles.close} onClick={() => setFieldValue("modalAdd", "", false)}>&times;</span>
-                    </div>
-                    <div className={styles.rowInModal}>
-                        <Field name={`${values.modalAdd}-text`} className={styles.text} placeholder="ชื่อตัวเลือก" />
-                    </div>
-                    <div>
-                        <div className={styles.rowInModal}>
-                            <input type="file" id="file" onChange={(e) => handleChange(e)} />
-                            <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>อัพโหลดไฟล์</label>
-                        </div>
-                    </div>
-                    <div className={`${styles.floatRight} ${styles.rowInModal}`}>
-                        <button type="button" className={styles.addOption} onClick={() => addOption()}>บันทึก</button>
-                    </div>
-                </div>
-            </div>
-        )
+    const editOptionShipping = () => {
+        // let data = {
+        //     "courier": values[`${values.modalAdd}Courier`],
+        //     "duration": values[`${values.modalAdd}Duration`],
+        //     "rate": values[`${values.modalAdd}Rate`]
+        // }
+        // // console.log(data)
+        //  axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`, data)
+        //                 .then(res => {
+        //                     console.log("res", res);
+        //                     setFieldValue("fetch", true, false);
+        //                     setFieldValue("modalAdd", '', false)
+        //                 }).catch(function (err) {
+        //                     console.log("err", err)
+        //                 })
     }
-
-    const ModalEdit = () => {
-        return (
-            <div className={styles.modal} style={{ display: values.modalEdit ? "block" : "none" }}>
-                <div className={styles.modalContent}>
-                    <div>
-                        <span className={styles.close} onClick={() => setFieldValue("modalEdit", false, false)}>&times;</span>
-                    </div>
-                    <div className={styles.rowInModal}>
-                        <Field name="editShape" className={styles.text} placeholder="ชื่อตัวเลือก" />
-                    </div>
-                    <div>
-                        <div className={styles.rowInModal}>
-                            <input type="file" id="file" onChange={(e) => handleChange(e)} />
-                            <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>อัพโหลดไฟล์</label>
-                        </div>
-                    </div>
-                    <div className={`${styles.floatRight} ${styles.rowInModal}`}>
-                        <button type="button" className={styles.removeOption}>ลบ</button>
-                        <button type="button" className={styles.editOption}>แก้ไข</button>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
+    console.log("`${values.modalEdit}Courier`", values[`${values.modalEdit}Courier`])
     return (
         <main className={styles.wrapContent}>
 
@@ -109,7 +123,8 @@ const AdminOrderComponent = () => {
                     <h4>รูปแบบสติกเกอร์</h4>
                     <div>
                         <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalShapeAdd", false)}>เพิ่ม</button>
-                        <ModalAdd />
+                        <ModalAdd modalAdd="modalShapeAdd" values={values} setFieldValue={setFieldValue}
+                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} />
                     </div>
                     <div>
                         {values.shape.map((shape) => {
@@ -120,7 +135,8 @@ const AdminOrderComponent = () => {
                                 </button>
                             )
                         })}
-                        <ModalEdit />
+                        <ModalEdit modalEdit="modalShapeEdit" values={values} setFieldValue={setFieldValue}
+                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} />
                     </div>
                 </article>
 
@@ -128,7 +144,8 @@ const AdminOrderComponent = () => {
                     <h4>วิธีไดคัสภาพ</h4>
                     <div>
                         <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalCuttingAdd", false)}>เพิ่ม</button>
-                        <ModalAdd />
+                        {/* <ModalAdd modalAdd="modalCuttingAdd" values={values} setFieldValue={setFieldValue}
+                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
                     </div>
                     <div>
                         {values.cuttingList.map((cuttingList) => {
@@ -137,35 +154,37 @@ const AdminOrderComponent = () => {
                             </button>)
                         })}
                     </div>
-                    <ModalEdit />
+                    {/* <ModalEdit modalAdd="modalCuttingEdit" /> */}
                 </article>
 
                 <article className={styles.cardProductOption}>
                     <h4>เนื้อวัสดุ</h4>
                     <div>
                         <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalMaterialAdd", false)}>เพิ่ม</button>
-                        <ModalAdd />
+                        {/* <ModalAdd modalAdd="modalMaterialAdd" values={values} setFieldValue={setFieldValue}
+                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
                     </div>
                     <div>
                         {values.material.map((material) => {
                             return (
                                 <div className={styles.btnRow}>
-                                <button type="button" className={`${styles.btnListOption90} ${material.name === values.materialSelected && styles.active}`} onClick={() => setFieldValue("materialSelected", material.name, false)}>
-                                    <img src={material.imgUrl} className={styles.iconImage} alt="." />{material.name}
-                                </button>
-                                <button className={styles.btnEdit} type="button" onClick={() => setFieldValue("modalEdit", "modalMaterialEdit", false)}>แก้ไข</button>
+                                    <button type="button" className={`${styles.btnListOption90} ${material.name === values.materialSelected && styles.active}`} onClick={() => setFieldValue("materialSelected", material.name, false)}>
+                                        <img src={material.imgUrl} className={styles.iconImage} alt="." />{material.name}
+                                    </button>
+                                    <button className={styles.btnEdit} type="button" onClick={() => setFieldValue("modalEdit", "modalMaterialEdit", false)}>แก้ไข</button>
                                 </div>
                             )
                         })}
                     </div>
-                    <ModalEdit />
+                    {/* <ModalEdit modalAdd="modalMaterialEdit" /> */}
                 </article>
 
                 <article className={styles.cardProductOption}>
                     <h4>การเคลือบผิว</h4>
                     <div>
                         <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalCoatingAdd", false)}>เพิ่ม</button>
-                        <ModalAdd />
+                        {/* <ModalAdd modalAdd="modalCoatingAdd" values={values} setFieldValue={setFieldValue}
+                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
                     </div>
                     <div>
                         {values.coating.map((coating) => {
@@ -174,24 +193,53 @@ const AdminOrderComponent = () => {
                             </button>)
                         })}
                     </div>
-                    <ModalEdit />
+                    {/* <ModalEdit modalAdd="modalCoatingEdit" /> */}
                 </article>
 
                 <article className={styles.cardProductOption}>
                     <h4>จำนวน / ราคา</h4>
                     <div>
                         <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalUnitPriceAdd", false)}>เพิ่ม</button>
-                        <ModalAdd />
+                        {/* <ModalAddNoImg modalAdd="modalUnitPriceAdd" values={values} setFieldValue={setFieldValue}
+                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
                     </div>
                     <div>
                         {values.unitOptions.map((unitOptions) => {
                             return (<button type="button" className={styles.btnListOption} onClick={() => setFieldValue("modalEdit", "modalUnitPrice", false)}>{unitOptions.unit}ชิ้น/{unitOptions.price}บาท</button>)
                         })}
                     </div>
-                    <ModalEdit />
+                    {/* <ModalEdit modalAdd="modalUnitPrice" /> */}
                 </article>
 
             </section>
+
+            <h1 className={styles.title}>รายการจัดส่ง</h1>
+
+            <section className={styles.productOptions}>
+                <article className={styles.cardProductOption}>
+                    <h4>รูปแบบการจัดส่ง</h4>
+                    <div>
+                        <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalShippingAdd", false)}>เพิ่ม</button>
+                        <ModalAddShipping modalAdd="modalShippingAdd" values={values} setFieldValue={setFieldValue}
+                            addOptionShipping={addOptionShipping} />
+                    </div>
+                    <div>
+                        {values.shippingOption.map((shipping) => {
+                            return (
+                                <button type="button" className={styles.btnListOption} onClick={() => {
+                                    setFieldValue("modalEdit", "modalShippingEdit", false);
+                                    setFieldValue("shippingID", shipping.myID, false);
+                                }}>
+                                    {shipping.courier} {shipping.duration} วัน {shipping.rate}฿
+                                </button>
+                            )
+                        })}
+                        <ModalEditShipping modalEdit="modalShippingEdit" values={values} setFieldValue={setFieldValue}
+                            editOptionShipping={editOptionShipping} />
+                    </div>
+                </article>
+            </section>
+
         </main >
     );
 };
@@ -208,8 +256,174 @@ const EnhancedAdminOrderComponent = withFormik({
 
         unitOptions: [],
 
-        modalAdd: ""
+        shippingOption: [],
+
+        modalAdd: "",
+        fetch: false
     })
 })(AdminOrderComponent);
 
 export default EnhancedAdminOrderComponent;
+
+
+const ModalAdd = ({ modalAdd, values, setFieldValue, handleChangeImgAdd, addOption }) => {
+    // console.log(">>", modalAdd)
+    if (modalAdd === values.modalAdd) {
+        return (
+            <div className={styles.modal} style={{ display: values.modalAdd ? "block" : "none" }}>
+                <div className={styles.modalContent}>
+                    <div>
+                        <span className={styles.close} onClick={() => setFieldValue("modalAdd", "", false)}>&times;</span>
+                    </div>
+                    <div className={styles.rowInModal}>
+                        <Field name={`${values.modalAdd}Text`} className={styles.text} placeholder="ชื่อตัวเลือก" onChange={(e) => {
+                            setFieldValue(`${values.modalAdd}Text`, e.target.value, false)
+                        }} />
+                    </div>
+                    <div>
+                        <div className={styles.rowInModal}>
+                            <input type="file" id="file" onChange={(e) => handleChangeImgAdd(e)} />
+                            <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>อัพโหลดไฟล์</label>
+                        </div>
+                    </div>
+                    <div className={`${styles.floatRight} ${styles.rowInModal}`}>
+                        <button type="button" className={styles.addOption} onClick={() => addOption()}>บันทึก</button>
+                    </div>
+                </div>
+            </div>
+        )
+    } else {
+        return null;
+    }
+}
+
+const ModalEdit = ({ modalEdit, values, setFieldValue, handleChangeImgAdd, addOption }) => {
+    if (modalEdit === values.modalEdit) {
+        return (
+            <div className={styles.modal} style={{ display: values.modalEdit ? "block" : "none" }}>
+                <div className={styles.modalContent}>
+                    <div>
+                        <span className={styles.close} onClick={() => setFieldValue("modalEdit", false, false)}>&times;</span>
+                    </div>
+                    <div className={styles.rowInModal}>
+                        <Field name="editShape" className={styles.text} placeholder="ชื่อตัวเลือก" />
+                    </div>
+                    <div>
+                        <div className={styles.rowInModal}>
+                            {/* <input type="file" id="file" onChange={(e) => handleChange(e)} /> */}
+                            <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>อัพโหลดไฟล์</label>
+                        </div>
+                    </div>
+                    <div className={`${styles.floatRight} ${styles.rowInModal}`}>
+                        <button type="button" className={styles.removeOption}>ลบ</button>
+                        <button type="button" className={styles.editOption}>แก้ไข</button>
+                    </div>
+                </div>
+            </div>
+        )
+    } else {
+        return null;
+    }
+}
+
+const ModalAddNoImg = ({ modalAdd, values, setFieldValue, addOption }) => {
+    // console.log(">>", modalAdd)
+    if (modalAdd === values.modalAdd) {
+        return (
+            <div className={styles.modal} style={{ display: values.modalAdd ? "block" : "none" }}>
+                <div className={styles.modalContent}>
+                    <div>
+                        <span className={styles.close} onClick={() => setFieldValue("modalAdd", "", false)}>&times;</span>
+                    </div>
+                    <div className={styles.rowInModal}>
+                        <Field name={`${values.modalAdd}Text`} className={styles.text} placeholder="จำนวนชิ้น" onChange={(e) => {
+                            setFieldValue(`${values.modalAdd}Text`, e.target.value, false)
+                        }} />
+                    </div>
+                    <div className={styles.rowInModal}>
+                        <Field name={`${values.modalAdd}Text`} className={styles.text} placeholder="ราคา" onChange={(e) => {
+                            setFieldValue(`${values.modalAdd}Text`, e.target.value, false)
+                        }} />
+                    </div>
+                    <div className={`${styles.floatRight} ${styles.rowInModal}`}>
+                        <button type="button" className={styles.addOption} onClick={() => addOption()}>บันทึก</button>
+                    </div>
+                </div>
+            </div>
+        )
+    } else {
+        return null;
+    }
+}
+
+
+// Done
+const ModalAddShipping = ({ modalAdd, values, setFieldValue, addOptionShipping }) => {
+    // console.log(">>", modalAdd)
+    if (modalAdd === values.modalAdd) {
+        // console.log(">>", modalAdd)
+        return (
+            <div className={styles.modal} style={{ display: values.modalAdd ? "block" : "none" }}>
+                <div className={styles.modalContent}>
+                    <div>
+                        <span className={styles.close} onClick={() => setFieldValue("modalAdd", "", false)}>&times;</span>
+                    </div>
+                    <div className={styles.rowInModal}>
+                        <Field name={`${values.modalAdd}Courier`} className={styles.text} placeholder="ผู้จัดส่ง" />
+                    </div>
+                    <div className={styles.rowInModal}>
+                        <Field name={`${values.modalAdd}Duration`} className={styles.text} placeholder="ระยะเวลาการจัดส่ง" />
+                    </div>
+                    <div className={styles.rowInModal}>
+                        <Field name={`${values.modalAdd}Rate`} className={styles.text} placeholder="ราคา" />
+                    </div>
+                    <div className={`${styles.floatRight} ${styles.rowInModal}`}>
+                        <button type="button" className={styles.addOption} onClick={() => addOptionShipping()}>บันทึก</button>
+                    </div>
+                </div>
+            </div>
+        )
+    } else {
+        return null;
+    }
+}
+
+const ModalEditShipping = ({ modalEdit, values, setFieldValue, editOptionShipping }) => {
+    if (modalEdit === values.modalEdit) {
+        let shiped = values.shippingOption.find(shippingOption => shippingOption.myID === values.shippingID)
+        if (shiped) {
+            // setFieldValue(`${values.modalEdit}Courier`, shiped.courier, false);
+            // setFieldValue(`${values.modalEdit}Duration`, shiped.duration, false);
+            // setFieldValue(`${values.modalEdit}Rate`, shiped.rate, false);
+            return (
+                <div className={styles.modal} style={{ display: values.modalEdit ? "block" : "none" }}>
+                    <div className={styles.modalContent}>
+                        <div>
+                            <span className={styles.close} onClick={() => setFieldValue("modalEdit", "", false)}>&times;</span>
+                        </div>
+                        <div className={styles.rowInModal}>
+                            <input className={styles.text} value={shiped.courier} placeholder="ผู้จัดส่ง" onChange={(e) => {
+                                setFieldValue(`${values.modalEdit}Courier`, e.target.value, false)
+                            }}  />
+                        </div>
+                        <div className={styles.rowInModal}>
+                            <Field name={`${values.modalEdit}Duration`} className={styles.text} placeholder="ระยะเวลาการจัดส่ง" onChange={(e) => {
+                                setFieldValue(`${values.modalEdit}Duration`, e.target.value, false)
+                            }} />
+                        </div>
+                        <div className={styles.rowInModal}>
+                            <Field name={`${values.modalEdit}Rate`} className={styles.text} placeholder="ราคา" onChange={(e) => {
+                                setFieldValue(`${values.modalAdd}Rate`, e.target.value, false)
+                            }} />
+                        </div>
+                        <div className={`${styles.floatRight} ${styles.rowInModal}`}>
+                            <button type="button" className={styles.addOption} onClick={() => editOptionShipping()}>บันทึก</button>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+    } else {
+        return null;
+    }
+}
