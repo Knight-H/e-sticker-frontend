@@ -20,6 +20,7 @@ const PreviewImageComponent = () => {
     const sendMessage = () => {
         if (values.massage) {
             let data = {
+                "itemIndex": 0,
                 "messages": [
                     ...values.itemsList[values.expandCard].messages,
                     {
@@ -31,6 +32,7 @@ const PreviewImageComponent = () => {
                 ]
             }
             setFieldValue("massage", '', false)
+            console.log("values.myID", values.myID)
             axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/order/${values.myID}`, data)
                 .then(res => {
                     console.log("res", res);
