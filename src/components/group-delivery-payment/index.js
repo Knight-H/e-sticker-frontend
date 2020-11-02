@@ -7,7 +7,7 @@ import Scb from '../approve-layout/scb.jpg';
 import IconCircle from '../order-1-product-config/icon-circle.svg';
 
 const GroupDeliveryPaymentComponent = () => {
-    const { values, setFieldValue } = useFormikContext();
+    const { values } = useFormikContext();
 
     if (!values.shippingAddress) {
         return <div></div>
@@ -69,7 +69,7 @@ const GroupDeliveryPaymentComponent = () => {
                         <tbody>
                             <tr>
                                 <td colspan="3" className={styles.borderTop}>ค่าสินค้ารวม</td>
-                                <td className={styles.textRight}  className={styles.borderTop}>{values.itemsCost}฿</td>
+                                <td className={`${styles.textRight} ${styles.borderTop}`}>{values.itemsCost}฿</td>
                             </tr>
                             <tr>
                                 <td colspan="3">ค่าจัดส่ง</td>
@@ -77,7 +77,7 @@ const GroupDeliveryPaymentComponent = () => {
                             </tr>
                             <tr>
                                 <td colspan="3"  className={styles.borderBottom}>ภาษี 7%</td>
-                                <td className={styles.textRight} className={styles.borderBottom}>{values.vatCost}฿</td>
+                                <td className={`${styles.textRight} ${styles.borderBottom}`}>{values.vatCost}฿</td>
                             </tr>
                         </tbody>
                         <tfoot>

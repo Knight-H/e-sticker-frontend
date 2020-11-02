@@ -48,7 +48,7 @@ const AdminComponent = (props) => {
     }, [])
 
 
-    if (Array.isArray(orderData)){
+    if (Array.isArray(orderData)) {
         orderData.map((dataObjectMapped) => {
             if (dataObjectMapped.status === statusFilter.DONE) { countOrder.DONE = countOrder.DONE + 1; }
             else if (dataObjectMapped.status === statusFilter.DOING) { countOrder.DOING = countOrder.DOING + 1; }
@@ -61,7 +61,7 @@ const AdminComponent = (props) => {
     return (
         <React.Fragment>
             <section className={styles.section1}>
-                <AdminKpi kpi={{"order":10, "sales":1234567, "member": 1000}}/>
+                <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>
             <section className={styles.section2}>
                 <div className={`${styles.containerCol} ${styles.containerMargin}`}>
@@ -120,37 +120,41 @@ const AdminComponent = (props) => {
                     <tbody>{(() => {
                         if (orderData === null) return
                         return orderData.map((dataObjectMapped) => {
+                            // console.log(dataObjectMapped)
+                            if (dataObjectMapped.orderID) {
+                                var statusOrder = styles.statusCancel;
+                                var textSearchMatch = dataObjectMapped.orderID.match(textSearch['search']);
 
-                            var statusOrder = styles.statusCancel;
-                            var textSearchMatch = dataObjectMapped.orderID.match(textSearch['search']);
+                                if (dataObjectMapped.status === statusFilter.DONE) { statusOrder = styles.statusDone; }
+                                else if (dataObjectMapped.status === statusFilter.DOING) { statusOrder = styles.statusDoing; }
+                                else if (dataObjectMapped.status === statusFilter.CANCEL) { statusOrder = styles.statusCancel; }
 
-                            if (dataObjectMapped.status === statusFilter.DONE) { statusOrder = styles.statusDone; }
-                            else if (dataObjectMapped.status === statusFilter.DOING) { statusOrder = styles.statusDoing; }
-                            else if (dataObjectMapped.status === statusFilter.CANCEL) { statusOrder = styles.statusCancel; }
-
-                            if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)) {
-                                console.log("hi", dataObjectMapped)
-                                return (
-                                    <tr key={dataObjectMapped.orderID}>
-                                        <td>{dataObjectMapped.timestamp}</td>
-                                        <td>{dataObjectMapped.orderID}</td>
-                                        <td>{dataObjectMapped.customerID}</td>
-                                        <td>{dataObjectMapped.shippingAddress.fullname}</td>
-                                        <td>{dataObjectMapped?.phone}</td>
-                                        <td>{dataObjectMapped?.itemsList?.length || 0}</td>
-                                        <td>{dataObjectMapped.totalCost}</td>
-                                        <td>
-                                            <div className={`${styles.statusAdmin} ${styles.statusCenter} ${statusOrder}`}>
-                                                {dataObjectMapped.status}
-                                            </div>
-                                        </td>
-                                        <td>{dataObjectMapped.shippingNumber}</td>
-                                        <td>{dataObjectMapped?.reposiable_name}</td>
-                                        <td><Link to={"/admin/myorder?order_id=" + dataObjectMapped.orderID}>จัดการ</Link></td>
-                                    </tr>
-                                )
-                            }
-                            else {
+                                if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)) {
+                                    // console.log("hi", dataObjectMapped)
+                                    return (
+                                        <tr key={dataObjectMapped.orderID}>
+                                            <td>{dataObjectMapped.timestamp}</td>
+                                            <td>{dataObjectMapped.orderID}</td>
+                                            <td>{dataObjectMapped.customerID}</td>
+                                            <td>{dataObjectMapped.shippingAddress.fullname}</td>
+                                            <td>{dataObjectMapped?.phone}</td>
+                                            <td>{dataObjectMapped?.itemsList?.length || 0}</td>
+                                            <td>{dataObjectMapped.totalCost}</td>
+                                            <td>
+                                                <div className={`${styles.statusAdmin} ${styles.statusCenter} ${statusOrder}`}>
+                                                    {dataObjectMapped.status}
+                                                </div>
+                                            </td>
+                                            <td>{dataObjectMapped.shippingNumber}</td>
+                                            <td>{dataObjectMapped?.reposiable_name}</td>
+                                            <td><Link to={"/admin/myorder?order_id=" + dataObjectMapped.orderID}>จัดการ</Link></td>
+                                        </tr>
+                                    )
+                                }
+                                else {
+                                    return null
+                                }
+                            } else {
                                 return null
                             }
                         })

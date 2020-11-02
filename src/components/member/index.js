@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from 'react-router-dom'
+
 import styles from './index.module.scss';
 import { ReactComponent as IconArrow } from './icon-arrow.svg';
 import LocationFieldsComponent from '../location-fields';
-import LoginCredentialsComponent, { LoginCredentialsComponent2 } from '../login-credentials';
+import { LoginCredentialsComponent2 } from '../login-credentials';
 import AdminKpi from '../admin-kpi';
 import { Formik, Field, Form, withFormik } from "formik";
 import { dummyHandleSubmit, dummyValidateError, DummyDiv, axiosInst } from "../common-scss/common"
@@ -14,7 +15,7 @@ import { auth } from "../../firebase";
 import Firebase from 'firebase'
 import qs from 'qs'
 
-import axios from 'axios'
+// import axios from 'axios'
 import { i18_th as i18 } from "../common-scss/i18_text";
 
 // const useInputChange = () => {
@@ -294,34 +295,34 @@ let MemberComponent = (props) => {
 }
 
 
-const EnhancedMemberComponent = withFormik({
-    mapPropsToValues: () => ({
+// const EnhancedMemberComponent = withFormik({
+//     mapPropsToValues: () => ({
 
-        email: '',
-        phone: '',
-        address: '',
-        fullname: '',
+//         email: '',
+//         phone: '',
+//         address: '',
+//         fullname: '',
 
-        district: '',
-        zone: '',
-        provice: '',
-        zip: '',
+//         district: '',
+//         zone: '',
+//         provice: '',
+//         zip: '',
 
-        accountState: 0
-    }),
-    validate: (values) => {
-        const errors = {}
+//         accountState: 0
+//     }),
+//     validate: (values) => {
+//         const errors = {}
 
-        // TODO add validation for the values
+//         // TODO add validation for the values
 
-        return errors
-    },
-    handleSubmit: (values) => {
-        setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-        }, 0)
-    }
-})(MemberComponent)
+//         return errors
+//     },
+//     handleSubmit: (values) => {
+//         setTimeout(() => {
+//             alert(JSON.stringify(values, null, 2))
+//         }, 0)
+//     }
+// })(MemberComponent)
 
 // MemberComponent = EnhancedMemberComponent
 // let memberComponent = MemberComponent

@@ -30,8 +30,8 @@ const MemberListComponent = (props) => {
         ACTIVE: 0,
         BAN: 0,
     }
-    var dateNow = new Date();
-    var monthNow = dateNow.getMonth();
+    // var dateNow = new Date();
+    // var monthNow = dateNow.getMonth();
 
     const [customerArr, setCustomerArr] = useState([])
     useEffect(() => {

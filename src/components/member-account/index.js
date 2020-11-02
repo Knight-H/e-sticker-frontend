@@ -8,7 +8,7 @@ import { Form, Field, withFormik } from 'formik'
 
 import { i18_th as i18 } from '../common-scss/i18_text'
 import { axiosInst } from '../common-scss/common'
-import { db, auth } from "../../firebase";
+import { auth } from "../../firebase";
 import Firebase from 'firebase'
 
 

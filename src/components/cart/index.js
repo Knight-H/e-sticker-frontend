@@ -8,7 +8,6 @@ import TaxFieldsComponent from '../tax-fields';
 import fake_data from "./fake-api.json";
 import styles from './index.module.scss';
 import logoCreditCard from './credit.png';
-import img_product from './workplace.jpg';
 import logoBangkokBank from './BangkokBank.png';
 import logoKrungthaiBank from './KrungthaiBank.jpg';
 import logoSiamCommercialBank from './SiamCommercialBank.jpg';

@@ -1,54 +1,54 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from './index.module.scss';
-import { ReactComponent as IconArrow } from './icon-arrow.svg';
-import LocationFieldsComponent from '../location-fields';
-import LoginCredentialsComponent from '../login-credentials';
+// import { ReactComponent as IconArrow } from './icon-arrow.svg';
+// import LocationFieldsComponent from '../location-fields';
+// import LoginCredentialsComponent from '../login-credentials';
 import AdminKpi from '../admin-kpi'
-import { EnhancedLoginComponent } from '../member/index'
+// import { EnhancedLoginComponent } from '../member/index'
 
-import { dummyHandleSubmit } from '../common-scss/common'
-import { i18_th } from '../common-scss/i18_text'
-import { Field, withFormik, ErrorMessage, Form } from "formik";
+// import { dummyHandleSubmit } from '../common-scss/common'
+// import { i18_th } from '../common-scss/i18_text'
+// import { Field, withFormik, Form } from "formik";
 
 import { Intermediate } from '../member-account'
 
-let EnhancedLocationFieldsNoAccStatus = withFormik({
-    enableReinitialize: true,
-    mapPropsToValues: (props) => {
+// let EnhancedLocationFieldsNoAccStatus = withFormik({
+//     enableReinitialize: true,
+//     mapPropsToValues: (props) => {
 
-        return {
-            email: props.email || '',
-            phone: '',
-            address: '',
-            fullname: '',
+//         return {
+//             email: props.email || '',
+//             phone: '',
+//             address: '',
+//             fullname: '',
 
-            district: '',
-            zone: '',
-            provice: '',
-            zip: '',
-        }
-    },
-    validate: (values) => {
-        const errors = {}
+//             district: '',
+//             zone: '',
+//             provice: '',
+//             zip: '',
+//         }
+//     },
+//     validate: (values) => {
+//         const errors = {}
 
-        console.log(values)
-        Object.entries(values).forEach(([fieldName, fieldValue]) => {
-            if (!fieldValue) {
-                errors[fieldName] = i18_th.required
-            }
-        })
+//         console.log(values)
+//         Object.entries(values).forEach(([fieldName, fieldValue]) => {
+//             if (!fieldValue) {
+//                 errors[fieldName] = i18_th.required
+//             }
+//         })
 
-        return errors
-    },
-    handleSubmit: dummyHandleSubmit
-})((props) => {
-    return (
-        <Form className={styles.userInfo}>
-            <LocationFieldsComponent onlyLocation={false} {...props} />
-            <Field name="submit" type="submit" className={styles.greenButton} value="บันทึก" />
-        </Form>
-    )
-})
+//         return errors
+//     },
+//     handleSubmit: dummyHandleSubmit
+// })((props) => {
+//     return (
+//         <Form className={styles.userInfo}>
+//             <LocationFieldsComponent onlyLocation={false} {...props} />
+//             <Field name="submit" type="submit" className={styles.greenButton} value="บันทึก" />
+//         </Form>
+//     )
+// })
 
 
 let MemberSettingComponent = (props) => {
@@ -85,7 +85,7 @@ let MemberSettingComponent = (props) => {
     //     })
     //     setFieldValue
     // }, [currentEmail])
-    const currentEmail = "123@123.123"
+    // const currentEmail = "123@123.123"
 
     return (
         <main className={styles.pageContainer}>
