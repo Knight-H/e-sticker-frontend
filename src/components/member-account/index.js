@@ -161,7 +161,7 @@ const EnchancedLocationFieldsComponent = withFormik({
                     phone: customerInfo?.phone || ''
                 }
 
-                console.log("prep cust info")
+                console.log("prep cust info", customerSchemaInfo)
 
                 // console.log("asdf", customerSchemaInfo)
 
