@@ -130,7 +130,7 @@ const AdminComponent = (props) => {
                                 else if (dataObjectMapped.status === statusFilter.CANCEL) { statusOrder = styles.statusCancel; }
 
                                 if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)) {
-                                    // console.log("hi", dataObjectMapped)
+                                    console.log("hi", dataObjectMapped)
                                     return (
                                         <tr key={dataObjectMapped.orderID}>
                                             <td>{dataObjectMapped.timestamp}</td>
@@ -147,7 +147,7 @@ const AdminComponent = (props) => {
                                             </td>
                                             <td>{dataObjectMapped.shippingNumber}</td>
                                             <td>{dataObjectMapped?.reposiable_name}</td>
-                                            <td><Link to={"/admin/myorder?order_id=" + dataObjectMapped.orderID}>จัดการ</Link></td>
+                                            <td><Link to={"/admin/myorder?myID=" + dataObjectMapped.myID}>จัดการ</Link></td>
                                         </tr>
                                     )
                                 }
