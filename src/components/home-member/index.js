@@ -85,7 +85,7 @@ const HomeMemberComponent = (props) => {
                         return (
                             <article className={styles.borderCard}>
                                 <h1 className={styles.title}>ออเดอร์หมายเลข {fakeAPI.orderID}</h1>
-                                <LabelSatus status={fakeAPI.shippingStatus} />
+                                <LabelSatus status={fakeAPI.status} />
                                 <table>
                                     {fakeAPI.itemsList && fakeAPI.itemsList.map((list) => (
                                         <tr>
