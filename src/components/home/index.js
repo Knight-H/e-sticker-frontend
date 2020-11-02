@@ -114,8 +114,10 @@ const HomeComponent = (props) => {
 
                 </section>
 
-                <section id="ourWorks" ref={ourWorks} className={styles.section3}>
+                <section id="ourWorks" ref={ourWorks} className={styles.section3Title}>
                     <h2>ผลงานของเรา</h2>
+                </section>
+                <section id="ourWorks" ref={ourWorks} className={styles.section3}>
                     <div className={styles.cardWrapper}>
                         <div className={styles.card}>
                             กระดาษ Art
