@@ -38,6 +38,7 @@ const PreviewImageComponent = () => {
                                 axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data)
                                     .then(res => {
                                         console.log("res", res);
+                                        setFieldValue("fetchMsg", true, false);
                                     }).catch(function (err) {
                                         console.log("err", err)
                                     })
@@ -67,6 +68,7 @@ const PreviewImageComponent = () => {
             axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data)
                 .then(res => {
                     console.log("res", res);
+                    setFieldValue("fetchMsg", true, false);
                 }).catch(function (err) {
                     console.log("err", err)
                 })

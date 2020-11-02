@@ -40,6 +40,8 @@ const ApproveLayoutComponent = (props) => {
                             setFieldValue("shippingCost", res.data.shippingCost, false);
                             setFieldValue("vatCost", res.data.vatCost, false);
                             setFieldValue("totalCost", res.data.totalCost, false);
+
+                            setFieldValue("fetchMsg", false, false);
                         }).catch(function (err) {
                             console.log("err", err)
                         })
@@ -55,7 +57,7 @@ const ApproveLayoutComponent = (props) => {
                     })
             }
         })
-    }, []);
+    }, [values.fetchMsg]);
 
 
     const searchOrderNumber = () => {
@@ -124,6 +126,7 @@ const EnhancedApproveLayoutComponent = withFormik({
         itemsList: [],
 
         allOrder: [],
+        fetchMsg: false
     })
 })(ApproveLayoutComponent);
 
