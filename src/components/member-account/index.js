@@ -132,7 +132,7 @@ const EnchancedLocationFieldsComponent = withFormik({
         auth.onAuthStateChanged((user) => {
             axiosInst.get(api.customers + "/" + user.uid).then((res) => {
 
-                console.log(res)
+                console.log(res.data)
 
                 const customerInfo = {}
                 Object.assign(customerInfo, { customerID: user.uid }) // ensure customerID exists
@@ -150,16 +150,18 @@ const EnchancedLocationFieldsComponent = withFormik({
                 const customerSchemaInfo = {
                     Email: customerInfo?.email || '',
                     shippingAddress: {
-                        address: customerInfo?.shippingAddress?.address || '',
-                        zip: customerInfo?.shippingAddress?.zip || '',
-                        city: customerInfo?.shippingAddress?.zone || '',
-                        county: customerInfo?.shippingAddress?.district || '',
-                        provice: customerInfo?.shippingAddress?.provice || '',
-                        fullname: customerInfo?.shippingAddress?.fullname || '',
+                        address: customerInfo.address || '',
+                        zip: customerInfo.zip || '',
+                        city: customerInfo.zone || '',
+                        county: customerInfo.district || '',
+                        provice: customerInfo.provice || '',
+                        fullname: customerInfo.fullname || '',
                     },
                     fullname: customerInfo?.fullname || '',
                     phone: customerInfo?.phone || ''
                 }
+
+                console.log("prep cust info")
 
                 // console.log("asdf", customerSchemaInfo)
 
@@ -226,14 +228,14 @@ export const Intermediate = () => {
                 // Temporary for filtering the customer data
                 const custInfo = res.data
 
-                console.log(res)
+                console.log("got cust info", custInfo)
 
                 const formikSchema = {
                     email: custInfo.Email || userCredential.email,
 
                     address: custInfo?.shippingAddress?.address || '',
                     zip: custInfo?.shippingAddress?.zip || '',
-                    zone: custInfo?.shippingAddress?.zone || '',
+                    zone: custInfo?.shippingAddress?.county || '',
                     district: custInfo?.shippingAddress?.county || '',
                     provice: custInfo?.shippingAddress?.provice || '',
 
