@@ -38,8 +38,8 @@ function App() {
                 <Route path="/admin/myorder" exact component={AdminOrderComponent} />
 
                 <Route path="/member" exact component={HomeMemberComponent} />
-                <Route path="/checkout" exact component={CheckoutComponent} />
-                <Route path="/cart" exact component={CartComponent} />
+                <Route path="/cart" exact component={CheckoutComponent} />
+                <Route path="/checkout" exact component={CartComponent} />
                 <Route path="/form_step_shopping" exact component={FormStepShopping} />
 
                 <Route path="/admin" exact component={AdminListComponent} />
