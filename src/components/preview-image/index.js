@@ -14,33 +14,56 @@ const PreviewImageComponent = () => {
         if (event.target.files) {
             setFieldValue("uploadFileStrickerForFirebase", event.target.files[0], false);
             setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), true);
+
+            storageRef.child(`${user.uid}/${timeStamp}-${event.target.files[0].name}`).put(event.target.files[0])
+                .then((snapshot) => {
+                    snapshot.ref.getDownloadURL().then((url) => {
+
+                        let data = {
+                            "itemIndex": values.expandCard,
+                            "msg": {
+                                "by": "customer",
+                                "content": values.massage,
+                                // "timestamp": "5 Oct 2020",
+                                "info": `${event.target.files[0].name}`,
+                                "type": "file"
+                            }
+                        }
+                        setFieldValue("massage", '', false)
+
+                        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data)
+                            .then(res => {
+                                console.log("res", res);
+                            }).catch(function (err) {
+                                console.log("err", err)
+                            })
+
+                    });
+                }
+                );
+
         }
     }
 
     const sendMessage = () => {
         if (values.massage) {
             let data = {
-                "itemIndex": 0,
-                "messages": [
-                    ...values.itemsList[values.expandCard].messages,
-                    {
-                        "by": "customer",
-                        "content": values.massage,
-                        // "timestamp": "5 Oct 2020",
-                        "type": "text"
-                    }
-                ]
+                "itemIndex": values.expandCard,
+                "msg": {
+                    "by": "customer",
+                    "content": values.massage,
+                    // "timestamp": "5 Oct 2020",
+                    "type": "text"
+                }
             }
             setFieldValue("massage", '', false)
-            console.log("values.myID", values.myID)
-            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/order/${values.myID}`, data)
+            // console.log("values.myID", values.myID)
+            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data)
                 .then(res => {
                     console.log("res", res);
                 }).catch(function (err) {
                     console.log("err", err)
                 })
-        } else {
-
         }
     }
 

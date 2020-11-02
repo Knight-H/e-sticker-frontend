@@ -28,7 +28,7 @@ const ApproveLayoutComponent = (props) => {
                     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
                         .then(res => {
                             console.log("res.data", res.data)
-                            setFieldValue("myID", res.data.myID, false);
+                            setFieldValue("myID", myID, false);
 
                             setFieldValue("orderID", res.data.orderID, false);
                             setFieldValue("status", res.data.status, false);
