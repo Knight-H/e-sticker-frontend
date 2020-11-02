@@ -45,8 +45,8 @@ export const EnhancedMemberLoginComponent = withFormik({
         auth
             .signInWithEmailAndPassword(values.email, values.password)
             .then((res) => {
-                alert(i18_th.login_successful)
-                props.history.push("/")
+                // alert(i18_th.login_successful)
+                props.history.push("/customize")
             })
             .catch((error) => {
                 alert(i18_th.login_failed)
