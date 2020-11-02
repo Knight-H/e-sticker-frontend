@@ -92,7 +92,7 @@ const MemberListComponent = (props) => {
                 <table>
                     <thead>
                         <tr>
-                            <th>เลขที่สมาชิก</th>
+                            {/* <th>เลขที่สมาชิก</th> */}
                             <th>ชื่อ นามสกุล</th>
                             <th>เบอร์โทรศัพท์</th>
                             <th>อีเมล</th>
@@ -120,7 +120,7 @@ const MemberListComponent = (props) => {
 
                             if ((selectStatus === dataObjectMapped.status || selectStatus == statusFilter.ALL) && (textSearchMatch !== null)) {
                                 return (<tr>
-                                    <td>{dataObjectMapped.customerID}</td>
+                                    {/* <td>{dataObjectMapped.customerID}</td> */}
                                     <td>{dataObjectMapped.fullname}</td>
                                     <td>{dataObjectMapped.phone}</td>
                                     <td>{dataObjectMapped.email}</td>
