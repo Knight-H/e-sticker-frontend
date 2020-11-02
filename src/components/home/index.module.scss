@@ -315,6 +315,26 @@
     }
 }
 
+.section3Title {
+    background: #009473;
+    // padding-top: 2vh;
+    // height: 491px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: scroll;
+    h2 {
+        color: #FFFFFF;
+        font-family: SarabunBold;
+        font-size: calc(16px + 0.5vw);
+        text-align: center;
+
+        margin-top: 30px;
+        margin-bottom: 30px;
+        // font-weight: normal;
+
+    }
+}
+
 .section3 {
     background: #009473;
     // padding-top: 2vh;
