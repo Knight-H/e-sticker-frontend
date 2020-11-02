@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StepProgress from "../step_progress";
 import styles from './index.module.scss';
 import { Field, Form, ErrorMessage } from 'formik';
@@ -7,8 +7,18 @@ import { useFormikContext } from 'formik';
 import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
 
 const Order1ProductConfigComponent = (props) => {
-    const [selectStep ] = useState(1);
+    const [selectStep] = useState(1);
     const { values, setFieldValue } = useFormikContext();
+
+    useEffect(() => {
+        if (values.material) {
+            values.optionMaterial.map((data) => {
+                if (data.name === values.material) {
+                    setFieldValue("optionCoat", data.coating, false);
+                }
+            })
+        }
+      }, [values.material]);
 
     return (
         <main>
@@ -23,30 +33,43 @@ const Order1ProductConfigComponent = (props) => {
                     <Form>
                         <div className={styles.dropdownSelect}>
                             <label htmlFor="stickerConfiguration">รูปแบบสติกเกอร์<ErrorMessage name="shape" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="shape" values={values} options={[values.optionShape]} setFieldValue={setFieldValue} />
-                        </div>
-
-                        <div className={styles.dropdownSelect}>
-                            <label htmlFor="material">เนื้อวัสดุ<ErrorMessage name="material" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="material" values={values} options={[
-                                {
-                                    image: values.optionMaterial.imgUrl,
-                                    name: values.optionMaterial.name
-                                }
-                            ]} />
-                        </div>
-
-                        <div className={styles.dropdownSelect}>
-                            <label htmlFor="coating">การเคลือบผิว<ErrorMessage name="coat" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="coat" values={values} options={
-                                values.material === "กระดาษ Art" ? values.optionMaterial.coating.map((data) => {
+                            <SelectBox name="shape" values={values} options={
+                                values.optionShape.map((data) => {
                                     return (
                                         {
                                             image: data.imgUrl,
                                             name: data.name
                                         }
                                     )
-                                }) : []
+                                })
+                                } />
+                        </div>
+
+                        <div className={styles.dropdownSelect}>
+                            <label htmlFor="material">เนื้อวัสดุ<ErrorMessage name="material" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="material" values={values} options={
+                                values.optionMaterial.map((data) => {
+                                    return (
+                                        {
+                                            image: data.imgUrl,
+                                            name: data.name
+                                        }
+                                    )
+                                })
+                            } />
+                        </div>
+
+                        <div className={styles.dropdownSelect}>
+                            <label htmlFor="coating">การเคลือบผิว<ErrorMessage name="coat" render={msg => <span className="error">{msg}</span>} /></label>
+                            <SelectBox name="coat" values={values} options={
+                                values.optionCoat.map((coat) => {
+                                    return (
+                                        {
+                                            image: coat.imgUrl,
+                                            name: coat.name
+                                        }
+                                    )
+                                })
                             } />
                         </div>
 
@@ -69,11 +92,11 @@ const Order1ProductConfigComponent = (props) => {
                             {values.optionUnitOptions.map((data, index) => {
                                 return (
                                     <button type="button" className={`${styles.btnSelect} ${values.setActive === index && styles.active}`}
-                                    onClick={() => {
-                                        setFieldValue("setActive", index, false)
-                                        setFieldValue("price", data.price, true)
-                                        setFieldValue("units", data.unit, true)
-                                    }}>{data.unit}ชิ้น/{data.price}บาท</button> 
+                                        onClick={() => {
+                                            setFieldValue("setActive", index, false)
+                                            setFieldValue("price", data.price, true)
+                                            setFieldValue("units", data.unit, true)
+                                        }}>{data.unit}ชิ้น/{data.price}บาท</button>
                                 )
                             })}
                         </div>
@@ -90,7 +113,6 @@ export default Order1ProductConfigComponent;
 
 const SelectBox = ({ values, name, options }) => {
     const { setFieldValue } = useFormikContext();
-
     if (values.checkLoadOption) {
         return (
             <div className={styles.selectBox}>
