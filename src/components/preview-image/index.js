@@ -69,14 +69,14 @@ const PreviewImageComponent = () => {
                                     }
                                 </article>//<img src={listMsg.content} alt="content" />
                             )
-                        } else if (listMsg.type === "file") {
+                        } else {
                             return (
                                 <article className={`${styles.newMsg} ${listMsg.by === "customer" && styles.flexEnd}`}>
                                     {listMsg.by === "customer" ?
                                         <>
                                             <p className={styles.massage}>
                                                 <label className={styles.fileMsg}>ตัวอย่างงาน.png</label>
-                                                <a className={styles.dowloadFileMsg} href={listMsg.content} target="_blank" downloadFile>ดาวน์โหลด.</a>
+                                                <a className={styles.dowloadFileMsg} href={listMsg.content} downloadFile>ดาวน์โหลด.</a>
                                             </p>
                                             <div className={styles.groupUser}>
                                                 <IconCircle />

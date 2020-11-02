@@ -109,53 +109,6 @@ const EnhancedAdminOrderComponent = withFormik({
 
 export default EnhancedAdminOrderComponent;
 
-const fakeAPI = [
-    {
-        orderNumber: "DW0001",
-        status: 1,
-        // image: ???
-        itemsList: [
-            {
-                orderID: "ITM00001",
-                shape: 'สติกเกอร์แบบกลม',
-                material: 'กระดาษอาร์ต',
-                coat: 'เคลือบด้าน',
-                cutting: 'กินเนื้อ 1 มม.',
-                width: '10',
-                height: '20',
-                units: '300',
-                price: '500',
-                status: 1,
-
-                messages: [
-                    {
-                        type: "text",
-                        content: "สวัสดีครับ",
-                        info: "",
-                        by: "ลูกค้า"
-
-                    },
-                    {
-                        type: "text",
-                        content: "สวัสดีครับ",
-                        info: "",
-                        by: "พนักงาน"
-
-                    },
-                    {
-                        type: "text",
-                        content: "เด่วจะส่งแบบให้นะครับ",
-                        info: "",
-                        by: "ลูกค้า"
-
-                    }
-                ]
-            }
-        ]
-    }
-]
-
-
 const SelectBox = ({ values, name, options }) => {
     return (
         <div className={styles.selectBox}>
