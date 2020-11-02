@@ -32,6 +32,8 @@ const AdminNavBarComponent = ({ history }) => {
                             <li><Link onClick={() => {
                                 auth.signOut().then(response => {
                                     console.log("response", response)
+                                    setIsBurgerToggled(false)
+                                    history.push("/")
                                 })
                             }}
                                 to={{

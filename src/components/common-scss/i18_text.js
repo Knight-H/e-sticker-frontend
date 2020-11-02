@@ -30,8 +30,34 @@ export const i18_th = {
     account_information_update_success: "Information updated!",
     account_information_update_failed_general: "Update failed!",
 
-    account_my_account: "My Profile",
-    account_login: "Login",
+    account_my_account: "โปรไฟล์ของฉัน",
+    account_login: "เข้าสู่ระบบ",
     account_my_cart: "My Cart",
 }
 
+function language_mapper(lang_ISO639) {
+    switch (lang_ISO639) {
+        case "en":
+            return {
+                123: "wow"
+            }
+        default:
+            return {}
+    }
+}
+
+function _i18() {
+    const lang = {
+        success: {
+            id: 123
+        }
+    }
+
+    Object.keys(lang).forEach((key) => {
+        lang[key]["text"] = language_mapper("en")[lang[key]?.id]
+    })
+
+    return lang
+}
+
+console.log(_i18().success)
