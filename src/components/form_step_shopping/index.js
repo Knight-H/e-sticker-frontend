@@ -194,7 +194,7 @@ const EnhancedAppComponent = withFormik({
                       axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${res.data[0].myID}`, cloneRes)
                         .then(res => {
                           console.log("res", res);
-                          props.history.push("/cart")
+                          props.history.push("/checkout")
                         }).catch(function (err) {
                           console.log("err", err.response)
                         })
