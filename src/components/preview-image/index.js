@@ -3,6 +3,8 @@ import styles from './index.module.scss';
 import { Field } from 'formik';
 import { useFormikContext } from 'formik';
 import axios from "axios";
+import firebaseApp from '../../firebase/index.js';
+import { auth } from '../../firebase/index.js';
 
 import { ReactComponent as IconCheckSVG } from '../approve-layout/icon-check.svg';
 import { ReactComponent as IconCircle } from '../order-1-product-config/icon-circle.svg';
@@ -12,33 +14,64 @@ const PreviewImageComponent = () => {
 
     const handleChange = event => {
         if (event.target.files) {
-            setFieldValue("uploadFileStrickerForFirebase", event.target.files[0], false);
-            setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), true);
+            const storageRef = firebaseApp.storage().ref();
+            let timeStamp = new Date().toISOString().slice(0, 10)
+            let file = event.target.files[0];
+
+            auth.onAuthStateChanged(user => {
+                if (user) {// User is signed in.
+                    storageRef.child(`${user.uid}/${timeStamp}-${file.name}`).put(file)
+                        .then((snapshot) => {
+                            snapshot.ref.getDownloadURL().then((url) => {
+
+                                let data = {
+                                    "itemIndex": values.expandCard,
+                                    "msg": {
+                                        "by": "customer",
+                                        "content": url,
+                                        // "timestamp": "5 Oct 2020",
+                                        "info": `${file.name}`,
+                                        "type": "file"
+                                    }
+                                }
+
+                                axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data)
+                                    .then(res => {
+                                        console.log("res", res);
+                                        setFieldValue("fetchMsg", true, false);
+                                    }).catch(function (err) {
+                                        console.log("err", err)
+                                    })
+
+                            });
+                        }
+                        );
+                }
+            })
+
         }
     }
 
     const sendMessage = () => {
         if (values.massage) {
             let data = {
-                "messages": [
-                    ...values.itemsList[values.expandCard].messages,
-                    {
-                        "by": "customer",
-                        "content": values.massage,
-                        // "timestamp": "5 Oct 2020",
-                        "type": "text"
-                    }
-                ]
+                "itemIndex": values.expandCard,
+                "msg": {
+                    "by": "customer",
+                    "content": values.massage,
+                    // "timestamp": "5 Oct 2020",
+                    "type": "text"
+                }
             }
             setFieldValue("massage", '', false)
-            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/order/${values.myID}`, data)
+            // console.log("values.myID", values.myID)
+            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data)
                 .then(res => {
                     console.log("res", res);
+                    setFieldValue("fetchMsg", true, false);
                 }).catch(function (err) {
                     console.log("err", err)
                 })
-        } else {
-
         }
     }
 
