@@ -23,7 +23,7 @@ const AdminOrderComponent = (props) => {
         let myID = urlParams.get('myID');
         console.log("myID", myID)
         if (!myID) {
-            props.history.push('/customize');
+            props.history.push('/admin');
         } else {
             axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
                 .then(res => {
