@@ -77,9 +77,11 @@ const HomeMemberComponent = (props) => {
             }}><IconLogout />ออกจากระบบ</label>
 
             <section className={styles.container}>
-
-                {values.objectOrder.map((fakeAPI) => {
+                {console.log("values", values.objectOrder)}
+                {values.objectOrder.length !== 0 ? values.objectOrder.map((fakeAPI) => {
+                    console.log("map")
                     if (fakeAPI) {
+                        console.log(">>>>")
                         return (
                             <article className={styles.borderCard}>
                                 <h1 className={styles.title}>ออเดอร์หมายเลข {fakeAPI.orderID}</h1>
@@ -102,7 +104,7 @@ const HomeMemberComponent = (props) => {
                             </article>
                         )
                     }
-                })}
+                }) : <p>ไม่มีรายการคำสั่งซื้อ</p>}
 
             </section>
         </main>
