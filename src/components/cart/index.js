@@ -16,6 +16,7 @@ import logoSiamCommercialBank from './SiamCommercialBank.jpg';
 import { auth } from '../../firebase/index.js';
 import axios from "axios";
 import { axiosInst } from '../common-scss/common'
+import { i18_th as i18 } from "../common-scss/i18_text";
 
 const CartComponent = () => {
     // API [GET] /order/
@@ -303,28 +304,28 @@ const EnhancedCartComponent = withFormik({
     }),
     validate: values => {
         const errors = {};
-        if (values.email === "") { errors.email = "Required" }
-        if (values.phone === "") { errors.phone = "Required" }
-        if (values.address === "") { errors.address = "Required" }
-        if (values.fullname === "") { errors.fullname = "Required" }
-        if (values.county === "") { errors.county = "Required" }
-        if (values.zone === "") { errors.zone = "Required" }
-        if (values.provice === "") { errors.provice = "Required" }
-        if (values.zip === "") { errors.zip = "Required" }
-        if (values.orderID === "") { errors.orderID = "Required" }
-        if (values.priceTotal === "") { errors.priceTotal = "Required" }
-        if (values.shippingDate === "") { errors.shippingDate = "Required" }
-        if (values.payment === "") { errors.payment = "Required" }
+        if (values.email === "") { errors.email = i18.required }
+        if (values.phone === "") { errors.phone = i18.required }
+        if (values.address === "") { errors.address = i18.required }
+        if (values.fullname === "") { errors.fullname = i18.required }
+        if (values.county === "") { errors.county = i18.required }
+        if (values.zone === "") { errors.zone = i18.required }
+        if (values.provice === "") { errors.provice = i18.required }
+        if (values.zip === "") { errors.zip = i18.required }
+        if (values.orderID === "") { errors.orderID = i18.required }
+        if (values.priceTotal === "") { errors.priceTotal = i18.required }
+        if (values.shippingDate === "") { errors.shippingDate = i18.required }
+        if (values.payment === "") { errors.payment = i18.required }
 
         if (!values.checkedBoxInfo) {
-            if (values.tax_email === "") { errors.tax_email = "Required" }
-            if (values.tax_phone === "") { errors.tax_phone = "Required" }
-            if (values.tax_address === "") { errors.tax_address = "Required" }
-            if (values.tax_fullname === "") { errors.tax_fullname = "Required" }
-            if (values.tax_district === "") { errors.tax_district = "Required" }
-            if (values.tax_zone === "") { errors.tax_zone = "Required" }
-            if (values.tax_provice === "") { errors.tax_provice = "Required" }
-            if (values.tax_zip === "") { errors.tax_zip = "Required" }
+            if (values.tax_email === "") { errors.tax_email = i18.required }
+            if (values.tax_phone === "") { errors.tax_phone = i18.required }
+            if (values.tax_address === "") { errors.tax_address = i18.required }
+            if (values.tax_fullname === "") { errors.tax_fullname = i18.required }
+            if (values.tax_district === "") { errors.tax_district = i18.required }
+            if (values.tax_zone === "") { errors.tax_zone = i18.required }
+            if (values.tax_provice === "") { errors.tax_provice = i18.required }
+            if (values.tax_zip === "") { errors.tax_zip = i18.required }
         }
         else {
             values.tax_email = values.email;

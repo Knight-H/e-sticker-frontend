@@ -3,6 +3,8 @@ import AdminKpi from "../admin-kpi";
 import styles from './index.module.scss';
 import { Field, ErrorMessage, withFormik } from 'formik';
 
+import { i18_th as i18 } from '../common-scss/i18_text'
+
 
 const PasswordChangeComponent = (props) => {
     const {
@@ -43,13 +45,13 @@ const EnhancedPasswordChangeComponent = withFormik({
         const errors = {}
 
         if (values.password === "") {
-            errors.password = "Required"
+            errors.password = i18.required
         }
         else if (values.password_repeat === "") {
-            errors.password = "Required"
+            errors.password = i18.required
         }
         else if (values.password !== values.password_repeat) {
-            errors.password = "Different!"
+            errors.password = i18.password_repeat_different
         }
 
         return errors;

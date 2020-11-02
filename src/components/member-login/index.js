@@ -7,11 +7,11 @@ import styles from './index.module.scss';
 import LoginComponent from '../login';
 import { auth } from '../../firebase';
 import { dummyHandleSubmit } from "../common-scss/common";
-import { i18_th } from "../common-scss/i18_text";
+import { i18_th as i18 } from "../common-scss/i18_text";
 
 const MemberLoginComponent = (props) => {
 
-    return(
+    return (
         <main className={styles.container}>
             <Form>
                 <h2>มุมสมาชิก</h2>
@@ -30,18 +30,18 @@ export const EnhancedMemberLoginComponent = withFormik({
         const errors = {};
 
         if (values.email === "") {
-            errors.email = "Required"
+            errors.email = i18.required
         }
 
         if (values.password === "") {
-            errors.password = "Required"
+            errors.password = i18.required
         }
 
         return errors;
     },
     // handleSubmit: dummyHandleSubmit,
 
-    handleSubmit: (values, {props}) => {
+    handleSubmit: (values, { props }) => {
         auth
             .signInWithEmailAndPassword(values.email, values.password)
             .then((res) => {
