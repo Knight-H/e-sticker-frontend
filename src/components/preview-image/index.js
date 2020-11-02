@@ -54,10 +54,11 @@ const PreviewImageComponent = () => {
 
     const sendMessage = () => {
         if (values.massage) {
+            let url = window.location.pathname;
             let data = {
                 "itemIndex": values.expandCard,
                 "msg": {
-                    "by": "customer",
+                    "by": url.search("admin") !== -1 ? "admin" : "customer",
                     "content": values.massage,
                     // "timestamp": "5 Oct 2020",
                     "type": "text"
@@ -73,6 +74,22 @@ const PreviewImageComponent = () => {
                     console.log("err", err)
                 })
         }
+    }
+
+    const sendItemStatus = () => {
+        let data = {
+            "itemIndex": values.expandCard,
+            "status": "อนุมัติแบบ"
+        }
+        setFieldValue("massage", '', false)
+        console.log("data", data)
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemStatus/${values.myID}`, data)
+            .then(res => {
+                console.log("res", res);
+                setFieldValue("fetchMsg", true, false);
+            }).catch(function (err) {
+                console.log("err", err)
+            })
     }
 
     if (values.itemsList.length >= 1) {
@@ -135,8 +152,8 @@ const PreviewImageComponent = () => {
                 </div>
 
                 <div className={styles.inputBox}>
-                    {`${values.itemsList[values.expandCard].approveMethod}` === `รออนุมัติแบบ` &&
-                        <button type="button" onClick={() => alert(values.orderID.listOrder[values.expandCard].status)}><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>}
+                    {`${values.itemsList[values.expandCard].status}` === `รออนุมัติแบบ` &&
+                        <button type="button" onClick={() => sendItemStatus()}><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>}
                     <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." />
 
                     <div className={styles.btnGroup}>

@@ -12,29 +12,39 @@ import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
 
 import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
 
-const AdminOrderComponent = () => {
+const AdminOrderComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(3);
 
     // GET Orders From API
     useEffect(() => {
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
-          .then(res => {
-            // console.log("res.data[0]", res.data[0])
-            setFieldValue("orderID", res.data[0].orderID, false);
-            setFieldValue("status", res.data[0].status, false);
-            setFieldValue("itemsList", res.data[0].itemsList, false);
-            setFieldValue("shippingAddress", res.data[0].shippingAddress, false);
+        let url = window.location.search;
+        const urlParams = new URLSearchParams(url);
+        let myID = urlParams.get('myID');
+        console.log("myID", myID)
+        if (!myID) {
+            props.history.push('/customize');
+        } else {
+            axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
+                .then(res => {
+                    // console.log("res.data", res.data)
+                    setFieldValue("myID", myID, false);
 
-            setFieldValue("shippingCourier", res.data[0].shippingCourier, false);
-            setFieldValue("itemsCost", res.data[0].itemsCost, false);
-            setFieldValue("shippingCost", res.data[0].shippingCost, false);
-            setFieldValue("vatCost", res.data[0].vatCost, false);
-            setFieldValue("totalCost", res.data[0].totalCost, false);
-          }).catch(function (err) {
-            console.log("err", err)
-          })
-      }, []);
+                    setFieldValue("orderID", res.data.orderID, false);
+                    setFieldValue("status", res.data.status, false);
+                    setFieldValue("itemsList", res.data.itemsList, false);
+                    setFieldValue("shippingAddress", res.data.shippingAddress, false);
+
+                    setFieldValue("shippingCourier", res.data.shippingCourier, false);
+                    setFieldValue("itemsCost", res.data.itemsCost, false);
+                    setFieldValue("shippingCost", res.data.shippingCost, false);
+                    setFieldValue("vatCost", res.data.vatCost, false);
+                    setFieldValue("totalCost", res.data.totalCost, false);
+                }).catch(function (err) {
+                    console.log("err", err)
+                })
+        }
+    }, [values.fetchMsg]);
 
     return (
         <main className={styles.wrapContent}>
@@ -45,7 +55,7 @@ const AdminOrderComponent = () => {
 
             <h1 className={styles.title}>รายการออเดอร์</h1>
             <p>ออเดอร์หมายเลข #DW0001
-            <SelectBox name="editStatus" values={values} options={[
+            <SelectBox name="status" values={values} options={[
                     {
                         color: "orangeStatus",
                         name: STATUS_ORDERS_TYPE.DOING
@@ -71,7 +81,7 @@ const AdminOrderComponent = () => {
                         name: STATUS_ORDERS_TYPE.FINISH
                     }
                 ]} />
-                <button type="button" className={styles.btnWhite} onClick={() => alert(values.editStatus)}>บันทึก</button>
+                <button type="button" className={styles.btnWhite} onClick={() => alert(values.status)}>บันทึก</button>
             </p>
 
             <section className={styles.stepProgressBar}>
@@ -96,7 +106,7 @@ const AdminOrderComponent = () => {
 
 const EnhancedAdminOrderComponent = withFormik({
     mapPropsToValues: (props) => ({
-        editStatus: 0,
+        status: 0,
         massage: "",  //สำหรับ Chat Room
         orderNumber: "", //สำหรับค้นหาเลขที่ออเดอร์
         expandCard: 0, //สำหรับเลือกว่ากด Card ไหน
@@ -104,6 +114,8 @@ const EnhancedAdminOrderComponent = withFormik({
         orderID: [],
         status: [],
         itemsList: [],
+
+        fetchMsg: false
     })
 })(AdminOrderComponent);
 

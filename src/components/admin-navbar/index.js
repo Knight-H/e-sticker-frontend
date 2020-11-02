@@ -15,7 +15,7 @@ const AdminNavBarComponent = ({ history }) => {
     return (
         <header>
             <nav className={styles.navBar}>
-                <h1 className={styles.titleNavBar} onClick={() => history.push('/')}>Stickerwish Dashboard</h1>
+                <h1 className={styles.titleNavBar} onClick={() => history.push('/admin')}>Stickerwish Dashboard</h1>
 
                 {url !== "/admin-login" &&
                     <>

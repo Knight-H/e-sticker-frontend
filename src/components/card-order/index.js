@@ -23,7 +23,7 @@ const CardOrderComponent = (props) => {
                             <h4 className={styles.quality}>{listCard.units}ชิ้น</h4>
                             <h4 className={styles.price}>{listCard.price}฿</h4>
                         </div>
-                        <LabelSatus status={listCard.approveMethod} />
+                        <LabelSatus status={listCard.status} />
                     </div>
                 )
             })}
