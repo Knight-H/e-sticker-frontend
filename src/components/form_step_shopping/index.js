@@ -70,6 +70,7 @@ const EnhancedAppComponent = withFormik({
     checkLoadOption: false,
     optionShape: [],
     optionMaterial: [],
+    optionCoat: [],
     optionCuttingList: [],
     optionUnitOptions: [],
 

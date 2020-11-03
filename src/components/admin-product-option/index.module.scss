@@ -34,9 +34,15 @@
         margin-bottom: 10px;
     }
 
-    .btnOption, .btnListOption {
+    .btnRow {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .btnOption, .btnListOption, .btnListOption90, .btnEdit {
         display: flex;
         justify-content: center;
+        align-items: center;
 
         cursor: pointer;
 
@@ -52,9 +58,23 @@
         font-size: 14px;
     }
 
+    .btnListOption90 {
+        width: 75%;
+    }
+
+    .btnEdit {
+        padding: 3px 3px;
+        width: 25%;
+    }
+
     .btnOption:hover, .btnListOption:hover, .active {
         border: 1px solid #009473;
         background-color: #009473;
+        color: white;
+    }
+
+    .btnEdit:hover {
+        background-color: red;
         color: white;
     }
 
