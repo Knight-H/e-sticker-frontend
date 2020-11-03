@@ -20,6 +20,10 @@ const AdminComponent = (props) => {
     var statusFilter = {
         ALL: "แสดงทั้งหมด",
         DOING: "กำลังดำเนินการ",
+        PRODUCING: "กำลังผลิตสินค้า",
+        DILIVERING: "อยู่ระหว่างจัดส่ง",
+        REFUN: "ขอเงินคืน",
+        DONE_REFUN: "คืนเงินสำเร็จ",
         DONE: "เสร็จสิ้น",
         CANCEL: "ยกเลิก"
     }
@@ -50,9 +54,9 @@ const AdminComponent = (props) => {
 
     if (Array.isArray(orderData)) {
         orderData.map((dataObjectMapped) => {
-            if (dataObjectMapped.status === statusFilter.DONE) { countOrder.DONE = countOrder.DONE + 1; }
-            else if (dataObjectMapped.status === statusFilter.DOING) { countOrder.DOING = countOrder.DOING + 1; }
-            else if (dataObjectMapped.status === statusFilter.CANCEL) { countOrder.CANCEL = countOrder.CANCEL + 1; }
+            if (dataObjectMapped.status === statusFilter.DONE || dataObjectMapped.status === statusFilter.DONE_REFUN) { countOrder.DONE = countOrder.DONE + 1; }
+            else if (dataObjectMapped.status === statusFilter.DOING || dataObjectMapped.status === statusFilter.PRODUCING || dataObjectMapped.status === statusFilter.DILIVERING) { countOrder.DOING = countOrder.DOING + 1; }
+            else if (dataObjectMapped.status === statusFilter.CANCEL || dataObjectMapped.status === statusFilter.REFUN) { countOrder.CANCEL = countOrder.CANCEL + 1; }
             countOrder.ALL = countOrder.ALL + 1;
             return null;
         })
@@ -125,9 +129,9 @@ const AdminComponent = (props) => {
                                 var statusOrder = styles.statusCancel;
                                 var textSearchMatch = dataObjectMapped.orderID.match(textSearch['search']);
 
-                                if (dataObjectMapped.status === statusFilter.DONE) { statusOrder = styles.statusDone; }
-                                else if (dataObjectMapped.status === statusFilter.DOING) { statusOrder = styles.statusDoing; }
-                                else if (dataObjectMapped.status === statusFilter.CANCEL) { statusOrder = styles.statusCancel; }
+                                if (dataObjectMapped.status === statusFilter.DONE || dataObjectMapped.status === statusFilter.DONE_REFUN) { statusOrder = styles.statusDone; }
+                                else if (dataObjectMapped.status === statusFilter.DOING || dataObjectMapped.status === statusFilter.PRODUCING || dataObjectMapped.status === statusFilter.DILIVERING) { statusOrder = styles.statusDoing; }
+                                else if (dataObjectMapped.status === statusFilter.CANCEL || dataObjectMapped.status === statusFilter.REFUN) { statusOrder = styles.statusCancel; }
 
                                 if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)) {
                                     // console.log("hi", dataObjectMapped)

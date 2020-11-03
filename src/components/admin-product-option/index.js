@@ -5,6 +5,7 @@ import axios from "axios";
 
 import AdminKpi from "../admin-kpi";
 import firebaseApp from '../../firebase/index.js';
+import ModalShipping from './modalShipping.js';
 
 const AdminOrderComponent = () => {
     const { values, setFieldValue } = useFormikContext();
@@ -18,14 +19,16 @@ const AdminOrderComponent = () => {
                 setFieldValue("material", res.data[0].material, false);
                 setFieldValue("cuttingList", res.data[0].cuttingList, false);
                 setFieldValue("unitOptions", res.data[0].unitOptions, false);
+                setFieldValue("fetch", false, false);
             }).catch(function (err) {
                 console.log("err", err)
             })
 
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
             .then(res => {
-                console.log("res.data[0]", res.data)
+                // console.log("res.data[0]", res.data)
                 setFieldValue("shippingOption", res.data, false);
+                setFieldValue("fetch", false, false);
             }).catch(function (err) {
                 console.log("err", err)
             })
@@ -74,40 +77,6 @@ const AdminOrderComponent = () => {
             })
     }
 
-    const addOptionShipping = () => {
-        let data = {
-            "courier": values[`${values.modalAdd}Courier`],
-            "duration": values[`${values.modalAdd}Duration`],
-            "rate": values[`${values.modalAdd}Rate`]
-        }
-        // console.log(data)
-        axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`, data)
-            .then(res => {
-                console.log("res", res);
-                setFieldValue("fetch", true, false);
-                setFieldValue("modalAdd", '', false)
-            }).catch(function (err) {
-                console.log("err", err)
-            })
-    }
-
-    const editOptionShipping = () => {
-        // let data = {
-        //     "courier": values[`${values.modalAdd}Courier`],
-        //     "duration": values[`${values.modalAdd}Duration`],
-        //     "rate": values[`${values.modalAdd}Rate`]
-        // }
-        // // console.log(data)
-        //  axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`, data)
-        //                 .then(res => {
-        //                     console.log("res", res);
-        //                     setFieldValue("fetch", true, false);
-        //                     setFieldValue("modalAdd", '', false)
-        //                 }).catch(function (err) {
-        //                     console.log("err", err)
-        //                 })
-    }
-    console.log("`${values.modalEdit}Courier`", values[`${values.modalEdit}Courier`])
     return (
         <main className={styles.wrapContent}>
 
@@ -123,8 +92,8 @@ const AdminOrderComponent = () => {
                     <h4>รูปแบบสติกเกอร์</h4>
                     <div>
                         <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalShapeAdd", false)}>เพิ่ม</button>
-                        <ModalAdd modalAdd="modalShapeAdd" values={values} setFieldValue={setFieldValue}
-                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} />
+                        {/* <ModalAdd modalAdd="modalShapeAdd" values={values} setFieldValue={setFieldValue}
+                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
                     </div>
                     <div>
                         {values.shape.map((shape) => {
@@ -135,8 +104,8 @@ const AdminOrderComponent = () => {
                                 </button>
                             )
                         })}
-                        <ModalEdit modalEdit="modalShapeEdit" values={values} setFieldValue={setFieldValue}
-                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} />
+                        {/* <ModalEdit modalEdit="modalShapeEdit" values={values} setFieldValue={setFieldValue}
+                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
                     </div>
                 </article>
 
@@ -219,23 +188,21 @@ const AdminOrderComponent = () => {
                 <article className={styles.cardProductOption}>
                     <h4>รูปแบบการจัดส่ง</h4>
                     <div>
-                        <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalShippingAdd", false)}>เพิ่ม</button>
-                        <ModalAddShipping modalAdd="modalShippingAdd" values={values} setFieldValue={setFieldValue}
-                            addOptionShipping={addOptionShipping} />
+                        <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalShipping", "modalShippingAdd", false)}>เพิ่ม</button>
+                        <ModalShipping modalShipping="modalShippingAdd" values={values} setFieldValue={setFieldValue} />
                     </div>
                     <div>
                         {values.shippingOption.map((shipping) => {
                             return (
                                 <button type="button" className={styles.btnListOption} onClick={() => {
-                                    setFieldValue("modalEdit", "modalShippingEdit", false);
+                                    setFieldValue("modalShipping", "modalShippingEdit", false);
                                     setFieldValue("shippingID", shipping.myID, false);
                                 }}>
                                     {shipping.courier} {shipping.duration} วัน {shipping.rate}฿
                                 </button>
                             )
                         })}
-                        <ModalEditShipping modalEdit="modalShippingEdit" values={values} setFieldValue={setFieldValue}
-                            editOptionShipping={editOptionShipping} />
+                        <ModalShipping modalShipping="modalShippingEdit" values={values} setFieldValue={setFieldValue} />
                     </div>
                 </article>
             </section>
@@ -351,78 +318,6 @@ const ModalAddNoImg = ({ modalAdd, values, setFieldValue, addOption }) => {
                 </div>
             </div>
         )
-    } else {
-        return null;
-    }
-}
-
-
-// Done
-const ModalAddShipping = ({ modalAdd, values, setFieldValue, addOptionShipping }) => {
-    // console.log(">>", modalAdd)
-    if (modalAdd === values.modalAdd) {
-        // console.log(">>", modalAdd)
-        return (
-            <div className={styles.modal} style={{ display: values.modalAdd ? "block" : "none" }}>
-                <div className={styles.modalContent}>
-                    <div>
-                        <span className={styles.close} onClick={() => setFieldValue("modalAdd", "", false)}>&times;</span>
-                    </div>
-                    <div className={styles.rowInModal}>
-                        <Field name={`${values.modalAdd}Courier`} className={styles.text} placeholder="ผู้จัดส่ง" />
-                    </div>
-                    <div className={styles.rowInModal}>
-                        <Field name={`${values.modalAdd}Duration`} className={styles.text} placeholder="ระยะเวลาการจัดส่ง" />
-                    </div>
-                    <div className={styles.rowInModal}>
-                        <Field name={`${values.modalAdd}Rate`} className={styles.text} placeholder="ราคา" />
-                    </div>
-                    <div className={`${styles.floatRight} ${styles.rowInModal}`}>
-                        <button type="button" className={styles.addOption} onClick={() => addOptionShipping()}>บันทึก</button>
-                    </div>
-                </div>
-            </div>
-        )
-    } else {
-        return null;
-    }
-}
-
-const ModalEditShipping = ({ modalEdit, values, setFieldValue, editOptionShipping }) => {
-    if (modalEdit === values.modalEdit) {
-        let shiped = values.shippingOption.find(shippingOption => shippingOption.myID === values.shippingID)
-        if (shiped) {
-            // setFieldValue(`${values.modalEdit}Courier`, shiped.courier, false);
-            // setFieldValue(`${values.modalEdit}Duration`, shiped.duration, false);
-            // setFieldValue(`${values.modalEdit}Rate`, shiped.rate, false);
-            return (
-                <div className={styles.modal} style={{ display: values.modalEdit ? "block" : "none" }}>
-                    <div className={styles.modalContent}>
-                        <div>
-                            <span className={styles.close} onClick={() => setFieldValue("modalEdit", "", false)}>&times;</span>
-                        </div>
-                        <div className={styles.rowInModal}>
-                            <input className={styles.text} value={shiped.courier} placeholder="ผู้จัดส่ง" onChange={(e) => {
-                                setFieldValue(`${values.modalEdit}Courier`, e.target.value, false)
-                            }}  />
-                        </div>
-                        <div className={styles.rowInModal}>
-                            <Field name={`${values.modalEdit}Duration`} className={styles.text} placeholder="ระยะเวลาการจัดส่ง" onChange={(e) => {
-                                setFieldValue(`${values.modalEdit}Duration`, e.target.value, false)
-                            }} />
-                        </div>
-                        <div className={styles.rowInModal}>
-                            <Field name={`${values.modalEdit}Rate`} className={styles.text} placeholder="ราคา" onChange={(e) => {
-                                setFieldValue(`${values.modalAdd}Rate`, e.target.value, false)
-                            }} />
-                        </div>
-                        <div className={`${styles.floatRight} ${styles.rowInModal}`}>
-                            <button type="button" className={styles.addOption} onClick={() => editOptionShipping()}>บันทึก</button>
-                        </div>
-                    </div>
-                </div>
-            )
-        }
     } else {
         return null;
     }
