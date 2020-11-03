@@ -18,13 +18,12 @@ import { axiosInst } from '../common-scss/common'
 import { i18_th as i18 } from "../common-scss/i18_text";
 
 const CartComponent = () => {
-    // API [GET] /order/
-    var _apiData = fake_data;
 
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(2);
     const [checkedBox, setCheckedBox] = useState(false);
-    const [shippingOption, setShippingOption] = useState(-1);
+    const [shippingFee, setShippingFee] = useState(0);
+    const [shippingDuration, setShippingDuration] = useState(0);
 
     useEffect(() => {
         // Fetch Shipping and Payment Option
@@ -159,23 +158,23 @@ const CartComponent = () => {
 
                                     <tr>
                                         <td colspan="4">VAT 7%</td>
-                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{_apiData.vat}฿</td>
+                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>50฿</td>
                                     </tr>
                                     <tr>
-                                        <td className={`${styles.textCenterMobileNewRow} ${styles.rowTr}`}>{_apiData.vat}฿</td>
+                                        <td className={`${styles.textCenterMobileNewRow} ${styles.rowTr}`}>50฿</td>
                                     </tr>
 
                                     <tr>
                                         <td colspan="4">
                                             <div className={styles.containerCol}>
                                                 <div className={styles.name}>ค่าจัดส่ง</div>
-                                                <div className={styles.desciption}>ลงทะเบียน - 5 วันทำการ - 50 บาท</div>
+                                                <div className={styles.desciption}>ลงทะเบียน - {shippingDuration} วันทำการ - {shippingFee} บาท</div>
                                             </div>
                                         </td>
-                                        <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{_apiData.feeShipping}฿</td>
+                                <td className={`${styles.textCenter} ${styles.textCenterMobile}`}>{shippingFee}฿</td>
                                     </tr>
                                     <tr>
-                                        <td className={`${styles.textCenterMobileNewRow}`}>{_apiData.feeShipping}฿</td>
+                                        <td className={`${styles.textCenterMobileNewRow}`}>{shippingFee}฿</td>
                                     </tr>
 
                                     <tr className={styles.borderTop}>
@@ -194,21 +193,26 @@ const CartComponent = () => {
                     <div className={styles.boxChild2}>
                         <h2>ระบุที่อยู่</h2>
                         <LocationFieldsComponent />
-                        <h2>เลือก การจัดส่ง <ErrorMessage name="shippingDate" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></h2>
+                        <h2>เลือก การจัดส่ง <ErrorMessage name="shippingDate" render={msg => <span className="error">{msg}</span>} /></h2>
 
                         {values.shippingOptions.map((shippingOptions, index) => {
                              var end_date = new Date();
                              end_date.setDate(end_date.getDate() + parseInt(shippingOptions.duration));
                             return (
-                            <button type="button" className={`${styles.btnShippingOption} ${shippingOption === index && styles.active}`} onClick={() => {setShippingOption(index)}}>
+                            <button type="button" className={`${styles.btnShippingOption} ${values.shippingOption === index && styles.active}`} 
+                            onClick={() => {
+                                setFieldValue("shippingOption", index, false);
+                                setShippingFee(shippingOptions.rate);
+                                setShippingDuration(shippingOptions.duration);
+                            }}>
                                 <p>รับสินค้าโดยประมาณ</p>
-                                <h4>{end_date.toISOString().slice(0, 10)} (5-7วัน)</h4>
+                                <h4>{end_date.toISOString().slice(0, 10)} ({shippingOptions.duration}วัน)</h4>
                                 <p>{shippingOptions.rate}บาท</p>
                             </button>
                         )}
                         )}
 
-                        <h2>ชำระเงิน <ErrorMessage name="payment" render={msg => <span style={{ color: "red" }}>{msg}</span>} /></h2>
+                        <h2>ชำระเงิน <ErrorMessage name="payment" render={msg => <span className="error">{msg}</span>} /></h2>
                         <SelectPayment name="payment" id="payment" values={values} options={[
                             { value: "bangkok", name: "Bangkok Bank", logoBank: logoBangkokBank },
                             { value: "scb", name: "Siam Commercial Bank", logoBank: logoSiamCommercialBank },

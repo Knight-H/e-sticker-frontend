@@ -134,7 +134,7 @@ const AdminComponent = (props) => {
                                 else if (dataObjectMapped.status === statusFilter.CANCEL || dataObjectMapped.status === statusFilter.REFUN) { statusOrder = styles.statusCancel; }
 
                                 if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)) {
-                                    console.log("hi", dataObjectMapped)
+                                    // console.log("hi", dataObjectMapped)
                                     return (
                                         <tr key={dataObjectMapped.orderID}>
                                             <td>{dataObjectMapped.timestamp}</td>
