@@ -52,6 +52,8 @@ const ApproveLayoutComponent = (props) => {
                     .then(res => {
                         console.log("res.data", res.data)
                         setFieldValue("allOrder", res.data, false);
+                        setFieldValue("fetchMsg", false, false);
+                        searchOrderNumber();
                     }).catch(function (err) {
                         console.log("err", err)
                     })

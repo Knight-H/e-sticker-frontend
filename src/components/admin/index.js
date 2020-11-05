@@ -109,7 +109,7 @@ const AdminComponent = (props) => {
                         <tr>
                             <th>วันที่ออเดอร์</th>
                             <th>เลขออเดอร์</th>
-                            <th>เลขสมาชิก</th>
+                            {/* <th>เลขสมาชิก</th> */}
                             <th>ชื่อ นามสกุล</th>
                             <th>เบอร์โทรศัพท์</th>
                             <th>รายการสินค้า</th>
@@ -134,12 +134,12 @@ const AdminComponent = (props) => {
                                 else if (dataObjectMapped.status === statusFilter.CANCEL || dataObjectMapped.status === statusFilter.REFUN) { statusOrder = styles.statusCancel; }
 
                                 if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)) {
-                                    console.log("hi", dataObjectMapped)
+                                    // console.log("hi", dataObjectMapped)
                                     return (
                                         <tr key={dataObjectMapped.orderID}>
                                             <td>{dataObjectMapped.timestamp}</td>
                                             <td>{dataObjectMapped.orderID}</td>
-                                            <td>{dataObjectMapped.customerID}</td>
+                                            {/* <td>{dataObjectMapped.customerID}</td> */}
                                             <td>{dataObjectMapped.shippingAddress.fullname}</td>
                                             <td>{dataObjectMapped?.phone}</td>
                                             <td>{dataObjectMapped?.itemsList?.length || 0}</td>
