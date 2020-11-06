@@ -60,4 +60,4 @@ function _i18() {
     return lang
 }
 
-console.log(_i18().success)
+// console.log(_i18().success)

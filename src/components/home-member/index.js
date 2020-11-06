@@ -36,7 +36,7 @@ const HomeMemberComponent = (props) => {
             if (user) {
                 axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders?customerID=${user.uid}`)
                     .then(res => {
-                        console.log("res.data[0]", res.data)
+                        // console.log("res.data[0]", res.data)
                         setFieldValue("objectOrder", res.data, false);
                     }).catch(function (err) {
                         console.log("err", err)
@@ -77,11 +77,11 @@ const HomeMemberComponent = (props) => {
             }}><IconLogout />ออกจากระบบ</label>
 
             <section className={styles.container}>
-                {console.log("values", values.objectOrder)}
+                {/* {console.log("values", values.objectOrder)} */}
                 {values.objectOrder.length !== 0 ? values.objectOrder.map((fakeAPI) => {
-                    console.log("map")
+                    // console.log("map")
                     if (fakeAPI) {
-                        console.log(">>>>")
+                        // console.log(">>>>")
                         return (
                             <article className={styles.borderCard}>
                                 <h1 className={styles.title}>ออเดอร์หมายเลข {fakeAPI.orderID}</h1>
@@ -100,7 +100,7 @@ const HomeMemberComponent = (props) => {
                                     ))}
                                 </table>
 
-                                <button type="button" onClick={() => props.history.push(`/myorder?myID=${fakeAPI.myID}`)}>ดูรายละเอียด</button>
+                                <button type="button" onClick={() => props.history.push(`/myorder/${fakeAPI.myID}`)}>ดูรายละเอียด</button>
                             </article>
                         )
                     }

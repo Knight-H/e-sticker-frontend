@@ -63,6 +63,7 @@ const CartComponent = () => {
                     const customerInfo = res.data.filter((data) => {
                         return data["customerID"] === auth.currentUser.uid
                     })[0]
+                    console.log("customerInfo", customerInfo)
                     setFieldValue("address", customerInfo.shippingAddress.address, false);
                     setFieldValue("county", customerInfo.shippingAddress.county, false);
                     setFieldValue("email", customerInfo.email, false);
@@ -107,7 +108,7 @@ const CartComponent = () => {
                 <section className={styles.section2}>
                     {/* Child Box #1 */}
                     <div className={styles.boxChild1}>
-                        <h2>สรุปออเดอร์</h2>
+                        <h3>สรุปออเดอร์</h3>
                         <div className={styles.wrapTable}>
                             <table className={styles.tableCustom}>
                                 <thead className={styles.borderBottom}>
@@ -191,9 +192,9 @@ const CartComponent = () => {
 
                     {/* Child Box #2 */}
                     <div className={styles.boxChild2}>
-                        <h2>ระบุที่อยู่</h2>
+                        <h3>ระบุที่อยู่</h3>
                         <LocationFieldsComponent />
-                        <h2>เลือก การจัดส่ง <ErrorMessage name="shippingDate" render={msg => <span className="error">{msg}</span>} /></h2>
+                        <h3>เลือก การจัดส่ง <ErrorMessage name="shippingOption" render={msg => <span className="error">{msg}</span>} /></h3>
 
                         {values.shippingOptions.map((shippingOptions, index) => {
                              var end_date = new Date();
@@ -201,7 +202,7 @@ const CartComponent = () => {
                             return (
                             <button type="button" className={`${styles.btnShippingOption} ${values.shippingOption === index && styles.active}`} 
                             onClick={() => {
-                                setFieldValue("shippingOption", index, false);
+                                setFieldValue("shippingOption", index, true);
                                 setShippingFee(shippingOptions.rate);
                                 setShippingDuration(shippingOptions.duration);
                             }}>
@@ -212,7 +213,7 @@ const CartComponent = () => {
                         )}
                         )}
 
-                        <h2>ชำระเงิน <ErrorMessage name="payment" render={msg => <span className="error">{msg}</span>} /></h2>
+                        <h3>ชำระเงิน <ErrorMessage name="payment" render={msg => <span className="error">{msg}</span>} /></h3>
                         <SelectPayment name="payment" id="payment" values={values} options={[
                             { value: "bangkok", name: "Bangkok Bank", logoBank: logoBangkokBank },
                             { value: "scb", name: "Siam Commercial Bank", logoBank: logoSiamCommercialBank },
@@ -220,7 +221,7 @@ const CartComponent = () => {
                             { value: "credit", name: "Credit / Debit", logoBank: logoCreditCard },
                         ]} />
 
-                        <h2>ออกใบกำกับภาษี</h2>
+                        <h3>ออกใบกำกับภาษี</h3>
                         <div className={styles.containerRow}>
                             <div className={styles.containerColBank}>
                                 <Field name="checkedBoxInfo" type="checkbox" checked={checkedBox} onClick={() => setCheckedBox(!checkedBox)} />
@@ -285,7 +286,7 @@ const EnhancedCartComponent = withFormik({
 
         orderID: '',
         priceTotal: '',
-        shippingDate: '',
+        shippingOption: '',
         payment: '',
 
         email: '',
@@ -317,7 +318,7 @@ const EnhancedCartComponent = withFormik({
         if (values.zip === "") { errors.zip = i18.required }
         if (values.orderID === "") { errors.orderID = i18.required }
         if (values.priceTotal === "") { errors.priceTotal = i18.required }
-        if (values.shippingDate === "") { errors.shippingDate = i18.required }
+        if (values.shippingOption === "") { errors.shippingOption = i18.required }
         if (values.payment === "") { errors.payment = i18.required }
 
         if (!values.checkedBoxInfo) {

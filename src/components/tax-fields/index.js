@@ -10,7 +10,7 @@ const LocationFieldsComponent = (props) => {
 
             <div className={styles.gridItem}>
                 <div className={styles.formControl}>
-                    <p>ชื่อ นามสกุล* <ErrorMessage name="billingFullname" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
+                    <p>ชื่อบุคคล / ชื่อบริษัท* <ErrorMessage name="billingFullname" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
                     <Field name="billingFullname" type="text"/>
                 </div>
             </div>
@@ -24,7 +24,7 @@ const LocationFieldsComponent = (props) => {
 
             <div className={styles.gridItem}>
                 <div className={styles.formControl}>
-                    <p>เลขที่ใบกำกับภาษี</p>
+                    <p>เลขที่ผู้เสียภาษี</p>
                     <Field name="billingTaxID" type="text"/>
                 </div>
             </div>

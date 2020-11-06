@@ -82,8 +82,8 @@ const Order1ProductConfigComponent = (props) => {
                             <label htmlFor="size">ขนาด<ErrorMessage name="width" render={msg => <span className="error">{msg}</span>} />
                                 <ErrorMessage name="height" render={msg => <span className="error">{msg}</span>} /></label>
                             <div className={styles.sizeWrapper}>
-                                <Field name="width" type="text" placeholder="กว้าง..." />
-                                <Field name="height" type="text" placeholder="ยาว..." />
+                                <Field name="width" type="text" placeholder="กว้าง (มม.)..." />
+                                <Field name="height" type="text" placeholder="ยาว (มม.)..." />
                             </div>
                         </div>
 
@@ -96,7 +96,10 @@ const Order1ProductConfigComponent = (props) => {
                                             setFieldValue("setActive", index, false)
                                             setFieldValue("price", data.price, true)
                                             setFieldValue("units", data.unit, true)
-                                        }}>{data.unit}ชิ้น/{data.price}บาท</button>
+                                        }}>
+                                            <p>{data.unit} ชิ้น / ราคาต่อชิ้น {(data.price/data.unit).toFixed(2)} บาท</p>
+                                            <p>ราคารวม {data.price} บาท</p>
+                                    </button>
                                 )
                             })}
                         </div>

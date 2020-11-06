@@ -151,7 +151,7 @@ const AdminComponent = (props) => {
                                             </td>
                                             <td>{dataObjectMapped.shippingNumber}</td>
                                             <td>{dataObjectMapped?.reposiable_name}</td>
-                                            <td><Link to={"/admin/myorder?myID=" + dataObjectMapped.myID}>จัดการ</Link></td>
+                                            <td><Link to={"/admin/myorder/" + dataObjectMapped.myID}>จัดการ</Link></td>
                                         </tr>
                                     )
                                 }

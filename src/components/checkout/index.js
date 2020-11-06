@@ -37,7 +37,7 @@ const CheckoutComponent = (props) => {
         <main>
             <section className={styles.section2}>
                 <div className={styles.boxChild1}>
-                    <h2>ตะกร้าสินค้า</h2>
+                    <h3>ตะกร้าสินค้า</h3>
                     <div className={styles.wrapTable}>
                         <table className={styles.tableCustom}>
                             <thead className={styles.borderBottom}>
@@ -91,7 +91,7 @@ const CheckoutComponent = (props) => {
                 <div className={styles.boxChild2}>
                     {!values.checkLogin ?
                         <>
-                            <h2>ระบบสมาชิก</h2>
+                            <h3>ระบบสมาชิก</h3>
                             <div className={styles.wrapTable}>
                                 <Form>
                                     <LoginComponent />
@@ -99,12 +99,12 @@ const CheckoutComponent = (props) => {
                             </div>
 
                             <br /><br />
-                            <h2>Checkout as Guest</h2>
-                            <button className={styles.buttonGreenFit} type="button" onClick={() => props.history.push("/checkout")}>Checkout as Guest</button>
+                            <h3>สั่งสินค้าสำหรับบุคคลที่ไม่ใช้สมาชิก</h3>
+                            <button className={styles.buttonGreenFit} type="button" onClick={() => props.history.push("/checkout")}>สั่งสินค้า</button>
                         </>
                         :
                         <>
-                            <button className={`${styles.buttonGreenFit} ${styles.checkLogin}`} onClick={() => props.history.push("/checkout")}>Checkout</button>
+                            <button className={`${styles.buttonGreenFit} ${styles.checkLogin}`} onClick={() => props.history.push("/checkout")}>สั่งสินค้า</button>
                         </>
                     }
                 </div>
