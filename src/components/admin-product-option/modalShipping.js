@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import { Field } from 'formik';
 import axios from "axios";
 
-const ModalShipping = ({ modalShipping, values, setFieldValue }) => {
+const ModalShipping = ({ values, setFieldValue }) => {
 
     useEffect(() => {
         let shippingOptioned = values.shippingOption.find(shippingOption => `${shippingOption.myID}` === `${values.shippingID}`)

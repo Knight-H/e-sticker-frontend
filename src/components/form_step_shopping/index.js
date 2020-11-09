@@ -23,19 +23,26 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
   const step = steps[values.stepProgress];
 
   useEffect(() => {
-    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions`)
+    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`)
       .then(res => {
-        // console.log("res.data[0]", res.data[0])
-        setFieldValue("checkLoadOption", res.data[0], false);
-        setFieldValue("optionShape", res.data[0].shape, false);
-        setFieldValue("optionMaterial", res.data[0].material, false);
-        setFieldValue("optionCuttingList", res.data[0].cuttingList, false);
-        setFieldValue("optionUnitOptions", res.data[0].unitOptions, false);
+        // console.log("res.data[0]", res.data.shape_list)
+        setFieldValue("checkLoadOption", true, false);
+        setFieldValue("optionShape", res.data.shape_list, false);
+        // setFieldValue("optionMaterial", res.data[0].material, false);
+        // setFieldValue("optionCuttingList", res.data[0].cuttingList, false);
+        // setFieldValue("optionUnitOptions", res.data[0].unitOptions, false);
 
-        setFieldValue("heightMax", res.data[0].heightMax, false);
-        setFieldValue("heightMin", res.data[0].heightMin, false);
-        setFieldValue("widthMax", res.data[0].widthMax, false);
-        setFieldValue("widthMin", res.data[0].widthMin, false);
+        // setFieldValue("heightMax", res.data[0].heightMax, false);
+        // setFieldValue("heightMin", res.data[0].heightMin, false);
+        // setFieldValue("widthMax", res.data[0].widthMax, false);
+        // setFieldValue("widthMin", res.data[0].widthMin, false);
+      }).catch(function (err) {
+        console.log("err", err)
+      })
+    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`)
+      .then(res => {
+        // console.log("res.data[0]", res.data)
+        setFieldValue("optionMaterial", res.data.material_list, false);
       }).catch(function (err) {
         console.log("err", err)
       })
@@ -147,7 +154,7 @@ const EnhancedAppComponent = withFormik({
       setFieldValue("stepProgress", 1, false);
     } else {
       const storageRef = firebaseApp.storage().ref();
-      let timeStamp = new Date().toISOString().slice(0,10)
+      let timeStamp = new Date().toISOString().slice(0, 10)
 
       auth.onAuthStateChanged(user => {
         if (user) {// User is signed in.
@@ -211,7 +218,7 @@ const EnhancedAppComponent = withFormik({
                   .then((snapshot) => {
                     snapshot.ref.getDownloadURL().then((url) => {
                       let data = {
-                        
+
                         "itemsList": [
                           {
                             "approveMethod": values.approvalStricker,
@@ -262,36 +269,36 @@ const EnhancedAppComponent = withFormik({
           if (cartLocal) {
             console.log("have item");
             storageRef.child(`guest/${timeStamp}-${values.uploadFileStrickerForFirebase.name}`).put(values.uploadFileStrickerForFirebase)
-            .then((snapshot) => {
-              snapshot.ref.getDownloadURL().then((url) => {
-                let data = {
-                  "approveMethod": values.approvalStricker,
-                  "coat": values.coat,
-                  "cutting": values.cutting,
-                  "comment": values.comment,
-                  "units": values.units,
-                  "material": values.material,
-                  "width": values.width,
-                  "price": values.price,
-                  "shape": values.shape,
-                  "height": values.height,
+              .then((snapshot) => {
+                snapshot.ref.getDownloadURL().then((url) => {
+                  let data = {
+                    "approveMethod": values.approvalStricker,
+                    "coat": values.coat,
+                    "cutting": values.cutting,
+                    "comment": values.comment,
+                    "units": values.units,
+                    "material": values.material,
+                    "width": values.width,
+                    "price": values.price,
+                    "shape": values.shape,
+                    "height": values.height,
 
-                  "messages": [
-                    {
-                      "type": "file",
-                      "content": `${url}`,
-                      "info": `${values.uploadFileStrickerForFirebase.name}`,
-                      "by": "customer"
-                    }
-                  ]
-                };
-                cartLocal.itemsList.push(data);
-                console.log('cartLocal', cartLocal)
-                localStorage.setItem("cart", JSON.stringify(cartLocal));
-                props.history.push("/checkout")
-              });
-            }
-            );
+                    "messages": [
+                      {
+                        "type": "file",
+                        "content": `${url}`,
+                        "info": `${values.uploadFileStrickerForFirebase.name}`,
+                        "by": "customer"
+                      }
+                    ]
+                  };
+                  cartLocal.itemsList.push(data);
+                  console.log('cartLocal', cartLocal)
+                  localStorage.setItem("cart", JSON.stringify(cartLocal));
+                  props.history.push("/checkout")
+                });
+              }
+              );
 
           } else {
             console.log("not have item");
@@ -301,7 +308,7 @@ const EnhancedAppComponent = withFormik({
                 snapshot.ref.getDownloadURL().then((url) => {
                   console.log(">>>>>2")
                   let data = {
-                    
+
                     "itemsList": [
                       {
                         "approveMethod": values.approvalStricker,

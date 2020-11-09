@@ -14,7 +14,7 @@ const Order1ProductConfigComponent = (props) => {
         if (values.material) {
             values.optionMaterial.map((data) => {
                 if (data.name === values.material) {
-                    setFieldValue("optionCoat", data.coating, false);
+                    setFieldValue("optionCoat", data.coating_list, false);
                 }
             })
         }
@@ -73,10 +73,10 @@ const Order1ProductConfigComponent = (props) => {
                             } />
                         </div>
 
-                        <div className={styles.dropdownSelect}>
+                        {/* <div className={styles.dropdownSelect}>
                             <label htmlFor="dicut">วิธีไดคัตภาพ<ErrorMessage name="cutting" render={msg => <span className="error">{msg}</span>} /></label>
                             <SelectBox name="cutting" values={values} options={values.optionCuttingList} />
-                        </div>
+                        </div> */}
 
                         <div className={styles.sizeSelect}>
                             <label htmlFor="size">ขนาด<ErrorMessage name="width" render={msg => <span className="error">{msg}</span>} />
@@ -97,12 +97,14 @@ const Order1ProductConfigComponent = (props) => {
                                             setFieldValue("price", data.price, true)
                                             setFieldValue("units", data.unit, true)
                                         }}>
-                                            <p>{data.unit} ชิ้น / ราคาต่อชิ้น {(data.price/data.unit).toFixed(2)} บาท</p>
-                                            <p>ราคารวม {data.price} บาท</p>
+                                            <p>{data.unit} ชิ้น (ชิ้นละ {(data.price/data.unit).toFixed(2)} บาท)</p>
                                     </button>
                                 )
                             })}
                         </div>
+
+                        <p>รวม</p>
+                        <h2>1,500 บาท</h2>
 
                         <button type="submit" className={styles.nextButton}>ถัดไป</button>
                     </Form>
