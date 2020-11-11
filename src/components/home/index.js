@@ -55,41 +55,41 @@ const HomeComponent = (props) => {
     }, [props.location.state]);
 
     useEffect(() => {
-        let url = window.location.search;
-        const urlParams = new URLSearchParams(url);
-        let code = urlParams.get('code');
+        // let url = window.location.search;
+        // const urlParams = new URLSearchParams(url);
+        // let code = urlParams.get('code');
 
-        const requestBody = {
-            "grant_type": "authorization_code",
-            "code": code,
-            "redirect_uri": "http://localhost:3100",
-            "client_id": "1655214405",
-            "client_secret": "73d5069713a373d60ca90d2b5e99437e"
-        }
+        // const requestBody = {
+        //     "grant_type": "authorization_code",
+        //     "code": code,
+        //     "redirect_uri": "http://localhost:3100",
+        //     "client_id": "1655214405",
+        //     "client_secret": "73d5069713a373d60ca90d2b5e99437e"
+        // }
             
-        const config = {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'application/x-www-form-urlencoded'
+        //     }
+        // }
             
-        axios.post("https://api.line.me/oauth2/v2.1/token", qs.stringify(requestBody), config)
-            .then((result) => {
-                // console.log(result.data.access_token)
-                let data = {
-                    "access_token": result.data.access_token
-                }
-                axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLoginApp", qs.stringify(data), config)
-                    .then((res) => {
-                        console.log(res)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+        // axios.post("https://api.line.me/oauth2/v2.1/token", qs.stringify(requestBody), config)
+        //     .then((result) => {
+        //         // console.log(result.data.access_token)
+        //         let data = {
+        //             "access_token": result.data.access_token
+        //         }
+        //         axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLoginApp", qs.stringify(data), config)
+        //             .then((res) => {
+        //                 console.log(res)
+        //             })
+        //             .catch((err) => {
+        //                 console.log(err)
+        //             })
+        //     })
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
 
     }, [window.location.search])
 
