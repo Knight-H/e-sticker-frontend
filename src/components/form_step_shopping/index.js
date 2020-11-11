@@ -25,12 +25,8 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
   useEffect(() => {
     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`)
       .then(res => {
-        // console.log("res.data[0]", res.data.shape_list)
         setFieldValue("checkLoadOption", true, false);
         setFieldValue("optionShape", res.data.shape_list, false);
-        // setFieldValue("optionMaterial", res.data[0].material, false);
-        // setFieldValue("optionCuttingList", res.data[0].cuttingList, false);
-        // setFieldValue("optionUnitOptions", res.data[0].unitOptions, false);
 
         // setFieldValue("heightMax", res.data[0].heightMax, false);
         // setFieldValue("heightMin", res.data[0].heightMin, false);
@@ -45,6 +41,13 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
         setFieldValue("optionMaterial", res.data.material_list, false);
       }).catch(function (err) {
         console.log("err", err)
+      })
+    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`)
+      .then(res => {
+          // console.log("res.data[0]", res.data.count_list)
+          setFieldValue("optionUnitOptions", res.data.count_list, false);
+      }).catch(function (err) {
+          console.log("err", err)
       })
   }, []);
 

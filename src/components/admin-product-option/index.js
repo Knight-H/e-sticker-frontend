@@ -1,30 +1,20 @@
 import React, { useEffect } from "react";
-import { withFormik, useFormikContext, Field } from 'formik';
+import { withFormik, useFormikContext } from 'formik';
 import styles from './index.module.scss';
 import axios from "axios";
 
 import AdminKpi from "../admin-kpi";
-import firebaseApp from '../../firebase/index.js';
 import ModalShipping from './modalShipping.js';
 import ModalQuality from './modalQuality.js';
+import ModalShape from './modalShape.js';
+import ModalMaterial from './modalMaterial.js';
+import ModalCoat from './modalCoat.js';
+import ModalVariable from './modalVariable.js';
 
 const AdminOrderComponent = () => {
     const { values, setFieldValue } = useFormikContext();
     // Fetch Optiom
     useEffect(() => {
-        // axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions`)
-        //     .then(res => {
-        //         // console.log("res.data[0]", res.data[0])
-        //         setFieldValue("myID", res.data[0].myID, false);
-        //         setFieldValue("shape", res.data[0].shape, false);
-        //         setFieldValue("material", res.data[0].material, false);
-        //         setFieldValue("cuttingList", res.data[0].cuttingList, false);
-        //         setFieldValue("unitOptions", res.data[0].unitOptions, false);
-        //         setFieldValue("fetch", false, false);
-        //     }).catch(function (err) {
-        //         console.log("err", err)
-        //     })
-
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`)
             .then(res => {
                 setFieldValue("shape", res.data.shape_list, false);
@@ -59,9 +49,8 @@ const AdminOrderComponent = () => {
 
     // Seclect Coating form materail
     useEffect(() => {
-        let materialed = values.material.find(material => `${material.name}` === `${values.materialSelected}`)
-        if (materialed) {
-            setFieldValue("coating", materialed.coating_list, false)
+        if (values.materialSelected || values.materialSelected === 0) {
+            setFieldValue("coating", values.material[values.materialSelected].coating_list, false)
         }
     }, [values.materialSelected]);
 
@@ -79,61 +68,97 @@ const AdminOrderComponent = () => {
                 <article className={styles.cardProductOption}>
                     <h4>รูปแบบสติกเกอร์</h4>
                     <div>
-                        <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalShapeAdd", false)}>เพิ่ม</button>
-                        {/* <ModalAdd modalAdd="modalShapeAdd" values={values} setFieldValue={setFieldValue}
-                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
+                        <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalShape", "modalShapeAdd", false)}>เพิ่ม</button>
+                        <ModalShape values={values} setFieldValue={setFieldValue} />
                     </div>
                     <div>
-                        {values.shape.map((shape) => {
+                        {values.shape.map((shape, index) => {
                             return (
-                                <button type="button" className={styles.btnListOption} onClick={() => setFieldValue("modalEdit", "modalShapeEdit", false)}>
+                                <button type="button" className={styles.btnListOption} onClick={() => {
+                                    setFieldValue("modalShape", "modalShapeEdit", false);
+                                    setFieldValue("shapeID", index, false);
+                                }}>
                                     <img src={shape.imgUrl} className={styles.iconImage} alt="." />
                                     {shape.name}
                                 </button>
                             )
                         })}
-                        {/* <ModalEdit modalEdit="modalShapeEdit" values={values} setFieldValue={setFieldValue}
-                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
                     </div>
                 </article>
 
                 <article className={styles.cardProductOption}>
                     <h4>เนื้อวัสดุ</h4>
                     <div>
-                        <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalMaterialAdd", false)}>เพิ่ม</button>
-                        {/* <ModalAdd modalAdd="modalMaterialAdd" values={values} setFieldValue={setFieldValue}
-                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
+                        <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalMaterial", "modalMaterialAdd", false)}>เพิ่ม</button>
+                        <ModalMaterial values={values} setFieldValue={setFieldValue} />
                     </div>
                     <div>
-                        {values.material.map((material) => {
+                        {values.material.map((material, index) => {
                             return (
                                 <div className={styles.btnRow}>
-                                    <button type="button" className={`${styles.btnListOption90} ${material.name === values.materialSelected && styles.active}`} onClick={() => setFieldValue("materialSelected", material.name, false)}>
+                                    <button type="button" className={`${styles.btnListOption90} ${index === values.materialSelected && styles.active}`}
+                                        onClick={() => {
+                                            setFieldValue("materialSelected", index, false);
+                                        }}>
                                         <img src={material.imgUrl} className={styles.iconImage} alt="." />{material.name}
                                     </button>
-                                    <button className={styles.btnEdit} type="button" onClick={() => setFieldValue("modalEdit", "modalMaterialEdit", false)}>แก้ไข</button>
+                                    <button className={styles.btnEdit} type="button" onClick={() => {
+                                        setFieldValue("modalMaterial", "modalMaterialEdit", false);
+                                        setFieldValue("materialID", index, false);
+                                    }}>แก้ไข</button>
                                 </div>
                             )
                         })}
                     </div>
-                    {/* <ModalEdit modalAdd="modalMaterialEdit" /> */}
                 </article>
 
                 <article className={styles.cardProductOption}>
                     <h4>การเคลือบผิว</h4>
                     <div>
-                        <button type="button" className={styles.btnOption} onClick={() => setFieldValue("modalAdd", "modalCoatingAdd", false)}>เพิ่ม</button>
-                        {/* <ModalAdd modalAdd="modalCoatingAdd" values={values} setFieldValue={setFieldValue}
-                            addOption={addOption} handleChangeImgAdd={handleChangeImgAdd} /> */}
+                        <button type="button" className={styles.btnOption} onClick={() => values.materialSelected || values.materialSelected === 0 ? setFieldValue("modalCoating", "modalCoatingAdd", false) : null}>เพิ่ม</button>
+                        <ModalCoat values={values} setFieldValue={setFieldValue} />
                     </div>
                     <div>
-                        {values.coating.map((coating) => {
-                            return (<button type="button" className={styles.btnListOption} onClick={() => setFieldValue("modalEdit", "modalCoatingEdit", false)}>
-                                <img src={coating.imgUrl} className={styles.iconImage} alt="." />{coating.name}
-                            </button>)
+                        {values.coating && values.coating.map((coating, index) => {
+                            return (
+                                <div className={styles.btnRow}>
+                                    <button type="button" className={`${styles.btnListOption90} ${index === values.coatingSelected && styles.active}`}
+                                        onClick={() => {
+                                            setFieldValue("coatingSelected", index, false);
+                                        }}>
+                                        <img src={coating.imgUrl} className={styles.iconImage} alt="." />{coating.name}
+                                    </button>
+                                    <button className={styles.btnEdit} type="button" onClick={() => {
+                                        setFieldValue("modalCoating", "modalCoatingEdit", false);
+                                        setFieldValue("coatingID", index, false);
+                                    }}>แก้ไข</button>
+                                </div>
+                            )
                         })}
                     </div>
-                    {/* <ModalEdit modalAdd="modalCoatingEdit" /> */}
+                </article>
+
+                <article className={styles.cardProductOption}>
+                    <h4>จำนวน</h4>
+                    <div>
+                        <button type="button" className={styles.btnOption} onClick={() => values.coatingSelected || values.coatingSelected === 0 ? setFieldValue("modalVariable", "modalVariableAdd", false) : null}>เพิ่ม</button>
+                        <ModalVariable values={values} setFieldValue={setFieldValue} />
+                    </div>
+                    <div>
+                        {values.coating && (values.coatingSelected || values.coatingSelected === 0) && values.coating.map((coating, index) => {
+                            if (coating.price) {
+                                return (
+                                    <div className={styles.btnRow}>
+                                        <button type="button" className={`${styles.btnListOption} ${index === values.variableSelected && styles.active}`}>
+                                            <p>Fixed: {coating.price.fixed_cost}</p>
+                                            <p>Variable_1: {coating.price.variable_cost_1}</p>
+                                            <p>Variable_2: {coating.price.variable_cost_2}</p>
+                                        </button>
+                                    </div>
+                                )
+                            } else return null;
+                        })}
+                    </div>
                 </article>
 
                 <article className={styles.cardProductOption}>
@@ -143,11 +168,13 @@ const AdminOrderComponent = () => {
                         <ModalQuality values={values} setFieldValue={setFieldValue} />
                     </div>
                     <div>
-                        {values.unitOptions.map((unitOptions) => {
-                            return (<button type="button" className={styles.btnListOption} onClick={() => setFieldValue("modalEdit", "modalUnitPrice", false)}>{unitOptions} ชิ้น</button>)
+                        {values.unitOptions.map((unitOptions, index) => {
+                            return (<button type="button" className={styles.btnListOption} onClick={() => {
+                                setFieldValue("modalQuality", "modalQualityEdit", false);
+                                setFieldValue("qualityID", index, false);
+                            }}>{unitOptions} ชิ้น</button>)
                         })}
                     </div>
-                    {/* <ModalEdit modalAdd="modalUnitPrice" /> */}
                 </article>
 
             </section>
@@ -172,7 +199,6 @@ const AdminOrderComponent = () => {
                                 </button>
                             )
                         })}
-                        <ModalShipping values={values} setFieldValue={setFieldValue} />
                     </div>
                 </article>
             </section>

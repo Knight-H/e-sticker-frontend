@@ -73,11 +73,6 @@ const Order1ProductConfigComponent = (props) => {
                             } />
                         </div>
 
-                        {/* <div className={styles.dropdownSelect}>
-                            <label htmlFor="dicut">วิธีไดคัตภาพ<ErrorMessage name="cutting" render={msg => <span className="error">{msg}</span>} /></label>
-                            <SelectBox name="cutting" values={values} options={values.optionCuttingList} />
-                        </div> */}
-
                         <div className={styles.sizeSelect}>
                             <label htmlFor="size">ขนาด<ErrorMessage name="width" render={msg => <span className="error">{msg}</span>} />
                                 <ErrorMessage name="height" render={msg => <span className="error">{msg}</span>} /></label>
@@ -97,7 +92,7 @@ const Order1ProductConfigComponent = (props) => {
                                             setFieldValue("price", data.price, true)
                                             setFieldValue("units", data.unit, true)
                                         }}>
-                                            <p>{data.unit} ชิ้น (ชิ้นละ {(data.price/data.unit).toFixed(2)} บาท)</p>
+                                            <p>{data} ชิ้น (ชิ้นละ 10 บาท)</p>
                                     </button>
                                 )
                             })}
