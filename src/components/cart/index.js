@@ -13,6 +13,7 @@ import logoBangkokBank from './BangkokBank.png';
 import logoKrungthaiBank from './KrungthaiBank.jpg';
 import logoSiamCommercialBank from './SiamCommercialBank.jpg';
 import logoKBank from './kbank.jpg';
+import logoQrCode from './qrcode.png';
 
 import { auth } from '../../firebase/index.js';
 import axios from "axios";
@@ -25,7 +26,9 @@ function md5Helper(data) {
     txt += data.MerchantCode
     txt += data.OrderNo
     txt += data.CustomerId
-    txt += data.Amount
+    // txt += data.Amount
+    txt += 2000
+    txt += data.PhoneNumber
     txt += data.ChannelCode
     txt += data.Currency
     txt += data.RouteNo
@@ -53,6 +56,11 @@ const Payment = [
         "icon": logoKBank,
         "name": "Kasi Korn Bank",
         "code": "payplus_kbank"
+    },
+    {
+        "icon": logoQrCode,
+        "name": "QR Code",
+        "code": "bank_qrcode"
     }
 ];
 
@@ -70,68 +78,60 @@ const CartComponent = () => {
         )
             .then(response => {
                 response.json().then(data => setFieldValue("yourIP", data.IPv4, false));
-            })
 
-        // Fetch Shipping and Payment Option
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/paymentOptions`)
-            .then(res => {
-                // console.log("res.data[0].paymentOptions", res.data)
-                // setFieldValue("paymentOptions", res.data[0], false);
-            }).catch(function (err) {
-                console.log("err", err)
-            });
-
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
-            .then(res => {
-                // console.log("res.data.shipptingoption", res.data)
-                setFieldValue("shippingOptions", res.data, false);
-            }).catch(function (err) {
-                console.log("err", err)
-            });
-
-        auth.onAuthStateChanged(user => {
-            if (user) { // Login Mode
-                // Fetch Cart in Custimer Login
-                // console.log(user.uid)
-                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
+                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
                     .then(res => {
-                        setFieldValue("itemsList", res.data[0].itemsList, false);
-                        setFieldValue("uid", user.uid, false);
+                        // console.log("res.data.shipptingoption", res.data)
+                        setFieldValue("shippingOptions", res.data, false);
+
+                        auth.onAuthStateChanged(user => {
+                            if (user) { // Login Mode
+                                // Fetch Cart in Custimer Login
+                                // console.log("user.uid", user.uid)
+                                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
+                                    .then(res => {
+                                        setFieldValue("itemsList", res.data[0].itemsList, false);
+                                        setFieldValue("uid", user.uid, false);
+
+                                        // IF Login fetch address
+                                        axiosInst.get("customers", {
+                                            params: {
+                                                customerID: auth.currentUser.uid
+                                            }
+                                        }).then((res) => {
+                                            // Temporary for filtering the customer data
+                                            const customerInfo = res.data.filter((data) => {
+                                                return data["customerID"] === auth.currentUser.uid
+                                            })[0]
+                                            console.log("customerInfo", customerInfo)
+                                            setFieldValue("address", customerInfo.shippingAddress.address, false);
+                                            setFieldValue("county", customerInfo.shippingAddress.county, false);
+                                            setFieldValue("email", customerInfo.email, false);
+                                            setFieldValue("fullname", customerInfo.fullname, false);
+                                            setFieldValue("phone", customerInfo.phone, false);
+                                            setFieldValue("provice", customerInfo.shippingAddress.provice, false);
+                                            setFieldValue("zip", customerInfo.shippingAddress.zip, false);
+                                            setFieldValue("zone", customerInfo.shippingAddress.zone, false);
+                                        })
+                                    }).catch(function (err) {
+                                        console.log("err", err)
+                                    });
+
+                            } else { // Guest Mode
+                                var cartLocal = JSON.parse(localStorage.getItem("cart"));
+                                if (cartLocal) {
+                                    setFieldValue("itemsList", cartLocal.itemsList, false);
+                                } else {
+                                    return;
+                                }
+                            }
+                        });
+
+
                     }).catch(function (err) {
                         console.log("err", err)
                     });
-
-                // IF Login fetch address
-                axiosInst.get("customers", {
-                    params: {
-                        customerID: auth.currentUser.uid
-                    }
-                }).then((res) => {
-                    // Temporary for filtering the customer data
-                    const customerInfo = res.data.filter((data) => {
-                        return data["customerID"] === auth.currentUser.uid
-                    })[0]
-                    // console.log("customerInfo", customerInfo)
-                    setFieldValue("address", customerInfo.shippingAddress.address, false);
-                    setFieldValue("county", customerInfo.shippingAddress.county, false);
-                    setFieldValue("email", customerInfo.email, false);
-                    setFieldValue("fullname", customerInfo.fullname, false);
-                    setFieldValue("phone", customerInfo.phone, false);
-                    setFieldValue("provice", customerInfo.shippingAddress.provice, false);
-                    setFieldValue("zip", customerInfo.shippingAddress.zip, false);
-                    setFieldValue("zone", customerInfo.shippingAddress.zone, false);
-                })
-
-            } else { // Guest Mode
-                var cartLocal = JSON.parse(localStorage.getItem("cart"));
-                if (cartLocal) {
-                    setFieldValue("itemsList", cartLocal.itemsList, false);
-                } else {
-                    return;
-                }
-            }
-        });
-
+            })
     }, []);
 
     useEffect(() => {
@@ -145,46 +145,15 @@ const CartComponent = () => {
 
     }, [checkedBox]);
 
-    // const bodyFormData = new FormData();
-    const obj = {
-        "MerchantCode": "M030856",
-        "OrderNo": "DW0001",
-        "CustomerId": "supagorn",
-        "Amount": 2000,
-        "ChannelCode": "internetbank_scb",
-
-        "Currency": "764",
-        "RouteNo": 1,
-        "IPAddress": "183.88.68.171",
-        "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD"
-    }
-    // Object.entries(obj).forEach(([k, v]) => {
-    //     bodyFormData.append(k, v)
-    // })
-    // axios({
-    //     method: 'post',
-    //     url: 'https://sandbox-cdnv3.chillpay.co/Payment/',
-    //     data: bodyFormData,
-    //     headers: { 'Content-Type': 'multipart/form-data' }
-    // })
-    //     .then(function (response) {
-    //         //handle success
-    //         console.log("asdf1", response);
-    //     })
-    //     .catch(function (response) {
-    //         //handle error
-    //         console.log("asdf3", response);
-    //     });
-
     let priceTotal = 0;
     return (
-        //{"MerchantCode":"M030856","OrderNo":"DW0001","CustomerId":"supagorn","Amount":2000,"ChannelCode":"internetbank_scb","Currency":"764","RouteNo":1,"IPAddress":"183.88.68.171","ApiKey":"v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD","CheckSum":"0097c2639982996fdd2fe841bd120ea6"}
         <>
             <form id="form123" hidden action="https://sandbox-cdnv3.chillpay.co/Payment/" method="post">
                 <input hidden id="form123-MerchantCode" name="MerchantCode" value="M030856" />
                 <input hidden id="form123-OrderNo" name="OrderNo" value="DW0001" />
                 <input hidden id="form123-CustomerId" name="CustomerId" value="supagorn" />
                 <input hidden id="form123-Amount" name="Amount" value="1234" />
+                <input hidden id="form123-PhoneNumber" name="PhoneNumber" value="1234" />
                 <input hidden id="form123-ChannelCode" name="ChannelCode" value="internetbank_scb" />
 
                 <input hidden id="form123-Currency" name="Currency" value="764" />
@@ -193,40 +162,6 @@ const CartComponent = () => {
                 <input hidden id="form123-ApiKey" name="ApiKey" value="v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD" />
                 <input hidden id="form123-CheckSum" name="CheckSum" value="0097c2639982996fdd2fe841bd120ea6" />
             </form>
-
-            {/* <button onClick={() => {
-                document.getElementById("form123-Amount").value = 50000
-            }}>EDIT SET 50000</button>
-
-            <button onClick={() => {
-                document.getElementById("form123-Amount").value = 90000
-            }}>EDIT SET 90000</button>
-
-            <button onClick={() => {
-                let sumCheck = null
-                Object.keys(obj).forEach((fieldKey) => {
-                    console.log("form123-" + fieldKey)
-                    obj[fieldKey] = document.getElementById("form123-" + fieldKey).value
-                    sumCheck = md5Helper(obj)
-                    // console.log(obj, sumCheck)
-                })
-                document.getElementById("form123-CheckSum").value = sumCheck
-                document.getElementById("form123").submit()
-            }}>SUBMIT123</button> */}
-
-            {/* <form id="form1" action="https://sandbox-cdnv3.chillpay.co/Payment/" method="post">
-                <input name="MerchantCode" value="M030856" />
-                <input name="OrderNo" value="DW0001" />
-                <input name="CustomerId" value="supagorn" />
-                <input name="Amount" value="2000" />
-                <input name="ChannelCode" value="internetbank_scb" />
-                <input name="Currency" value="764" />
-                <input name="RouteNo" value="1" />
-                <input name="IPAddress" value="183.88.68.171" />
-                <input name="APIKey" value="v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD" />
-                <input name="CheckSum" value="0097c2639982996fdd2fe841bd120ea6" />
-                <button type="submit">SUBMIT</button>
-            </form> */}
 
             <section className={styles.section1}>
                 <StepProgress stepIndex={selectStep} />
@@ -408,116 +343,6 @@ const EnhancedCartComponent = withFormik({
         checkedBoxInfo: false
     }),
     validate: values => {
-
-        const chillpayUrl1 = 'https://sandbox-appsrv2.chillpay.co/api/v2/Payment/'
-        const chillpayUrl2 = 'https://sandbox-cdnv3.chillpay.co/Payment/'
-
-        const dataPostChillpay = { "MerchantCode": "M030856", "OrderNo": "DW0001", "CustomerId": "supagorn", "Amount": 2000, "ChannelCode": "internetbank_scb", "Currency": "764", "RouteNo": 1, "IPAddress": "183.88.68.171", "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD" }
-        dataPostChillpay.CheckSum = md5Helper(dataPostChillpay)
-
-        console.log("dataPostChillpay", dataPostChillpay)
-
-        axios.post(chillpayUrl1, dataPostChillpay, {
-            headers: {
-                'Host': 'sandbox-appsrv2.chillpay.co',
-                'Content-Length': JSON.stringify(dataPostChillpay).length
-            }
-        }).then((res) => {
-            console.log(chillpayUrl1, "ok", JSON.stringify(res))
-        }).catch((reason) => {
-            console.log(chillpayUrl1, "error", JSON.stringify(reason))
-        })
-        axios.post(chillpayUrl2, dataPostChillpay, {
-            headers: {
-                'Host': 'sandbox-cdnv3.chillpay.co',
-                'Content-Length': JSON.stringify(dataPostChillpay).length
-            }
-        }).then((res) => {
-            console.log(chillpayUrl2, "ok", JSON.stringify(res))
-        }).catch((reason) => {
-            console.log(chillpayUrl2, "error", JSON.stringify(reason))
-        })
-
-        // let dataPostChillpay =
-        // {
-        //     "MerchantCode": "M030856",
-        //     "OrderNo": "DW0001",
-        //     "CustomerId": "supagorn",
-        //     "Amount": 2000,
-        //     // "PhoneNumber": parseInt(values.phone),
-        //     "ChannelCode": values.payment,
-        //     "Currency": "764",
-        //     "RouteNo": 1,
-        //     "IPAddress": values.yourIP,
-        //     "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",//+values.phone
-        //     // "CheckSum": md5(`M030856${orderIDLast}${values.uid || values.fullname}2000${values.payment}7641${values.yourIP}v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvDipgv7ZVSVnZ6RFLOWGWnhly6iSl4w8xmaRg3PsX5GnTuQ1QPpYivGBnF3DSpt3T851x1klEEQoywSjCEodcYu46K6YyGBJsT9Qcj8Z2beA1bDIgDroymDMpLYEQJ9kCtzVOQukf6zQoU4vj2GI5PygYEe3fAkq1kksM9S`)
-        // }
-        // dataPostChillpay.CheckSum = md5Helper(dataPostChillpay)
-
-        // // console.log(dataPostChillpay)
-        // // console.log(JSON.stringify(dataPostChillpay))
-
-
-        // function testGet(path) {
-        //     axios.get(path, {
-        //         headers: {
-        //             'Access-Control-Allow-Origin': '*'
-        //         }
-        //     }).then((res) => {
-        //         console.log("GET path:", path, res)
-        //     }).catch((reason) => {
-        //         console.log("GET error on path:", path, reason)
-        //     })
-        // }
-
-        // function testPost(path, payload) {
-        //     payload = payload || { a: 1 }
-        //     axios.post(path, payload).then((res) => {
-        //         console.log("POST path:", path, res)
-        //     }).catch((reason) => {
-        //         console.log("POST error on path:", path, reason)
-        //     })
-        // }
-
-        // testGet('https://www.google.com')
-        // testPost('https://www.google.com')
-        // testGet('https://www.yahoo.com')
-        // testPost('https://www.yahoo.com')
-        // testGet('https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders')
-        // testPost('https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders')
-        // testGet('https://sandbox-appsrv2.chillpay.co/api/v2/Payment/')
-        // testPost('https://sandbox-appsrv2.chillpay.co/api/v2/Payment/')
-
-        // return
-
-        // axios({
-        //     method: "GET",
-        //     url: 'https://www.google.com'
-        // })
-        //     .then(res => {
-        //         console.log("test", res);
-        //     })
-        //     .catch(function (err) {
-        //         console.log("err test", JSON.stringify(err))
-        //     })
-
-        // axios({
-        //     method: "POST",
-        //     data: dataPostChillpay,
-        //     headers: {
-        //         // Overwrite Axios's automatically set Content-Type
-        //         'Content-Type': 'application/json',
-        //         'Host': 'sandbox-appsrv2.chillpay.co'
-        //     },
-        //     url: 'https://sandbox-appsrv2.chillpay.co/api/v2/Payment/'
-        // })
-        //     .then(res => {
-        //         console.log(res);
-        //     })
-        //     .catch(function (err) {
-        //         console.log("err", JSON.stringify(err))
-        //     })
-
         const errors = {};
         if (values.email === "") { errors.email = i18.required }
         if (values.phone === "") { errors.phone = i18.required }
@@ -545,53 +370,16 @@ const EnhancedCartComponent = withFormik({
     },
     handleSubmit: (values) => {
 
-        let dataPostChillpay = {
-            "MerchantCode": "M030856",
-            "OrderNo": "DW0001",
-            "CustomerId": "supagorn",
-            "Amount": 2000,
-            // "PhoneNumber": parseInt(values.phone),
-            "ChannelCode": values.payment,
-            "Currency": "764",
-            "RouteNo": 1,
-            "IPAddress": values.yourIP,
-            "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",//+values.phone
-            // "CheckSum": md5(`M030856${orderIDLast}${values.uid || values.fullname}2000${values.payment}7641${values.yourIP}v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvDipgv7ZVSVnZ6RFLOWGWnhly6iSl4w8xmaRg3PsX5GnTuQ1QPpYivGBnF3DSpt3T851x1klEEQoywSjCEodcYu46K6YyGBJsT9Qcj8Z2beA1bDIgDroymDMpLYEQJ9kCtzVOQukf6zQoU4vj2GI5PygYEe3fAkq1kksM9S`)
-        }
-        dataPostChillpay.CheckSum = md5Helper(dataPostChillpay)
-
-        console.log(dataPostChillpay)
-        console.log(JSON.stringify(dataPostChillpay))
-
-        // axios({
-        //     method: "POST",
-        //     params: dataPostChillpay,
-        //     headers: {
-        //         // Overwrite Axios's automatically set Content-Type
-        //         'Content-Type': 'application/json',
-        //         'Host': 'sandbox-appsrv2.chillpay.co'
-        //     },
-        //     url: 'https://sandbox-cdnv3.chillpay.co/Payment/'
-        // })
-        //     .then(res => {
-        //         console.log(res);
-        //     })
-        //     .catch(function (err) {
-        //         console.log("errasdfghjk", JSON.stringify(err))
-        //     })
-        // return
-
-
-        console.log("asdfasdfasdf")
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
             .then(res => {
+                console.log("res get orders", res.data)
                 let orderIDLast = (parseInt(res.data[res.data.length - 1].orderID.slice(2, res.data[res.data.length - 1].orderID.length)) + 1).toString();
-
+                console.log(">>>>>>>>>>>>>>>")
                 if (orderIDLast.length === 1) { orderIDLast = "DW000" + orderIDLast }
                 else if (orderIDLast.length === 2) { orderIDLast = "DW00" + orderIDLast }
                 else if (orderIDLast.length === 3) { orderIDLast = "DW0" + orderIDLast }
                 else if (orderIDLast.length === 4) { orderIDLast = "DW" + orderIDLast }
-
+                console.log(">>>>>>>>>>>>>>>>>>>2")
                 let data = {
                     "billingAddress": {
                         "fulladdress": values.billingFullname,
@@ -626,30 +414,16 @@ const EnhancedCartComponent = withFormik({
                         "zip": values.zip
                     }
                 };
-
+                console.log("data", data)
                 axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, data)
                     .then(res => {
-                        // let dataPostChillpay =
-                        // {
-                        //     "MerchantCode": "M030856",
-                        //     "OrderNo": orderIDLast,
-                        //     "CustomerId": values.uid || values.fullname,
-                        //     "Amount": 2000,
-                        //     // "PhoneNumber": parseInt(values.phone),
-                        //     "ChannelCode": values.payment,
-                        //     "Currency": "764",
-                        //     "RouteNo": 1,
-                        //     "IPAddress": values.yourIP,
-                        //     "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",//+values.phone
-                        //     "CheckSum": md5(`M030856${orderIDLast}${values.uid || values.fullname}2000${values.payment}7641${values.yourIP}v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvDipgv7ZVSVnZ6RFLOWGWnhly6iSl4w8xmaRg3PsX5GnTuQ1QPpYivGBnF3DSpt3T851x1klEEQoywSjCEodcYu46K6YyGBJsT9Qcj8Z2beA1bDIgDroymDMpLYEQJ9kCtzVOQukf6zQoU4vj2GI5PygYEe3fAkq1kksM9S`)
-                        // }
-
-                        // const bodyFormData = new FormData();
+                        // console.log("res>>>>>>>>>> post order", res);
                         const obj = {
                             "MerchantCode": "",
                             "OrderNo": "",
                             "CustomerId": "",
                             "Amount": 0,
+                            "PhoneNumber": "",
                             "ChannelCode": "",
 
                             "Currency": "",
@@ -661,51 +435,28 @@ const EnhancedCartComponent = withFormik({
                         let dataPostChillpay =
                         {
                             "MerchantCode": "M030856",
-                            "OrderNo": "DW0001",
-                            "CustomerId": "supagorn",
+                            "OrderNo": orderIDLast,
+                            "CustomerId": values.uid || values.fullname,
+                            "PhoneNumber": parseInt(values.phone),
                             "Amount": 2000,
-                            // "PhoneNumber": parseInt(values.phone),
+                            // "Amount": parseFloat(values.totalPrice + "00"),
                             "ChannelCode": values.payment,
+
                             "Currency": "764",
                             "RouteNo": 1,
                             "IPAddress": values.yourIP,
-                            "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",//+values.phone
-                            // "CheckSum": md5(`M030856${orderIDLast}${values.uid || values.fullname}2000${values.payment}7641${values.yourIP}v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvDipgv7ZVSVnZ6RFLOWGWnhly6iSl4w8xmaRg3PsX5GnTuQ1QPpYivGBnF3DSpt3T851x1klEEQoywSjCEodcYu46K6YyGBJsT9Qcj8Z2beA1bDIgDroymDMpLYEQJ9kCtzVOQukf6zQoU4vj2GI5PygYEe3fAkq1kksM9S`)
+                            "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",
                         }
                         const sumCheckDataPostChillpay = md5Helper(dataPostChillpay)
-
-                        console.log(dataPostChillpay)
-                        console.log(JSON.stringify(dataPostChillpay))
-
+                        console.log("sumCheckDataPostChillpay", sumCheckDataPostChillpay)
                         Object.keys(obj).forEach((fieldKey) => {
                             obj[fieldKey] = dataPostChillpay[fieldKey]
                             document.getElementById("form123-" + fieldKey).value = dataPostChillpay[fieldKey]
                         })
-                        sumCheckDataPostChillpay = md5Helper(obj)
-                        dataPostChillpay.sumCheck = sumCheckDataPostChillpay
-
+                        console.log("dataPostChillpay>>>", dataPostChillpay);
+                        console.log("obj>>>>>", obj);
                         document.getElementById("form123-CheckSum").value = sumCheckDataPostChillpay
                         document.getElementById("form123").submit()
-
-
-                        // Object.entries(dataPostChillpay).forEach(([fieldKey, fieldVal]) => {
-
-                        //     console.log("form123-" + fieldKey)
-                        //     document.getElementById("form123-" + fieldKey).value = fieldVal
-                        // })
-                        // document.getElementById("form123").submit()
-
-                        // axios.post('https://sandbox-appsrv2.chillpay.co/api/v2/Payment/', dataPostChillpay, {
-                        //     headers: {
-                        //         "Host": "sandbox-appsrv2.chillpay.co"
-                        //     }
-                        // })
-                        //     .then(res => {
-                        //         console.log(res);
-                        //     })
-                        //     .catch(function (err) {
-                        //         console.log("err", JSON.stringify(err))
-                        //     })
                     })
                     .catch(function (err) {
                         console.log("err 2", JSON.stringify(err))
