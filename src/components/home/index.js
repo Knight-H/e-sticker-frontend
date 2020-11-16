@@ -20,21 +20,6 @@ import FooterComponent from "../footer";
 import axios from "axios";
 import qs from "querystring";
 
-// This is solution from https://github.com/rafgraph/react-router-hash-link/tree/react-router-v2/3
-// function hashLinkScroll() {
-//     const { hash } = window.location;
-//     if (hash !== '') {
-//         // Push onto callback queue so it runs after the DOM is updated,
-//         // this is required when navigating from a different page so that
-//         // the element is rendered on the page before trying to getElementById.
-//         setTimeout(() => {
-//             const id = hash.replace('#', '');
-//             const element = document.getElementById(id);
-//             if (element) element.scrollIntoView({ block: 'center' });
-//         }, 0);
-//     }
-// }
-
 const HomeComponent = (props) => {
     const stepsOrder = useRef(null);
     const ourWorks = useRef(null);
@@ -43,8 +28,6 @@ const HomeComponent = (props) => {
     // Thinking of https://medium.com/javascript-in-plain-english/creating-a-hash-anchor-link-effect-with-react-router-a63dcb1a9b0e
     useEffect(() => {
         if (props.location.state !== undefined) {
-            // console.log("THIS IS PROPS", props)
-        // hashLinkScroll();
             if (props.location.state.scrollToStepsOrder) {
                 stepsOrder.current.scrollIntoView({ block: 'center' });
             } else if (props.location.state.scrollToOurWorks) {
@@ -55,41 +38,45 @@ const HomeComponent = (props) => {
     }, [props.location.state]);
 
     useEffect(() => {
-        // let url = window.location.search;
-        // const urlParams = new URLSearchParams(url);
-        // let code = urlParams.get('code');
+        let url = window.location.search;
+        const urlParams = new URLSearchParams(url);
+        let code = urlParams.get('code');
 
-        // const requestBody = {
-        //     "grant_type": "authorization_code",
-        //     "code": code,
-        //     "redirect_uri": "http://localhost:3100",
-        //     "client_id": "1655214405",
-        //     "client_secret": "73d5069713a373d60ca90d2b5e99437e"
-        // }
-            
-        // const config = {
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded'
-        //     }
-        // }
-            
-        // axios.post("https://api.line.me/oauth2/v2.1/token", qs.stringify(requestBody), config)
-        //     .then((result) => {
-        //         // console.log(result.data.access_token)
-        //         let data = {
-        //             "access_token": result.data.access_token
-        //         }
-        //         axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLoginApp", qs.stringify(data), config)
-        //             .then((res) => {
-        //                 console.log(res)
-        //             })
-        //             .catch((err) => {
-        //                 console.log(err)
-        //             })
-        //     })
-        //     .catch((err) => {
-        //         console.log(err)
-        //     })
+        if (code) {
+            const requestBody = {
+                "grant_type": "authorization_code",
+                "code": code,
+                "redirect_uri": "http://localhost:3100",
+                "client_id": "1655248592",
+                "client_secret": "45f5c965e3ac723120e8adec38e8793c"
+            }
+                
+            const config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+                
+            axios.post("https://api.line.me/oauth2/v2.1/token", qs.stringify(requestBody), config)
+                .then((result) => {
+                    console.log(result.data)
+                    let data = {
+                        "access_token": result.data.access_token
+                    }
+                    // console.log("data", data);
+    
+                    axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data)
+                        .then((res) => {
+                            console.log(res)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        } else return;
 
     }, [window.location.search])
 
