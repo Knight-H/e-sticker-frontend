@@ -19,7 +19,7 @@ const CheckoutComponent = (props) => {
                         setFieldValue("checkLogin", true, false)
                         setFieldValue("itemsList", res.data[0].itemsList, false);
                     }).catch(function (err) {
-                        console.log("err", err)
+                        console.log("err", JSON.stringify(err))
                     })
             } else {
                 var cartLocal = JSON.parse(localStorage.getItem("cart"));
