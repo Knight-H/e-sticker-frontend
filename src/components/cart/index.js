@@ -448,15 +448,26 @@ const EnhancedCartComponent = withFormik({
                             "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",
                         }
                         const sumCheckDataPostChillpay = md5Helper(dataPostChillpay)
+
+                        // dataPostChillpay.CheckSum = sumCheckDataPostChillpay;
+                        console.log("dataPostChillpay", dataPostChillpay)
+                        axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
+                            .then(res => {
+                                console.log(res);
+                            })
+                            .catch(err => {
+                                console.log(err.response)
+                            });
                         // console.log("sumCheckDataPostChillpay", sumCheckDataPostChillpay)
-                        Object.keys(obj).forEach((fieldKey) => {
-                            obj[fieldKey] = dataPostChillpay[fieldKey]
-                            document.getElementById("form123-" + fieldKey).value = dataPostChillpay[fieldKey]
-                        })
+                        // console.log("sumCheckDataPostChillpay", sumCheckDataPostChillpay)
+                        // Object.keys(obj).forEach((fieldKey) => {
+                        //     obj[fieldKey] = dataPostChillpay[fieldKey]
+                        //     document.getElementById("form123-" + fieldKey).value = dataPostChillpay[fieldKey]
+                        // })
                         // console.log("dataPostChillpay>>>", dataPostChillpay);
                         // console.log("obj>>>>>", obj);
-                        document.getElementById("form123-CheckSum").value = sumCheckDataPostChillpay
-                        document.getElementById("form123").submit()
+                        // document.getElementById("form123-CheckSum").value = sumCheckDataPostChillpay
+                        // document.getElementById("form123").submit()
                     })
                     .catch(function (err) {
                         console.log("err 2", JSON.stringify(err))
