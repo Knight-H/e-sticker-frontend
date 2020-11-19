@@ -68,6 +68,7 @@ const HomeComponent = (props) => {
                     axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data)
                         .then((res) => {
                             console.log(res)
+                            localStorage.setItem("token_line", result.data.id_token);
                         })
                         .catch((err) => {
                             console.log(err)
