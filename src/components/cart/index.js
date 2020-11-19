@@ -450,7 +450,7 @@ const EnhancedCartComponent = withFormik({
                         const sumCheckDataPostChillpay = md5Helper(dataPostChillpay)
 
                         // dataPostChillpay.CheckSum = sumCheckDataPostChillpay;
-                        console.log("dataPostChillpay", dataPostChillpay)
+                        // console.log("dataPostChillpay", dataPostChillpay)
                         axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
                             .then(res => {
                                 console.log(res);
