@@ -374,12 +374,12 @@ const EnhancedCartComponent = withFormik({
             .then(res => {
                 console.log("res get orders", res.data)
                 let orderIDLast = (parseInt(res.data[res.data.length - 1].orderID.slice(2, res.data[res.data.length - 1].orderID.length)) + 1).toString();
-                console.log(">>>>>>>>>>>>>>>")
+                // console.log(">>>>>>>>>>>>>>>")
                 if (orderIDLast.length === 1) { orderIDLast = "DW000" + orderIDLast }
                 else if (orderIDLast.length === 2) { orderIDLast = "DW00" + orderIDLast }
                 else if (orderIDLast.length === 3) { orderIDLast = "DW0" + orderIDLast }
                 else if (orderIDLast.length === 4) { orderIDLast = "DW" + orderIDLast }
-                console.log(">>>>>>>>>>>>>>>>>>>2")
+                // console.log(">>>>>>>>>>>>>>>>>>>2")
                 let data = {
                     "billingAddress": {
                         "fulladdress": values.billingFullname,
@@ -448,13 +448,13 @@ const EnhancedCartComponent = withFormik({
                             "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",
                         }
                         const sumCheckDataPostChillpay = md5Helper(dataPostChillpay)
-                        console.log("sumCheckDataPostChillpay", sumCheckDataPostChillpay)
+                        // console.log("sumCheckDataPostChillpay", sumCheckDataPostChillpay)
                         Object.keys(obj).forEach((fieldKey) => {
                             obj[fieldKey] = dataPostChillpay[fieldKey]
                             document.getElementById("form123-" + fieldKey).value = dataPostChillpay[fieldKey]
                         })
-                        console.log("dataPostChillpay>>>", dataPostChillpay);
-                        console.log("obj>>>>>", obj);
+                        // console.log("dataPostChillpay>>>", dataPostChillpay);
+                        // console.log("obj>>>>>", obj);
                         document.getElementById("form123-CheckSum").value = sumCheckDataPostChillpay
                         document.getElementById("form123").submit()
                     })
