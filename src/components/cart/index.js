@@ -438,8 +438,8 @@ const EnhancedCartComponent = withFormik({
                             "OrderNo": orderIDLast,
                             "CustomerId": values.uid || values.fullname,
                             "PhoneNumber": parseInt(values.phone),
-                            "Amount": 2000,
-                            // "Amount": parseFloat(values.totalPrice + "00"),
+                            // "Amount": 2000,
+                            "Amount": parseFloat(values.totalPrice + "00"),
                             "ChannelCode": values.payment,
 
                             "Currency": "764",
