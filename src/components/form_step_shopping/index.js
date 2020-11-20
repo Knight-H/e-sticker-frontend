@@ -185,6 +185,7 @@ const EnhancedAppComponent = withFormik({
                         "price": values.price,
                         "shape": values.shape,
                         "height": values.height,
+                        "status": "รออนุมัติแบบ",
 
                         "messages": [
                           {
@@ -234,6 +235,7 @@ const EnhancedAppComponent = withFormik({
                             "price": values.price,
                             "shape": values.shape,
                             "height": values.height,
+                            "status": "รออนุมัติแบบ",
 
                             "messages": [
                               {
@@ -285,6 +287,7 @@ const EnhancedAppComponent = withFormik({
                     "price": values.price,
                     "shape": values.shape,
                     "height": values.height,
+                    "status": "รออนุมัติแบบ",
 
                     "messages": [
                       {
@@ -324,6 +327,7 @@ const EnhancedAppComponent = withFormik({
                         "price": values.price,
                         "shape": values.shape,
                         "height": values.height,
+                        "status": "รออนุมัติแบบ",
 
                         "messages": [
                           {

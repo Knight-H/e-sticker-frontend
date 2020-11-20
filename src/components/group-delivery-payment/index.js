@@ -4,10 +4,18 @@ import { useFormikContext } from 'formik';
 
 import Kerry from '../approve-layout/kerry.png';
 import Scb from '../approve-layout/scb.jpg';
-import IconCircle from '../order-1-product-config/icon-circle.svg';
+import logoKBank from './kbank.jpg';
+import logoQrCode from './qrcode.png';
 
 const GroupDeliveryPaymentComponent = () => {
     const { values } = useFormikContext();
+    // console.log(values.paymentMethod)
+
+    const BankPayment = (paymentMethod) => {
+        if (paymentMethod === "internetbank_scb") return ( <img src={Scb} className={styles.logoBank} width="25" alt="kerry" /> )
+        else if (paymentMethod === "payplus_kbank") return ( <img src={logoKBank} className={styles.logoBank} width="25" alt="kerry" /> )
+        else if (paymentMethod === "bank_qrcode") return ( <img src={logoQrCode} className={styles.logoBank} width="25" alt="kerry" /> )
+    };
 
     if (!values.shippingAddress) {
         return <div></div>
@@ -39,7 +47,7 @@ const GroupDeliveryPaymentComponent = () => {
                 <div className={styles.groupPayment}>
                     <h3 style={{ marginBottom: "20px" }}>การชำระเงิน</h3>
                     <label>
-                        <img src={Scb} className={styles.logoBank} width="25" alt="kerry" />
+                        {BankPayment(values.paymentMethod)}
                         ธนาคารไทยพาณิชย์
                     </label>
 
@@ -55,7 +63,7 @@ const GroupDeliveryPaymentComponent = () => {
                         {values.itemsList.map((listCard, index) => {
                             return (
                             <tr>
-                                <td><img src={IconCircle} alt="Product" /></td>
+                                <td><img src={listCard.messages[0].content} alt="Product" /></td>
                                 <td style={{ minWidth: "60px" }}>
                                     <p>{listCard.shape}</p>
                                     <span>{listCard.material} - {listCard.coat} - {listCard.cutting} - ขนาด {listCard.width}x{listCard.height} mm.</span>

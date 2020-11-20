@@ -23,6 +23,8 @@ import MemberRegsterComponent from "./components/member-register";
 import MemberAccountComponent from "./components/member-account";
 import MemberListComponent from "./components/member-list";
 
+import SuccessfulComponent from "./components/successful";
+
 function App() {
     let url = window.location.pathname;
     let admin = url.search("admin")
@@ -50,6 +52,7 @@ function App() {
                 <Route path="/admin/customer" exact component={MemberListComponent} />
                 <Route path="/login" exact component={MemberLoginComponent} />
                 <Route path="/register" exact component={MemberRegsterComponent} />
+                <Route path="/e-sticker-frontend/successful" exact component={SuccessfulComponent} />
 
                 <Route path="/admin/product" exact component={AdminProductOptionComponent} />
             </Switch>

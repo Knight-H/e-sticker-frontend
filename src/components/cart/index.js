@@ -148,21 +148,6 @@ const CartComponent = () => {
     let priceTotal = 0;
     return (
         <>
-            <form id="form123" hidden action="https://sandbox-cdnv3.chillpay.co/Payment/" method="post">
-                <input hidden id="form123-MerchantCode" name="MerchantCode" value="M030856" />
-                <input hidden id="form123-OrderNo" name="OrderNo" value="DW0001" />
-                <input hidden id="form123-CustomerId" name="CustomerId" value="supagorn" />
-                <input hidden id="form123-Amount" name="Amount" value="1234" />
-                <input hidden id="form123-PhoneNumber" name="PhoneNumber" value="1234" />
-                <input hidden id="form123-ChannelCode" name="ChannelCode" value="internetbank_scb" />
-
-                <input hidden id="form123-Currency" name="Currency" value="764" />
-                <input hidden id="form123-RouteNo" name="RouteNo" value="1" />
-                <input hidden id="form123-IPAddress" name="IPAddress" value="183.88.68.171" />
-                <input hidden id="form123-ApiKey" name="ApiKey" value="v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD" />
-                <input hidden id="form123-CheckSum" name="CheckSum" value="0097c2639982996fdd2fe841bd120ea6" />
-            </form>
-
             <section className={styles.section1}>
                 <StepProgress stepIndex={selectStep} />
             </section>
@@ -368,7 +353,7 @@ const EnhancedCartComponent = withFormik({
 
         return errors;
     },
-    handleSubmit: (values) => {
+    handleSubmit: (values, { location }) => {
 
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
             .then(res => {
@@ -434,17 +419,14 @@ const EnhancedCartComponent = withFormik({
 
                         let dataPostChillpay =
                         {
-                            // "MerchantCode": "M030856",
                             "OrderNo": orderIDLast,
                             "CustomerId": values.uid || values.fullname,
                             "PhoneNumber": parseInt(values.phone),
                             "Amount": parseFloat(values.totalPrice + "00"),
                             "ChannelCode": values.payment,
-
                             "Currency": "764",
                             "RouteNo": 1,
-                            "IPAddress": values.yourIP,
-                            // "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",
+                            "IPAddress": values.yourIP
                         }
                         const sumCheckDataPostChillpay = md5Helper(dataPostChillpay)
 
@@ -452,7 +434,9 @@ const EnhancedCartComponent = withFormik({
                         // console.log("dataPostChillpay", dataPostChillpay)
                         axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
                             .then(res => {
-                                console.log(res);
+                                console.log(res.data.payment_url);
+                                console.log(res.data);
+                                window.location.href = res.data.payment_url;
                             })
                             .catch(err => {
                                 console.log(err.response)
