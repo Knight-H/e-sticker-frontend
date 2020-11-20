@@ -434,18 +434,17 @@ const EnhancedCartComponent = withFormik({
 
                         let dataPostChillpay =
                         {
-                            "MerchantCode": "M030856",
+                            // "MerchantCode": "M030856",
                             "OrderNo": orderIDLast,
                             "CustomerId": values.uid || values.fullname,
                             "PhoneNumber": parseInt(values.phone),
-                            // "Amount": 2000,
                             "Amount": parseFloat(values.totalPrice + "00"),
                             "ChannelCode": values.payment,
 
                             "Currency": "764",
                             "RouteNo": 1,
                             "IPAddress": values.yourIP,
-                            "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",
+                            // "ApiKey": "v06M0eQtSuk73HmQZ6QNiPGXyhGwS4Lzk76wuHT4GBtdUBpvbv6n2P18pLsPxtvD",
                         }
                         const sumCheckDataPostChillpay = md5Helper(dataPostChillpay)
 
