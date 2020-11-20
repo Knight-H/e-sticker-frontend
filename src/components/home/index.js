@@ -19,6 +19,7 @@ import FooterComponent from "../footer";
 
 import axios from "axios";
 import qs from "querystring";
+import { auth } from '../../firebase';
 
 const HomeComponent = (props) => {
     const stepsOrder = useRef(null);
@@ -69,6 +70,18 @@ const HomeComponent = (props) => {
                         .then((res) => {
                             console.log(res)
                             localStorage.setItem("token_line", result.data.id_token);
+
+                            auth
+                            .signInWithCustomToken(res.data.firebase_token)
+                            .then((res) => {
+                                console.log("res", res)
+                                // alert(i18_th.login_successful)
+                                // props.history.push("/customize")
+                            })
+                            .catch((error) => {
+                                console.log("error", error)
+                            })
+
                         })
                         .catch((err) => {
                             console.log(err)
