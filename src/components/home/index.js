@@ -17,21 +17,11 @@ import { ReactComponent as S51OrderIcon } from './s5-1-order-icon.svg';
 
 import FooterComponent from "../footer";
 
-
-// This is solution from https://github.com/rafgraph/react-router-hash-link/tree/react-router-v2/3
-// function hashLinkScroll() {
-//     const { hash } = window.location;
-//     if (hash !== '') {
-//         // Push onto callback queue so it runs after the DOM is updated,
-//         // this is required when navigating from a different page so that
-//         // the element is rendered on the page before trying to getElementById.
-//         setTimeout(() => {
-//             const id = hash.replace('#', '');
-//             const element = document.getElementById(id);
-//             if (element) element.scrollIntoView({ block: 'center' });
-//         }, 0);
-//     }
-// }
+import axios from "axios";
+import qs from "querystring";
+import { auth } from '../../firebase';
+import jwt_decode from "jwt-decode";
+import { axiosInst } from "../common-scss/common";
 
 const HomeComponent = (props) => {
     const stepsOrder = useRef(null);
@@ -41,8 +31,6 @@ const HomeComponent = (props) => {
     // Thinking of https://medium.com/javascript-in-plain-english/creating-a-hash-anchor-link-effect-with-react-router-a63dcb1a9b0e
     useEffect(() => {
         if (props.location.state !== undefined) {
-            // console.log("THIS IS PROPS", props)
-            // hashLinkScroll();
             if (props.location.state.scrollToStepsOrder) {
                 stepsOrder.current.scrollIntoView({ block: 'center' });
             } else if (props.location.state.scrollToOurWorks) {
@@ -51,6 +39,78 @@ const HomeComponent = (props) => {
 
         }
     }, [props.location.state]);
+
+    useEffect(() => {
+        let url = window.location.search;
+        const urlParams = new URLSearchParams(url);
+        let code = urlParams.get('code');
+
+        if (code) {
+            const requestBody = {
+                "grant_type": "authorization_code",
+                "code": code,
+                "redirect_uri": "http://localhost:3100",
+                "client_id": "1655248592",
+                "client_secret": "45f5c965e3ac723120e8adec38e8793c"
+            }
+                
+            const config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+                
+            axios.post("https://api.line.me/oauth2/v2.1/token", qs.stringify(requestBody), config)
+                .then((result) => {
+                    console.log("https://api.line.me/oauth2/v2.1/token", result.data)
+                    let data = {
+                        "access_token": result.data.access_token
+                    }
+                    // console.log("data", data);
+    
+                    axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data)
+                        .then((res) => {
+                            console.log("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", res.data)
+                            localStorage.setItem("token_line", result.data.id_token);
+                            var decoded = jwt_decode(result.data.id_token);
+                            // console.log("decoded", decoded)
+                            auth
+                            .signInWithCustomToken(res.data.firebase_token)
+                            .then((res_auth) => {
+                                console.log("res_auth", res_auth)
+                                const customerSchemaInfo = {
+                                    email: decoded.email,
+                                    fullname: decoded.name,
+                                    customerID: res.data.firebase_token,
+                                    status: "ปกติ"
+                                }
+                                console.log(customerSchemaInfo)
+                    
+                                axiosInst.post("customers", {
+                                    uid: res.data.firebase_token,
+                                    data: customerSchemaInfo
+                                }).then((res) => {
+                                    console.log("res", res)
+                                }).catch((reason) => {
+                                    console.log(reason)
+                                })
+
+                            })
+                            .catch((error) => {
+                                console.log("error", error)
+                            })
+
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        } else return;
+
+    }, [window.location.search])
 
     return (
         <>

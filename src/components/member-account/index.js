@@ -148,14 +148,14 @@ const EnchancedLocationFieldsComponent = withFormik({
                 Object.assign(customerInfo, values)
 
                 const customerSchemaInfo = {
-                    Email: customerInfo?.email || '',
+                    email: customerInfo?.email || '',
                     shippingAddress: {
                         address: customerInfo.address || '',
                         zip: customerInfo.zip || '',
-                        city: customerInfo.zone || '',
                         county: customerInfo.district || '',
                         provice: customerInfo.provice || '',
                         fullname: customerInfo.fullname || '',
+                        zone: customerInfo.zone || ''
                     },
                     fullname: customerInfo?.fullname || '',
                     phone: customerInfo?.phone || ''
@@ -222,7 +222,10 @@ export const Intermediate = () => {
     useEffect(() => {
         // console.log(currentEmail)
         auth.onAuthStateChanged((userCredential) => {
-            axiosInst.get(`customers/${userCredential.uid}`).then((res) => {
+
+            const urlPath = `customers/${userCredential.uid}`
+
+            axiosInst.get(urlPath).then((res) => {
                 // console.log(res, auth.currentUser.uid)
 
                 // Temporary for filtering the customer data
@@ -235,7 +238,7 @@ export const Intermediate = () => {
 
                     address: custInfo?.shippingAddress?.address || '',
                     zip: custInfo?.shippingAddress?.zip || '',
-                    zone: custInfo?.shippingAddress?.county || '',
+                    zone: custInfo?.shippingAddress?.zone || '',
                     district: custInfo?.shippingAddress?.county || '',
                     provice: custInfo?.shippingAddress?.provice || '',
 
