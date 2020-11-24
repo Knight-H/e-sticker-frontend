@@ -26,7 +26,7 @@ const ApproveLayoutComponent = (props) => {
                 } else {
                     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
                         .then(res => {
-                            // console.log("res.data", res.data)
+                            console.log("res.data", res.data)
                             setFieldValue("myID", myID, false);
 
                             setFieldValue("orderID", res.data.orderID, false);
@@ -39,7 +39,7 @@ const ApproveLayoutComponent = (props) => {
                             setFieldValue("shippingCost", res.data.shippingCost, false);
                             setFieldValue("vatCost", res.data.vatCost, false);
                             setFieldValue("totalCost", res.data.totalCost, false);
-
+                            setFieldValue("paymentMethod", res.data.paymentMethod, false);
                             setFieldValue("fetchMsg", false, false);
                         }).catch(function (err) {
                             console.log("err", err)

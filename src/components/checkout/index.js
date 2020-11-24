@@ -19,7 +19,7 @@ const CheckoutComponent = (props) => {
                         setFieldValue("checkLogin", true, false)
                         setFieldValue("itemsList", res.data[0].itemsList, false);
                     }).catch(function (err) {
-                        console.log("err", err)
+                        console.log("err", JSON.stringify(err))
                     })
             } else {
                 var cartLocal = JSON.parse(localStorage.getItem("cart"));
@@ -56,7 +56,7 @@ const CheckoutComponent = (props) => {
                                                 <tr>
                                                     <td colspan="3">
                                                         <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`} >
-                                                            <img src={img_product} className={styles.productPreview} alt="Product" />
+                                                            <img src={dataObjectMapped.messages[0].content} className={styles.productPreview} alt="Product" />
                                                             <div className={styles.containerCol}>
                                                                 <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
                                                                 <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>

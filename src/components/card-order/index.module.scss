@@ -7,11 +7,17 @@
     position: relative;
     margin-right: 10px;
     .description {
-        svg, h4, p, .quality, .price {
+        img, svg, h4, p, .quality, .price {
             position: absolute;
             top: 55px;
             left: 24px;
             font-weight: normal;
+        }
+
+        img, svg {
+            top: 45px;
+            width: 35px;
+            height: 35px;
         }
 
         h4 {
