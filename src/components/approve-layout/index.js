@@ -14,20 +14,19 @@ const ApproveLayoutComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(3);
     const [guestMode, setGuestMode] = useState(false);
-
+    
     useEffect(() => {
         auth.onAuthStateChanged(user => {
             if (user) {
-                let url = window.location.search;
-                const urlParams = new URLSearchParams(url);
-                let myID = urlParams.get('myID');
-                console.log("myID", myID)
+                var pathArray = window.location.pathname.split('/');
+                var myID = pathArray[2];
+                // console.log("myID", myID)
                 if (!myID) {
                     props.history.push('/customize');
                 } else {
                     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
                         .then(res => {
-                            console.log("res.data", res.data)
+                            // console.log("res.data", res.data)
                             setFieldValue("myID", myID, false);
 
                             setFieldValue("orderID", res.data.orderID, false);

@@ -31,11 +31,11 @@ function App() {
             {`${admin}` === '-1' ? <NavBarComponent /> : <AdminNavBarComponent />}
             <Switch>
                 <Route path="/" exact component={HomeComponent} />
-                <Route path="/myorder" exact component={ApproveLayoutComponent} />
+                <Route path="/myorder/:id" exact component={ApproveLayoutComponent} />
                 <Route path="/customize" exact component={FormStepShopping} />
 
                 <Route path="/admin/login" exact component={AdminLoginComponent} />
-                <Route path="/admin/myorder" exact component={AdminOrderComponent} />
+                <Route path="/admin/myorder/:id" exact component={AdminOrderComponent} />
 
                 <Route path="/member" exact component={HomeMemberComponent} />
                 <Route path="/cart" exact component={CheckoutComponent} />

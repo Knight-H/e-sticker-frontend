@@ -18,10 +18,8 @@ const AdminOrderComponent = (props) => {
 
     // GET Orders From API
     useEffect(() => {
-        let url = window.location.search;
-        const urlParams = new URLSearchParams(url);
-        let myID = urlParams.get('myID');
-        console.log("myID", myID)
+        var pathArray = window.location.pathname.split('/');
+        var myID = pathArray[3];
         if (!myID) {
             props.history.push('/admin');
         } else {

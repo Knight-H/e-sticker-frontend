@@ -36,22 +36,22 @@ const LocationFieldsComponent = ({ onlyLocation = false, emailDisabled = false }
 
             <div className={styles.gridItem}>
                 <div className={styles.formControl}>
-                    <p>ชื่อ นามสกุล* <ErrorMessage name="fullname" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
+                    <p>ชื่อบุคคล / ชื่อบริษัท* <ErrorMessage name="fullname" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
                     <Field name="fullname" type="text"/>
                 </div>
             </div>
 
             <div className={styles.gridItem}>
                 <div className={styles.formControl}>
-                    <p>แขวง* <ErrorMessage name="district" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
-                    <Field name="district" type="text"/>
+                    <p>แขวง* <ErrorMessage name="zone" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
+                    <Field name="zone" type="text"/>
                 </div>
             </div>
 
             <div className={styles.gridItem}>
                 <div className={styles.formControl}>
-                    <p>เขต* <ErrorMessage name="zone" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
-                    <Field name="zone" type="text"/>
+                    <p>เขต* <ErrorMessage name="county" render={msg => <span style={{color: "red"}}>{msg}</span>}/></p>
+                    <Field name="county" type="text"/>
                 </div>
             </div>
 
