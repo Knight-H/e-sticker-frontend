@@ -137,7 +137,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
             // 
             return true
         }))
-        Object.assign(values, props.userInfo)
+        Object.assign(values, moreUserInfo)
         console.log("moreUserInfo", moreUserInfo)
 
         auth.onAuthStateChanged((userCredential) => {
@@ -162,8 +162,10 @@ export let EnhancedLocationFields = withRouter(withFormik({
             console.log("sent", customerSchemaInfo)
 
             axiosInst.put(`customers/${uid}`, customerSchemaInfo).then((res) => {
+                // console.log(customerSchemaInfo)
+                // console.log(props.setUserInfo)
+                props.setUserInfo(customerSchemaInfo)
                 props.setUpdateStatusText(i18.account_information_update_success)
-
                 console.log("Update sucessful")
             }).catch((reason) => {
                 props.setUpdateStatusText(i18.account_information_update_failed_general)
