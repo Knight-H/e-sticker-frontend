@@ -20,6 +20,8 @@ import FooterComponent from "../footer";
 import axios from "axios";
 import qs from "querystring";
 import { auth } from '../../firebase';
+import jwt_decode from "jwt-decode";
+import { axiosInst } from "../common-scss/common";
 
 const HomeComponent = (props) => {
     const stepsOrder = useRef(null);
@@ -60,7 +62,7 @@ const HomeComponent = (props) => {
                 
             axios.post("https://api.line.me/oauth2/v2.1/token", qs.stringify(requestBody), config)
                 .then((result) => {
-                    console.log(result.data)
+                    console.log("https://api.line.me/oauth2/v2.1/token", result.data)
                     let data = {
                         "access_token": result.data.access_token
                     }
@@ -68,15 +70,31 @@ const HomeComponent = (props) => {
     
                     axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data)
                         .then((res) => {
-                            console.log(res)
+                            console.log("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", res.data)
                             localStorage.setItem("token_line", result.data.id_token);
-
+                            var decoded = jwt_decode(result.data.id_token);
+                            // console.log("decoded", decoded)
                             auth
                             .signInWithCustomToken(res.data.firebase_token)
-                            .then((res) => {
-                                console.log("res", res)
-                                // alert(i18_th.login_successful)
-                                // props.history.push("/customize")
+                            .then((res_auth) => {
+                                console.log("res_auth", res_auth)
+                                const customerSchemaInfo = {
+                                    email: decoded.email,
+                                    fullname: decoded.name,
+                                    customerID: res.data.firebase_token,
+                                    status: "ปกติ"
+                                }
+                                console.log(customerSchemaInfo)
+                    
+                                axiosInst.post("customers", {
+                                    uid: res.data.firebase_token,
+                                    data: customerSchemaInfo
+                                }).then((res) => {
+                                    console.log("res", res)
+                                }).catch((reason) => {
+                                    console.log(reason)
+                                })
+
                             })
                             .catch((error) => {
                                 console.log("error", error)
