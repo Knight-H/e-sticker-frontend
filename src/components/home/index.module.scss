@@ -475,3 +475,129 @@
         color: #000;
     }
 }
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modalContent {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px 3vw;
+    border: 1px solid #888;
+    border-radius: 50px;
+    width: 35%;
+    
+    @media not screen and (min-width: 1440px){  // width >= 768
+        width: 45%;
+    }
+
+    @media not screen and (min-width: 1024px){  // width >= 768
+        width: 55%;
+    }
+
+    @media not screen and (min-width: 768px){  // width >= 768
+        width: 90%;
+    }
+
+    .exampleSticker {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            margin-right: 8px;
+        }
+    }
+
+    .exampleStickerBox {
+        border: 1px solid #009473;
+        border-radius: 25px;
+        padding: 1vw 0;
+        margin: 15px 0;
+        display: flex;
+        align-items: center;
+
+        @media not screen and (min-width: 426px){  // width >= 768
+            flex-direction: column;
+        }
+
+        svg {
+            width: 150px;
+            height: 150px;
+        }
+
+        .exampleStickerBoxDetail {
+            margin-bottom: 10px;
+
+            h3 {
+                font-size: 15px;
+            }
+
+            p {
+                font-size: 12px;
+            }
+        }
+    }
+
+    .groupColumn {
+        height: 255px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+
+        input {
+            border: 1px solid #009473;
+            border-radius: 2px;
+ 
+            height: 30px;
+            margin: 5px 0 10px;
+        }
+        
+        .leftColumn {
+            align-self: flex-start;
+        }
+
+        .rightColumn {
+           align-self: flex-end;
+        }
+    }
+  }
+  
+  .btnGreen {
+    background-color: #009473;
+    color: white;
+
+    border: none;
+    border-radius: 4px;
+    padding: 8px 20px;
+    margin-right: 10px;
+  }
+
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
