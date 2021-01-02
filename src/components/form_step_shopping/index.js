@@ -3,8 +3,12 @@
 // https://medium.com/javascript-in-plain-english/how-to-create-a-multi-step-form-with-react-hooks-53a85efdff62
 import React, { useEffect } from "react";
 
-import Order1ProductConfigComponent from "./../order-1-product-config";
-import UploadFileComponent from "./../upload-file";
+import Order1ShapeConfigComponent from "./../order-1-shape-config";
+import Order1MaterialConfigComponent from "./../order-1-material-config";
+import Order1CoatConfigComponent from "./../order-1-coat-config";
+import Order1AmountConfigComponent from "./../order-1-amount-config";
+import Order2UploadFileConfigComponent from "./../order-2-upload-file-config";
+// import UploadFileComponent from "./../upload-file";
 import axios from "axios";
 import { withFormik, useFormikContext } from 'formik';
 import { auth } from '../../firebase/index.js';
@@ -44,10 +48,10 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
       })
     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`)
       .then(res => {
-          // console.log("res.data[0]", res.data.count_list)
-          setFieldValue("optionUnitOptions", res.data.count_list, false);
+        // console.log("res.data[0]", res.data.count_list)
+        setFieldValue("optionUnitOptions", res.data.count_list, false);
       }).catch(function (err) {
-          console.log("err", err)
+        console.log("err", err)
       })
   }, []);
 
@@ -64,10 +68,20 @@ const AppComponent = () => {
   return (
     <Wizard>
       <WizardStep>
-        <Order1ProductConfigComponent />
+        <Order1ShapeConfigComponent />
       </WizardStep>
       <WizardStep>
-        <UploadFileComponent />
+        <Order1MaterialConfigComponent />
+      </WizardStep>
+      <WizardStep>
+        <Order1CoatConfigComponent />
+      </WizardStep>
+      <WizardStep>
+        <Order1AmountConfigComponent />
+      </WizardStep>
+      <WizardStep>
+        <Order2UploadFileConfigComponent />
+        {/* <UploadFileComponent /> */}
       </WizardStep>
     </Wizard>
   );
@@ -93,10 +107,10 @@ const EnhancedAppComponent = withFormik({
     width: '',
     height: '',
     units: 0,
-    price: 0,
+    price: 100,
 
     // Step two
-    approvalStricker: 0,
+    approvalStricker: "รออนุมัติแบบ",
     isCheckUploadFileStricker: 0,
     uploadFileStricker: '',
     uploadFileStrickerForFirebase: [],
@@ -110,41 +124,33 @@ const EnhancedAppComponent = withFormik({
       if (!values.shape) {
         errors.shape = "*กรุณาระบุ"
       }
+    }
+    // Step 2
+    if (values.stepProgress === 1) {
       if (!values.material) {
         errors.material = "*กรุณาระบุ"
       }
+    }
+    // Step 3
+    if (values.stepProgress === 2) {
       if (!values.coat) {
         errors.coat = "*กรุณาระบุ"
       }
-      if (!values.cutting) {
-        errors.cutting = "*กรุณาระบุ"
-      }
-      if (!values.width === "") {
+    }
+    // Step 4
+    if (values.stepProgress === 3) {
+      if (!values.width) {
         errors.width = "*กรุณาระบุ"
       }
-      if (values.width > values.widthMax) {
-        errors.width = "*ขนาดใหญ่เกิน"
-      }
-      if (values.width < values.widthMin) {
-        errors.width = "*ขนาดเล็กเกิน"
-      }
-      if (!values.height === "") {
+      if (!values.height) {
         errors.height = "*กรุณาระบุ"
-      }
-      if (values.height > values.heightMax) {
-        errors.height = "*ขนาดใหญ่เกิน"
-      }
-      if (values.height < values.heightMin) {
-        errors.height = "*ขนาดเล็กเกิน"
       }
       if (!values.units) {
         errors.units = "*กรุณาระบุ"
       }
-    } else if (values.stepProgress === 1) {
-      // Step two
-      if (!values.approvalStricker) {
-        errors.approvalStricker = "*กรุณาระบุ"
-      }
+    }
+    // Step 5
+    if (values.stepProgress === 4) {
       if (!values.uploadFileStricker) {
         errors.uploadFileStricker = "*กรุณาระบุ"
       }
@@ -155,6 +161,12 @@ const EnhancedAppComponent = withFormik({
   handleSubmit: (values, { setFieldValue, props }) => {
     if (values.stepProgress === 0) {
       setFieldValue("stepProgress", 1, false);
+    } else if (values.stepProgress === 1) {
+      setFieldValue("stepProgress", 2, false);
+    } else if (values.stepProgress === 2) {
+      setFieldValue("stepProgress", 3, false);
+    } else if (values.stepProgress === 3) {
+      setFieldValue("stepProgress", 4, false);
     } else {
       const storageRef = firebaseApp.storage().ref();
       let timeStamp = new Date().toISOString().slice(0, 10)

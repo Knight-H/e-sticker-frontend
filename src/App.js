@@ -33,6 +33,7 @@ function App() {
             {`${admin}` === '-1' ? <NavBarComponent /> : <AdminNavBarComponent />}
             <Switch>
                 <Route path="/" exact component={HomeComponent} />
+                <Route path="/myorder" exact component={ApproveLayoutComponent} />
                 <Route path="/myorder/:id" exact component={ApproveLayoutComponent} />
                 <Route path="/customize" exact component={FormStepShopping} />
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import md5 from "md5";
+import ip from "ip";
 import { useFormikContext, withFormik, Form, Field, ErrorMessage } from 'formik';
 
 import StepProgress from "../step_progress";
@@ -61,6 +62,11 @@ const Payment = [
         "icon": logoQrCode,
         "name": "QR Code",
         "code": "bank_qrcode"
+    },
+    {
+        "icon": logoQrCode,
+        "name": "โอนเงินแนบสลิป",
+        "code": "transfer_money"
     }
 ];
 
@@ -71,18 +77,20 @@ const CartComponent = () => {
     const [checkedBox, setCheckedBox] = useState(false);
     const [shippingFee, setShippingFee] = useState(0);
     const [shippingDuration, setShippingDuration] = useState(0);
-
+    
     useEffect(() => {
-        fetch(
-            "https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572"
-        )
-            .then(response => {
-                response.json().then(data => setFieldValue("yourIP", data.IPv4, false));
+        // fetch(
+        //     "https://geolocation-db.com/json/85249190-4601-11eb-9067-21b51bc8dee3"
+        // )
+            // .then(response => {
+            //     console.log("response", response)
+            //     response.json().then(data => setFieldValue("yourIP", data.IPv4, false));
 
                 axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
                     .then(res => {
                         // console.log("res.data.shipptingoption", res.data)
                         setFieldValue("shippingOptions", res.data, false);
+                        setFieldValue("yourIP", ip.address, false)
 
                         auth.onAuthStateChanged(user => {
                             if (user) { // Login Mode
@@ -119,6 +127,7 @@ const CartComponent = () => {
 
                             } else { // Guest Mode
                                 var cartLocal = JSON.parse(localStorage.getItem("cart"));
+                                console.log("cartLocal", cartLocal)
                                 if (cartLocal) {
                                     setFieldValue("itemsList", cartLocal.itemsList, false);
                                 } else {
@@ -131,7 +140,7 @@ const CartComponent = () => {
                     }).catch(function (err) {
                         console.log("err", err)
                     });
-            })
+            // })
     }, []);
 
     useEffect(() => {
