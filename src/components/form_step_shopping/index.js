@@ -110,7 +110,7 @@ const EnhancedAppComponent = withFormik({
     price: 100,
 
     // Step two
-    approvalStricker: "needApproval",
+    approvalStricker: "รออนุมัติแบบ",
     isCheckUploadFileStricker: 0,
     uploadFileStricker: '',
     uploadFileStrickerForFirebase: [],

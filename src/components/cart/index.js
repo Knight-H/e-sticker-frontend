@@ -62,6 +62,11 @@ const Payment = [
         "icon": logoQrCode,
         "name": "QR Code",
         "code": "bank_qrcode"
+    },
+    {
+        "icon": logoQrCode,
+        "name": "โอนเงินแนบสลิป",
+        "code": "transfer_money"
     }
 ];
 

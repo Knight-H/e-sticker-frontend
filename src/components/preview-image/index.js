@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './index.module.scss';
 import { Field } from 'formik';
 import { useFormikContext } from 'formik';
@@ -8,9 +8,11 @@ import { auth } from '../../firebase/index.js';
 
 import { ReactComponent as IconCheckSVG } from '../approve-layout/icon-check.svg';
 import { ReactComponent as IconCircle } from '../order-1-product-config/icon-circle.svg';
+import logoKbank from './kbank.jpg';
 
 const PreviewImageComponent = () => {
     const { values, setFieldValue } = useFormikContext();
+    const [modal, setModal] = useState(false);
 
     const handleChange = event => {
         if (event.target.files) {
@@ -153,6 +155,63 @@ const PreviewImageComponent = () => {
                 <div className={styles.inputBox}>
                     {`${values.itemsList[values.expandCard].status}` === `รออนุมัติแบบ` &&
                         <button type="button" onClick={() => sendItemStatus()}><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>}
+
+                    {`${values.itemsList[values.expandCard].status}` === `รอชำระเงิน` &&
+                        <button type="button" onClick={() => setModal(true)}><h3>แจ้งชำระเงิน</h3></button>}
+
+                    {/* <!-- The Modal --> */}
+                    <div className={styles.modal} style={modal ? { display: "block" } : { display: "none" }}>
+                        <div className={styles.modalContent}>
+                            <div className={styles.exampleSticker}>
+                                ยืนยันการชำระเงิน
+                        </div>
+
+                            <div className={styles.groupColumn}>
+                                <div className={styles.leftColumn}>
+                                    <p>ชื่อ นามสกุล*</p>
+                                    <Field name="name" type="text" />
+                                    <p>ยอดชำระเงิน</p>
+                                    <Field name="amount" type="text" />
+                                </div>
+
+                                <div className={styles.rightColumn}>
+                                    <p>เบอร์โทรศัพท์*</p>
+                                    <Field name="phone" type="text" />
+                                    <p>สลิปการโอนเงิน</p>
+                                    <Field name="county" type="text" />
+                                </div>
+                            </div>
+
+                            <div className={styles.groupColumn}>
+                            <p>ธนาคารที่โอน</p>
+                            <button className={styles.bankPayment} type="button">
+                                <img src={logoKbank} className={styles.imgBank} />
+                                <div className={styles.groupBankDetail}>
+                                    <p>กสิกรไทย</p>
+                                    <p> 123-4-567-8910</p>
+                                    <p>บริษัท Digital wish จำกัด</p>
+                                </div>
+                            </button>
+                            </div>
+
+                            <div className={styles.groupColumn2}>
+                                <div className={styles.leftColumn}>
+                                    <p>วันที่โอน</p>
+                                    <Field name="name" type="text" />
+                                </div>
+                                <div className={styles.rightColumn}>
+                                    <p>เวลา</p>
+                                    <Field name="phone" type="text" />
+                                </div>
+                            </div>
+
+                            <button type="button" className={styles.btnGreenModal}>ตกลง</button>
+                            <button type="button" className={styles.btnGreenModal} onClick={() => setModal(false)}>ปิด</button>
+                        </div>
+
+                    </div>
+
+
                     <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." />
 
                     <div className={styles.btnGroup}>
