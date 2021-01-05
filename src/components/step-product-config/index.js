@@ -26,7 +26,7 @@ const StepProductConfigComponent = (props) => {
             }</p>
             <h4 className={styles.titleProductConfig}>ขนาด</h4>
             <p className={styles.detailProductConfig}>{
-                values.height || values.width ? <><IconCorrect />{values.width} X {values.height}</> : '-'
+                values.height || values.width ? <><IconCorrect />{values.width}cm. X {values.height}cm.</> : '-'
             }</p>
             <h4 className={styles.titleProductConfig}>จำนวน</h4>
             <p className={styles.detailProductConfig}>{

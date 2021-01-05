@@ -75,72 +75,73 @@ const CartComponent = () => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(2);
     const [checkedBox, setCheckedBox] = useState(false);
+    const [checkedBoxNotGet, setCheckedBoxNotGet] = useState(true);
     const [shippingFee, setShippingFee] = useState(0);
     const [shippingDuration, setShippingDuration] = useState(0);
-    
+
     useEffect(() => {
         // fetch(
         //     "https://geolocation-db.com/json/85249190-4601-11eb-9067-21b51bc8dee3"
         // )
-            // .then(response => {
-            //     console.log("response", response)
-            //     response.json().then(data => setFieldValue("yourIP", data.IPv4, false));
+        // .then(response => {
+        //     console.log("response", response)
+        //     response.json().then(data => setFieldValue("yourIP", data.IPv4, false));
 
-                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
-                    .then(res => {
-                        // console.log("res.data.shipptingoption", res.data)
-                        setFieldValue("shippingOptions", res.data, false);
-                        setFieldValue("yourIP", ip.address, false)
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
+            .then(res => {
+                // console.log("res.data.shipptingoption", res.data)
+                setFieldValue("shippingOptions", res.data, false);
+                setFieldValue("yourIP", ip.address(), false)
 
-                        auth.onAuthStateChanged(user => {
-                            if (user) { // Login Mode
-                                // Fetch Cart in Custimer Login
-                                // console.log("user.uid", user.uid)
-                                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
-                                    .then(res => {
-                                        setFieldValue("itemsList", res.data[0].itemsList, false);
-                                        setFieldValue("uid", user.uid, false);
+                auth.onAuthStateChanged(user => {
+                    if (user) { // Login Mode
+                        // Fetch Cart in Custimer Login
+                        // console.log("user.uid", user.uid)
+                        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
+                            .then(res => {
+                                setFieldValue("itemsList", res.data[0].itemsList, false);
+                                setFieldValue("uid", user.uid, false);
 
-                                        // IF Login fetch address
-                                        axiosInst.get("customers", {
-                                            params: {
-                                                customerID: auth.currentUser.uid
-                                            }
-                                        }).then((res) => {
-                                            // Temporary for filtering the customer data
-                                            const customerInfo = res.data.filter((data) => {
-                                                return data["customerID"] === auth.currentUser.uid
-                                            })[0]
-                                            console.log("customerInfo", customerInfo)
-                                            setFieldValue("address", customerInfo.shippingAddress.address, false);
-                                            setFieldValue("county", customerInfo.shippingAddress.county, false);
-                                            setFieldValue("email", customerInfo.email, false);
-                                            setFieldValue("fullname", customerInfo.fullname, false);
-                                            setFieldValue("phone", customerInfo.phone, false);
-                                            setFieldValue("provice", customerInfo.shippingAddress.provice, false);
-                                            setFieldValue("zip", customerInfo.shippingAddress.zip, false);
-                                            setFieldValue("zone", customerInfo.shippingAddress.zone, false);
-                                        })
-                                    }).catch(function (err) {
-                                        console.log("err", err)
-                                    });
+                                // IF Login fetch address
+                                axiosInst.get("customers", {
+                                    params: {
+                                        customerID: auth.currentUser.uid
+                                    }
+                                }).then((res) => {
+                                    // Temporary for filtering the customer data
+                                    const customerInfo = res.data.filter((data) => {
+                                        return data["customerID"] === auth.currentUser.uid
+                                    })[0]
+                                    console.log("customerInfo", customerInfo)
+                                    setFieldValue("address", customerInfo.shippingAddress.address, false);
+                                    setFieldValue("county", customerInfo.shippingAddress.county, false);
+                                    setFieldValue("email", customerInfo.email, false);
+                                    setFieldValue("fullname", customerInfo.fullname, false);
+                                    setFieldValue("phone", customerInfo.phone, false);
+                                    setFieldValue("provice", customerInfo.shippingAddress.provice, false);
+                                    setFieldValue("zip", customerInfo.shippingAddress.zip, false);
+                                    setFieldValue("zone", customerInfo.shippingAddress.zone, false);
+                                })
+                            }).catch(function (err) {
+                                console.log("err", err)
+                            });
 
-                            } else { // Guest Mode
-                                var cartLocal = JSON.parse(localStorage.getItem("cart"));
-                                console.log("cartLocal", cartLocal)
-                                if (cartLocal) {
-                                    setFieldValue("itemsList", cartLocal.itemsList, false);
-                                } else {
-                                    return;
-                                }
-                            }
-                        });
+                    } else { // Guest Mode
+                        var cartLocal = JSON.parse(localStorage.getItem("cart"));
+                        console.log("cartLocal", cartLocal)
+                        if (cartLocal) {
+                            setFieldValue("itemsList", cartLocal.itemsList, false);
+                        } else {
+                            return;
+                        }
+                    }
+                });
 
 
-                    }).catch(function (err) {
-                        console.log("err", err)
-                    });
-            // })
+            }).catch(function (err) {
+                console.log("err", err)
+            });
+        // })
     }, []);
 
     useEffect(() => {
@@ -290,16 +291,24 @@ const CartComponent = () => {
                         </div>
 
                         <h3>ออกใบกำกับภาษี</h3>
-                        <div className={styles.containerRow}>
+                        <div className={styles.containerRow} style={{ marginBottom: "10px" }}>
                             <div className={styles.containerColBank}>
-                                <Field name="checkedBoxInfo" type="checkbox" checked={checkedBox} onClick={() => setCheckedBox(!checkedBox)} />
+                                <Field name="checkedBoxInfoNotGet" type="checkbox" checked={checkedBoxNotGet} onClick={() => setCheckedBoxNotGet(!checkedBoxNotGet)}
+                                disabled={checkedBox ? true : false} />
+                            </div>
+                            <div className={styles.containerColBank}>
+                                ไม่เอาใบกำกับภาษี
+                            </div>
+                            <div className={styles.containerColBank}>
+                                <Field name="checkedBoxInfo" type="checkbox" checked={checkedBox} onClick={() => setCheckedBox(!checkedBox)}
+                                disabled={checkedBoxNotGet ? true : false} />
                             </div>
                             <div className={styles.containerColBank}>
                                 ข้อมูลเดียวกับที่อยู่
                             </div>
                         </div>
 
-                        <div className={!checkedBox ? styles.contentDisplayBlock : styles.contentDisplayNone}>
+                        <div className={!checkedBox && !checkedBoxNotGet ? styles.contentDisplayBlock : styles.contentDisplayNone}>
                             <TaxFieldsComponent />
                         </div>
                         <button type="submit" className={styles.buttonNext}>ถัดไป</button>
@@ -367,8 +376,9 @@ const EnhancedCartComponent = withFormik({
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
             .then(res => {
                 console.log("res get orders", res.data)
+                // let orderIDLast = "DW0001";
                 let orderIDLast = (parseInt(res.data[res.data.length - 1].orderID.slice(2, res.data[res.data.length - 1].orderID.length)) + 1).toString();
-                // console.log(">>>>>>>>>>>>>>>")
+                console.log(">>>>>>>>>>>>>>>")
                 if (orderIDLast.length === 1) { orderIDLast = "DW000" + orderIDLast }
                 else if (orderIDLast.length === 2) { orderIDLast = "DW00" + orderIDLast }
                 else if (orderIDLast.length === 3) { orderIDLast = "DW0" + orderIDLast }
@@ -411,20 +421,7 @@ const EnhancedCartComponent = withFormik({
                 console.log("data", data)
                 axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, data)
                     .then(res => {
-                        // console.log("res>>>>>>>>>> post order", res);
-                        const obj = {
-                            "MerchantCode": "",
-                            "OrderNo": "",
-                            "CustomerId": "",
-                            "Amount": 0,
-                            "PhoneNumber": "",
-                            "ChannelCode": "",
-
-                            "Currency": "",
-                            "RouteNo": 0,
-                            "IPAddress": "",
-                            "ApiKey": ""
-                        }
+                        console.log("res>>>>>>>>>> post order", res);
 
                         let dataPostChillpay =
                         {
@@ -437,29 +434,17 @@ const EnhancedCartComponent = withFormik({
                             "RouteNo": 1,
                             "IPAddress": values.yourIP
                         }
-                        const sumCheckDataPostChillpay = md5Helper(dataPostChillpay)
+                        console.log("dataPostChillpay", dataPostChillpay)
 
-                        // dataPostChillpay.CheckSum = sumCheckDataPostChillpay;
-                        // console.log("dataPostChillpay", dataPostChillpay)
                         axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
                             .then(res => {
-                                console.log(res.data.payment_url);
-                                console.log(res.data);
+                                // console.log(res.data.payment_url);
+                                // console.log("res>>>", res);
                                 window.location.href = res.data.payment_url;
                             })
                             .catch(err => {
                                 console.log(err.response)
                             });
-                        // console.log("sumCheckDataPostChillpay", sumCheckDataPostChillpay)
-                        // console.log("sumCheckDataPostChillpay", sumCheckDataPostChillpay)
-                        // Object.keys(obj).forEach((fieldKey) => {
-                        //     obj[fieldKey] = dataPostChillpay[fieldKey]
-                        //     document.getElementById("form123-" + fieldKey).value = dataPostChillpay[fieldKey]
-                        // })
-                        // console.log("dataPostChillpay>>>", dataPostChillpay);
-                        // console.log("obj>>>>>", obj);
-                        // document.getElementById("form123-CheckSum").value = sumCheckDataPostChillpay
-                        // document.getElementById("form123").submit()
                     })
                     .catch(function (err) {
                         console.log("err 2", JSON.stringify(err))

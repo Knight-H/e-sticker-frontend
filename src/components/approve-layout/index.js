@@ -40,6 +40,7 @@ const ApproveLayoutComponent = (props) => {
                             setFieldValue("vatCost", res.data.vatCost, false);
                             setFieldValue("totalCost", res.data.totalCost, false);
                             setFieldValue("paymentMethod", res.data.paymentMethod, false);
+                            setFieldValue("paymentStatus", res.data.paymentStatus, false);
                             setFieldValue("fetchMsg", false, false);
                         }).catch(function (err) {
                             console.log("err", err)

@@ -54,6 +54,10 @@ const AdminOrderComponent = (props) => {
             <h1 className={styles.title}>รายการออเดอร์</h1>
             <p>ออเดอร์หมายเลข #DW0001
             <SelectBox name="status" values={values} options={[
+                {
+                    color: "grayStatus",
+                    name: STATUS_ORDERS_TYPE.WAIT_PAYMENT
+                },
                     {
                         color: "orangeStatus",
                         name: STATUS_ORDERS_TYPE.DOING

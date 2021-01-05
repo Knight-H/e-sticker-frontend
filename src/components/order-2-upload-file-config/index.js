@@ -16,6 +16,8 @@ const Order1AmountConfigComponent = (props) => {
             setFieldValue("uploadFileStrickerForFirebase", event.target.files[0], false);
             setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), true);
             setFieldValue("isCheckUploadFileStricker", true, false);
+        } else {
+            setFieldValue("isCheckUploadFileStricker", false, false);
         }
     }
 
@@ -36,7 +38,9 @@ const Order1AmountConfigComponent = (props) => {
                         </h3>
                         <input type="file" id="file" onChange={(e) => handleChange(e)} />
                         <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
-                            <IconUploadFile />อัพโหลดไฟล์</label>
+                            <IconUploadFile />อัพโหลดไฟล์</label>{values.isCheckUploadFileStricker !== 0 ? values.isCheckUploadFileStricker ? 
+                            <span className={styles.statusUploadFile} style={{ color: "#009473" }}>อัพโหลดไฟล์สำเร็จ</span> :
+                            <span className={styles.statusUploadFile} style={{ color: "red" }}>อัพโหลดไฟล์ไม่สำเร็จ</span> : "" }
 
                         <h3 className={styles.titalPage} style={{ marginTop: "20px" }}>เพิ่มเติม</h3>
                         <Field name="comment" as="textarea" className={styles.textArea} rows="6" />

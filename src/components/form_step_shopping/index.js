@@ -67,7 +67,7 @@ const WizardStep = ({ children }) => children;
 const AppComponent = () => {
   return (
     <Wizard>
-      <WizardStep>
+      {/* <WizardStep>
         <Order1ShapeConfigComponent />
       </WizardStep>
       <WizardStep>
@@ -78,10 +78,9 @@ const AppComponent = () => {
       </WizardStep>
       <WizardStep>
         <Order1AmountConfigComponent />
-      </WizardStep>
+      </WizardStep> */}
       <WizardStep>
         <Order2UploadFileConfigComponent />
-        {/* <UploadFileComponent /> */}
       </WizardStep>
     </Wizard>
   );

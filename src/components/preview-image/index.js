@@ -9,6 +9,7 @@ import { auth } from '../../firebase/index.js';
 import { ReactComponent as IconCheckSVG } from '../approve-layout/icon-check.svg';
 import { ReactComponent as IconCircle } from '../order-1-product-config/icon-circle.svg';
 import logoKbank from './kbank.jpg';
+import { ReactComponent as IconUploadFile } from '../order-2-upload-file-config/icon-upload-file.svg';
 
 const PreviewImageComponent = () => {
     const { values, setFieldValue } = useFormikContext();
@@ -93,6 +94,15 @@ const PreviewImageComponent = () => {
             })
     }
 
+    const handleChangeModal = event => {
+        if (event.target.files) {
+            // setFieldValue("uploadFileStrickerForFirebase", event.target.files[0], false);
+            // setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), true);
+            // setFieldValue("isCheckUploadFileStricker", true, false);
+        }
+    }
+
+
     if (values.itemsList.length >= 1) {
         return (
             <>
@@ -153,11 +163,19 @@ const PreviewImageComponent = () => {
                 </div>
 
                 <div className={styles.inputBox}>
-                    {`${values.itemsList[values.expandCard].status}` === `รออนุมัติแบบ` &&
-                        <button type="button" onClick={() => sendItemStatus()}><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>}
+                    {`${values.paymentMethod}` === `transfer_money` && `${values.paymentStatus}` === `รอชำระเงิน` ?
+                        <button type="button" onClick={() => setModal(true)}><h3>แจ้งชำระเงิน</h3></button>
+                        : `${values.itemsList[values.expandCard].status}` === `รออนุมัติแบบ` &&
+                        <>
+                            <button type="button" onClick={() => sendItemStatus()}><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>
+                            <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." />
 
-                    {`${values.itemsList[values.expandCard].status}` === `รอชำระเงิน` &&
-                        <button type="button" onClick={() => setModal(true)}><h3>แจ้งชำระเงิน</h3></button>}
+                            <div className={styles.btnGroup}>
+                                <button type="button" onClick={() => sendMessage()}>ส่ง</button>
+                                <input type="file" id="file" onChange={(e) => handleChange(e)} />
+                                <label for="file" className={styles.btnCustomWidth}>อัพโหลดไฟล์</label>
+                            </div>
+                        </>}
 
                     {/* <!-- The Modal --> */}
                     <div className={styles.modal} style={modal ? { display: "block" } : { display: "none" }}>
@@ -178,20 +196,22 @@ const PreviewImageComponent = () => {
                                     <p>เบอร์โทรศัพท์*</p>
                                     <Field name="phone" type="text" />
                                     <p>สลิปการโอนเงิน</p>
-                                    <Field name="county" type="text" />
+                                    <input type="file" id="file" onChange={(e) => handleChangeModal(e)} />
+                                    <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
+                                        <IconUploadFile />อัพโหลดไฟล์</label>
                                 </div>
                             </div>
 
                             <div className={styles.groupColumn}>
-                            <p>ธนาคารที่โอน</p>
-                            <button className={styles.bankPayment} type="button">
-                                <img src={logoKbank} className={styles.imgBank} />
-                                <div className={styles.groupBankDetail}>
-                                    <p>กสิกรไทย</p>
-                                    <p> 123-4-567-8910</p>
-                                    <p>บริษัท Digital wish จำกัด</p>
-                                </div>
-                            </button>
+                                <p>ธนาคารที่โอน</p>
+                                <button className={styles.bankPayment} type="button">
+                                    <img src={logoKbank} className={styles.imgBank} />
+                                    <div className={styles.groupBankDetail}>
+                                        <p>กสิกรไทย</p>
+                                        <p> 123-4-567-8910</p>
+                                        <p>บริษัท Digital wish จำกัด</p>
+                                    </div>
+                                </button>
                             </div>
 
                             <div className={styles.groupColumn2}>
@@ -211,14 +231,6 @@ const PreviewImageComponent = () => {
 
                     </div>
 
-
-                    <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." />
-
-                    <div className={styles.btnGroup}>
-                        <button type="button" onClick={() => sendMessage()}>ส่ง</button>
-                        <input type="file" id="file" onChange={(e) => handleChange(e)} />
-                        <label for="file" className={styles.btnCustomWidth}>อัพโหลดไฟล์</label>
-                    </div>
                 </div>
             </>
         )
