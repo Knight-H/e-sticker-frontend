@@ -92,7 +92,7 @@ const HomeMemberComponent = (props) => {
                                             <td className={styles.iconCol}><Circle /></td>
                                             <td className={styles.detailCol}>
                                                 <h4>{list.shape}</h4>
-                                                <p>{list.material} - {list.coat} - {list.cutting} - ขนาด {list.width}x{list.height} mm.</p>
+                                                <p>{list.material} - {list.coat} - ขนาด {list.width}x{list.height} cm.</p>
                                             </td>
                                             <td className={styles.qtyCol}><p>{list.units}ชิ้น</p></td>
                                             <td className={styles.priceCol}><p>{list.price}฿</p></td>

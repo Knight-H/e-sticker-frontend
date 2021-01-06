@@ -208,3 +208,43 @@
     .grayStatus {
         background-color: gray;
     }
+
+
+
+.groupSlipPayment {
+    margin: 30px 0;
+
+    .flexRow {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 30px 0;
+
+        .cardSlip {
+            font-size: 15px;
+            padding: 20px 25px;
+            margin: 0 20px 20px 0;
+            background: #FFFFFF;
+            box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            border: none;
+
+            p {
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    .buttonPaymentConfirm {
+        color: white;
+        border: 0.5px solid #009473;
+        background-color: #009473;
+        border-radius: 5px;
+        padding: 10px 20px;
+        svg {
+          width: 18px;
+          height: 18px;
+          margin-right: 10px;
+        }
+      }
+}

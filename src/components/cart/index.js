@@ -405,7 +405,8 @@ const EnhancedCartComponent = withFormik({
                         "fullname": values.fullname,
                         "province": values.provice,
                         "zip": values.zip,
-                        "phone": values.phone
+                        "phone": values.phone,
+                        "email": values.email
                     }
                 };
                 console.log("data", data)

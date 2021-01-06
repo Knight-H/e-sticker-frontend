@@ -36,6 +36,7 @@ const ApproveLayoutComponent = (props) => {
                             setFieldValue("status", res.data.status, false);
                             setFieldValue("itemsList", res.data.itemsList, false);
                             setFieldValue("shippingAddress", res.data.shippingAddress, false);
+                            setFieldValue("shippingNumber",res.data.shippingNumber, false);
 
                             setFieldValue("shippingCourier", res.data.shippingCourier, false);
                             setFieldValue("itemsCost", res.data.itemsCost, false);
@@ -74,6 +75,7 @@ const ApproveLayoutComponent = (props) => {
             setFieldValue("status", orderNumber.status, false);
             setFieldValue("itemsList", orderNumber.itemsList, false);
             setFieldValue("shippingAddress", orderNumber.shippingAddress, false);
+            setFieldValue("shippingNumber", orderNumber.shippingNumber, false);
 
             setFieldValue("shippingCourier", orderNumber.shippingCourier, false);
             setFieldValue("itemsCost", orderNumber.itemsCost, false);
@@ -142,6 +144,7 @@ const EnhancedApproveLayoutComponent = withFormik({
         photo: null,
         amount: null,
         isCheckphoto: 0,
+        isAdmin: false
     }),
     validate: values => {
         const errors = {};
@@ -191,14 +194,23 @@ const EnhancedApproveLayoutComponent = withFormik({
                             }
                             cloneFullFetchData.paymentConfirm = [...cloneFullFetchData.paymentConfirm, newData];
                             console.log("cloneFullFetchData", cloneFullFetchData)
-
+                                    
                             axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${cloneFullFetchData.id}`, cloneFullFetchData)
                                 .then(res => {
                                     console.log("res", res)
                                     setFieldValue("fetchMsg", true, false)
+                                    window.alert("ส่งข้อมูลสำเร็จแล้ว");
+                                    setFieldValue("name", '', false)
+                                    setFieldValue("bank", '', false)
+                                    setFieldValue("phone", '', false)
+                                    setFieldValue("photo", '', false)
+                                    setFieldValue("date", '', false)
+                                    setFieldValue("time", '', false)
+                                    setFieldValue("amount", '', false)
                                 })
                                 .catch(err => {
                                     console.log("err", err)
+                                    window.alert("ส่งข้อมูลไม่สำเร็จแล้ว");
                                 });
 
                         });

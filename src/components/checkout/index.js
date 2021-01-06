@@ -80,7 +80,7 @@ const CheckoutComponent = (props) => {
                                                                 <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}<span onClick={() => {
                                                                     handleRemoveItemInCart(index)
                                                                 }} style={{ color: "red", fontSize: "12px", marginLeft: "5px", cursor: "pointer" }}>(ลบรายการ)</span></div>
-                                                                <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
+                                                                <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}cm</div>
                                                             </div>
                                                         </div>
                                                     </td>

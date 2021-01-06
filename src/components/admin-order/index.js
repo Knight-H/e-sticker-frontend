@@ -11,6 +11,7 @@ import GroupDeliveryPayment from "../group-delivery-payment";
 import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
 
 import { ReactComponent as IconArrow } from '../upload-file/icon-arrow.svg';
+import { ReactComponent as IconCheckSVG2 } from '../approve-layout/icon-check.svg';
 
 const AdminOrderComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
@@ -25,24 +26,39 @@ const AdminOrderComponent = (props) => {
         } else {
             axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
                 .then(res => {
-                    // console.log("res.data", res.data)
+                    console.log("res.data", res.data)
                     setFieldValue("myID", myID, false);
 
                     setFieldValue("orderID", res.data.orderID, false);
                     setFieldValue("status", res.data.status, false);
                     setFieldValue("itemsList", res.data.itemsList, false);
                     setFieldValue("shippingAddress", res.data.shippingAddress, false);
+                    setFieldValue("shippingNumber", res.data.shippingNumber, false);
 
                     setFieldValue("shippingCourier", res.data.shippingCourier, false);
                     setFieldValue("itemsCost", res.data.itemsCost, false);
                     setFieldValue("shippingCost", res.data.shippingCost, false);
                     setFieldValue("vatCost", res.data.vatCost, false);
                     setFieldValue("totalCost", res.data.totalCost, false);
+                    setFieldValue("paymentStatus", res.data.paymentStatus, false);
+
+                    setFieldValue("paymentConfirm", res.data.paymentConfirm, false);
                 }).catch(function (err) {
                     console.log("err", err)
                 })
         }
     }, [values.fetchMsg]);
+
+    const handleSubmitPaymentSlip = () => {
+        let data = { paymentStatus: "success" }
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
+            .then(res => {
+                console.log("res.data", res.data)
+                setFieldValue("fetchMsg", true, false)
+            }).catch(function (err) {
+                console.log("err", err)
+            })
+    }
 
     return (
         <main className={styles.wrapContent}>
@@ -54,10 +70,10 @@ const AdminOrderComponent = (props) => {
             <h1 className={styles.title}>รายการออเดอร์</h1>
             <p>ออเดอร์หมายเลข #DW0001
             <SelectBox name="status" values={values} options={[
-                {
-                    color: "grayStatus",
-                    name: STATUS_ORDERS_TYPE.WAIT_PAYMENT
-                },
+                    {
+                        color: "grayStatus",
+                        name: STATUS_ORDERS_TYPE.WAIT_PAYMENT
+                    },
                     {
                         color: "orangeStatus",
                         name: STATUS_ORDERS_TYPE.DOING
@@ -102,6 +118,34 @@ const AdminOrderComponent = (props) => {
                 <GroupDeliveryPayment />
             </section>
 
+            {
+                values.paymentConfirm.lenght !== 0 &&
+                <section className={styles.groupSlipPayment}>
+                    <h3>การแจ้งการชำระเงิน</h3>
+
+                    <div className={styles.flexRow}>
+                        {values.paymentConfirm.map((data, index) => {
+                            return (
+                                <acticle className={styles.cardSlip}>
+                                    <p>ชื่อ นามสกุล*: {data.name}</p>
+                                    <p>เบอร์โทรศัพท์*: {data.phone}</p>
+                                    <p>ยอดชำระเงิน: {data.amount}</p>
+                                    <p>ธนาคารที่โอน: {data.bank}</p>
+                                    <p>วันที่โอน: {data.date}</p>
+                                    <p>เวลา: {data.time}</p>
+                                    <p>สลิปการโอนเงิน:  <a className={styles.dowloadFileMsg} href={data.photo} downloadFile>ดาวน์โหลด.</a></p>
+                                </acticle>
+                            )
+                        })}
+                    </div>
+
+                    {
+                        values.paymentStatus === "รอชำระเงิน" &&
+                        <button className={styles.buttonPaymentConfirm} type="button" onClick={() => handleSubmitPaymentSlip()}><IconCheckSVG2 />ชำระเงินแล้ว</button>
+                    }
+                </section>
+            }
+
         </main >
     );
 };
@@ -116,6 +160,8 @@ const EnhancedAdminOrderComponent = withFormik({
         orderID: [],
         status: [],
         itemsList: [],
+        paymentConfirm: [],
+        isAdmin: true,
 
         fetchMsg: false
     })
