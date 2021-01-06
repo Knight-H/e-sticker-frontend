@@ -376,14 +376,27 @@ const EnhancedCartComponent = withFormik({
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
             .then(res => {
                 console.log("res get orders", res.data)
-                // let orderIDLast = "DW0001";
-                let orderIDLast = (parseInt(res.data[res.data.length - 1].orderID.slice(2, res.data[res.data.length - 1].orderID.length)) + 1).toString();
-                console.log(">>>>>>>>>>>>>>>")
+
+                let orderIDLast = 0;
+                res.data.map((data) => {
+                    // let findIndexNumber = (parseInt(data.orderID.slice(2, data.orderID.length)) + 1).toString();
+                    let findIndexNumber = (parseInt(data.orderID.slice(2, data.orderID.length)));
+                    // console.log("findIndexNumber", findIndexNumber)
+                    if (orderIDLast <= findIndexNumber) {
+                        orderIDLast = findIndexNumber;
+                        return;
+                    } else {
+                        return;
+                    }
+                })
+                
+                orderIDLast = (orderIDLast + 1).toString();
+                // console.log(">>>>>>>>>>>>>>>", orderIDLast)
                 if (orderIDLast.length === 1) { orderIDLast = "DW000" + orderIDLast }
                 else if (orderIDLast.length === 2) { orderIDLast = "DW00" + orderIDLast }
                 else if (orderIDLast.length === 3) { orderIDLast = "DW0" + orderIDLast }
                 else if (orderIDLast.length === 4) { orderIDLast = "DW" + orderIDLast }
-                // console.log(">>>>>>>>>>>>>>>>>>>2")
+                // console.log(">>>>>>>>>>>>>>>>>>>2", orderIDLast)
                 let data = {
                     "billingAddress": {
                         "fulladdress": values.billingFullname,

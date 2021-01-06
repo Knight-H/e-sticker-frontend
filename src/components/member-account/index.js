@@ -239,7 +239,7 @@ export const Intermediate = () => {
                     address: custInfo?.shippingAddress?.address || '',
                     zip: custInfo?.shippingAddress?.zip || '',
                     zone: custInfo?.shippingAddress?.zone || '',
-                    district: custInfo?.shippingAddress?.county || '',
+                    county: custInfo?.shippingAddress?.county || '',
                     provice: custInfo?.shippingAddress?.provice || '',
 
                     fullname: custInfo?.fullname || '',
