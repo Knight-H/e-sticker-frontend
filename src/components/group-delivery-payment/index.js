@@ -3,21 +3,39 @@ import styles from './index.module.scss';
 import { useFormikContext, Field } from 'formik';
 
 import Kerry from '../approve-layout/kerry.png';
-import Scb from '../approve-layout/scb.jpg';
-import logoKBank from './kbank.jpg';
-import logoQrCode from './qrcode.png';
 import axios from "axios";
+
+
+import logoSiamCommercialBank from '../cart/SiamCommercialBank.jpg';
+import logoKBank from '../cart/kbank.jpg';
+import logoQrCode from '../cart/qrcode.png';
+import TranferBank from '../cart/tranfer.png';
+
+const Payment = [
+    {
+        "icon": logoSiamCommercialBank,
+        "name": "Siam Commercial Bank",
+        "code": "internetbank_scb"
+    },
+    {
+        "icon": logoKBank,
+        "name": "Kasi Korn Bank",
+        "code": "payplus_kbank"
+    },
+    {
+        "icon": logoQrCode,
+        "name": "QR Code",
+        "code": "bank_qrcode"
+    },
+    {
+        "icon": TranferBank,
+        "name": "โอนเงินแนบสลิป",
+        "code": "transfer_money"
+    }
+];
 
 const GroupDeliveryPaymentComponent = () => {
     const { values, setFieldValue } = useFormikContext();
-    // console.log(values.paymentMethod)
-
-    const BankPayment = (paymentMethod) => {
-        if (paymentMethod === "internetbank_scb") return (<img src={Scb} className={styles.logoBank} width="25" alt="kerry" />)
-        else if (paymentMethod === "payplus_kbank") return (<img src={logoKBank} className={styles.logoBank} width="25" alt="kerry" />)
-        else if (paymentMethod === "bank_qrcode") return (<img src={logoQrCode} className={styles.logoBank} width="25" alt="kerry" />)
-    };
-    console.log("values.shippingAddress", values)
 
     const handleSubmitTrackingNumber = () => {
         let data = { shippingNumber: values.shippingNumber }
@@ -63,8 +81,15 @@ const GroupDeliveryPaymentComponent = () => {
                 <div className={styles.groupPayment}>
                     <h3 style={{ marginBottom: "20px" }}>การชำระเงิน</h3>
                     <label>
-                        {BankPayment(values.paymentMethod)}
-                        {values.paymentMethod}
+                        {Payment.map((data) => {
+                            if (data.code === values.paymentMethod)
+                            return (
+                                <>
+                                <img src={data.icon} className={styles.logoBank} width="25" alt="kerry" />
+                                {data.name}
+                                </>
+                            )
+                        })}
                     </label>
 
                     <table>

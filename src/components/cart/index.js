@@ -15,6 +15,7 @@ import logoKrungthaiBank from './KrungthaiBank.jpg';
 import logoSiamCommercialBank from './SiamCommercialBank.jpg';
 import logoKBank from './kbank.jpg';
 import logoQrCode from './qrcode.png';
+import TranferBank from './tranfer.png';
 
 import { auth } from '../../firebase/index.js';
 import axios from "axios";
@@ -38,7 +39,7 @@ const Payment = [
         "code": "bank_qrcode"
     },
     {
-        "icon": logoQrCode,
+        "icon": TranferBank,
         "name": "โอนเงินแนบสลิป",
         "code": "transfer_money"
     }
