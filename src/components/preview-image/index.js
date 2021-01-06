@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from './index.module.scss';
-import { Field } from 'formik';
+import { Field, Form, ErrorMessage } from 'formik';
 import { useFormikContext } from 'formik';
 import axios from "axios";
 import firebaseApp from '../../firebase/index.js';
@@ -96,12 +96,10 @@ const PreviewImageComponent = () => {
 
     const handleChangeModal = event => {
         if (event.target.files) {
-            // setFieldValue("uploadFileStrickerForFirebase", event.target.files[0], false);
-            // setFieldValue("uploadFileStricker", URL.createObjectURL(event.target.files[0]), true);
-            // setFieldValue("isCheckUploadFileStricker", true, false);
+            setFieldValue("photo", event.target.files[0], true);
+            setFieldValue("isCheckphoto", true, false);
         }
     }
-
 
     if (values.itemsList.length >= 1) {
         return (
@@ -184,49 +182,53 @@ const PreviewImageComponent = () => {
                                 ยืนยันการชำระเงิน
                         </div>
 
-                            <div className={styles.groupColumn}>
-                                <div className={styles.leftColumn}>
-                                    <p>ชื่อ นามสกุล*</p>
-                                    <Field name="name" type="text" />
-                                    <p>ยอดชำระเงิน</p>
-                                    <Field name="amount" type="text" />
-                                </div>
-
-                                <div className={styles.rightColumn}>
-                                    <p>เบอร์โทรศัพท์*</p>
-                                    <Field name="phone" type="text" />
-                                    <p>สลิปการโอนเงิน</p>
-                                    <input type="file" id="file" onChange={(e) => handleChangeModal(e)} />
-                                    <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
-                                        <IconUploadFile />อัพโหลดไฟล์</label>
-                                </div>
-                            </div>
-
-                            <div className={styles.groupColumn}>
-                                <p>ธนาคารที่โอน</p>
-                                <button className={styles.bankPayment} type="button">
-                                    <img src={logoKbank} className={styles.imgBank} />
-                                    <div className={styles.groupBankDetail}>
-                                        <p>กสิกรไทย</p>
-                                        <p> 123-4-567-8910</p>
-                                        <p>บริษัท Digital wish จำกัด</p>
+                            <Form>
+                                <div className={styles.groupColumn}>
+                                    <div className={styles.leftColumn}>
+                                        <p>ชื่อ นามสกุล*<ErrorMessage name="name" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="name" type="text" />
+                                        <p>ยอดชำระเงิน<ErrorMessage name="amount" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="amount" type="text" />
                                     </div>
-                                </button>
-                            </div>
 
-                            <div className={styles.groupColumn2}>
-                                <div className={styles.leftColumn}>
-                                    <p>วันที่โอน</p>
-                                    <Field name="name" type="text" />
+                                    <div className={styles.rightColumn}>
+                                        <p>เบอร์โทรศัพท์*<ErrorMessage name="phone" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="phone" type="text" />
+                                        <p>สลิปการโอนเงิน*<ErrorMessage name="photo" render={msg => <span className="error">{msg}</span>} />
+                                        {values.isCheckphoto !== 0 ? values.isCheckphoto ? <span style={{color: "#009473", fontSize: "12px"}}>อัพโหลดสำเร็จ</span> : 
+                                        <span style={{color: "red", fontSize: "12px"}}>อัพโหลดไม่สำเร็จ</span> : ""}</p>
+                                        <input type="file" id="file" onChange={(e) => handleChangeModal(e)} />
+                                        <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
+                                            <IconUploadFile />อัพโหลดไฟล์</label>
+                                    </div>
                                 </div>
-                                <div className={styles.rightColumn}>
-                                    <p>เวลา</p>
-                                    <Field name="phone" type="text" />
-                                </div>
-                            </div>
 
-                            <button type="button" className={styles.btnGreenModal}>ตกลง</button>
-                            <button type="button" className={styles.btnGreenModal} onClick={() => setModal(false)}>ปิด</button>
+                                <div className={styles.groupColumn}>
+                                    <p>ธนาคารที่โอน<ErrorMessage name="bank" render={msg => <span className="error">{msg}</span>} /></p>
+                                    <button className={`${styles.bankPayment} ${values.bank === "kbank" && styles.active}`} type="button" onClick={() => setFieldValue("bank", "kbank", true)}>
+                                        <img src={logoKbank} className={styles.imgBank} />
+                                        <div className={styles.groupBankDetail}>
+                                            <p>กสิกรไทย</p>
+                                            <p> 123-4-567-8910</p>
+                                            <p>บริษัท Digital wish จำกัด</p>
+                                        </div>
+                                    </button>
+                                </div>
+
+                                <div className={styles.groupColumn2}>
+                                    <div className={styles.leftColumn}>
+                                        <p>วันที่โอน<ErrorMessage name="date" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="date" type="date" />
+                                    </div>
+                                    <div className={styles.rightColumn}>
+                                        <p>เวลา<ErrorMessage name="time" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="time" type="time" style={{width: "170px"}} />
+                                    </div>
+                                </div>
+
+                                <button type="submit" className={styles.btnGreenModal}>ตกลง</button>
+                                <button type="button" className={styles.btnGreenModal} onClick={() => setModal(false)}>ปิด</button>
+                            </Form>
                         </div>
 
                     </div>

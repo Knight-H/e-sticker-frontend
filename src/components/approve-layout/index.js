@@ -10,11 +10,12 @@ import GroupDeliveryPayment from "../group-delivery-payment";
 import { STATUS_ORDERS_TYPE } from '../constant-variable.js';
 
 import { auth } from '../../firebase/index.js';
+import firebaseApp from '../../firebase/index.js';
 const ApproveLayoutComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(3);
     const [guestMode, setGuestMode] = useState(false);
-    
+
     useEffect(() => {
         auth.onAuthStateChanged(user => {
             if (user) {
@@ -27,6 +28,8 @@ const ApproveLayoutComponent = (props) => {
                     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
                         .then(res => {
                             console.log("res.data", res.data)
+                            setFieldValue("fullFetchData", res.data, false);
+
                             setFieldValue("myID", myID, false);
 
                             setFieldValue("orderID", res.data.orderID, false);
@@ -60,7 +63,6 @@ const ApproveLayoutComponent = (props) => {
             }
         })
     }, [values.fetchMsg]);
-
 
     const searchOrderNumber = () => {
         let orderNumber = values.allOrder.find(orderNumber => `${orderNumber.orderID}` === `${values.orderNumber}`);
@@ -113,6 +115,7 @@ const ApproveLayoutComponent = (props) => {
             <section className={styles.groupDeliveryPayment} style={guestMode ? { border: '1px solid #009473' } : {}}>
                 <GroupDeliveryPayment />
             </section>
+
         </main >
     );
 };
@@ -128,8 +131,81 @@ const EnhancedApproveLayoutComponent = withFormik({
         itemsList: [],
 
         allOrder: [],
-        fetchMsg: false
-    })
+        fetchMsg: false,
+
+        // modal bank
+        name: null,
+        phone: null,
+        bank: null,
+        date: null,
+        time: null,
+        photo: null,
+        amount: null,
+        isCheckphoto: 0,
+    }),
+    validate: values => {
+        const errors = {};
+        if (!values.name) {
+            errors.name = "*กรุณาระบุ"
+        }
+        if (!values.phone) {
+            errors.phone = "*กรุณาระบุ"
+        }
+        if (!values.bank) {
+            errors.bank = "*กรุณาระบุ"
+        }
+        if (!values.date) {
+            errors.date = "*กรุณาระบุ"
+        }
+        if (!values.time) {
+            errors.time = "*กรุณาระบุ"
+        }
+        if (!values.photo) {
+            errors.photo = "*กรุณาระบุ"
+        }
+        if (!values.amount) {
+            errors.amount = "*กรุณาระบุ"
+        }
+
+        return errors;
+    },
+    handleSubmit: (values, { setFieldValue, props }) => {
+        const storageRef = firebaseApp.storage().ref();
+        let timeStamp = new Date().toISOString().slice(0, 10)
+
+        let cloneFullFetchData = { ...values.fullFetchData };
+
+        auth.onAuthStateChanged(user => {
+            if (user) {// User is signed in.
+                storageRef.child(`${user.uid}/${timeStamp}-${values.photo.name}`).put(values.photo)
+                    .then((snapshot) => {
+                        snapshot.ref.getDownloadURL().then((url) => {
+                            let newData = {
+                                name: values.name,
+                                phone: values.phone,
+                                bank: values.bank,
+                                date: values.date,
+                                time: values.time,
+                                photo: url,
+                                amount: values.amount,
+                            }
+                            cloneFullFetchData.paymentConfirm = [...cloneFullFetchData.paymentConfirm, newData];
+                            console.log("cloneFullFetchData", cloneFullFetchData)
+
+                            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${cloneFullFetchData.id}`, cloneFullFetchData)
+                                .then(res => {
+                                    console.log("res", res)
+                                    setFieldValue("fetchMsg", true, false)
+                                })
+                                .catch(err => {
+                                    console.log("err", err)
+                                });
+
+                        });
+                    });
+            }
+        })
+    }
 })(ApproveLayoutComponent);
 
 export default EnhancedApproveLayoutComponent;

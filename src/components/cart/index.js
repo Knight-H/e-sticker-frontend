@@ -21,32 +21,6 @@ import axios from "axios";
 import { axiosInst } from '../common-scss/common'
 import { i18_th as i18 } from "../common-scss/i18_text";
 
-function md5Helper(data) {
-    let txt = ""
-
-    txt += data.MerchantCode
-    txt += data.OrderNo
-    txt += data.CustomerId
-    // txt += data.Amount
-    txt += 2000
-    txt += data.PhoneNumber
-    txt += data.ChannelCode
-    txt += data.Currency
-    txt += data.RouteNo
-    txt += data.IPAddress
-    txt += data.ApiKey
-
-    const secretKey = "ipgv7ZVSVnZ6RFLOWGWnhly6iSl4w8xmaRg3PsX5GnTuQ1QPpYivGBnF3DSpt3T851x1klEEQoywSjCEodcYu46K6YyGBJsT9Qcj8Z2beA1bDIgDroymDMpLYEQJ9kCtzVOQukf6zQoU4vj2GI5PygYEe3fAkq1kksM9S"
-    txt += secretKey
-    // console.log("I got this:", txt)
-
-    const md5Hash = md5(txt)
-
-    // console.log("md5:", md5Hash)
-
-    return md5Hash
-}
-
 const Payment = [
     {
         "icon": logoSiamCommercialBank,
@@ -294,14 +268,14 @@ const CartComponent = () => {
                         <div className={styles.containerRow} style={{ marginBottom: "10px" }}>
                             <div className={styles.containerColBank}>
                                 <Field name="checkedBoxInfoNotGet" type="checkbox" checked={checkedBoxNotGet} onClick={() => setCheckedBoxNotGet(!checkedBoxNotGet)}
-                                disabled={checkedBox ? true : false} />
+                                    disabled={checkedBox ? true : false} />
                             </div>
                             <div className={styles.containerColBank}>
                                 ไม่เอาใบกำกับภาษี
                             </div>
                             <div className={styles.containerColBank}>
                                 <Field name="checkedBoxInfo" type="checkbox" checked={checkedBox} onClick={() => setCheckedBox(!checkedBox)}
-                                disabled={checkedBoxNotGet ? true : false} />
+                                    disabled={checkedBoxNotGet ? true : false} />
                             </div>
                             <div className={styles.containerColBank}>
                                 ข้อมูลเดียวกับที่อยู่
@@ -371,7 +345,7 @@ const EnhancedCartComponent = withFormik({
 
         return errors;
     },
-    handleSubmit: (values, { location }) => {
+    handleSubmit: (values, { props, location }) => {
 
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
             .then(res => {
@@ -389,7 +363,7 @@ const EnhancedCartComponent = withFormik({
                         return;
                     }
                 })
-                
+
                 orderIDLast = (orderIDLast + 1).toString();
                 // console.log(">>>>>>>>>>>>>>>", orderIDLast)
                 if (orderIDLast.length === 1) { orderIDLast = "DW000" + orderIDLast }
@@ -422,42 +396,48 @@ const EnhancedCartComponent = withFormik({
                     "totalCost": values.totalPrice,
                     "vatCost": values.totalItemPrice * 7 / 100,
 
+                    "paymentConfirm": [],
+
                     "shippingAddress": {
                         "address": values.address,
                         "city": values.zone,
                         "county": values.county,
                         "fullname": values.fullname,
                         "province": values.provice,
-                        "zip": values.zip
+                        "zip": values.zip,
+                        "phone": values.phone
                     }
                 };
                 console.log("data", data)
                 axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, data)
                     .then(res => {
-                        console.log("res>>>>>>>>>> post order", res);
+                        // console.log("res>>>>>>>>>> post order", res);
+                        if (values.payment === "transfer_money") {
+                            return props.history.push("/member");
+                        } else {
+                            let dataPostChillpay =
+                            {
+                                "OrderNo": orderIDLast,
+                                "CustomerId": values.uid || values.fullname,
+                                "PhoneNumber": parseInt(values.phone),
+                                "Amount": parseFloat(values.totalPrice + "00"),
+                                "ChannelCode": values.payment,
+                                "Currency": "764",
+                                "RouteNo": 1,
+                                "IPAddress": values.yourIP
+                            }
 
-                        let dataPostChillpay =
-                        {
-                            "OrderNo": orderIDLast,
-                            "CustomerId": values.uid || values.fullname,
-                            "PhoneNumber": parseInt(values.phone),
-                            "Amount": parseFloat(values.totalPrice + "00"),
-                            "ChannelCode": values.payment,
-                            "Currency": "764",
-                            "RouteNo": 1,
-                            "IPAddress": values.yourIP
+                            axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
+                                .then(res => {
+                                    // console.log(res.data.payment_url);
+                                    // console.log("res>>>", res);
+                                    window.location.href = res.data.payment_url;
+                                })
+                                .catch(err => {
+                                    console.log(err.response)
+                                });
                         }
-                        console.log("dataPostChillpay", dataPostChillpay)
 
-                        axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
-                            .then(res => {
-                                // console.log(res.data.payment_url);
-                                // console.log("res>>>", res);
-                                window.location.href = res.data.payment_url;
-                            })
-                            .catch(err => {
-                                console.log(err.response)
-                            });
                     })
                     .catch(function (err) {
                         console.log("err 2", JSON.stringify(err))

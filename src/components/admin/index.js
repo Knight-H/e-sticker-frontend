@@ -34,8 +34,6 @@ const AdminComponent = (props) => {
         DONE: 0,
         CANCEL: 0
     }
-    // var dateNow = new Date();
-    // var monthNow = dateNow.getMonth();
 
     const [selectStatus, setSelectStatus] = useState(statusFilter.ALL);
     const [textSearch, setTextSearch] = useInputChange();
@@ -61,7 +59,7 @@ const AdminComponent = (props) => {
             return null;
         })
     }
-
+    console.log("orderData", orderData)
     return (
         <React.Fragment>
             <section className={styles.section1}>
@@ -141,7 +139,7 @@ const AdminComponent = (props) => {
                                             <td>{dataObjectMapped.orderID}</td>
                                             {/* <td>{dataObjectMapped.customerID}</td> */}
                                             <td>{dataObjectMapped.shippingAddress.fullname}</td>
-                                            <td>{dataObjectMapped?.phone}</td>
+                                            <td>{dataObjectMapped?.shippingAddress.phone}</td>
                                             <td>{dataObjectMapped?.itemsList?.length || 0}</td>
                                             <td>{dataObjectMapped.totalCost}</td>
                                             <td>

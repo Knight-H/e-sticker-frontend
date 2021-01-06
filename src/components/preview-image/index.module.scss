@@ -183,6 +183,10 @@
         width: 90%;
     }
 
+    p {
+        font-size: 14px;
+    }
+
     .label {
         color: #009473;
         margin: 5px 0;
@@ -229,6 +233,10 @@
             font-size: 12px;
             margin: 8px 20px 0 0;
         }
+    }
+
+    .active {
+        border: 3px solid #009473;
     }
 
     .btnGreenModal {
