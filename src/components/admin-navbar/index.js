@@ -135,7 +135,7 @@ const AdminNavBarComponent = ({ history, itemCount }) => {
                     <li>
                         <Link><EditPen />ปรับแต่งตัวเลือก</Link>
                     </li>
-                    <li><Link><IconRock />เปลี่ยนรหัสผ่าน</Link>
+                    <li><Link to="/admin/setting"><IconRock />เปลี่ยนรหัสผ่าน</Link>
                     </li>
                     <li>
                         <Link onClick={() => {
