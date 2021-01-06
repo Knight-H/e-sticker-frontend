@@ -18,7 +18,6 @@ import { i18_th } from '../common-scss/i18_text'
 //         const stepsOrderElement = document.querySelector('#stepsOrder');
 //     stepsOrderElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
 //     }
-
 // }
 
 
