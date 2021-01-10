@@ -1,0 +1,141 @@
+.section1 {
+    width: 90%;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    // border: 3px solid red;
+
+    overflow-x: scroll;
+}
+.section1::-webkit-scrollbar {
+    display: none;
+  }
+
+.section2 {
+    width: 90%;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    // border: 3px solid red;
+}
+
+.containerRow {
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    // border: 3px solid blue;
+}
+
+.containerMargin {
+    margin: 20px 0px;
+}
+
+.containerCol {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    // border: 3px solid red;
+}
+
+.adminTable {
+    display: flex;
+    width: 100%;
+    margin: 20px auto 0 auto;
+    font-size: 0.8rem;
+    overflow-x: scroll;
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    thead {
+        background-color: #242424;
+        color: white;
+        margin: 30px;
+    }
+
+    th {
+        padding: 5px;
+    }
+
+    td {
+        text-align: center;
+        padding: 5px;
+    }
+
+    tr:nth-child(even) {background-color: #E3E3E3;}
+}
+.adminTable::-webkit-scrollbar {
+    display: none;
+  }
+  
+.statusAdmin {
+    align-content: center;
+    padding: 5px 1px;
+    font-size: 0.75rem;
+    border-radius: 5px;
+}
+
+.statusCenter {
+    margin: auto;
+    width: 60%;
+}
+
+.statusMargin {
+    padding: 8px;
+    margin: 5px 5px 5px 0px;
+}
+
+.statusDoing {
+    background-color: #FF9F46;
+}
+
+.statusDone {
+    background-color: #21B54D;
+}
+
+.statusCancel {
+    background-color: #CF3C3C;
+}
+
+.statusNormal {
+    background-color: #E3E3E3;
+}
+
+.inputAdmin {
+    width: 150px;
+    height: 30px;
+    font-size: 0.8rem;
+    border: 2px solid #009473;
+    border-radius: 5px;
+    padding: 0px 0px 0px 5px;
+    margin: auto 10px auto 0px;
+}
+
+.divButton {
+    cursor:pointer;
+}
+
+.divButtonActive {
+    background-color: khaki;
+}
+
+.removeThisDemo {
+    background-color: red;
+    color: white;
+    padding: 5px 8px;
+    border: none;
+    border-radius: 5px;
+}
+
+.selectStatus {
+    padding: 5px;
+
+    .optionStatus {
+        padding: 5px;
+    }
+}

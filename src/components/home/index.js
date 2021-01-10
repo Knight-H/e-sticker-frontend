@@ -319,14 +319,18 @@ const EnhancedHomeComponent = withFormik({
     },
     handleSubmit: (values, { setFieldValue }) => {
         let data = {
-            name: values.name,
-            zip: values.zip,
-            address: values.address,
-            zone: values.zone,
-            county: values.county,
-            phone: values.phone,
-            provice: values.provice,
+            fullname: values.name,
             email: values.email,
+            phone: values.phone,
+            shippingAddress: {
+                fullname: values.name,
+                zip: values.zip,
+                address: values.address,
+                zone: values.zone,
+                county: values.county,
+                provice: values.provice,   
+            },
+            status: "ปกติ"
         }
         axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/demo`, data)
             .then(res => {

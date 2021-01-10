@@ -22,6 +22,7 @@ const AdminKpiComponent = (props) => {
             </main >
             <section>
                 <button className={styles.buttonList} onClick={() => {history.push("/admin")}}>รายการคำสั่งซื้อ</button>
+                <button className={styles.buttonList} onClick={() => {history.push("/admin/demo")}}>รายการขอตัวอย่าง</button>
                 <button className={styles.buttonList} onClick={() => {history.push("/admin/customer")}}>รายการสมาชิก</button>
                 <button className={styles.buttonList} onClick={() => {history.push("/admin/product")}}>รายการออเดอร์ และ รายการจัดส่ง</button>
             </section>

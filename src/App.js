@@ -22,6 +22,7 @@ import MemberLoginComponent from "./components/member-login";
 import MemberRegsterComponent from "./components/member-register";
 import MemberAccountComponent from "./components/member-account";
 import MemberListComponent from "./components/member-list";
+import AdminDemoMTG from "./components/admin-demo-mgt";
 
 import SuccessfulComponent from "./components/successful";
 
@@ -56,6 +57,7 @@ function App() {
                 <Route path="/admin/customer" exact component={MemberListComponent} />
                 <Route path="/admin/myorder/:id" exact component={AdminOrderComponent} />
                 <Route path="/admin/product" exact component={AdminProductOptionComponent} />
+                <Route path="/admin/demo" exact component={AdminDemoMTG} />
             </Switch>
 
         </div>
