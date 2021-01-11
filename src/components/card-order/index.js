@@ -21,7 +21,7 @@ const CardOrderComponent = (props) => {
                             <img src={listCard.messages[0].content} />
                             {/* <Circle /> */}
                             <h4>รูปแบบ{listCard.shape}</h4>
-                            <p>{listCard.material} - {listCard.coat} - {listCard.cutting} - ขนาด {listCard.width}x{listCard.height} mm.</p>
+                            <p>{listCard.material} - {listCard.coat} - ขนาด {listCard.width}x{listCard.height} cm.</p>
                             <h4 className={styles.quality}>{listCard.units}ชิ้น</h4>
                             <h4 className={styles.price}>{listCard.price}฿</h4>
                         </div>
@@ -61,7 +61,7 @@ const LabelSatus = ({ status }) => {
         return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: รออนุมัติแบบ</label>
     } else if (status === "อนุมัติแบบ") {
         return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: อนุมัติแบบ</label>
-    } else if (status === "รอชำระเงิน") {
+    } else if (status === "pending") {
         return <label className={`${styles.labelStatus} ${styles.blueStatus}`}>สถานะ: รอการยืนยันชำระเงิน</label>
     } else {
         return <label></label>

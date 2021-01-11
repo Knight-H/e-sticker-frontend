@@ -107,7 +107,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
             address: '',
             fullname: '',
 
-            district: '',
+            county: '',
             zone: '',
             provice: '',
             zip: '',
@@ -150,7 +150,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
                     address: moreUserInfo?.address || '',
                     zip: moreUserInfo?.zip || '',
                     zone: moreUserInfo?.zone || '',
-                    county: moreUserInfo?.district || '',
+                    county: moreUserInfo?.county || '',
                     provice: moreUserInfo?.provice || '',
                     fullname: moreUserInfo?.fullname || '',
                 },
@@ -245,7 +245,7 @@ let MemberComponent = (props) => {
                 address: custInfo?.shippingAddress?.address || '',
                 zip: custInfo?.shippingAddress?.zip || '',
                 zone: custInfo?.shippingAddress?.zone || '',
-                district: custInfo?.shippingAddress?.county || '',
+                county: custInfo?.shippingAddress?.county || '',
                 provice: custInfo?.shippingAddress?.provice || '',
 
                 fullname: custInfo?.fullname || '',
@@ -305,7 +305,7 @@ let MemberComponent = (props) => {
 //         address: '',
 //         fullname: '',
 
-//         district: '',
+//         county: '',
 //         zone: '',
 //         provice: '',
 //         zip: '',

@@ -88,13 +88,16 @@ const EnchancedLocationFieldsComponent = withFormik({
 
         return {
 
+            customerID: '',
+            status: '',
+
             email: '',
             phone: '',
 
             address: '',
             fullname: '',
 
-            district: '',
+            county: '',
             zone: '',
 
             provice: '',
@@ -148,11 +151,13 @@ const EnchancedLocationFieldsComponent = withFormik({
                 Object.assign(customerInfo, values)
 
                 const customerSchemaInfo = {
+                    customerID: customerInfo?.customerID || '',
+                    status: customerInfo?.status || '',
                     email: customerInfo?.email || '',
                     shippingAddress: {
                         address: customerInfo.address || '',
                         zip: customerInfo.zip || '',
-                        county: customerInfo.district || '',
+                        county: customerInfo.county || '',
                         provice: customerInfo.provice || '',
                         fullname: customerInfo.fullname || '',
                         zone: customerInfo.zone || ''
@@ -234,12 +239,14 @@ export const Intermediate = () => {
                 console.log("got cust info", custInfo)
 
                 const formikSchema = {
+                    customerID: custInfo.customerID,
+                    status: custInfo.status,
                     email: custInfo.Email || userCredential.email,
 
                     address: custInfo?.shippingAddress?.address || '',
                     zip: custInfo?.shippingAddress?.zip || '',
                     zone: custInfo?.shippingAddress?.zone || '',
-                    district: custInfo?.shippingAddress?.county || '',
+                    county: custInfo?.shippingAddress?.county || '',
                     provice: custInfo?.shippingAddress?.provice || '',
 
                     fullname: custInfo?.fullname || '',

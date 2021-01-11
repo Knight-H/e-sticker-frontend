@@ -34,6 +34,19 @@
             padding: 10px 20px;
             display: inline-block;
         }
+
+        .inputShippingNumber {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #009473;
+        }
+        button {
+            background-color: #009473;
+            padding: 10px 10px;
+            color: white;
+            border-radius: 5px;
+            border: 1px solid #009473;
+        }
     }
 }
 

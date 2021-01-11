@@ -54,7 +54,7 @@ const HomeComponent = (props) => {
             const requestBody = {
                 "grant_type": "authorization_code",
                 "code": code,
-                "redirect_uri": "http://localhost:3100",
+                "redirect_uri": "http://localhost:3000",
                 "client_id": "1655248592",
                 "client_secret": "45f5c965e3ac723120e8adec38e8793c"
             }
@@ -68,38 +68,26 @@ const HomeComponent = (props) => {
             axios.post("https://api.line.me/oauth2/v2.1/token", qs.stringify(requestBody), config)
                 .then((result) => {
                     console.log("https://api.line.me/oauth2/v2.1/token", result.data)
+                    var decoded = jwt_decode(result.data.id_token);
+                    console.log("decoded", decoded)
                     let data = {
-                        "access_token": result.data.access_token
+                        "access_token": result.data.access_token,
+                        "customer_id": decoded.sub,
+                        "name": decoded.name,
+                        "email": decoded.email,
+                        "picture": decoded.picture
                     }
-                    // console.log("data", data);
+                    console.log("data", data);
 
                     axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data)
                         .then((res) => {
                             console.log("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", res.data)
                             localStorage.setItem("token_line", result.data.id_token);
-                            var decoded = jwt_decode(result.data.id_token);
-                            // console.log("decoded", decoded)
+
                             auth
                                 .signInWithCustomToken(res.data.firebase_token)
                                 .then((res_auth) => {
                                     console.log("res_auth", res_auth)
-                                    const customerSchemaInfo = {
-                                        email: decoded.email,
-                                        fullname: decoded.name,
-                                        customerID: res.data.firebase_token,
-                                        status: "ปกติ"
-                                    }
-                                    console.log(customerSchemaInfo)
-
-                                    axiosInst.post("customers", {
-                                        uid: res.data.firebase_token,
-                                        data: customerSchemaInfo
-                                    }).then((res) => {
-                                        console.log("res", res)
-                                    }).catch((reason) => {
-                                        console.log(reason)
-                                    })
-
                                 })
                                 .catch((error) => {
                                     console.log("error", error)
@@ -153,54 +141,54 @@ const HomeComponent = (props) => {
                     </div>
                 </section>
 
-
                 {/* <!-- The Modal --> */}
-                <div className={styles.modal} style={modal ? { display: "block" } : { display: "none" }}>
-                    <div className={styles.modalContent}>
-                        <div className={styles.exampleSticker}>
-                            <S11SampleIcon />ขอชุดตัวอย่างสติกเกอร์
+                <Form>
+                    <div className={styles.modal} style={modal ? { display: "block" } : { display: "none" }}>
+                        <div className={styles.modalContent}>
+                            <div className={styles.exampleSticker}>
+                                <S11SampleIcon />ขอชุดตัวอย่างสติกเกอร์
                         </div>
 
-                        <div className={styles.exampleStickerBox}>
-                            <Test />
-                            <div className={styles.exampleStickerBoxDetail}>
-                                <h3>ท่านจะได้รับ</h3>
-                                <p>คำอธิบาย.............................................</p>
-                                <p>คำอธิบาย.............................................</p>
-                                <p>คำอธิบาย.............................................</p>
-                                <p>คำอธิบาย.............................................</p>
+                            <div className={styles.exampleStickerBox}>
+                                <Test />
+                                <div className={styles.exampleStickerBoxDetail}>
+                                    <h3>ท่านจะได้รับ</h3>
+                                    <p>คำอธิบาย.............................................</p>
+                                    <p>คำอธิบาย.............................................</p>
+                                    <p>คำอธิบาย.............................................</p>
+                                    <p>คำอธิบาย.............................................</p>
+                                </div>
                             </div>
+
+                            <div className={styles.groupColumn}>
+                                <div className={styles.leftColumn}>
+                                    <p>ชื่อ นามสกุล*<ErrorMessage name="name" render={msg => <span className="error">{msg}</span>} /></p>
+                                    <Field name="name" type="text" />
+                                    <p>ที่อยู่*<ErrorMessage name="address" render={msg => <span className="error">{msg}</span>} /></p>
+                                    <Field name="address" type="text" />
+                                    <p>แขวง*<ErrorMessage name="zone" render={msg => <span className="error">{msg}</span>} /></p>
+                                    <Field name="zone" type="text" />
+                                    <p>จังหวัด*<ErrorMessage name="provice" render={msg => <span className="error">{msg}</span>} /></p>
+                                    <Field name="provice" type="text" />
+                                </div>
+
+                                <div className={styles.rightColumn}>
+                                    <p>อีเมล*<ErrorMessage name="email" render={msg => <span className="error">{msg}</span>} /></p>
+                                    <Field name="email" type="text" />
+                                    <p>เบอร์โทรศัพท์*<ErrorMessage name="phone" render={msg => <span className="error">{msg}</span>} /></p>
+                                    <Field name="phone" type="text" />
+                                    <p>เขต*<ErrorMessage name="county" render={msg => <span className="error">{msg}</span>} /></p>
+                                    <Field name="county" type="text" />
+                                    <p>รหัสไปรษณีย์*<ErrorMessage name="zip" render={msg => <span className="error">{msg}</span>} /></p>
+                                    <Field name="zip" type="text" />
+                                </div>
+                            </div>
+
+                            <button type="submit" className={styles.btnGreen}>ตกลง</button>
+                            <button type="button" className={styles.btnGreen} onClick={() => setModal(false)}>ปิด</button>
                         </div>
-
-                        <div className={styles.groupColumn}>
-                            <div className={styles.leftColumn}>
-                                <p>ชื่อ นามสกุล*</p>
-                                <Field name="name" type="text" />
-                                <p>ที่อยู่*</p>
-                                <Field name="adress" type="text" />
-                                <p>แขวง*</p>
-                                <Field name="district" type="text" />
-                                <p>จังหวัด*</p>
-                                <Field name="province" type="text" />
-                            </div>
-
-                            <div className={styles.rightColumn}>
-                                <p>อีเมล*</p>
-                                <Field name="email" type="text" />
-                                <p>เบอร์โทรศัพท์*</p>
-                                <Field name="phone" type="text" />
-                                <p>เขต*</p>
-                                <Field name="county" type="text" />
-                                <p>รหัสไปรษณีย์*</p>
-                                <Field name="zip" type="text" />
-                            </div>
-                        </div>
-
-                        <button type="button" className={styles.btnGreen}>ตกลง</button>
-                        <button type="button" className={styles.btnGreen} onClick={() => setModal(false)}>ปิด</button>
                     </div>
-
-                </div>
+                </Form>
 
                 <section id="stepsOrder" ref={stepsOrder} className={styles.section2}>
                     <h2>ขั้นตอนการสั่งซื้อ</h2>
@@ -289,17 +277,78 @@ const HomeComponent = (props) => {
 };
 
 const EnhancedHomeComponent = withFormik({
-    // mapPropsToValues: () => ({
+    mapPropsToValues: () => ({
+        name: '',
+        zip: '',
+        address: '',
+        zone: '',
+        county: '',
+        phone: '',
+        provice: '',
+        email: '',
+    }),
+    validate: values => {
+        const errors = {};
 
-    // }),
-    // validate: values => {
-    //     const errors = {};
+        if (!values.name) {
+            errors.name = "*กรุณาระบุ"
+        }
+        if (!values.zip) {
+            errors.zip = "*กรุณาระบุ"
+        }
+        if (!values.address) {
+            errors.address = "*กรุณาระบุ"
+        }
+        if (!values.zone) {
+            errors.zone = "*กรุณาระบุ"
+        }
+        if (!values.county) {
+            errors.county = "*กรุณาระบุ"
+        }
+        if (!values.phone) {
+            errors.phone = "*กรุณาระบุ"
+        }
+        if (!values.email) {
+            errors.email = "*กรุณาระบุ"
+        }
+        if (!values.provice) {
+            errors.provice = "*กรุณาระบุ"
+        }
 
-    //     return errors;
-    // },
-    // handleSubmit: (values, { location }) => {
-
-    // }
+        return errors;
+    },
+    handleSubmit: (values, { setFieldValue }) => {
+        let data = {
+            fullname: values.name,
+            email: values.email,
+            phone: values.phone,
+            shippingAddress: {
+                fullname: values.name,
+                zip: values.zip,
+                address: values.address,
+                zone: values.zone,
+                county: values.county,
+                provice: values.provice,   
+            },
+            status: "ปกติ"
+        }
+        axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/demo`, data)
+            .then(res => {
+                console.log("res", res);
+                window.alert("ส่งข้อมูลสำเร็จแล้ว");
+                setFieldValue("name", '', false)
+                setFieldValue("zip", '', false)
+                setFieldValue("address", '', false)
+                setFieldValue("zone", '', false)
+                setFieldValue("county", '', false)
+                setFieldValue("phone", '', false)
+                setFieldValue("provice", '', false)
+                setFieldValue("email", '', false)
+            }).catch(function (err) {
+                console.log("err", err)
+                window.alert("ส่งข้อมูลไม่สำเร็จแล้ว");
+            })
+    }
 })(HomeComponent);
 
 export default EnhancedHomeComponent;

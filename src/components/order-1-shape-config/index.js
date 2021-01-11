@@ -25,10 +25,11 @@ const Order1ShapeConfigComponent = (props) => {
                     <Form>
                     <h3 className={styles.titalPage}>รูปแบบสติกเกอร์<ErrorMessage name="shape" render={msg => <span className="error">{msg}</span>} /></h3>
                         <div className={styles.gruop}>
-                            {values.optionShape.map((data) => {
+                            {values.optionShape.map((data, index) => {
                                 return (
                                     <article className={`${styles.smallCardProductConfig} ${values.shape === data.name && styles.active}`} onClick={() => {
                                         setFieldValue("shape", data.name, true);
+                                        setFieldValue("shape_index", index, true);
                                     }}>
                                         <img src={data.imgUrl} width="200" />
                                         <p>{data.name}</p>

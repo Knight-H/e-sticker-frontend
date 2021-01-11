@@ -7,6 +7,7 @@ import img_product from './workplace.jpg';
 import { auth } from '../../firebase/index.js';
 
 import { axiosInst } from '../common-scss/common'
+import axios from "axios";
 
 const CheckoutComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
@@ -16,6 +17,8 @@ const CheckoutComponent = (props) => {
             if (user) {
                 axiosInst.get(`cart?customerID=${user.uid}`)
                     .then(res => {
+                        setFieldValue("myID", res.data[0].myID, false);
+                        setFieldValue("uid", user.uid, false);
                         setFieldValue("checkLogin", true, false)
                         setFieldValue("itemsList", res.data[0].itemsList, false);
                     }).catch(function (err) {
@@ -31,6 +34,22 @@ const CheckoutComponent = (props) => {
             }
         });
     }, []);
+
+    const handleRemoveItemInCart = (index) => {
+        values.itemsList.splice(index, 1);
+
+        let data = {
+            customerID: values.uid,
+            itemsList: values.itemsList
+        }
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${values.myID}`, data)
+            .then(res => {
+                console.log("res", res);
+                setFieldValue("itemsList", values.itemsList, false);
+            }).catch(function (err) {
+                console.log("err", err.response)
+            })
+    }
 
     let totalPrice = 0;
     return (
@@ -49,7 +68,7 @@ const CheckoutComponent = (props) => {
                             </thead>
                             <tbody>
                                 {
-                                    values.itemsList.map((dataObjectMapped) => {
+                                    values.itemsList.map((dataObjectMapped, index) => {
                                         totalPrice = totalPrice + parseInt(dataObjectMapped.price)
                                         return (
                                             <>
@@ -58,8 +77,10 @@ const CheckoutComponent = (props) => {
                                                         <div className={`${styles.containerRowCart} ${styles.flexNoWrap}`} >
                                                             <img src={dataObjectMapped.messages[0].content} className={styles.productPreview} alt="Product" />
                                                             <div className={styles.containerCol}>
-                                                                <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}</div>
-                                                                <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-{dataObjectMapped.cutting}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}mm</div>
+                                                                <div className={styles.name}>สติกเกอร์{dataObjectMapped.shape}<span onClick={() => {
+                                                                    handleRemoveItemInCart(index)
+                                                                }} style={{ color: "red", fontSize: "12px", marginLeft: "5px", cursor: "pointer" }}>(ลบรายการ)</span></div>
+                                                                <div className={styles.desciption}>{dataObjectMapped.material}-{dataObjectMapped.coat}-ขนาด{dataObjectMapped.width}x{dataObjectMapped.height}cm</div>
                                                             </div>
                                                         </div>
                                                     </td>

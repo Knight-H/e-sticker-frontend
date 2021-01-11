@@ -22,6 +22,7 @@ import MemberLoginComponent from "./components/member-login";
 import MemberRegsterComponent from "./components/member-register";
 import MemberAccountComponent from "./components/member-account";
 import MemberListComponent from "./components/member-list";
+import AdminDemoMTG from "./components/admin-demo-mgt";
 
 import SuccessfulComponent from "./components/successful";
 
@@ -33,29 +34,30 @@ function App() {
             {`${admin}` === '-1' ? <NavBarComponent /> : <AdminNavBarComponent />}
             <Switch>
                 <Route path="/" exact component={HomeComponent} />
-                <Route path="/myorder" exact component={ApproveLayoutComponent} />
-                <Route path="/myorder/:id" exact component={ApproveLayoutComponent} />
-                <Route path="/customize" exact component={FormStepShopping} />
 
-                <Route path="/admin/login" exact component={AdminLoginComponent} />
-                <Route path="/admin/myorder/:id" exact component={AdminOrderComponent} />
-
-                <Route path="/member" exact component={HomeMemberComponent} />
-                <Route path="/cart" exact component={CheckoutComponent} />
-                <Route path="/checkout" exact component={CartComponent} />
-                <Route path="/form_step_shopping" exact component={FormStepShopping} />
-
-                <Route path="/admin" exact component={AdminListComponent} />
-
-                <Route path="/admin/member" exact component={MemberComponent} />
-                <Route path="/admin/setting" exact component={MemberSettingComponent} />
-                <Route path="/member/setting" exact component={MemberAccountComponent} />
-                <Route path="/admin/customer" exact component={MemberListComponent} />
                 <Route path="/login" exact component={MemberLoginComponent} />
                 <Route path="/register" exact component={MemberRegsterComponent} />
+
+                <Route path="/myorder" exact component={ApproveLayoutComponent} />
+                <Route path="/myorder/:id" exact component={ApproveLayoutComponent} />
+                
+                <Route path="/member" exact component={HomeMemberComponent} />
+                <Route path="/member/setting" exact component={MemberAccountComponent} />
+                
+                <Route path="/cart" exact component={CheckoutComponent} />
+                <Route path="/checkout" exact component={CartComponent} />
+                <Route path="/customize" exact component={FormStepShopping} />
+                
                 <Route path="/e-sticker-frontend/successful" exact component={SuccessfulComponent} />
 
+                <Route path="/admin/login" exact component={AdminLoginComponent} />
+                <Route path="/admin" exact component={AdminListComponent} />
+                <Route path="/admin/member" exact component={MemberComponent} />
+                <Route path="/admin/setting" exact component={MemberSettingComponent} />
+                <Route path="/admin/customer" exact component={MemberListComponent} />
+                <Route path="/admin/myorder/:id" exact component={AdminOrderComponent} />
                 <Route path="/admin/product" exact component={AdminProductOptionComponent} />
+                <Route path="/admin/demo" exact component={AdminDemoMTG} />
             </Switch>
 
         </div>

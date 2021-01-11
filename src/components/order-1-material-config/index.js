@@ -35,10 +35,11 @@ const Order1MaterialConfigComponent = (props) => {
                     <Form>
                     <h3 className={styles.titalPage}>เนื้อวัสดุ<ErrorMessage name="material" render={msg => <span className="error">{msg}</span>} /></h3>
                         <div className={styles.gruop}>
-                            {values.optionMaterial.map((data) => {
+                            {values.optionMaterial.map((data, index) => {
                                 return (
                                     <article className={`${styles.smallCardProductConfig} ${values.material === data.name && styles.active}`} onClick={() => {
                                         setFieldValue("material", data.name, true);
+                                        setFieldValue("material_index", index, true);
                                     }}>
                                         <img src={data.imgUrl} width="200" />
                                         <div className={styles.gruopDetailProducts}>

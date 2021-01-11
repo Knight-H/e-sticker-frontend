@@ -58,7 +58,7 @@ const EnchancedMemberRegisterComponent = withFormik({
             address: '',
             fullname: '',
 
-            district: '',
+            county: '',
             zone: '',
 
             provice: '',
@@ -86,7 +86,7 @@ const EnchancedMemberRegisterComponent = withFormik({
     },
     // handleSubmit: dummyHandleSubmit,
     handleSubmit: (values, { props, setFieldValue }) => {
-
+        console.log("handleSubmit")
         auth.createUserWithEmailAndPassword(values.email, values.password).then((userCredential) => {
             // Also logged in
 
@@ -105,7 +105,7 @@ const EnchancedMemberRegisterComponent = withFormik({
                     address: moreUserInfo?.address || '',
                     zip: moreUserInfo?.zip || '',
                     zone: moreUserInfo?.zone || '',
-                    county: moreUserInfo?.district || '',
+                    county: moreUserInfo?.county || '',
                     provice: moreUserInfo?.provice || '',
                     fullname: moreUserInfo?.fullname || '',
                 },
@@ -131,8 +131,10 @@ const EnchancedMemberRegisterComponent = withFormik({
             const { code } = reason
 
             if (code === "auth/email-already-in-use") {
+                console.log("i18.account_creation_failed_email_already_exists", i18.account_creation_failed_email_already_exists)
                 setFieldValue("isRegisterSuccessfulText", i18.account_creation_failed_email_already_exists, false)
             } else {
+                console.log("i18.account_creation_failed_general", i18.account_creation_failed_general)
                 setFieldValue("isRegisterSuccessfulText", i18.account_creation_failed_general, false)
             }
         })

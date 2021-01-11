@@ -34,8 +34,6 @@ const AdminComponent = (props) => {
         DONE: 0,
         CANCEL: 0
     }
-    // var dateNow = new Date();
-    // var monthNow = dateNow.getMonth();
 
     const [selectStatus, setSelectStatus] = useState(statusFilter.ALL);
     const [textSearch, setTextSearch] = useInputChange();
@@ -61,7 +59,7 @@ const AdminComponent = (props) => {
             return null;
         })
     }
-
+    console.log("orderData", orderData)
     return (
         <React.Fragment>
             <section className={styles.section1}>
@@ -85,7 +83,7 @@ const AdminComponent = (props) => {
                         แสดงทั้งหมด
                     </div>
 
-                    <select name="month" className={styles.inputAdmin} onChange={setSelectMonth}>
+                    {/* <select name="month" className={styles.inputAdmin} onChange={setSelectMonth}>
                         <option value="1">มกราคม</option>
                         <option value="2">กุมภาพันธ์</option>
                         <option value="3">มีนาคม</option>
@@ -98,7 +96,7 @@ const AdminComponent = (props) => {
                         <option value="10">ตุลาคม</option>
                         <option value="11">พฤศจิกายน</option>
                         <option value="12">ธันวาคม</option>
-                    </select>
+                    </select> */}
 
                     <input type="text" name="search" className={styles.inputAdmin} placeholder="ค้นหา" onChange={setTextSearch} />
                 </div>
@@ -137,11 +135,11 @@ const AdminComponent = (props) => {
                                     // console.log("hi", dataObjectMapped)
                                     return (
                                         <tr key={dataObjectMapped.orderID}>
-                                            <td>{dataObjectMapped.timestamp}</td>
+                                            <td>{dataObjectMapped.timeStamp}</td>
                                             <td>{dataObjectMapped.orderID}</td>
                                             {/* <td>{dataObjectMapped.customerID}</td> */}
                                             <td>{dataObjectMapped.shippingAddress.fullname}</td>
-                                            <td>{dataObjectMapped?.phone}</td>
+                                            <td>{dataObjectMapped?.shippingAddress.phone}</td>
                                             <td>{dataObjectMapped?.itemsList?.length || 0}</td>
                                             <td>{dataObjectMapped.totalCost}</td>
                                             <td>

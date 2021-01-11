@@ -81,7 +81,6 @@ const AppComponent = () => {
       </WizardStep>
       <WizardStep>
         <Order2UploadFileConfigComponent />
-        {/* <UploadFileComponent /> */}
       </WizardStep>
     </Wizard>
   );
@@ -103,11 +102,18 @@ const EnhancedAppComponent = withFormik({
     shape: 0,
     material: 0,
     coat: 0,
+    shape_index: 0,
+    material_index: 0,
+    coat_index: 0,
     cutting: 0,
     width: '',
     height: '',
     units: 0,
-    price: 100,
+    price: 0,
+
+    fixed_cost: 0,
+    variable_cost_1: 0,
+    variable_cost_2: 0,
 
     // Step two
     approvalStricker: "รออนุมัติแบบ",
@@ -116,7 +122,7 @@ const EnhancedAppComponent = withFormik({
     uploadFileStrickerForFirebase: [],
     comment: '',
   }),
-  validate: values => {
+  validate: (values) => {
     const errors = {};
 
     // Step 1
@@ -188,14 +194,19 @@ const EnhancedAppComponent = withFormik({
                     snapshot.ref.getDownloadURL().then((url) => {
                       let data = {
                         "approveMethod": values.approvalStricker,
+                        "shape": values.shape,
                         "coat": values.coat,
-                        "cutting": values.cutting,
+                        "material": values.material,
+                        "shape_index": values.shape_index,
+                        "coat_index": values.coat_index,
+                        "material_index": values.material_index,
+                        "count": values.units,
+
                         "comment": values.comment,
                         "units": values.units,
-                        "material": values.material,
+
                         "width": values.width,
                         "price": values.price,
-                        "shape": values.shape,
                         "height": values.height,
                         "status": "รออนุมัติแบบ",
 
@@ -218,7 +229,7 @@ const EnhancedAppComponent = withFormik({
                       axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${res.data[0].myID}`, cloneRes)
                         .then(res => {
                           console.log("res", res);
-                          props.history.push("/checkout")
+                          props.history.push("/cart")
                         }).catch(function (err) {
                           console.log("err", err.response)
                         })
@@ -238,6 +249,10 @@ const EnhancedAppComponent = withFormik({
                         "itemsList": [
                           {
                             "approveMethod": values.approvalStricker,
+                            "shape_index": values.shape_index,
+                            "coat_index": values.coat_index,
+                            "material_index": values.material_index,
+                            "count": values.units,
                             "coat": values.coat,
                             "cutting": values.cutting,
                             "comment": values.comment,
@@ -267,7 +282,7 @@ const EnhancedAppComponent = withFormik({
                       axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
                         .then(res => {
                           console.log("res", res);
-                          props.history.push("/checkout")
+                          props.history.push("/cart")
                         }).catch(function (err) {
                           console.log("err", err)
                         })
@@ -290,9 +305,13 @@ const EnhancedAppComponent = withFormik({
                 snapshot.ref.getDownloadURL().then((url) => {
                   let data = {
                     "approveMethod": values.approvalStricker,
+                    "shape_index": values.shape_index,
+                    "coat_index": values.coat_index,
+                    "material_index": values.material_index,
                     "coat": values.coat,
                     "cutting": values.cutting,
                     "comment": values.comment,
+                    "count": values.units,
                     "units": values.units,
                     "material": values.material,
                     "width": values.width,
@@ -313,7 +332,7 @@ const EnhancedAppComponent = withFormik({
                   cartLocal.itemsList.push(data);
                   console.log('cartLocal', cartLocal)
                   localStorage.setItem("cart", JSON.stringify(cartLocal));
-                  props.history.push("/checkout")
+                  props.history.push("/cart")
                 });
               }
               );
@@ -330,9 +349,13 @@ const EnhancedAppComponent = withFormik({
                     "itemsList": [
                       {
                         "approveMethod": values.approvalStricker,
+                        "shape_index": values.shape_index,
+                        "coat_index": values.coat_index,
+                        "material_index": values.material_index,
                         "coat": values.coat,
                         "cutting": values.cutting,
                         "comment": values.comment,
+                        "count": values.units,
                         "units": values.units,
                         "material": values.material,
                         "width": values.width,
@@ -356,7 +379,7 @@ const EnhancedAppComponent = withFormik({
                   };
                   localStorage.setItem("cart", JSON.stringify(data));
                   console.log("localStorage.getItem(cart)", JSON.parse(localStorage.getItem("cart")))
-                  props.history.push("/checkout")
+                  props.history.push("/cart")
                 })
               })
               .catch(function (err) {
