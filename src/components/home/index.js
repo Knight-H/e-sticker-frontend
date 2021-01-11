@@ -160,27 +160,46 @@ const HomeComponent = (props) => {
                                 </div>
                             </div>
 
-                            <div className={styles.groupColumn}>
-                                <div className={styles.leftColumn}>
-                                    <p>ชื่อ นามสกุล*<ErrorMessage name="name" render={msg => <span className="error">{msg}</span>} /></p>
-                                    <Field name="name" type="text" />
-                                    <p>ที่อยู่*<ErrorMessage name="address" render={msg => <span className="error">{msg}</span>} /></p>
-                                    <Field name="address" type="text" />
-                                    <p>แขวง*<ErrorMessage name="zone" render={msg => <span className="error">{msg}</span>} /></p>
-                                    <Field name="zone" type="text" />
-                                    <p>จังหวัด*<ErrorMessage name="provice" render={msg => <span className="error">{msg}</span>} /></p>
-                                    <Field name="provice" type="text" />
+                            <div className={styles.groupRow}>
+                                <div className={styles.isRow}>
+                                    <div className={styles.leftColumn}>
+                                        <p>ชื่อ นามสกุล*<ErrorMessage name="name" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="name" type="text" />
+                                    </div>
+                                    <div className={styles.rightColumn}>
+                                        <p>อีเมล*<ErrorMessage name="email" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="email" type="text" />
+                                    </div>
                                 </div>
-
-                                <div className={styles.rightColumn}>
-                                    <p>อีเมล*<ErrorMessage name="email" render={msg => <span className="error">{msg}</span>} /></p>
-                                    <Field name="email" type="text" />
-                                    <p>เบอร์โทรศัพท์*<ErrorMessage name="phone" render={msg => <span className="error">{msg}</span>} /></p>
-                                    <Field name="phone" type="text" />
-                                    <p>เขต*<ErrorMessage name="county" render={msg => <span className="error">{msg}</span>} /></p>
-                                    <Field name="county" type="text" />
-                                    <p>รหัสไปรษณีย์*<ErrorMessage name="zip" render={msg => <span className="error">{msg}</span>} /></p>
-                                    <Field name="zip" type="text" />
+                                <div className={styles.isRow}>
+                                    <div className={styles.leftColumn}>
+                                        <p>ที่อยู่*<ErrorMessage name="address" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="address" type="text" />
+                                    </div>
+                                    <div className={styles.rightColumn}>
+                                        <p>เบอร์โทรศัพท์*<ErrorMessage name="phone" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="phone" type="text" />
+                                    </div>
+                                </div>
+                                <div className={styles.isRow}>
+                                    <div className={styles.leftColumn}>
+                                        <p>แขวง*<ErrorMessage name="zone" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="zone" type="text" />
+                                    </div>
+                                    <div className={styles.rightColumn}>
+                                        <p>เขต*<ErrorMessage name="county" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="county" type="text" />
+                                    </div>
+                                </div>
+                                <div className={styles.isRow}>
+                                    <div className={styles.leftColumn}>
+                                        <p>จังหวัด*<ErrorMessage name="provice" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="provice" type="text" />
+                                    </div>
+                                    <div className={styles.rightColumn}>
+                                        <p>รหัสไปรษณีย์*<ErrorMessage name="zip" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="zip" type="text" />
+                                    </div>
                                 </div>
                             </div>
 
@@ -328,7 +347,7 @@ const EnhancedHomeComponent = withFormik({
                 address: values.address,
                 zone: values.zone,
                 county: values.county,
-                provice: values.provice,   
+                provice: values.provice,
             },
             status: "ปกติ"
         }

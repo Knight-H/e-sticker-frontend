@@ -28,12 +28,11 @@ const Order1CoatConfigComponent = (props) => {
                             {values.optionCoat.map((data, index) => {
                                 return (
                                     <article className={`${styles.smallCardProductConfig} ${values.coat === data.name && styles.active}`} onClick={() => {
-                                        setFieldValue("coat", data.name, true);
                                         setFieldValue("coat_index", index, true);
                                         setFieldValue("fixed_cost", data.price.fixed_cost, true);
                                         setFieldValue("variable_cost_1", data.price.variable_cost_1, true);
                                         setFieldValue("variable_cost_2", data.price.variable_cost_2, true);
-
+                                        setFieldValue("coat", data.name, true);
                                     }}>
                                         <img src={data.imgUrl} width="200" />
                                         <div className={styles.gruopDetailProducts}>

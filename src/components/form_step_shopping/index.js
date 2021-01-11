@@ -55,6 +55,14 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
       })
   }, []);
 
+  useEffect(() => {
+    if (values.material === "กระดาษอาร์ท") {
+      setFieldValue("stepProgress", 3, true);
+      setFieldValue("coat", "ไม่เคลือบ", true);
+      setFieldValue("coat_index", "0", true);
+    }
+  }, [values.material]);
+
   return (
     <>
       {step}
@@ -122,7 +130,7 @@ const EnhancedAppComponent = withFormik({
     uploadFileStrickerForFirebase: [],
     comment: '',
   }),
-  validate: (values) => {
+  validate: (values, { setFieldValue }) => {
     const errors = {};
 
     // Step 1
