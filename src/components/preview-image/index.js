@@ -20,6 +20,7 @@ const PreviewImageComponent = () => {
             const storageRef = firebaseApp.storage().ref();
             let timeStamp = new Date().toISOString().slice(0, 10)
             let file = event.target.files[0];
+            let windowUrl = window.location.pathname;
 
             auth.onAuthStateChanged(user => {
                 if (user) {// User is signed in.
@@ -30,20 +31,22 @@ const PreviewImageComponent = () => {
                                 let data = {
                                     "itemIndex": values.expandCard,
                                     "msg": {
-                                        "by": "customer",
+                                        "by": windowUrl.search("admin") !== -1 ? "admin" : "customer",
                                         "content": url,
                                         // "timestamp": "5 Oct 2020",
                                         "info": `${file.name}`,
                                         "type": "file"
                                     }
                                 }
-
+                                console.log("data", data)
                                 axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data)
                                     .then(res => {
                                         console.log("res", res);
                                         setFieldValue("fetchMsg", true, false);
+                                        window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
                                     }).catch(function (err) {
                                         console.log("err", err)
+                                        window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
                                     })
 
                             });
@@ -72,8 +75,12 @@ const PreviewImageComponent = () => {
                 .then(res => {
                     console.log("res", res);
                     setFieldValue("fetchMsg", true, false);
+                    window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
+
                 }).catch(function (err) {
                     console.log("err", err)
+                    window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
+
                 })
         }
     }
@@ -89,8 +96,12 @@ const PreviewImageComponent = () => {
             .then(res => {
                 console.log("res", res);
                 setFieldValue("fetchMsg", true, false);
+                window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
+
             }).catch(function (err) {
                 console.log("err", err)
+                window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
+
             })
     }
 
@@ -164,16 +175,15 @@ const PreviewImageComponent = () => {
                     {`${values.paymentMethod}` === `transfer_money` && `${values.paymentStatus}` === `pending` ?
                         <button type="button" onClick={() => setModal(true)}><h3>แจ้งชำระเงิน</h3></button>
                         : `${values.itemsList[values.expandCard].status}` === `รออนุมัติแบบ` &&
-                        <>
-                            <button type="button" onClick={() => sendItemStatus()}><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>
-                            <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." />
+                        <button type="button" onClick={() => sendItemStatus()}><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>}
 
-                            <div className={styles.btnGroup}>
-                                <button type="button" onClick={() => sendMessage()}>ส่ง</button>
-                                <input type="file" id="file" onChange={(e) => handleChange(e)} />
-                                <label for="file" className={styles.btnCustomWidth}>อัพโหลดไฟล์</label>
-                            </div>
-                        </>}
+                    <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." />
+
+                    <div className={styles.btnGroup}>
+                        <button type="button" onClick={() => sendMessage()}>ส่ง</button>
+                        <input type="file" id="file" onChange={(e) => handleChange(e)} />
+                        <label for="file" className={styles.btnCustomWidth}>อัพโหลดไฟล์</label>
+                    </div>
 
                     {/* <!-- The Modal --> */}
                     <div className={styles.modal} style={modal ? { display: "block" } : { display: "none" }}>
@@ -195,8 +205,8 @@ const PreviewImageComponent = () => {
                                         <p>เบอร์โทรศัพท์*<ErrorMessage name="phone" render={msg => <span className="error">{msg}</span>} /></p>
                                         <Field name="phone" type="text" />
                                         <p>สลิปการโอนเงิน*<ErrorMessage name="photo" render={msg => <span className="error">{msg}</span>} />
-                                        {values.isCheckphoto !== 0 ? values.isCheckphoto ? <span style={{color: "#009473", fontSize: "12px"}}>อัพโหลดสำเร็จ</span> : 
-                                        <span style={{color: "red", fontSize: "12px"}}>อัพโหลดไม่สำเร็จ</span> : ""}</p>
+                                            {values.isCheckphoto !== 0 ? values.isCheckphoto ? <span style={{ color: "#009473", fontSize: "12px" }}>อัพโหลดสำเร็จ</span> :
+                                                <span style={{ color: "red", fontSize: "12px" }}>อัพโหลดไม่สำเร็จ</span> : ""}</p>
                                         <input type="file" id="file" onChange={(e) => handleChangeModal(e)} />
                                         <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
                                             <IconUploadFile />อัพโหลดไฟล์</label>
@@ -222,7 +232,7 @@ const PreviewImageComponent = () => {
                                     </div>
                                     <div className={styles.rightColumn}>
                                         <p>เวลา<ErrorMessage name="time" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="time" type="time" style={{width: "170px"}} />
+                                        <Field name="time" type="time" style={{ width: "170px" }} />
                                     </div>
                                 </div>
 
