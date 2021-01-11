@@ -161,7 +161,7 @@ const PreviewImageComponent = () => {
                 </div>
 
                 <div className={styles.inputBox}>
-                    {`${values.paymentMethod}` === `transfer_money` && `${values.paymentStatus}` === `รอชำระเงิน` ?
+                    {`${values.paymentMethod}` === `transfer_money` && `${values.paymentStatus}` === `pending` ?
                         <button type="button" onClick={() => setModal(true)}><h3>แจ้งชำระเงิน</h3></button>
                         : `${values.itemsList[values.expandCard].status}` === `รออนุมัติแบบ` &&
                         <>

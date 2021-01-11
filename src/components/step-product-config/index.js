@@ -33,7 +33,7 @@ const StepProductConfigComponent = (props) => {
                 values.units ? <><IconCorrect />{values.units} ชิ้น</> : '-'
             }</p>
             <p>รวม</p>
-            <h3 className={styles.priceProductConfig}>1,500 บาท</h3>
+            <h3 className={styles.priceProductConfig}>{values.price} บาท</h3>
 
             {values.stepProgress !== 0 &&
                 <button type="button" className={styles.nextButton} 

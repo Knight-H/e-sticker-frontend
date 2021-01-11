@@ -83,7 +83,7 @@ const AdminComponent = (props) => {
                         แสดงทั้งหมด
                     </div>
 
-                    <select name="month" className={styles.inputAdmin} onChange={setSelectMonth}>
+                    {/* <select name="month" className={styles.inputAdmin} onChange={setSelectMonth}>
                         <option value="1">มกราคม</option>
                         <option value="2">กุมภาพันธ์</option>
                         <option value="3">มีนาคม</option>
@@ -96,7 +96,7 @@ const AdminComponent = (props) => {
                         <option value="10">ตุลาคม</option>
                         <option value="11">พฤศจิกายน</option>
                         <option value="12">ธันวาคม</option>
-                    </select>
+                    </select> */}
 
                     <input type="text" name="search" className={styles.inputAdmin} placeholder="ค้นหา" onChange={setTextSearch} />
                 </div>
@@ -135,7 +135,7 @@ const AdminComponent = (props) => {
                                     // console.log("hi", dataObjectMapped)
                                     return (
                                         <tr key={dataObjectMapped.orderID}>
-                                            <td>{dataObjectMapped.timestamp}</td>
+                                            <td>{dataObjectMapped.timeStamp}</td>
                                             <td>{dataObjectMapped.orderID}</td>
                                             {/* <td>{dataObjectMapped.customerID}</td> */}
                                             <td>{dataObjectMapped.shippingAddress.fullname}</td>

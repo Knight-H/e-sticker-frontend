@@ -25,10 +25,15 @@ const Order1CoatConfigComponent = (props) => {
                     <Form style={{ width: "100%"}}>
                     <h3 className={styles.titalPage}>การเคลือบผิว<ErrorMessage name="coat" render={msg => <span className="error">{msg}</span>} /></h3>
                         <div className={styles.gruop}>
-                            {values.optionCoat.map((data) => {
+                            {values.optionCoat.map((data, index) => {
                                 return (
                                     <article className={`${styles.smallCardProductConfig} ${values.coat === data.name && styles.active}`} onClick={() => {
                                         setFieldValue("coat", data.name, true);
+                                        setFieldValue("coat_index", index, true);
+                                        setFieldValue("fixed_cost", data.price.fixed_cost, true);
+                                        setFieldValue("variable_cost_1", data.price.variable_cost_1, true);
+                                        setFieldValue("variable_cost_2", data.price.variable_cost_2, true);
+
                                     }}>
                                         <img src={data.imgUrl} width="200" />
                                         <div className={styles.gruopDetailProducts}>

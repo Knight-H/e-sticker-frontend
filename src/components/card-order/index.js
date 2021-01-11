@@ -61,7 +61,7 @@ const LabelSatus = ({ status }) => {
         return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: รออนุมัติแบบ</label>
     } else if (status === "อนุมัติแบบ") {
         return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: อนุมัติแบบ</label>
-    } else if (status === "รอชำระเงิน") {
+    } else if (status === "pending") {
         return <label className={`${styles.labelStatus} ${styles.blueStatus}`}>สถานะ: รอการยืนยันชำระเงิน</label>
     } else {
         return <label></label>

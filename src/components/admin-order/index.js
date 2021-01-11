@@ -140,7 +140,7 @@ const AdminOrderComponent = (props) => {
                     </div>
 
                     {
-                        values.paymentStatus === "รอชำระเงิน" &&
+                        values.paymentStatus === "pending" &&
                         <button className={styles.buttonPaymentConfirm} type="button" onClick={() => handleSubmitPaymentSlip()}><IconCheckSVG2 />ชำระเงินแล้ว</button>
                     }
                 </section>

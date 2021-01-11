@@ -386,7 +386,7 @@ const EnhancedCartComponent = withFormik({
                     "paymentInfo": values.payment,
                     "paymentMethod": values.payment,
                     "paymentRef": values.payment,
-                    "paymentStatus": "รอชำระเงิน",
+                    "paymentStatus": "pending",
 
                     "shippingCost": values.shippingCost,
                     "shippingCourier": values.shippingCourier,
@@ -396,6 +396,7 @@ const EnhancedCartComponent = withFormik({
                     // "timestamp": "4 Oct 2020",
                     "totalCost": values.totalPrice,
                     "vatCost": values.totalItemPrice * 7 / 100,
+                    "timeStamp": new Date().toLocaleDateString(),
 
                     "paymentConfirm": [],
 
@@ -431,9 +432,10 @@ const EnhancedCartComponent = withFormik({
 
                             axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
                                 .then(res => {
-                                    // console.log(res.data.payment_url);
-                                    // console.log("res>>>", res);
-                                    window.location.href = res.data.payment_url;
+                                    console.log("res.data", res.data);
+                                    console.log("payment_url", res.data.payment_url.metadata);
+                                    console.log("res>>>", res);
+                                    // window.location.href = res.data.payment_url;
                                 })
                                 .catch(err => {
                                     console.log(err.response)
