@@ -132,9 +132,9 @@ const AdminNavBarComponent = ({ history, itemCount }) => {
             <nav className={styles.navBar}>
                 <h1 className={styles.titleNavBar} onClick={() => history.push('/admin')}>Stickerwish Dashboard</h1>
                 <ul className={`${styles.navLinks} ${isBurgerToggled ? styles.navActive : styles.navInactive}`}>
-                    <li>
+                    {/* <li>
                         <Link><EditPen />ปรับแต่งตัวเลือก</Link>
-                    </li>
+                    </li> */}
                     <li><Link to="/admin/setting"><IconRock />เปลี่ยนรหัสผ่าน</Link>
                     </li>
                     <li>
