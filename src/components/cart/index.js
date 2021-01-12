@@ -49,8 +49,6 @@ const CartComponent = () => {
 
     const { values, setFieldValue } = useFormikContext();
     const [selectStep] = useState(2);
-    const [checkedBox, setCheckedBox] = useState(false);
-    const [checkedBoxNotGet, setCheckedBoxNotGet] = useState(true);
     const [shippingFee, setShippingFee] = useState(0);
     const [shippingDuration, setShippingDuration] = useState(0);
 
@@ -88,14 +86,14 @@ const CartComponent = () => {
                                         return data["customerID"] === auth.currentUser.uid
                                     })[0]
                                     console.log("customerInfo", customerInfo)
-                                    setFieldValue("address", customerInfo.shippingAddress.address, false);
-                                    setFieldValue("county", customerInfo.shippingAddress.county, false);
+                                    setFieldValue("address", customerInfo.shippingAddress?.address, false);
+                                    setFieldValue("county", customerInfo.shippingAddress?.county, false);
                                     setFieldValue("email", customerInfo.email, false);
                                     setFieldValue("fullname", customerInfo.fullname, false);
                                     setFieldValue("phone", customerInfo.phone, false);
-                                    setFieldValue("provice", customerInfo.shippingAddress.provice, false);
-                                    setFieldValue("zip", customerInfo.shippingAddress.zip, false);
-                                    setFieldValue("zone", customerInfo.shippingAddress.zone, false);
+                                    setFieldValue("provice", customerInfo.shippingAddress?.provice, false);
+                                    setFieldValue("zip", customerInfo.shippingAddress?.zip, false);
+                                    setFieldValue("zone", customerInfo.shippingAddress?.zone, false);
                                 })
                             }).catch(function (err) {
                                 console.log("err", err)
@@ -120,7 +118,7 @@ const CartComponent = () => {
     }, []);
 
     useEffect(() => {
-        if (checkedBox) {
+        if (values.checkedRadioBox === "2") {
             setFieldValue("billingFullname", values.fullname, false);
             setFieldValue("billingFulladdress", `${values.address} ${values.county} ${values.zone} ${values.provice} ${values.zip}`, false);
         } else {
@@ -128,7 +126,7 @@ const CartComponent = () => {
             setFieldValue("billingFulladdress", '', false);
         }
 
-    }, [checkedBox]);
+    }, [values.checkedRadioBox]);
 
     let priceTotal = 0;
     return (
@@ -268,22 +266,26 @@ const CartComponent = () => {
                         <h3>ออกใบกำกับภาษี</h3>
                         <div className={styles.containerRow} style={{ marginBottom: "10px" }}>
                             <div className={styles.containerColBank}>
-                                <Field name="checkedBoxInfoNotGet" type="checkbox" checked={checkedBoxNotGet} onClick={() => setCheckedBoxNotGet(!checkedBoxNotGet)}
-                                    disabled={checkedBox ? true : false} />
+                                <Field name="checkedRadioBox" type="radio" value="1" checked={values.checkedRadioBox === "1" ? true : false}/>
                             </div>
                             <div className={styles.containerColBank}>
                                 ไม่เอาใบกำกับภาษี
                             </div>
                             <div className={styles.containerColBank}>
-                                <Field name="checkedBoxInfo" type="checkbox" checked={checkedBox} onClick={() => setCheckedBox(!checkedBox)}
-                                    disabled={checkedBoxNotGet ? true : false} />
+                                <Field name="checkedRadioBox" type="radio" value="2" />
+                            </div>
+                            <div className={styles.containerColBank}>
+                                เอาใบกำกับภาษี
+                            </div>
+                            <div className={styles.containerColBank}>
+                                <Field name="checkedRadioBox" type="radio" value="3" />
                             </div>
                             <div className={styles.containerColBank}>
                                 ข้อมูลเดียวกับที่อยู่
                             </div>
                         </div>
 
-                        <div className={!checkedBox && !checkedBoxNotGet ? styles.contentDisplayBlock : styles.contentDisplayNone}>
+                        <div className={values.checkedRadioBox === "2" ? styles.contentDisplayBlock : styles.contentDisplayNone}>
                             <TaxFieldsComponent />
                         </div>
                         <button type="submit" className={styles.buttonNext}>ถัดไป</button>
@@ -317,6 +319,7 @@ const EnhancedCartComponent = withFormik({
         billingFullname: '',
         billingFulladdress: '',
         billingTaxID: '',
+        checkedRadioBox: "1",
 
         checkedBoxInfo: false
     }),
@@ -414,7 +417,7 @@ const EnhancedCartComponent = withFormik({
                 console.log("data", data)
                 axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, data)
                     .then(res => {
-                        // console.log("res>>>>>>>>>> post order", res);
+                        console.log("res>>>>>>>>>> post order", res);
                         if (values.payment === "transfer_money") {
                             return props.history.push("/member");
                         } else {

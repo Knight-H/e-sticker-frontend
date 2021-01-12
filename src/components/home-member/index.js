@@ -50,7 +50,7 @@ const HomeMemberComponent = (props) => {
                 }).then((res) => {
                     // Temporary for filtering the customer data
                     const customerInfo = res.data.filter((data) => {
-                        if (auth.currentUser.uid) {
+                        if (auth.currentUser) {
                             return data["customerID"] === auth.currentUser.uid                            
                         }
                     })[0]
