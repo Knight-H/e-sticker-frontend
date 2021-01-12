@@ -11,14 +11,6 @@ const Order1AmountConfigComponent = (props) => {
     const [selectStep] = useState(1);
     const { values, setFieldValue } = useFormikContext();
 
-    useEffect(() => {
-        console.log("values.width", values.width, "values.height", values.height, "values.units", values.units, "values.fixed_cost", values.fixed_cost, "values.variable_cost_1", values.variable_cost_1, "values.variable_cost_2", values.variable_cost_2)
-
-        console.log("pricing",)
-        console.log("values.value", values)
-    }, [values.width, values.height, values.units,
-    values.units, values.variable_cost_1, values.variable_cost_2]);
-
     return (
         <main>
             <section className={styles.section1}>

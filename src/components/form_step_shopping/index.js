@@ -60,6 +60,10 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
       setFieldValue("stepProgress", 3, true);
       setFieldValue("coat", "ไม่เคลือบ", true);
       setFieldValue("coat_index", "0", true);
+
+      setFieldValue("fixed_cost", values.optionMaterial[values.material_index].coating_list[0].price.fixed_cost, true);
+      setFieldValue("variable_cost_1", values.optionMaterial[values.material_index].coating_list[0].price.variable_cost_1, true);
+      setFieldValue("variable_cost_2", values.optionMaterial[values.material_index].coating_list[0].price.variable_cost_2, true);
     }
   }, [values.material]);
 
