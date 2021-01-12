@@ -41,22 +41,40 @@ const AdminOrderComponent = (props) => {
                     setFieldValue("vatCost", res.data.vatCost, false);
                     setFieldValue("totalCost", res.data.totalCost, false);
                     setFieldValue("paymentStatus", res.data.paymentStatus, false);
+                    setFieldValue("paymentMethod", res.data.paymentMethod, false);
 
                     setFieldValue("paymentConfirm", res.data.paymentConfirm, false);
+
+                    setFieldValue("fetchMsg", false, false);
                 }).catch(function (err) {
                     console.log("err", err)
                 })
         }
     }, [values.fetchMsg]);
 
+    const handleSubmitStatusOrder = (valueStatus) => {
+        let data = { status: valueStatus }
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
+            .then(res => {
+                // console.log("res.data", res.data)
+                setFieldValue("fetchMsg", true, false)
+                window.alert("อัพเดตข้อมูลสำเร็จ!");
+            }).catch(function (err) {
+                console.log("err", err)
+                window.alert("อัพเดตข้อมูลไม่สำเร็จ!");
+            })
+    }
+    
     const handleSubmitPaymentSlip = () => {
         let data = { paymentStatus: "success" }
         axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
             .then(res => {
-                console.log("res.data", res.data)
+                // console.log("res.data", res.data)
                 setFieldValue("fetchMsg", true, false)
+                window.alert("อัพเดตข้อมูลสำเร็จ!");
             }).catch(function (err) {
                 console.log("err", err)
+                window.alert("อัพเดตข้อมูลไม่สำเร็จ!");
             })
     }
 
@@ -99,7 +117,7 @@ const AdminOrderComponent = (props) => {
                         name: STATUS_ORDERS_TYPE.FINISH
                     }
                 ]} />
-                <button type="button" className={styles.btnWhite} onClick={() => alert(values.status)}>บันทึก</button>
+                <button type="button" className={styles.btnWhite} onClick={() => handleSubmitStatusOrder(values.status)}>บันทึก</button>
             </p>
 
             <section className={styles.stepProgressBar}>

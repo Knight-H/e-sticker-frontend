@@ -553,11 +553,11 @@
         }
     }
 
-    .groupColumn {
-        height: 255px;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
+    .groupRow {
+        // height: 255px;
+        // display: flex;
+        // flex-wrap: wrap;
+        // flex-direction: row;
 
         input {
             border: 1px solid #009473;
@@ -565,14 +565,22 @@
  
             height: 30px;
             margin: 5px 0 10px;
+            width: 100%;
+        }
+
+        .isRow {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
         }
         
         .leftColumn {
-            align-self: flex-start;
+           width: 48%;
+           margin-right: 4%;
         }
 
         .rightColumn {
-           align-self: flex-end;
+            width: 48%;
         }
     }
   }

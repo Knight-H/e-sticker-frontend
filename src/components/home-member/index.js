@@ -50,7 +50,9 @@ const HomeMemberComponent = (props) => {
                 }).then((res) => {
                     // Temporary for filtering the customer data
                     const customerInfo = res.data.filter((data) => {
-                        return data["customerID"] === auth.currentUser.uid
+                        if (auth.currentUser.uid) {
+                            return data["customerID"] === auth.currentUser.uid                            
+                        }
                     })[0]
                     if (customerInfo) {
                         setFieldValue("fullname", customerInfo.fullname, false);

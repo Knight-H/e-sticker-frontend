@@ -5,6 +5,18 @@ import axios from "axios";
 
 const ModalShipping = ({ values, setFieldValue }) => {
 
+    useEffect(() => {
+        if (values.variableID || values.variableID === 0) {
+            setFieldValue(`${values.modalVariable}Fixed`, values.material[values.materialSelected].coating_list[values.coatingSelected].price.fixed_cost, false);
+            setFieldValue(`${values.modalVariable}Variable1`, values.material[values.materialSelected].coating_list[values.coatingSelected].price.variable_cost_1, false);
+            setFieldValue(`${values.modalVariable}Variable2`, values.material[values.materialSelected].coating_list[values.coatingSelected].price.variable_cost_2, false);
+        } else {
+            setFieldValue(`${values.modalVariable}Fixed`, "", false);
+            setFieldValue(`${values.modalVariable}Variable1`, "", false);
+            setFieldValue(`${values.modalVariable}Variable2`, "", false);
+        }
+    }, [values.variableID]);
+
     const addOptionVariable = () => {
         let dataPost = {
             "fixed_cost": values[`${values.modalVariable}Fixed`],

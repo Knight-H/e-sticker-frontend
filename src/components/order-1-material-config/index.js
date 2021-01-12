@@ -38,8 +38,8 @@ const Order1MaterialConfigComponent = (props) => {
                             {values.optionMaterial.map((data, index) => {
                                 return (
                                     <article className={`${styles.smallCardProductConfig} ${values.material === data.name && styles.active}`} onClick={() => {
-                                        setFieldValue("material", data.name, true);
                                         setFieldValue("material_index", index, true);
+                                        setFieldValue("material", data.name, true);
                                     }}>
                                         <img src={data.imgUrl} width="200" />
                                         <div className={styles.gruopDetailProducts}>
