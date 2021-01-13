@@ -59,7 +59,7 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
     if (values.material === "กระดาษอาร์ท") {
       setFieldValue("stepProgress", 3, true);
       setFieldValue("coat", "ไม่เคลือบ", true);
-      setFieldValue("coat_index", "0", true);
+      setFieldValue("index_2", "0", true);
 
       setFieldValue("fixed_cost", values.optionMaterial[values.material_index].coating_list[0].price.fixed_cost, true);
       setFieldValue("variable_cost_1", values.optionMaterial[values.material_index].coating_list[0].price.variable_cost_1, true);
@@ -210,8 +210,8 @@ const EnhancedAppComponent = withFormik({
                         "coat": values.coat,
                         "material": values.material,
                         "shape_index": values.shape_index,
-                        "coat_index": values.coat_index,
-                        "material_index": values.material_index,
+                        "index_2": values.coat_index,
+                        "index_1": values.material_index,
                         "count": values.units,
 
                         "comment": values.comment,
@@ -262,8 +262,8 @@ const EnhancedAppComponent = withFormik({
                           {
                             "approveMethod": values.approvalStricker,
                             "shape_index": values.shape_index,
-                            "coat_index": values.coat_index,
-                            "material_index": values.material_index,
+                            "index_2": values.coat_index,
+                            "index_1": values.material_index,
                             "count": values.units,
                             "coat": values.coat,
                             "cutting": values.cutting,
@@ -318,8 +318,8 @@ const EnhancedAppComponent = withFormik({
                   let data = {
                     "approveMethod": values.approvalStricker,
                     "shape_index": values.shape_index,
-                    "coat_index": values.coat_index,
-                    "material_index": values.material_index,
+                    "index_2": values.coat_index,
+                    "index_1": values.material_index,
                     "coat": values.coat,
                     "cutting": values.cutting,
                     "comment": values.comment,
@@ -362,8 +362,8 @@ const EnhancedAppComponent = withFormik({
                       {
                         "approveMethod": values.approvalStricker,
                         "shape_index": values.shape_index,
-                        "coat_index": values.coat_index,
-                        "material_index": values.material_index,
+                        "index_2": values.coat_index,
+                        "index_1": values.material_index,
                         "coat": values.coat,
                         "cutting": values.cutting,
                         "comment": values.comment,

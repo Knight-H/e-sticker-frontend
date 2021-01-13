@@ -36,19 +36,29 @@ const CheckoutComponent = (props) => {
     }, []);
 
     const handleRemoveItemInCart = (index) => {
-        values.itemsList.splice(index, 1);
+        if (values.uid) {
+            values.itemsList.splice(index, 1);
 
-        let data = {
-            customerID: values.uid,
-            itemsList: values.itemsList
+            let data = {
+                customerID: values.uid,
+                itemsList: values.itemsList
+            }
+            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${values.myID}`, data)
+                .then(res => {
+                    console.log("res", res);
+                    setFieldValue("itemsList", values.itemsList, false);
+                }).catch(function (err) {
+                    console.log("err", err.response)
+                })
+        } else {
+            values.itemsList.splice(index, 1);
+            setFieldValue("itemsList", values.itemsList, false);
+
+            let data = {
+                "itemsList": values.itemsList
+            }
+            localStorage.setItem("cart", JSON.stringify(data));
         }
-        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${values.myID}`, data)
-            .then(res => {
-                console.log("res", res);
-                setFieldValue("itemsList", values.itemsList, false);
-            }).catch(function (err) {
-                console.log("err", err.response)
-            })
     }
 
     let totalPrice = 0;
