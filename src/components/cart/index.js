@@ -335,7 +335,7 @@ const EnhancedCartComponent = withFormik({
         if (!values.zip) { errors.zip = i18.required }
         // if (values.orderID) { errors.orderID = i18.required }
         // if (values.priceTotal) { errors.priceTotal = i18.required }
-        if (!values.shippingOption) { errors.shippingOption = i18.required }
+        if (values.shippingOption === "") { errors.shippingOption = i18.required }
         if (!values.payment) { errors.payment = i18.required }
 
         if (!values.checkedBoxInfo) {
@@ -415,11 +415,12 @@ const EnhancedCartComponent = withFormik({
                     }
                 };
                 console.log("data", data)
+                localStorage.setItem("orderIDLast", orderIDLast);
                 axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, data)
                     .then(res => {
-                        console.log("res>>>>>>>>>> post order", res);
+                        // console.log("res>>>>>>>>>> post order", res);
                         if (values.payment === "transfer_money") {
-                            return props.history.push("/member");
+                            return props.history.push("/e-sticker-frontend/successful");
                         } else {
                             let dataPostChillpay =
                             {
@@ -436,10 +437,8 @@ const EnhancedCartComponent = withFormik({
 
                             axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
                                 .then(res => {
-                                    console.log("res.data", res.data);
-                                    console.log("payment_url", res.data.payment_url.metadata);
                                     console.log("res>>>", res);
-                                    // window.location.href = res.data.payment_url;
+                                    window.location.href = res.data.PaymentUrl;
                                 })
                                 .catch(err => {
                                     console.log(err.response)
