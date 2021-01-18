@@ -21,10 +21,6 @@ import { ReactComponent as Test } from './test.svg';
 import FooterComponent from "../footer";
 
 import axios from "axios";
-import qs from "querystring";
-import { auth } from '../../firebase';
-import jwt_decode from "jwt-decode";
-import { axiosInst } from "../common-scss/common";
 
 const HomeComponent = (props) => {
     const stepsOrder = useRef(null);
@@ -44,7 +40,7 @@ const HomeComponent = (props) => {
 
         }
     }, [props.location.state]);
-
+    
     return (
         <>
             <main>
@@ -289,7 +285,7 @@ const EnhancedHomeComponent = withFormik({
                 county: values.county,
                 provice: values.provice,
             },
-            status: "ปกติ"
+            status: "ok"
         }
         axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/demo`, data)
             .then(res => {

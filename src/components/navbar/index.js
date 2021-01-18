@@ -57,86 +57,86 @@ const NavBarComponent = ({ history, itemCount }) => {
     }, [isBurgerToggled]);
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    // useEffect(() => {
-    //     auth.onAuthStateChanged((user) => {
-    //         setIsLoggedIn(user?.uid ? true : false)
-    //     })
-    // }, [isLoggedIn])
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            setIsLoggedIn(user?.uid ? true : false)
+        })
+    }, [isLoggedIn])
 
     function onClickDisableBurger() {
         // disable burger so user can scroll
         setIsBurgerToggled(false)
     }
 
-    useEffect(() => {
-        let url = window.location.search;
-        const urlParams = new URLSearchParams(url);
-        let code = urlParams.get('code');
+    // useEffect(() => {
+    //     let url = window.location.search;
+    //     const urlParams = new URLSearchParams(url);
+    //     let code = urlParams.get('code');
 
-        if (code) {
-            const requestBody = {
-                "grant_type": "authorization_code",
-                "code": code,
-                "redirect_uri": "http://localhost:3000",
-                "client_id": "1655248592",
-                "client_secret": "45f5c965e3ac723120e8adec38e8793c"
-            }
+    //     if (code) {
+    //         const requestBody = {
+    //             "grant_type": "authorization_code",
+    //             "code": code,
+    //             "redirect_uri": "http://localhost:3000",
+    //             "client_id": "1655248592",
+    //             "client_secret": "45f5c965e3ac723120e8adec38e8793c"
+    //         }
 
-            const config = {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }
+    //         const config = {
+    //             headers: {
+    //                 'Content-Type': 'application/x-www-form-urlencoded'
+    //             }
+    //         }
 
-            axios.post("https://api.line.me/oauth2/v2.1/token", qs.stringify(requestBody), config)
-                .then((result) => {
-                    console.log("https://api.line.me/oauth2/v2.1/token", result.data)
-                    var decoded = jwt_decode(result.data.id_token);
-                    console.log("decoded", decoded)
-                    let data = {
-                        "access_token": result.data.access_token,
-                        "customer_id": decoded.sub,
-                        "uid": decoded.sub,
-                        "name": decoded.name,
-                        "email": decoded.email,
-                        "picture": decoded.picture
-                    }
-                    console.log("data", data);
+    //         axios.post("https://api.line.me/oauth2/v2.1/token", qs.stringify(requestBody), config)
+    //             .then((result) => {
+    //                 console.log("https://api.line.me/oauth2/v2.1/token", result.data)
+    //                 var decoded = jwt_decode(result.data.id_token);
+    //                 console.log("decoded", decoded)
+    //                 let data = {
+    //                     "access_token": result.data.access_token,
+    //                     "customer_id": decoded.sub,
+    //                     "uid": decoded.sub,
+    //                     "name": decoded.name,
+    //                     "email": decoded.email,
+    //                     "picture": decoded.picture
+    //                 }
+    //                 console.log("data", data);
 
-                    axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data)
-                        .then((res) => {
-                            console.log("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", res.data)
-                            localStorage.setItem("token_line", result.data.id_token);
+    //                 axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data)
+    //                     .then((res) => {
+    //                         console.log("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", res.data)
+    //                         localStorage.setItem("token_line", result.data.id_token);
 
-                            auth
-                                .signInWithCustomToken(res.data.firebase_token)
-                                .then((res_auth) => {
-                                    console.log("res_auth", res_auth)
+    //                         auth
+    //                             .signInWithCustomToken(res.data.firebase_token)
+    //                             .then((res_auth) => {
+    //                                 console.log("res_auth", res_auth)
 
-                                    auth.onAuthStateChanged((user) => {
-                                        setIsLoggedIn(user?.uid ? true : false)
-                                    })
+    //                                 auth.onAuthStateChanged((user) => {
+    //                                     setIsLoggedIn(user?.uid ? true : false)
+    //                                 })
 
-                                })
-                                .catch((error) => {
-                                    console.log("error", error)
-                                })
+    //                             })
+    //                             .catch((error) => {
+    //                                 console.log("error", error)
+    //                             })
 
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                        })
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        } else {
-            auth.onAuthStateChanged((user) => {
-                setIsLoggedIn(user?.uid ? true : false)
-            })
-        };
+    //                     })
+    //                     .catch((err) => {
+    //                         console.log(err)
+    //                     })
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err)
+    //             })
+    //     } else {
+    //         auth.onAuthStateChanged((user) => {
+    //             setIsLoggedIn(user?.uid ? true : false)
+    //         })
+    //     };
 
-    }, [isLoggedIn, window.location.search])
+    // }, [isLoggedIn, window.location.search])
 
     return (
         <header>

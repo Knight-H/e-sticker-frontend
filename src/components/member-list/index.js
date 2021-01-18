@@ -21,8 +21,8 @@ const MemberListComponent = (props) => {
     var _apiData = fake_data;
     var statusFilter = {
         ALL: "แสดงทั้งหมด",
-        ACTIVE: "ปกติ",
-        BAN: "แบน",
+        ACTIVE: "ok",
+        BAN: "notOk",
     }
 
     let countOrder = {
@@ -64,7 +64,7 @@ const MemberListComponent = (props) => {
                         ปกติ - {countOrder.DONE} รายการ
                     </div>
                     <div className={`${styles.statusAdmin} ${styles.statusCancel} ${styles.statusMargin} ${styles.divButton} ${`${selectStatus}` === `${statusFilter.CANCEL}` && styles.divButtonActive}`} onClick={() => setSelectStatus(statusFilter.BAN)}>
-                        แบน - {countOrder.CANCEL} รายการ
+                         - {countOrder.CANCEL} รายการ
                     </div>
                     <div className={`${styles.statusAdmin} ${styles.statusNormal} ${styles.statusMargin} ${styles.divButton} ${`${selectStatus}` === `${statusFilter.ALL}` && styles.divButtonActive}`} onClick={() => setSelectStatus(statusFilter.ALL)}>
                         แสดงทั้งหมด
@@ -131,7 +131,7 @@ const MemberListComponent = (props) => {
                                     <td>{dataObjectMapped?.total_order_price}</td>
                                     <td>
                                         <div className={`${styles.statusAdmin} ${styles.statusCenter} ${statusOrder}`}>
-                                            {dataObjectMapped.status}
+                                            {dataObjectMapped.status === "ok" ? "ปกติ" : "แบน"}
                                         </div>
                                     </td>
                                     <td>

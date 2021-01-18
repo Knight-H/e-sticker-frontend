@@ -112,7 +112,7 @@ const EnchancedMemberRegisterComponent = withFormik({
                 fullname: moreUserInfo?.fullname || '',
                 phone: moreUserInfo?.phone || '',
                 customerID: userCredential.user.uid,
-                status: "ปกติ"
+                status: "ok"
             }
             console.log(customerSchemaInfo)
 

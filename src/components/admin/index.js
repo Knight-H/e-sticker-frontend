@@ -19,12 +19,13 @@ const useInputChange = () => {
 const AdminComponent = (props) => {
     var statusFilter = {
         ALL: "แสดงทั้งหมด",
+        WAIT_PAYMENT: "รอชำระเงิน",
         DOING: "กำลังดำเนินการ",
         PRODUCING: "กำลังผลิตสินค้า",
         DILIVERING: "อยู่ระหว่างจัดส่ง",
         REFUN: "ขอเงินคืน",
         DONE_REFUN: "คืนเงินสำเร็จ",
-        DONE: "เสร็จสิ้น",
+        DONE: "รายการสำเร็จ",
         CANCEL: "ยกเลิก"
     }
 
