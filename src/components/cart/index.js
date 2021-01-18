@@ -437,10 +437,8 @@ const EnhancedCartComponent = withFormik({
 
                             axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
                                 .then(res => {
-                                    console.log("res.data", res.data);
-                                    console.log("payment_url", res.data.payment_url.metadata);
                                     console.log("res>>>", res);
-                                    // window.location.href = res.data.payment_url;
+                                    window.location.href = res.data.PaymentUrl;
                                 })
                                 .catch(err => {
                                     console.log(err.response)
