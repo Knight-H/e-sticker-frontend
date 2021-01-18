@@ -15,7 +15,14 @@ import { ReactComponent as IconCheckSVG2 } from '../approve-layout/icon-check.sv
 
 const AdminOrderComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
-    const [selectStep] = useState(3);
+    const [selectStep, setSelectStep] = useState(3);
+
+    useEffect(() => {
+        console.log("values.status", values.status)
+        if (values.status === "รายการสำเร็จ" || values.status === "คืนเงินสำเร็จ") {
+            setSelectStep(4)
+        }
+    }, [values.status])
 
     // GET Orders From API
     useEffect(() => {

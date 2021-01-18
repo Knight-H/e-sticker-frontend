@@ -112,7 +112,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
             provice: '',
             zip: '',
 
-            accountState: 0
+            accountState: ''
         }
     },
     validate: (values) => {
@@ -157,7 +157,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
                 fullname: moreUserInfo?.fullname || '',
                 phone: moreUserInfo?.phone || '',
                 customerID: uid,
-                status: moreUserInfo?.accountState || moreUserInfo?.state || "ปกติ"
+                status: moreUserInfo?.accountState || moreUserInfo?.state || "ok"
             }
             console.log("sent", customerSchemaInfo)
 
@@ -182,8 +182,10 @@ export let EnhancedLocationFields = withRouter(withFormik({
     const { values, setFieldValue, userInfo } = props
 
     const handleChangeDropDawn = (e) => {
-        values.accountState = parseInt(e.value) || 0 // If error value then assume be 0 (Normal)
+        console.log("e.value", e.value)
+        // values.accountState = parseInt(e.value) || 0 // If error value then assume be 0 (Normal)
         setDropDawn(e.value);
+        setFieldValue("accountState", e.value, false)
     }
 
     useEffect(() => {
@@ -191,7 +193,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
             setFieldValue(fieldKey, fieldValue)
         })
     }, [userInfo])
-
+    console.log("values.accountState", values.accountState)
     return (
         <Form className={styles.userInfo}>
             <LocationFieldsComponent onlyLocation={false} {...props} />
@@ -202,11 +204,11 @@ export let EnhancedLocationFields = withRouter(withFormik({
 
                     <div className={styles.selectBoxCurrent} tabIndex="0">
                         <div className={`${styles.selectBoxValue}`}>
-                            <Field className={styles.selectBoxInput} type="radio" id="0" value="0" checked={`${values.accountState}` === `${0}` ? true : false} onChange={(e) => handleChangeDropDawn(e.target)} />
+                            <Field className={styles.selectBoxInput} name="accountState" type="radio" id="0" value="ok" checked={`${values.accountState}` === `ok` ? true : false} onChange={(e) => handleChangeDropDawn(e.target)} />
                             <p className={`${styles.selectBoxInputText}  ${styles.comboBoxStatusGreen}`}>ปกติ</p>
                         </div>
                         <div className={styles.selectBoxValue}>
-                            <Field className={styles.selectBoxInput} type="radio" id="1" value="1" checked={`${values.accountState}` === `${1}` ? true : false} onChange={(e) => handleChangeDropDawn(e.target)} />
+                            <Field className={styles.selectBoxInput} name="accountState" type="radio" id="1" value="notOk" checked={`${values.accountState}` === `notOk` ? true : false} onChange={(e) => handleChangeDropDawn(e.target)} />
                             <p className={`${styles.selectBoxInputText}  ${styles.comboBoxStatusRed}`}>แบน</p>
                             <IconArrow />
                         </div>
@@ -251,7 +253,7 @@ let MemberComponent = (props) => {
                 fullname: custInfo?.fullname || '',
                 phone: custInfo?.phone || '',
 
-                accountState: custInfo.status === "ปกติ" ? 0 : 1
+                accountState: custInfo.status
             }
 
             console.log("Receive", formikSchema)

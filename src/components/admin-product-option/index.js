@@ -202,7 +202,7 @@ const AdminOrderComponent = () => {
 
             <h1 className={styles.title}>รายการจัดส่ง</h1>
 
-            <section className={styles.productOptions}>
+            <section className={styles.productOptions}  style={{ justifyContent: "start"}}>
                 <article className={styles.cardProductOption}>
                     <h4>รูปแบบการจัดส่ง</h4>
                     <div>

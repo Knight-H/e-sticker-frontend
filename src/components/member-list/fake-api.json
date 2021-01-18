@@ -11,7 +11,7 @@
             "amount_product": 5,
             "amount_order": 1,
             "total_order_price": 1000,
-            "status": "แบน",
+            "status": "",
             "organize": "จัดการ"
         },
         {
@@ -67,7 +67,7 @@
             "amount_product": 5,
             "amount_order": 1,
             "total_order_price": 1000,
-            "status": "แบน",
+            "status": "",
             "organize": "จัดการ"
         },
         {

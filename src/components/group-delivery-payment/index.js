@@ -19,7 +19,7 @@ const Payment = [
     },
     {
         "icon": logoKBank,
-        "name": "Kasi Korn Bank",
+        "name": " Kasikorn Bank",
         "code": "payplus_kbank"
     },
     {
@@ -42,9 +42,11 @@ const GroupDeliveryPaymentComponent = () => {
         axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
             .then(res => {
                 console.log("res.data", res.data)
+                window.alert("อัพเดทเลข Tracking สำเร็จ")
                 setFieldValue("fetchMsg", true, false)
             }).catch(function (err) {
                 console.log("err", err)
+                window.alert("อัพเดทเลข Tracking ไม่สำเร็จ")
             })
     }
 
@@ -72,7 +74,9 @@ const GroupDeliveryPaymentComponent = () => {
                         <br />
                         <label>เลข Tracking: <Field name="shippingNumber" className={styles.inputShippingNumber} type="text" placeholder="...."
                             disabled={values.isAdmin ? false : true} /></label>
-                        {values.isAdmin ? <button onClick={() => handleSubmitTrackingNumber()}>ยืนยัน</button> :
+                        {values.isAdmin ? <button onClick={() => {
+                            handleSubmitTrackingNumber()
+                        }}>ยืนยัน</button> :
                             <button onClick={() => window.location.href = 'https://th.kerryexpress.com/th/track/dfdfdfd'}>ติดตาม</button>}
 
                     </div>
@@ -83,12 +87,12 @@ const GroupDeliveryPaymentComponent = () => {
                     <label>
                         {Payment.map((data) => {
                             if (data.code === values.paymentMethod)
-                            return (
-                                <>
-                                <img src={data.icon} className={styles.logoBank} width="25" alt="kerry" />
-                                {data.name}
-                                </>
-                            )
+                                return (
+                                    <>
+                                        <img src={data.icon} className={styles.logoBank} width="25" alt="kerry" />
+                                        {data.name}
+                                    </>
+                                )
                         })}
                     </label>
 

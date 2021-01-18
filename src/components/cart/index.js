@@ -30,7 +30,7 @@ const Payment = [
     },
     {
         "icon": logoKBank,
-        "name": "Kasi Korn Bank",
+        "name": " Kasikorn Bank",
         "code": "payplus_kbank"
     },
     {
@@ -86,14 +86,14 @@ const CartComponent = () => {
                                         return data["customerID"] === auth.currentUser.uid
                                     })[0]
                                     console.log("customerInfo", customerInfo)
-                                    setFieldValue("address", customerInfo.shippingAddress?.address, false);
-                                    setFieldValue("county", customerInfo.shippingAddress?.county, false);
+                                    setFieldValue("address", customerInfo.shippingAddress? customerInfo.shippingAddress.address : "", false);
+                                    setFieldValue("county", customerInfo.shippingAddress? customerInfo.shippingAddress.county : "", false);
                                     setFieldValue("email", customerInfo.email, false);
-                                    setFieldValue("fullname", customerInfo.fullname, false);
-                                    setFieldValue("phone", customerInfo.phone, false);
-                                    setFieldValue("provice", customerInfo.shippingAddress?.provice, false);
-                                    setFieldValue("zip", customerInfo.shippingAddress?.zip, false);
-                                    setFieldValue("zone", customerInfo.shippingAddress?.zone, false);
+                                    setFieldValue("fullname", customerInfo.fullname ? customerInfo.fullname : "", false);
+                                    setFieldValue("phone", customerInfo.phone ? customerInfo.phone : "", false);
+                                    setFieldValue("provice", customerInfo.shippingAddress? customerInfo.shippingAddress.provice : "", false);
+                                    setFieldValue("zip", customerInfo.shippingAddress ? customerInfo.shippingAddress.zip : "", false);
+                                    setFieldValue("zone", customerInfo.shippingAddress ? customerInfo.shippingAddress.zone : "", false);
                                 })
                             }).catch(function (err) {
                                 console.log("err", err)
@@ -127,7 +127,7 @@ const CartComponent = () => {
         }
 
     }, [values.checkedRadioBox]);
-
+    
     let priceTotal = 0;
     return (
         <>
@@ -325,18 +325,18 @@ const EnhancedCartComponent = withFormik({
     }),
     validate: values => {
         const errors = {};
-        if (values.email === "") { errors.email = i18.required }
-        if (values.phone === "") { errors.phone = i18.required }
-        if (values.address === "") { errors.address = i18.required }
-        if (values.fullname === "") { errors.fullname = i18.required }
-        if (values.county === "") { errors.county = i18.required }
-        if (values.zone === "") { errors.zone = i18.required }
-        if (values.provice === "") { errors.provice = i18.required }
-        if (values.zip === "") { errors.zip = i18.required }
-        // if (values.orderID === "") { errors.orderID = i18.required }
-        // if (values.priceTotal === "") { errors.priceTotal = i18.required }
-        if (values.shippingOption === "") { errors.shippingOption = i18.required }
-        if (values.payment === "") { errors.payment = i18.required }
+        if (!values.email) { errors.email = i18.required }
+        if (!values.phone) { errors.phone = i18.required }
+        if (!values.address) { errors.address = i18.required }
+        if (!values.fullname) { errors.fullname = i18.required }
+        if (!values.county) { errors.county = i18.required }
+        if (!values.zone) { errors.zone = i18.required }
+        if (!values.provice) { errors.provice = i18.required }
+        if (!values.zip) { errors.zip = i18.required }
+        // if (values.orderID) { errors.orderID = i18.required }
+        // if (values.priceTotal) { errors.priceTotal = i18.required }
+        if (!values.shippingOption) { errors.shippingOption = i18.required }
+        if (!values.payment) { errors.payment = i18.required }
 
         if (!values.checkedBoxInfo) {
             // รับ หรือ ไม่รับก็ได้
@@ -430,7 +430,8 @@ const EnhancedCartComponent = withFormik({
                                 "ChannelCode": values.payment,
                                 "Currency": "764",
                                 "RouteNo": 1,
-                                "IPAddress": values.yourIP
+                                "IPAddress": values.yourIP,
+                                "myOrder": data
                             }
 
                             axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)

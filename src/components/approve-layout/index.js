@@ -13,7 +13,7 @@ import { auth } from '../../firebase/index.js';
 import firebaseApp from '../../firebase/index.js';
 const ApproveLayoutComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
-    const [selectStep] = useState(3);
+    const [selectStep, setSelectStep] = useState(3);
     const [guestMode, setGuestMode] = useState(false);
 
     useEffect(() => {
@@ -23,7 +23,17 @@ const ApproveLayoutComponent = (props) => {
                 var myID = pathArray[2];
                 // console.log("myID", myID)
                 if (!myID) {
-                    props.history.push('/customize');
+                    // props.history.push('/customize');
+                    setGuestMode(true)
+                    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
+                        .then(res => {
+                            console.log("res.data", res.data)
+                            setFieldValue("allOrder", res.data, false);
+                            setFieldValue("fetchMsg", false, false);
+                            searchOrderNumber();
+                        }).catch(function (err) {
+                            console.log("err", err)
+                        })
                 } else {
                     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
                         .then(res => {
@@ -36,7 +46,7 @@ const ApproveLayoutComponent = (props) => {
                             setFieldValue("status", res.data.status, false);
                             setFieldValue("itemsList", res.data.itemsList, false);
                             setFieldValue("shippingAddress", res.data.shippingAddress, false);
-                            setFieldValue("shippingNumber",res.data.shippingNumber, false);
+                            setFieldValue("shippingNumber", res.data.shippingNumber, false);
 
                             setFieldValue("shippingCourier", res.data.shippingCourier, false);
                             setFieldValue("itemsCost", res.data.itemsCost, false);
@@ -82,8 +92,17 @@ const ApproveLayoutComponent = (props) => {
             setFieldValue("shippingCost", orderNumber.shippingCost, false);
             setFieldValue("vatCost", orderNumber.vatCost, false);
             setFieldValue("totalCost", orderNumber.totalCost, false);
+            setFieldValue("paymentMethod", orderNumber.paymentMethod, false);
+            setFieldValue("paymentStatus", orderNumber.paymentStatus, false);
         }
     };
+
+    useEffect(() => {
+        console.log("values.status", values.status)
+        if (values.status === "รายการสำเร็จ" || values.status === "คืนเงินสำเร็จ") {
+            setSelectStep(4)
+        }
+    }, [values.status])
 
     return (
         <main className={styles.wrapContent}>
@@ -97,26 +116,32 @@ const ApproveLayoutComponent = (props) => {
                 </>
             }
 
-            <h1 className={styles.title}>รายการออเดอร์</h1>
-            <p>ออเดอร์หมายเลข #{values.orderID}
-                <LabelSatus status={values.status} />
-            </p>
+            {values.orderID ?
+                <>
+                    <h1 className={styles.title}>รายการออเดอร์</h1>
+                    <p>ออเดอร์หมายเลข #{values.orderID}
+                        <LabelSatus status={values.status} />
+                    </p>
 
-            <section className={styles.stepProgressBar}>
-                <StepProgress stepIndex={selectStep} />
-            </section>
+                    <section className={styles.stepProgressBar}>
+                        <StepProgress stepIndex={selectStep} />
+                    </section>
 
-            <section>
-                <CardOrder />
-            </section>
+                    <section>
+                        <CardOrder />
+                    </section>
 
-            <section className={styles.previewImage}>
-                <PreviewImage />
-            </section>
+                    <section className={styles.previewImage}>
+                        <PreviewImage />
+                    </section>
 
-            <section className={styles.groupDeliveryPayment} style={guestMode ? { border: '1px solid #009473' } : {}}>
-                <GroupDeliveryPayment />
-            </section>
+                    <section className={styles.groupDeliveryPayment} style={guestMode ? { border: '1px solid #009473' } : {}}>
+                        <GroupDeliveryPayment />
+                    </section>
+                </>
+                :
+                ""
+            }
 
         </main >
     );
@@ -194,7 +219,7 @@ const EnhancedApproveLayoutComponent = withFormik({
                             }
                             cloneFullFetchData.paymentConfirm = [...cloneFullFetchData.paymentConfirm, newData];
                             console.log("cloneFullFetchData", cloneFullFetchData)
-                                    
+
                             axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${cloneFullFetchData.id}`, cloneFullFetchData)
                                 .then(res => {
                                     console.log("res", res)
