@@ -15,6 +15,7 @@ const ApproveLayoutComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
     const [selectStep, setSelectStep] = useState(3);
     const [guestMode, setGuestMode] = useState(false);
+    const [catchOrders, setCatchOrders] = useState([]);
 
     useEffect(() => {
         auth.onAuthStateChanged(user => {
@@ -94,11 +95,16 @@ const ApproveLayoutComponent = (props) => {
             setFieldValue("totalCost", orderNumber.totalCost, false);
             setFieldValue("paymentMethod", orderNumber.paymentMethod, false);
             setFieldValue("paymentStatus", orderNumber.paymentStatus, false);
+            setCatchOrders([])
+        } else if (values.orderNumber) {
+            let catchID = values.allOrder.filter(orderNumber => {
+                return orderNumber.orderID.search(values.orderNumber) > -1
+            });
+            setCatchOrders(catchID)
         }
     };
 
     useEffect(() => {
-        console.log("values.status", values.status)
         if (values.status === "รายการสำเร็จ" || values.status === "คืนเงินสำเร็จ") {
             setSelectStep(4)
         }
@@ -114,6 +120,18 @@ const ApproveLayoutComponent = (props) => {
                     <Field name="orderNumber" className={styles.inputGreen} />
                     <button type="button" className={styles.btnGreen} onClick={() => searchOrderNumber()}>ตรวจสอบสถานะ</button>
                 </>
+            }
+            {
+                catchOrders.length >=1 && 
+            <p>หมายเลขออเดอร์ที่ใกล้เคียง</p>
+}
+            {
+                catchOrders.length >=1 && catchOrders.map((data, index) => {
+                    if (index <= 4) {
+                        return <p style={{ margin: "5px 0", color: "orange" }}>{data.orderID}</p>
+                    }
+                })
+                
             }
 
             {values.orderID ?

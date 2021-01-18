@@ -5,21 +5,17 @@ import { useFormikContext } from 'formik';
 import MessageImage from './checkbox.png';
 
 const Order1ProductConfigComponent = (props) => {
-    // const { values, setFieldValue } = useFormikContext();
+    const [orderIDLast, setOrderIDLast] = useState("");
 
-    // useEffect(() => {
-    //     if (values.material) {
-    //         values.optionMaterial.map((data) => {
-    //             if (data.name === values.material) {
-    //                 setFieldValue("optionCoat", data.coating_list, false);
-    //             }
-    //         })
-    //     }
-    //   }, [values.material]);
+    useEffect(() => {
+        var orderIDLast = localStorage.getItem("orderIDLast");
+        setOrderIDLast(orderIDLast);
+      }, []);
 
     return (
         <main>
             <div className={styles.centerImg}>
+                <h2>หมายเลขออเดอร์ของคุณคือ {orderIDLast}</h2>
                 <img src={MessageImage} width="300" />
             </div>
         </main>
