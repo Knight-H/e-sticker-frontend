@@ -106,6 +106,7 @@ const PreviewImageComponent = () => {
     }
 
     const handleChangeModal = event => {
+        console.log(">>>>>>>>>>>>>>>>>>")
         if (event.target.files) {
             setFieldValue("photo", event.target.files[0], true);
             setFieldValue("isCheckphoto", true, false);
@@ -207,8 +208,8 @@ const PreviewImageComponent = () => {
                                         <p>สลิปการโอนเงิน*<ErrorMessage name="photo" render={msg => <span className="error">{msg}</span>} />
                                             {values.isCheckphoto !== 0 ? values.isCheckphoto ? <span style={{ color: "#009473", fontSize: "12px" }}>อัพโหลดสำเร็จ</span> :
                                                 <span style={{ color: "red", fontSize: "12px" }}>อัพโหลดไม่สำเร็จ</span> : ""}</p>
-                                        <input type="file" id="file" onChange={(e) => handleChangeModal(e)} />
-                                        <label for="file" className={`${styles.buttonUploadFile} ${styles.label}`}>
+                                        <input type="file" id="file2" onChange={(e) => handleChangeModal(e)} />
+                                        <label for="file2" className={`${styles.buttonUploadFile} ${styles.label}`}>
                                             <IconUploadFile />อัพโหลดไฟล์</label>
                                     </div>
                                 </div>
