@@ -59,7 +59,7 @@ const EnchancedMemberRegisterComponent = withFormik({
             fullname: '',
 
             county: '',
-            zone: '',
+            city: '',
 
             provice: '',
             zip: '',
@@ -104,7 +104,7 @@ const EnchancedMemberRegisterComponent = withFormik({
                 shippingAddress: {
                     address: moreUserInfo?.address || '',
                     zip: moreUserInfo?.zip || '',
-                    zone: moreUserInfo?.zone || '',
+                    city: moreUserInfo?.city || '',
                     county: moreUserInfo?.county || '',
                     provice: moreUserInfo?.provice || '',
                     fullname: moreUserInfo?.fullname || '',
@@ -117,8 +117,8 @@ const EnchancedMemberRegisterComponent = withFormik({
             console.log(customerSchemaInfo)
 
             axiosInst.post("customers", {
-                uid: userCredential.user.uid,
-                data: customerSchemaInfo
+                // uid: userCredential.user.uid,
+               ...customerSchemaInfo
             }).then((res) => {
 
             }).catch((reason) => {

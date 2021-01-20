@@ -119,8 +119,8 @@ const HomeComponent = (props) => {
                                 </div>
                                 <div className={styles.isRow}>
                                     <div className={styles.leftColumn}>
-                                        <p>แขวง*<ErrorMessage name="zone" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="zone" type="text" />
+                                        <p>แขวง*<ErrorMessage name="city" render={msg => <span className="error">{msg}</span>} /></p>
+                                        <Field name="city" type="text" />
                                     </div>
                                     <div className={styles.rightColumn}>
                                         <p>เขต*<ErrorMessage name="county" render={msg => <span className="error">{msg}</span>} /></p>
@@ -236,7 +236,7 @@ const EnhancedHomeComponent = withFormik({
         name: '',
         zip: '',
         address: '',
-        zone: '',
+        city: '',
         county: '',
         phone: '',
         provice: '',
@@ -254,8 +254,8 @@ const EnhancedHomeComponent = withFormik({
         if (!values.address) {
             errors.address = "*กรุณาระบุ"
         }
-        if (!values.zone) {
-            errors.zone = "*กรุณาระบุ"
+        if (!values.city) {
+            errors.city = "*กรุณาระบุ"
         }
         if (!values.county) {
             errors.county = "*กรุณาระบุ"
@@ -281,7 +281,7 @@ const EnhancedHomeComponent = withFormik({
                 fullname: values.name,
                 zip: values.zip,
                 address: values.address,
-                zone: values.zone,
+                city: values.city,
                 county: values.county,
                 provice: values.provice,
             },
@@ -294,7 +294,7 @@ const EnhancedHomeComponent = withFormik({
                 setFieldValue("name", '', false)
                 setFieldValue("zip", '', false)
                 setFieldValue("address", '', false)
-                setFieldValue("zone", '', false)
+                setFieldValue("city", '', false)
                 setFieldValue("county", '', false)
                 setFieldValue("phone", '', false)
                 setFieldValue("provice", '', false)

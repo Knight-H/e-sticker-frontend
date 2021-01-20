@@ -134,6 +134,18 @@
     @include InputDisabled
 
 }
+.loginCredentialsNoneDisplay {
+    @include conditionalWidth;
+
+    flex: 0;
+
+    padding: 30px 35px;
+    // border: 1px solid #009473;
+    border-radius: 5px;
+
+    @include InputDisabled
+
+}
 
 .userInfo {
     @include conditionalPadding();

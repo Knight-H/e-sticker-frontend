@@ -23,7 +23,7 @@ import { Intermediate } from '../member-account'
 //             fullname: '',
 
 //             district: '',
-//             zone: '',
+//             city: '',
 //             provice: '',
 //             zip: '',
 //         }

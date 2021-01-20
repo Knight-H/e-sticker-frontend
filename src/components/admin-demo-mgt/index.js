@@ -65,7 +65,7 @@ const AdminDemoMTG = (props) => {
                                 <td>{data.email}</td>
                                 <td>{data.shippingAddress.address}</td>
                                 <td>{data?.phone}</td>
-                                <td>{data?.shippingAddress.zone}</td>
+                                <td>{data?.shippingAddress.city}</td>
                                 <td>{data?.shippingAddress.county}</td>
                                 <td>{data?.shippingAddress.provice}</td>
                                 <td>{data?.shippingAddress.zip}</td>
