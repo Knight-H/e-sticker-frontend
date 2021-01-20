@@ -263,6 +263,9 @@ const EnhancedHomeComponent = withFormik({
         if (!values.phone) {
             errors.phone = "*กรุณาระบุ"
         }
+        if (!/^\d+$/.test(values.phone)) {
+            errors.phone = "*ต้องเป็นตัวเลข 0-9"
+        }
         if (!values.email) {
             errors.email = "*กรุณาระบุ"
         }
