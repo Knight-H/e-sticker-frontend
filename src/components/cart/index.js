@@ -93,7 +93,7 @@ const CartComponent = () => {
                                     setFieldValue("phone", customerInfo.phone ? customerInfo.phone : "", false);
                                     setFieldValue("provice", customerInfo.shippingAddress? customerInfo.shippingAddress.provice : "", false);
                                     setFieldValue("zip", customerInfo.shippingAddress ? customerInfo.shippingAddress.zip : "", false);
-                                    setFieldValue("zone", customerInfo.shippingAddress ? customerInfo.shippingAddress.zone : "", false);
+                                    setFieldValue("city", customerInfo.shippingAddress ? customerInfo.shippingAddress.city : "", false);
                                 })
                             }).catch(function (err) {
                                 console.log("err", err)
@@ -120,7 +120,7 @@ const CartComponent = () => {
     useEffect(() => {
         if (values.checkedRadioBox === "2") {
             setFieldValue("billingFullname", values.fullname, false);
-            setFieldValue("billingFulladdress", `${values.address} ${values.county} ${values.zone} ${values.provice} ${values.zip}`, false);
+            setFieldValue("billingFulladdress", `${values.address} ${values.county} ${values.city} ${values.provice} ${values.zip}`, false);
         } else {
             setFieldValue("billingFullname", '', false);
             setFieldValue("billingFulladdress", '', false);
@@ -312,7 +312,7 @@ const EnhancedCartComponent = withFormik({
         phone: '',
         address: '',
         county: '',
-        zone: '',
+        city: '',
         provice: '',
         zip: '',
 
@@ -330,7 +330,7 @@ const EnhancedCartComponent = withFormik({
         if (!values.address) { errors.address = i18.required }
         if (!values.fullname) { errors.fullname = i18.required }
         if (!values.county) { errors.county = i18.required }
-        if (!values.zone) { errors.zone = i18.required }
+        if (!values.city) { errors.city = i18.required }
         if (!values.provice) { errors.provice = i18.required }
         if (!values.zip) { errors.zip = i18.required }
         // if (values.orderID) { errors.orderID = i18.required }
@@ -343,7 +343,7 @@ const EnhancedCartComponent = withFormik({
         }
         else {
             values.billingFullname = values.fullname;
-            values.billingFulladdress = values.address + "" + values.county + "" + values.zone + "" + values.provice + "" + values.zip;
+            values.billingFulladdress = values.address + "" + values.county + "" + values.city + "" + values.provice + "" + values.zip;
             values.billingTaxID = values.billingTaxID
         }
 
@@ -405,10 +405,10 @@ const EnhancedCartComponent = withFormik({
 
                     "shippingAddress": {
                         "address": values.address,
-                        "city": values.zone,
+                        "city": values.city,
                         "county": values.county,
                         "fullname": values.fullname,
-                        "province": values.provice,
+                        "provice": values.provice,
                         "zip": values.zip,
                         "phone": values.phone,
                         "email": values.email
@@ -437,8 +437,8 @@ const EnhancedCartComponent = withFormik({
 
                             axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
                                 .then(res => {
-                                    console.log("res>>>", res);
-                                    window.location.href = res.data.PaymentUrl;
+                                    console.log("res>>>", res.data);
+                                    window.location.href = res.data.payment_url;
                                 })
                                 .catch(err => {
                                     console.log(err.response)

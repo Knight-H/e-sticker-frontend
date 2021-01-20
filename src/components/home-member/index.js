@@ -15,6 +15,8 @@ import { axiosInst } from '../common-scss/common'
 const LabelSatus = ({ status }) => {
     if (status === STATUS_ORDERS_TYPE.DOING) {
         return <label className={`${styles.statusLabel} ${styles.orangeLabel}`}>สถานะ: กำลังดำเนินการ</label>
+    } else if (status === STATUS_ORDERS_TYPE.WAIT_PAYMENT) {
+        return <label className={`${styles.statusLabel} ${styles.blueStatus}`}>สถานะ: รอชำระเงิน</label>
     } else if (status === STATUS_ORDERS_TYPE.PRODUCTION) {
         return <label className={`${styles.statusLabel} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
     } else if (status === STATUS_ORDERS_TYPE.DELIVERY) {

@@ -25,7 +25,7 @@ const CardOrderComponent = (props) => {
                             <h4 className={styles.quality}>{listCard.units}ชิ้น</h4>
                             <h4 className={styles.price}>{listCard.price}฿</h4>
                         </div>
-                        <LabelSatus status={listCard.status} />
+                        <LabelSatus status={listCard.status} paymentStatus={values.paymentStatus} paymentMethod={values.paymentMethod} />
                     </div>
                 )
             })}
@@ -56,12 +56,12 @@ const responsive = {
     }
 };
 
-const LabelSatus = ({ status }) => {
-    if (status === "รออนุมัติแบบ") {
+const LabelSatus = ({ status, paymentStatus, paymentMethod }) => {
+    if (status === "รออนุมัติแบบ" && paymentMethod !== "transfer_money") {
         return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: รออนุมัติแบบ</label>
-    } else if (status === "อนุมัติแบบ") {
+    } else if (status === "อนุมัติแบบ" && paymentMethod !== "transfer_money") {
         return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: อนุมัติแบบ</label>
-    } else if (status === "pending") {
+    } else if (paymentStatus === "pending" && paymentMethod === "transfer_money") {
         return <label className={`${styles.labelStatus} ${styles.blueStatus}`}>สถานะ: รอการยืนยันชำระเงิน</label>
     } else {
         return <label></label>

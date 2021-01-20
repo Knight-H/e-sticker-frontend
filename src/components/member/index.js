@@ -108,7 +108,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
             fullname: '',
 
             county: '',
-            zone: '',
+            city: '',
             provice: '',
             zip: '',
 
@@ -149,7 +149,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
                 shippingAddress: {
                     address: moreUserInfo?.address || '',
                     zip: moreUserInfo?.zip || '',
-                    zone: moreUserInfo?.zone || '',
+                    city: moreUserInfo?.city || '',
                     county: moreUserInfo?.county || '',
                     provice: moreUserInfo?.provice || '',
                     fullname: moreUserInfo?.fullname || '',
@@ -246,13 +246,16 @@ let MemberComponent = (props) => {
 
                 address: custInfo?.shippingAddress?.address || '',
                 zip: custInfo?.shippingAddress?.zip || '',
-                zone: custInfo?.shippingAddress?.zone || '',
+                city: custInfo?.shippingAddress?.city || '',
                 county: custInfo?.shippingAddress?.county || '',
                 provice: custInfo?.shippingAddress?.provice || '',
 
                 fullname: custInfo?.fullname || '',
                 phone: custInfo?.phone || '',
 
+                line_channel: custInfo.line_channel ? custInfo.line_channel : '',
+                line_token: custInfo.line_token ? custInfo.line_token : '',
+                
                 accountState: custInfo.status
             }
 
@@ -289,7 +292,13 @@ let MemberComponent = (props) => {
                 })()}
                 <div className={styles.flexWrapper}>
 
+                {userInfo.line_channel ?
+                    <div className={styles.loginCredentialsNoneDisplay}>
+
+                    </div>
+                    :
                     <EnhancedLoginCredentialsComponent email={currentEmail} emailDisabled={true} userInfo={userInfo} setUpdateStatusText={setUpdateStatusText} setUserInfo={setUserInfo} />
+                }
                     <EnhancedLocationFields email={currentEmail} emailDisabled={true} userInfo={userInfo} setUpdateStatusText={setUpdateStatusText} setUserInfo={setUserInfo} />
 
                 </div>
@@ -308,7 +317,7 @@ let MemberComponent = (props) => {
 //         fullname: '',
 
 //         county: '',
-//         zone: '',
+//         city: '',
 //         provice: '',
 //         zip: '',
 

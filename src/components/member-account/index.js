@@ -98,7 +98,7 @@ const EnchancedLocationFieldsComponent = withFormik({
             fullname: '',
 
             county: '',
-            zone: '',
+            city: '',
 
             provice: '',
             zip: '',
@@ -160,7 +160,7 @@ const EnchancedLocationFieldsComponent = withFormik({
                         county: customerInfo.county || '',
                         provice: customerInfo.provice || '',
                         fullname: customerInfo.fullname || '',
-                        zone: customerInfo.zone || ''
+                        city: customerInfo.city || ''
                     },
                     fullname: customerInfo?.fullname || '',
                     phone: customerInfo?.phone || ''
@@ -170,7 +170,7 @@ const EnchancedLocationFieldsComponent = withFormik({
 
                 // console.log("asdf", customerSchemaInfo)
 
-                const documentKey = customerInfo.myID || null
+                const documentKey = values.id || null
 
                 if (!documentKey) {
                     // Make new if doesn't exist
@@ -218,8 +218,7 @@ const EnchancedLocationFieldsComponent = withFormik({
     )
 })
 
-
-export const Intermediate = () => {
+export const Intermediate = ({setName}) => {
 
     const [userInfo, setUserInfo] = useState({})
     const [updateStatusText, setUpdateStatusText] = useState("　")
@@ -235,19 +234,22 @@ export const Intermediate = () => {
 
                 // Temporary for filtering the customer data
                 const custInfo = res.data
-
+                setName(custInfo?.fullname || '')
                 console.log("got cust info", custInfo)
-
                 const formikSchema = {
+                    id: custInfo.id,
                     customerID: custInfo.customerID,
                     status: custInfo.status,
                     email: custInfo.Email || userCredential.email,
 
                     address: custInfo?.shippingAddress?.address || '',
                     zip: custInfo?.shippingAddress?.zip || '',
-                    zone: custInfo?.shippingAddress?.zone || '',
+                    city: custInfo?.shippingAddress?.city || '',
                     county: custInfo?.shippingAddress?.county || '',
                     provice: custInfo?.shippingAddress?.provice || '',
+
+                    line_channel: custInfo.line_channel ? custInfo.line_channel : '',
+                    line_token: custInfo.line_token ? custInfo.line_token : '',
 
                     fullname: custInfo?.fullname || '',
                     phone: custInfo?.phone || ''
@@ -270,8 +272,13 @@ export const Intermediate = () => {
             })()}
 
             <div className={styles.flexWrapper}>
+                {userInfo.line_channel ?
+                    <div className={styles.loginCredentialsNoneDisplay}>
 
-                <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} setUpdateStatusText={setUpdateStatusText} />
+                    </div>
+                    :
+                    <EnhancedLoginCredentialsComponent emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} setUpdateStatusText={setUpdateStatusText} />
+                }
                 <EnchancedLocationFieldsComponent onlyLocation={false} emailDisabled={true} userInfo={userInfo} setUserInfo={setUserInfo} setUpdateStatusText={setUpdateStatusText} />
 
             </div>
@@ -280,13 +287,14 @@ export const Intermediate = () => {
 }
 
 const MemberAccountComponent = () => {
+    const [name, setName] = useState("")
 
     return (
         <main className={styles.pageContainer}>
             <h2>มุมสมาชิก - จัดการบัญชี</h2>
-            <h3>สวัสดีคุณ customer_name เลือกเมนูการใช้งานได้เลยค่ะ</h3>
-            <h3>หมายเลขสมาชิก MEM0001</h3>
-            <Intermediate />
+            <h3>สวัสดีคุณ {name} เลือกเมนูการใช้งานได้เลยค่ะ</h3>
+            {/* <h3>หมายเลขสมาชิก MEM0001</h3> */}
+            <Intermediate setName={setName} />
         </main>
     );
 }

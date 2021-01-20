@@ -60,7 +60,7 @@ const GroupDeliveryPaymentComponent = () => {
                     <div className={styles.containerInformationCustomer}>
                         <ul>
                             <li>{values.shippingAddress.fullname}</li>
-                            <li>{values.shippingAddress.address} {values.shippingAddress.city} {values.shippingAddress.county} {values.shippingAddress.province} {values.shippingAddress.zip}</li>
+                            <li>{values.shippingAddress.address} {values.shippingAddress.city} {values.shippingAddress.county} {values.shippingAddress.provice} {values.shippingAddress.zip}</li>
                         </ul>
                         <ul>
                             <li>เบอร์โทรศัพท์: {values.shippingAddress.phone}</li>
