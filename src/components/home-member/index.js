@@ -34,14 +34,17 @@ const HomeMemberComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
 
     useEffect(() => {
+        setFieldValue("loading", true, false);
         auth.onAuthStateChanged(user => {
             if (user) {
                 axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders?customerID=${user.uid}`)
                     .then(res => {
                         // console.log("res.data[0]", res.data)
                         setFieldValue("objectOrder", res.data, false);
+                        setFieldValue("loading", false, false);
                     }).catch(function (err) {
                         console.log("err", err)
+                        setFieldValue("loading", false, false);
                     })
 
                 // IF Login fetch address
@@ -53,10 +56,12 @@ const HomeMemberComponent = (props) => {
                     // Temporary for filtering the customer data
                     const customerInfo = res.data.filter((data) => {
                         if (auth.currentUser) {
+                            setFieldValue("loading", false, false);
                             return data["customerID"] === auth.currentUser.uid                            
                         }
                     })[0]
                     if (customerInfo) {
+                        setFieldValue("loading", false, false);
                         setFieldValue("fullname", customerInfo.fullname, false);
                     }
                 })
@@ -66,6 +71,7 @@ const HomeMemberComponent = (props) => {
 
     return (
         <main className={styles.wrapContent}>
+            <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             <h1 className={styles.title}>รายการออเดอร์</h1>
 
             <p className={styles.details}>สวัสดีคุณ  {values.fullname}  เลือกเมนูการใช้งานได้เลยค่ะ</p>
@@ -117,7 +123,8 @@ const HomeMemberComponent = (props) => {
 
 const EnhancedHomeMemberComponentComponent = withFormik({
     mapPropsToValues: (props) => ({
-        objectOrder: []
+        objectOrder: [],
+        loading: false
     })
 })(HomeMemberComponent);
 

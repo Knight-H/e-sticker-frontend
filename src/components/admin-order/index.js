@@ -25,9 +25,11 @@ const AdminOrderComponent = (props) => {
 
     // GET Orders From API
     useEffect(() => {
+        setFieldValue("loading", true, false);
         var pathArray = window.location.pathname.split('/');
         var myID = pathArray[3];
         if (!myID) {
+            setFieldValue("loading", false, false);
             props.history.push('/admin');
         } else {
             axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
@@ -52,7 +54,9 @@ const AdminOrderComponent = (props) => {
                     setFieldValue("paymentConfirm", res.data.paymentConfirm, false);
 
                     setFieldValue("fetchMsg", false, false);
+                    setFieldValue("loading", false, false);
                 }).catch(function (err) {
+                    setFieldValue("loading", false, false);
                     console.log("err", err)
                 })
         }
@@ -60,46 +64,48 @@ const AdminOrderComponent = (props) => {
 
     const handleSubmitStatusOrder = (valueStatus) => {
         setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
         let data = { status: valueStatus }
         axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
             .then(res => {
                 // console.log("res.data", res.data)
                 setFieldValue("fetchMsg", true, false)
                 setFieldValue("waitProcess", false, false);
-                window.alert("อัพเดตข้อมูลสำเร็จ!");
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
                 setFieldValue("waitProcess", false, false);
-                window.alert("อัพเดตข้อมูลไม่สำเร็จ!");
+                setFieldValue("loading", false, false);
             })
     }
-    
+
     const handleSubmitPaymentSlip = () => {
         setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
         let data = { paymentStatus: "success" }
         axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
             .then(res => {
                 // console.log("res.data", res.data)
                 setFieldValue("fetchMsg", true, false)
                 setFieldValue("waitProcess", false, false);
-                window.alert("อัพเดตข้อมูลสำเร็จ!");
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
-                window.alert("อัพเดตข้อมูลไม่สำเร็จ!");
                 setFieldValue("waitProcess", false, false);
+                setFieldValue("loading", false, false);
             })
     }
 
     return (
         <main className={styles.wrapContent}>
-
+            <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             <section className={styles.section1}>
                 <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>
 
             <h1 className={styles.title}>รายการออเดอร์</h1>
             <p>ออเดอร์หมายเลข {values.orderID}
-            <SelectBox name="status" values={values} options={[
+                <SelectBox name="status" values={values} options={[
                     {
                         color: "navyStatus",
                         name: STATUS_ORDERS_TYPE.WAIT_PAYMENT
@@ -130,7 +136,7 @@ const AdminOrderComponent = (props) => {
                     }
                 ]} />
                 <button type="button" className={styles.btnWhite} onClick={() => handleSubmitStatusOrder(values.status)}
-                disabled={values.waitProcess ? true : false}>บันทึก</button>
+                    disabled={values.waitProcess ? true : false}>บันทึก</button>
             </p>
 
             <section className={styles.stepProgressBar}>
@@ -172,7 +178,7 @@ const AdminOrderComponent = (props) => {
                     {
                         values.paymentStatus === "pending" &&
                         <button className={styles.buttonPaymentConfirm} type="button" onClick={() => handleSubmitPaymentSlip()}
-                        disabled={values.waitProcess ? true : false}>
+                            disabled={values.waitProcess ? true : false}>
                             <IconCheckSVG2 />ชำระเงินแล้ว
                             </button>
                     }
@@ -197,7 +203,8 @@ const EnhancedAdminOrderComponent = withFormik({
         isAdmin: true,
 
         fetchMsg: false,
-        waitProcess: false
+        waitProcess: false,
+        loading: false
     })
 })(AdminOrderComponent);
 

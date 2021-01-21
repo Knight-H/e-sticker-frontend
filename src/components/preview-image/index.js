@@ -17,6 +17,8 @@ const PreviewImageComponent = () => {
 
     const handleChange = event => {
         setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
+
         if (event.target.files) {
             const storageRef = firebaseApp.storage().ref();
             let timeStamp = new Date().toISOString().slice(0, 10)
@@ -44,11 +46,13 @@ const PreviewImageComponent = () => {
                                         console.log("res", res);
                                         setFieldValue("fetchMsg", true, false);
                                         setFieldValue("waitProcess", false, false);
-                                        window.alert("อัพเดตข้อมูลสำเร็จ");
+                                        setFieldValue("loading", false, false);
+
                                     }).catch(function (err) {
                                         console.log("err", err)
-                                        window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
                                         setFieldValue("waitProcess", false, false);
+                                        setFieldValue("loading", false, false);
+
                                     })
 
                             });
@@ -61,6 +65,8 @@ const PreviewImageComponent = () => {
 
     const sendMessage = () => {
         setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
+
         if (values.massage) {
             let url = window.location.pathname;
             let data = {
@@ -79,17 +85,21 @@ const PreviewImageComponent = () => {
                     console.log("res", res);
                     setFieldValue("fetchMsg", true, false);
                     setFieldValue("waitProcess", false, false);
-                    window.alert("อัพเดตข้อมูลสำเร็จ");
+                    setFieldValue("loading", false, false);
+
                 }).catch(function (err) {
                     console.log("err", err)
-                    window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
                     setFieldValue("waitProcess", false, false);
+                    setFieldValue("loading", false, false);
+
                 })
         }
     }
 
     const sendItemStatus = () => {
         setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
+
         let data = {
             "itemIndex": values.expandCard,
             "status": "อนุมัติแบบ"
@@ -100,14 +110,12 @@ const PreviewImageComponent = () => {
             .then(res => {
                 console.log("res", res);
                 setFieldValue("fetchMsg", true, false);
-                window.alert("อัพเดตข้อมูลสำเร็จ");
                 setFieldValue("waitProcess", false, false);
-
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
-                window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
                 setFieldValue("waitProcess", false, false);
-
+                setFieldValue("loading", false, false);
             })
     }
 

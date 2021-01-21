@@ -63,7 +63,11 @@ const LabelSatus = ({ status, paymentStatus, paymentMethod }) => {
         return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: อนุมัติแบบ</label>
     } else if (paymentStatus === "pending" && paymentMethod === "transfer_money") {
         return <label className={`${styles.labelStatus} ${styles.blueStatus}`}>สถานะ: รอการยืนยันชำระเงิน</label>
-    } else {
+    } else if (status === "รออนุมัติแบบ" && paymentMethod === "transfer_money") {
+        return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: รออนุมัติแบบ</label>
+    } else if (status === "อนุมัติแบบ" && paymentMethod === "transfer_money") {
+        return <label className={`${styles.labelStatus} ${styles.greenStatus}`}>สถานะ: อนุมัติแบบ</label>
+    }  else {
         return <label></label>
     }
 }

@@ -37,12 +37,12 @@ const HomeComponent = (props) => {
             } else if (props.location.state.scrollToOurWorks) {
                 ourWorks.current.scrollIntoView({ block: 'center' });
             }
-
         }
     }, [props.location.state]);
     
     return (
         <>
+            <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             <main>
                 <Banner className={styles.banner} />
 
@@ -242,7 +242,8 @@ const EnhancedHomeComponent = withFormik({
         provice: '',
         email: '',
 
-        waitProcess: false
+        waitProcess: false,
+        loading: false
     }),
     validate: values => {
         const errors = {};
@@ -279,6 +280,7 @@ const EnhancedHomeComponent = withFormik({
     },
     handleSubmit: (values, { setFieldValue }) => {
         setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
         let data = {
             fullname: values.name,
             email: values.email,
@@ -296,7 +298,6 @@ const EnhancedHomeComponent = withFormik({
         axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/demo`, data)
             .then(res => {
                 console.log("res", res);
-                window.alert("ส่งข้อมูลสำเร็จแล้ว");
                 setFieldValue("waitProcess", false, false);
                 setFieldValue("name", '', false)
                 setFieldValue("zip", '', false)
@@ -306,10 +307,11 @@ const EnhancedHomeComponent = withFormik({
                 setFieldValue("phone", '', false)
                 setFieldValue("provice", '', false)
                 setFieldValue("email", '', false)
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
-                window.alert("ส่งข้อมูลไม่สำเร็จแล้ว");
                 setFieldValue("waitProcess", false, false);
+                setFieldValue("loading", false, false);
             })
     }
 })(HomeComponent);

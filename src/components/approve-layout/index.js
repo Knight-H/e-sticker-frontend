@@ -19,6 +19,7 @@ const ApproveLayoutComponent = (props) => {
     const [notFound, setNotFound] = useState(true);
 
     useEffect(() => {
+        setFieldValue("loading", true, false);
         auth.onAuthStateChanged(user => {
             if (user) {
                 var pathArray = window.location.pathname.split('/');
@@ -32,9 +33,11 @@ const ApproveLayoutComponent = (props) => {
                             console.log("res.data", res.data)
                             setFieldValue("allOrder", res.data, false);
                             setFieldValue("fetchMsg", false, false);
+                            setFieldValue("loading", false, false);
                             searchOrderNumber();
                         }).catch(function (err) {
                             console.log("err", err)
+                            setFieldValue("loading", false, false);
                         })
                 } else {
                     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
@@ -59,8 +62,10 @@ const ApproveLayoutComponent = (props) => {
                             setFieldValue("paymentStatus", res.data.paymentStatus, false);
                             setFieldValue("paymentConfirm", res.data.paymentConfirm, false);
                             setFieldValue("fetchMsg", false, false);
+                            setFieldValue("loading", false, false);
                         }).catch(function (err) {
                             console.log("err", err)
+                            setFieldValue("loading", false, false);
                         })
                 }
             } else {
@@ -70,9 +75,11 @@ const ApproveLayoutComponent = (props) => {
                         console.log("res.data", res.data)
                         setFieldValue("allOrder", res.data, false);
                         setFieldValue("fetchMsg", false, false);
+                        setFieldValue("loading", false, false);
                         searchOrderNumber();
                     }).catch(function (err) {
                         console.log("err", err)
+                        setFieldValue("loading", false, false);
                     })
             }
         })
@@ -121,7 +128,7 @@ const ApproveLayoutComponent = (props) => {
 
     return (
         <main className={styles.wrapContent}>
-
+            <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             {guestMode &&
                 <>
                     <h1 className={styles.title}>ตรวจสอบสถานะออเดอร์</h1>
@@ -226,7 +233,8 @@ const EnhancedApproveLayoutComponent = withFormik({
         isCheckphoto: 0,
         isAdmin: false,
 
-        waitProcess: false
+        waitProcess: false,
+        loading: false
     }),
     validate: values => {
         const errors = {};
@@ -259,6 +267,7 @@ const EnhancedApproveLayoutComponent = withFormik({
     },
     handleSubmit: (values, { setFieldValue, props }) => {
         setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
         const storageRef = firebaseApp.storage().ref();
         let timeStamp = new Date().toISOString().slice(0, 10)
 
@@ -279,13 +288,12 @@ const EnhancedApproveLayoutComponent = withFormik({
                                 amount: values.amount,
                             }
                             cloneFullFetchData.paymentConfirm = [...cloneFullFetchData.paymentConfirm, newData];
-                            console.log("cloneFullFetchData", cloneFullFetchData)
+                            // console.log("cloneFullFetchData", cloneFullFetchData)
 
                             axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${cloneFullFetchData.id}`, cloneFullFetchData)
                                 .then(res => {
                                     console.log("res", res)
                                     setFieldValue("fetchMsg", true, false)
-                                    window.alert("ส่งข้อมูลสำเร็จแล้ว");
                                     setFieldValue("name", '', false)
                                     setFieldValue("bank", '', false)
                                     setFieldValue("phone", '', false)
@@ -294,10 +302,11 @@ const EnhancedApproveLayoutComponent = withFormik({
                                     setFieldValue("time", '', false)
                                     setFieldValue("amount", '', false)
                                     setFieldValue("waitProcess", false, false);
+                                    setFieldValue("loading", false, false);
                                 })
                                 .catch(err => {
                                     console.log("err", err)
-                                    window.alert("ส่งข้อมูลไม่สำเร็จแล้ว");
+                                    setFieldValue("loading", false, false);
                                     setFieldValue("waitProcess", false, false);
                                 });
 

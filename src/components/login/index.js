@@ -22,7 +22,6 @@ const LoginComponent = (props) => {
             </div>
             <div className={styles.containerRow}>
                 <button type="submit" className={styles.buttonGreen}>เข้าสู่ระบบ</button>
-                {/* <button type="button" className={styles.buttonBlue}>เข้าสู่ระบบด้วย Facebook</button> */}
                 <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1655248592&redirect_uri=http://localhost:3000/cart&state=12345abcde&scope=profile%20openid%20email"><button type="button" className={styles.buttonLine}>เข้าสู่ระบบด้วย Line</button></a>
             </div>
             <br />
@@ -35,7 +34,6 @@ const LoginComponent = (props) => {
                     <div className={styles.containerRow}>
                         <div>
                             <Link to="/register"><button type="button" className={styles.buttonWhile}>สมัครสมาชิก</button></Link>
-                            {/* <button type="button" className={styles.buttonBlue}>สมัครด้วย Facebook</button> */}
                             <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1655248592&redirect_uri=http://localhost:3000/cart&state=12345abcde&scope=profile%20openid%20email"><button type="button" className={styles.buttonLine}>สมัครด้วย Line</button></a>
                         </div>
                     </div>

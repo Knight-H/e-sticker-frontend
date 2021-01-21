@@ -43,12 +43,10 @@ const GroupDeliveryPaymentComponent = () => {
         axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
             .then(res => {
                 console.log("res.data", res.data)
-                window.alert("อัพเดทเลข Tracking สำเร็จ")
                 setFieldValue("waitProcess", false, false);
                 setFieldValue("fetchMsg", true, false)
             }).catch(function (err) {
                 console.log("err", err)
-                window.alert("อัพเดทเลข Tracking ไม่สำเร็จ")
                 setFieldValue("waitProcess", false, false);
             })
     }

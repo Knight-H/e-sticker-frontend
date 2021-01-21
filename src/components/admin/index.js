@@ -40,14 +40,18 @@ const AdminComponent = (props) => {
     const [selectStatus, setSelectStatus] = useState(statusFilter.ALL);
     const [textSearch, setTextSearch] = useInputChange();
     const [selectMonth, setSelectMonth] = useInputChange(); //useState(monthNow))
+    const [loading, setLoading] = useState(false);
     // console.log("selectMonth", selectMonth)
 
     const [orderData, setOrderData] = useState(null)
     useEffect(() => {
+        setLoading(true);
         axiosInst.get("orders").then((res) => {
             setOrderData(res.data)
+            setLoading(false);
         }).catch((reason) => {
             console.log(reason)
+            setLoading(false);
         })
     }, [])
 
@@ -71,6 +75,7 @@ const AdminComponent = (props) => {
 
     return (
         <React.Fragment>
+            <div class={`loader loader-default ${loading ? 'is-active' : ''}`}></div>
             <section className={styles.section1}>
                 <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>

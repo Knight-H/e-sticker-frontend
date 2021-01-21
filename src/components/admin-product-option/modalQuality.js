@@ -14,6 +14,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
     }, [values.qualityID]);
 
     const addOptionQuality = () => {
+        setFieldValue("loading", true, false);
         let data = values[`${values.modalQuality}Count`];
 
         values.unitOptions.push(data);
@@ -25,12 +26,15 @@ const ModalShipping = ({ values, setFieldValue }) => {
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalQuality", '', false)
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
             })
     }
 
     const editOptionQuality = () => {
+        setFieldValue("loading", true, false);
         values.unitOptions[values.qualityID] = values[`${values.modalQuality}Count`]
 
         let dataPost = {
@@ -40,12 +44,15 @@ const ModalShipping = ({ values, setFieldValue }) => {
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalQuality", '', false)
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
             })
     }
 
     const removeOptionQuality = () => {
+        setFieldValue("loading", true, false);
         values.unitOptions.splice(values.qualityID, 1);
         let dataPost = {
             "count_list": values.unitOptions
@@ -55,8 +62,10 @@ const ModalShipping = ({ values, setFieldValue }) => {
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalQuality", '', false)
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
             })
     }
 

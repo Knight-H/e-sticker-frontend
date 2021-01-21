@@ -18,6 +18,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
     }, [values.variableID]);
 
     const addOptionVariable = () => {
+        setFieldValue("loading", true, false);
         let dataPost = {
             "fixed_cost": values[`${values.modalVariable}Fixed`],
             "variable_cost_1": values[`${values.modalVariable}Variable1`],
@@ -32,7 +33,9 @@ const ModalShipping = ({ values, setFieldValue }) => {
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalVariable", '', false)
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
+                setFieldValue("loading", false, false);
                 console.log("err", err)
             })
     }
