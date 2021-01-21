@@ -16,6 +16,7 @@ const ApproveLayoutComponent = (props) => {
     const [selectStep, setSelectStep] = useState(3);
     const [guestMode, setGuestMode] = useState(false);
     const [catchOrders, setCatchOrders] = useState([]);
+    const [notFound, setNotFound] = useState(true);
 
     useEffect(() => {
         auth.onAuthStateChanged(user => {
@@ -102,7 +103,13 @@ const ApproveLayoutComponent = (props) => {
             let catchID = values.allOrder.filter(orderNumber => {
                 return orderNumber.orderID.search(values.orderNumber) > -1
             });
-            setCatchOrders(catchID)
+
+            if (catchID.length > 0) {
+                setCatchOrders(catchID)
+            } else {
+                setCatchOrders(catchID)
+                setNotFound(false)
+            }
         }
     };
 
@@ -122,6 +129,10 @@ const ApproveLayoutComponent = (props) => {
                     <Field name="orderNumber" className={styles.inputGreen} />
                     <button type="button" className={styles.btnGreen} onClick={() => searchOrderNumber()}>ตรวจสอบสถานะ</button>
                 </>
+            }
+            {
+                !notFound &&
+                <p style={{ margin: "5px 0", color: "orange" }}>ไม่พบรายการที่ใกล้เคียง</p>
             }
             {
                 catchOrders.length >= 1 &&
@@ -213,7 +224,9 @@ const EnhancedApproveLayoutComponent = withFormik({
         photo: null,
         amount: null,
         isCheckphoto: 0,
-        isAdmin: false
+        isAdmin: false,
+
+        waitProcess: false
     }),
     validate: values => {
         const errors = {};
@@ -245,6 +258,7 @@ const EnhancedApproveLayoutComponent = withFormik({
         return errors;
     },
     handleSubmit: (values, { setFieldValue, props }) => {
+        setFieldValue("waitProcess", true, false);
         const storageRef = firebaseApp.storage().ref();
         let timeStamp = new Date().toISOString().slice(0, 10)
 
@@ -279,10 +293,12 @@ const EnhancedApproveLayoutComponent = withFormik({
                                     setFieldValue("date", '', false)
                                     setFieldValue("time", '', false)
                                     setFieldValue("amount", '', false)
+                                    setFieldValue("waitProcess", false, false);
                                 })
                                 .catch(err => {
                                     console.log("err", err)
                                     window.alert("ส่งข้อมูลไม่สำเร็จแล้ว");
+                                    setFieldValue("waitProcess", false, false);
                                 });
 
                         });

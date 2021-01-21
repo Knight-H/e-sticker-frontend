@@ -123,7 +123,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
 
             // Ignore accountState because the value 0 is used
             // to indicate "Normal"
-            if (["accountState"].includes(fieldName)) { return }
+            if (["accountState", "line_channel", "line_token"].includes(fieldName)) { return }
             if (!fieldValue) {
                 errors[fieldName] = i18.required
             }
@@ -142,7 +142,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
 
         auth.onAuthStateChanged((userCredential) => {
 
-            const uid = userCredential.uid
+            const uid = moreUserInfo.id
 
             const customerSchemaInfo = {
                 email: moreUserInfo?.email || moreUserInfo?.email || '',
@@ -156,7 +156,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
                 },
                 fullname: moreUserInfo?.fullname || '',
                 phone: moreUserInfo?.phone || '',
-                customerID: uid,
+                customerID: moreUserInfo.customerID ? moreUserInfo.customerID : '',
                 status: moreUserInfo?.accountState || moreUserInfo?.state || "ok"
             }
             console.log("sent", customerSchemaInfo)
@@ -193,7 +193,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
             setFieldValue(fieldKey, fieldValue)
         })
     }, [userInfo])
-    console.log("values.accountState", values.accountState)
+
     return (
         <Form className={styles.userInfo}>
             <LocationFieldsComponent onlyLocation={false} {...props} />
@@ -240,9 +240,11 @@ let MemberComponent = (props) => {
 
             // React.setC
             const custInfo = res.data
-
+            console.log("custInfo", custInfo)
             const formikSchema = {
+                id: custInfo.id ? custInfo.id : '',
                 email: custInfo.Email || custInfo.email,
+                customerID: custInfo.customerID ? custInfo.customerID : '',
 
                 address: custInfo?.shippingAddress?.address || '',
                 zip: custInfo?.shippingAddress?.zip || '',

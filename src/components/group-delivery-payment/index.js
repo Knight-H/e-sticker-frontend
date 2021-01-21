@@ -38,15 +38,18 @@ const GroupDeliveryPaymentComponent = () => {
     const { values, setFieldValue } = useFormikContext();
 
     const handleSubmitTrackingNumber = () => {
+        setFieldValue("waitProcess", true, false);
         let data = { shippingNumber: values.shippingNumber }
         axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
             .then(res => {
                 console.log("res.data", res.data)
                 window.alert("อัพเดทเลข Tracking สำเร็จ")
+                setFieldValue("waitProcess", false, false);
                 setFieldValue("fetchMsg", true, false)
             }).catch(function (err) {
                 console.log("err", err)
                 window.alert("อัพเดทเลข Tracking ไม่สำเร็จ")
+                setFieldValue("waitProcess", false, false);
             })
     }
 
@@ -74,9 +77,7 @@ const GroupDeliveryPaymentComponent = () => {
                         <br />
                         <label>เลข Tracking: <Field name="shippingNumber" className={styles.inputShippingNumber} type="text" placeholder="...."
                             disabled={values.isAdmin ? false : true} /></label>
-                        {values.isAdmin ? <button onClick={() => {
-                            handleSubmitTrackingNumber()
-                        }}>ยืนยัน</button> :
+                        {values.isAdmin ? <button onClick={() => handleSubmitTrackingNumber()} disabled={values.waitProcess ? true : false}>ยืนยัน</button> :
                             <button onClick={() => window.location.href = 'https://th.kerryexpress.com/th/track/dfdfdfd'}>ติดตาม</button>}
 
                     </div>

@@ -107,11 +107,15 @@ const EnchancedLocationFieldsComponent = withFormik({
     validate: (values) => {
         const errors = {}
 
-        Object.entries(values).forEach(([fieldName, fieldValue]) => {
-            if (!fieldValue) {
-                errors[fieldName] = i18.required
-            }
-        })
+        Object.entries(values)
+            .filter(([fieldName, _fieldValue]) => {
+                return !["line_channel", "line_token"].includes(fieldName)
+            })
+            .forEach(([fieldName, fieldValue]) => {
+                if (!fieldValue) {
+                    errors[fieldName] = i18.required
+                }
+            })
 
         return errors
     },
@@ -218,7 +222,7 @@ const EnchancedLocationFieldsComponent = withFormik({
     )
 })
 
-export const Intermediate = ({setName}) => {
+export const Intermediate = ({ setName }) => {
 
     const [userInfo, setUserInfo] = useState({})
     const [updateStatusText, setUpdateStatusText] = useState("　")

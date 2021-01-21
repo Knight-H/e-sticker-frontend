@@ -100,47 +100,47 @@ const HomeComponent = (props) => {
                                 <div className={styles.isRow}>
                                     <div className={styles.leftColumn}>
                                         <p>ชื่อ นามสกุล*<ErrorMessage name="name" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="name" type="text" />
+                                        <Field name="name" type="text" disabled={values.waitProcess ? true : false} />
                                     </div>
                                     <div className={styles.rightColumn}>
                                         <p>อีเมล*<ErrorMessage name="email" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="email" type="text" />
+                                        <Field name="email" type="text" disabled={values.waitProcess ? true : false} />
                                     </div>
                                 </div>
                                 <div className={styles.isRow}>
                                     <div className={styles.leftColumn}>
                                         <p>ที่อยู่*<ErrorMessage name="address" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="address" type="text" />
+                                        <Field name="address" type="text" disabled={values.waitProcess ? true : false} />
                                     </div>
                                     <div className={styles.rightColumn}>
                                         <p>เบอร์โทรศัพท์*<ErrorMessage name="phone" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="phone" type="text" />
+                                        <Field name="phone" type="text" disabled={values.waitProcess ? true : false} />
                                     </div>
                                 </div>
                                 <div className={styles.isRow}>
                                     <div className={styles.leftColumn}>
                                         <p>แขวง*<ErrorMessage name="city" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="city" type="text" />
+                                        <Field name="city" type="text" disabled={values.waitProcess ? true : false} />
                                     </div>
                                     <div className={styles.rightColumn}>
                                         <p>เขต*<ErrorMessage name="county" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="county" type="text" />
+                                        <Field name="county" type="text" disabled={values.waitProcess ? true : false} />
                                     </div>
                                 </div>
                                 <div className={styles.isRow}>
                                     <div className={styles.leftColumn}>
                                         <p>จังหวัด*<ErrorMessage name="provice" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="provice" type="text" />
+                                        <Field name="provice" type="text" disabled={values.waitProcess ? true : false} />
                                     </div>
                                     <div className={styles.rightColumn}>
                                         <p>รหัสไปรษณีย์*<ErrorMessage name="zip" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="zip" type="text" />
+                                        <Field name="zip" type="text" disabled={values.waitProcess ? true : false} />
                                     </div>
                                 </div>
                             </div>
 
-                            <button type="submit" className={styles.btnGreen}>ตกลง</button>
-                            <button type="button" className={styles.btnGreen} onClick={() => setModal(false)}>ปิด</button>
+                            <button type="submit" className={styles.btnGreen} disabled={values.waitProcess ? true : false}>ตกลง</button>
+                            <button type="button" className={styles.btnGreen} disabled={values.waitProcess ? true : false} onClick={() => setModal(false)}>ปิด</button>
                         </div>
                     </div>
                 </Form>
@@ -241,6 +241,8 @@ const EnhancedHomeComponent = withFormik({
         phone: '',
         provice: '',
         email: '',
+
+        waitProcess: false
     }),
     validate: values => {
         const errors = {};
@@ -276,6 +278,7 @@ const EnhancedHomeComponent = withFormik({
         return errors;
     },
     handleSubmit: (values, { setFieldValue }) => {
+        setFieldValue("waitProcess", true, false);
         let data = {
             fullname: values.name,
             email: values.email,
@@ -294,6 +297,7 @@ const EnhancedHomeComponent = withFormik({
             .then(res => {
                 console.log("res", res);
                 window.alert("ส่งข้อมูลสำเร็จแล้ว");
+                setFieldValue("waitProcess", false, false);
                 setFieldValue("name", '', false)
                 setFieldValue("zip", '', false)
                 setFieldValue("address", '', false)
@@ -305,6 +309,7 @@ const EnhancedHomeComponent = withFormik({
             }).catch(function (err) {
                 console.log("err", err)
                 window.alert("ส่งข้อมูลไม่สำเร็จแล้ว");
+                setFieldValue("waitProcess", false, false);
             })
     }
 })(HomeComponent);

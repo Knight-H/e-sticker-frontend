@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './index.module.scss';
 // import { ReactComponent as IconArrow } from './icon-arrow.svg';
 // import LocationFieldsComponent from '../location-fields';
@@ -52,7 +52,7 @@ import { Intermediate } from '../member-account'
 
 
 let MemberSettingComponent = (props) => {
-
+    const [name, setName] = useState("")
     // const emailState = useState("asdf")
 
     // const [selectMonth, setSelectMonth] = useInputChange();
@@ -99,7 +99,7 @@ let MemberSettingComponent = (props) => {
                 <h2>รายสมาชิก - จัดการบัญชี</h2>
                 {/* <h3>สมาชิกหมายเลข MEM0001</h3> */}
 
-                <Intermediate />
+                <Intermediate setName={setName}/>
             </section>
         </main>
     )

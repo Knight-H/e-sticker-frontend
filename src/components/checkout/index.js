@@ -16,6 +16,7 @@ const CheckoutComponent = (props) => {
     const { values, setFieldValue } = useFormikContext();
 
     useEffect(() => {
+        window.alert("กำลังโหลดข้อมูลลูกค้ากรุณารอสักครู่")
         let url = window.location.search;
         const urlParams = new URLSearchParams(url);
         let code = urlParams.get('code');
