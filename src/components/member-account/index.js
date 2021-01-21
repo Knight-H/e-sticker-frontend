@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 
 import LocationFieldsComponent from '../location-fields';
 import { LoginCredentialsComponent2 } from '../login-credentials';
-import { Form, Field, withFormik } from 'formik'
+import { Form, Field, withFormik, useFormikContext } from 'formik'
 
 
 import { i18_th as i18 } from '../common-scss/i18_text'
@@ -87,7 +87,7 @@ const EnchancedLocationFieldsComponent = withFormik({
     mapPropsToValues: () => {
 
         return {
-
+            loading: false,
             customerID: '',
             status: '',
 
@@ -107,17 +107,21 @@ const EnchancedLocationFieldsComponent = withFormik({
     validate: (values) => {
         const errors = {}
 
-        Object.entries(values).forEach(([fieldName, fieldValue]) => {
-            if (!fieldValue) {
-                errors[fieldName] = i18.required
-            }
-        })
+        Object.entries(values)
+            .filter(([fieldName, _fieldValue]) => {
+                return !["line_channel", "line_token", "loading"].includes(fieldName)
+            })
+            .forEach(([fieldName, fieldValue]) => {
+                if (!fieldValue) {
+                    errors[fieldName] = i18.required
+                }
+            })
 
         return errors
     },
 
-    handleSubmit: async (values, { props }) => {
-
+    handleSubmit: async (values, { props, setFieldValue }) => {
+        setFieldValue("loading", true, false);
         const api = {
             customers: "customers",
             cart: "cart",
@@ -181,44 +185,47 @@ const EnchancedLocationFieldsComponent = withFormik({
                     }
 
                     axiosInst.post(api.customers, pack).then((res) => {
-                        // alert(i18.account_information_update_success)
                         props.setUpdateStatusText(i18.account_information_update_success)
+                        setFieldValue("loading", false, false);
                     }).catch((reason) => {
-                        // alert(i18.account_information_update_failed_general, reason)
                         props.setUpdateStatusText(i18.account_information_update_failed_general)
+                        setFieldValue("loading", false, false);
                     })
                 } else {
                     // Otherwise update
                     axiosInst.put(api.customers + `/${documentKey}`, customerSchemaInfo).then((res) => {
-                        // alert(i18.account_information_update_success)
                         props.setUpdateStatusText(i18.account_information_update_success)
+                        setFieldValue("loading", false, false);
                     }).catch((reason) => {
-                        // alert(i18.account_information_update_failed_general, reason)
                         props.setUpdateStatusText(i18.account_information_update_failed_general)
+                        setFieldValue("loading", false, false);
                     })
                 }
             })
         })
     }
 })((props) => {
-
+    const { values, setFieldValue } = useFormikContext();
     const { userInfo } = props
 
     useEffect(() => {
+        setFieldValue("loading", true, false);
         Object.entries(userInfo).forEach(([fieldName, fieldValue]) => {
+            setFieldValue("loading", false, false);
             props.setFieldValue(fieldName, fieldValue)
         })
     }, [userInfo])
 
     return (
         <Form className={styles.userInfo} >
+            <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             <LocationFieldsComponent {...props} />
             <Field type="submit" className={styles.greenButton} value="อัปเดตข้อมูล" />
         </Form>
     )
 })
 
-export const Intermediate = ({setName}) => {
+export const Intermediate = ({ setName }) => {
 
     const [userInfo, setUserInfo] = useState({})
     const [updateStatusText, setUpdateStatusText] = useState("　")
@@ -263,7 +270,7 @@ export const Intermediate = ({setName}) => {
     return (
         <>
             {(() => {
-                if (updateStatusText === i18.account_information_update_success) {
+                if (updateStatusText === i18.account_information_update_success || updateStatusText === i18.account_password_change_success) {
                     return (<p className={styles.accountCreateSuccess}>{updateStatusText}</p>)
                 } else if (updateStatusText !== null) {
                     return (<p className={styles.accountCreateFailed}>{updateStatusText}</p>)

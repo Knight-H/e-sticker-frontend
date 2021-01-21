@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from 'react-router-dom'
-import { withFormik, Form } from 'formik';
+import { withFormik, Form, useFormikContext } from 'formik';
 
 import styles from './index.module.scss';
 
@@ -11,9 +11,11 @@ import { i18_th as i18 } from "../common-scss/i18_text";
 
 
 const MemberLoginComponent = (props) => {
+    const { values } = useFormikContext();
 
     return (
         <main className={styles.container}>
+            <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             <Form>
                 <h2>มุมสมาชิก</h2>
                 <LoginComponent />
@@ -25,7 +27,8 @@ const MemberLoginComponent = (props) => {
 export const EnhancedMemberLoginComponent = withFormik({
     mapPropsToValues: () => ({
         email: '',
-        password: ''
+        password: '',
+        loading: false
     }),
     validate: values => {
         const errors = {};
@@ -42,20 +45,17 @@ export const EnhancedMemberLoginComponent = withFormik({
     },
     // handleSubmit: dummyHandleSubmit,
 
-    handleSubmit: (values, { props }) => {
+    handleSubmit: (values, { props, setFieldValue }) => {
+        setFieldValue("loading", true, false);
         auth
             .signInWithEmailAndPassword(values.email, values.password)
             .then((res) => {
-                // alert(i18_th.login_successful)
                 props.history.push("/cart")
+                setFieldValue("loading", false, false);
             })
             .catch((error) => {
-                alert(i18.login_failed)
+                setFieldValue("loading", false, false);
             })
-        // setTimeout(() => {
-        //   alert(JSON.stringify(values, null, 2));
-        //   setSubmitting(false);
-        // }, 0);
     },
     displayName: 'MemberLoginComponentForm',
 })(withRouter(MemberLoginComponent));

@@ -15,38 +15,51 @@ const AdminOrderComponent = () => {
     const { values, setFieldValue } = useFormikContext();
     // Fetch Optiom
     useEffect(() => {
+        setFieldValue("loading", true, false);
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`)
             .then(res => {
                 setFieldValue("shape", res.data.shape_list, false);
                 setFieldValue("fetch", false, false);
-            }).catch(function (err) {
-                console.log("err", err)
-            })
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`)
-            .then(res => {
-                // console.log("res.data[0]", res.data)
-                setFieldValue("material", res.data.material_list, false);
-                setFieldValue("fetch", false, false);
-            }).catch(function (err) {
-                console.log("err", err)
-            })
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`)
-            .then(res => {
-                // console.log("res.data[0]", res.data.count_list)
-                setFieldValue("unitOptions", res.data.count_list, false);
-                setFieldValue("fetch", false, false);
-            }).catch(function (err) {
-                console.log("err", err)
-            })
 
-        // Shipping option
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
-            .then(res => {
-                // console.log("res.data[0]", res.data)
-                setFieldValue("shippingOption", res.data, false);
-                setFieldValue("fetch", false, false);
+                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`)
+                    .then(res => {
+                        // console.log("res.data[0]", res.data)
+                        setFieldValue("material", res.data.material_list, false);
+                        setFieldValue("fetch", false, false);
+
+                        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`)
+                            .then(res => {
+                                // console.log("res.data[0]", res.data.count_list)
+                                setFieldValue("unitOptions", res.data.count_list, false);
+                                setFieldValue("fetch", false, false);
+
+                                // Shipping option
+                                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
+                                    .then(res => {
+                                        // console.log("res.data[0]", res.data)
+                                        setFieldValue("shippingOption", res.data, false);
+                                        setFieldValue("fetch", false, false);
+
+                                        setFieldValue("loading", false, false);
+                                    }).catch(function (err) {
+                                        console.log("err", err)
+                                        setFieldValue("loading", false, false);
+
+                                    })
+                            }).catch(function (err) {
+                                console.log("err", err)
+                                setFieldValue("loading", false, false);
+
+                            })
+                    }).catch(function (err) {
+                        console.log("err", err)
+                        setFieldValue("loading", false, false);
+
+                    })
             }).catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
+
             })
     }, [values.fetch]);
 
@@ -59,7 +72,7 @@ const AdminOrderComponent = () => {
 
     return (
         <main className={styles.wrapContent}>
-
+            <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             <section className={styles.section1}>
                 <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>
@@ -202,7 +215,7 @@ const AdminOrderComponent = () => {
 
             <h1 className={styles.title}>รายการจัดส่ง</h1>
 
-            <section className={styles.productOptions}  style={{ justifyContent: "start"}}>
+            <section className={styles.productOptions} style={{ justifyContent: "start" }}>
                 <article className={styles.cardProductOption}>
                     <h4>รูปแบบการจัดส่ง</h4>
                     <div>
@@ -230,6 +243,7 @@ const AdminOrderComponent = () => {
 
 const EnhancedAdminOrderComponent = withFormik({
     mapPropsToValues: (props) => ({
+        loading: false,
         shape: [],
 
         material: [],

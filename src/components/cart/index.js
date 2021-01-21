@@ -53,7 +53,7 @@ const CartComponent = () => {
     const [shippingDuration, setShippingDuration] = useState(0);
     
     useEffect(() => {
-        window.alert("กรุณารอสักครู่กำลังโหลดข้อมูลลูกค้า")
+        setFieldValue("loading", true, false);
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
             .then(res => {
                 // console.log("res.data.shipptingoption", res.data)
@@ -79,7 +79,7 @@ const CartComponent = () => {
                                     const customerInfo = res.data.filter((data) => {
                                         return data["customerID"] === auth.currentUser.uid
                                     })[0]
-                                    console.log("customerInfo", customerInfo)
+                                    // console.log("customerInfo", customerInfo)
                                     setFieldValue("address", customerInfo.shippingAddress? customerInfo.shippingAddress.address : "", false);
                                     setFieldValue("county", customerInfo.shippingAddress? customerInfo.shippingAddress.county : "", false);
                                     setFieldValue("email", customerInfo.email, false);
@@ -88,9 +88,11 @@ const CartComponent = () => {
                                     setFieldValue("provice", customerInfo.shippingAddress? customerInfo.shippingAddress.provice : "", false);
                                     setFieldValue("zip", customerInfo.shippingAddress ? customerInfo.shippingAddress.zip : "", false);
                                     setFieldValue("city", customerInfo.shippingAddress ? customerInfo.shippingAddress.city : "", false);
+                                    setFieldValue("loading", false, false);
                                 })
                             }).catch(function (err) {
                                 console.log("err", err)
+                                setFieldValue("loading", false, false);
                             });
 
                     } else { // Guest Mode
@@ -98,7 +100,9 @@ const CartComponent = () => {
                         console.log("cartLocal", cartLocal)
                         if (cartLocal) {
                             setFieldValue("itemsList", cartLocal.itemsList, false);
+                            setFieldValue("loading", false, false);
                         } else {
+                            setFieldValue("loading", false, false);
                             return;
                         }
                     }
@@ -106,9 +110,9 @@ const CartComponent = () => {
 
 
             }).catch(function (err) {
+                setFieldValue("loading", false, false);
                 console.log("err", err)
             });
-        // })
     }, []);
 
     useEffect(() => {
@@ -125,6 +129,7 @@ const CartComponent = () => {
     let priceTotal = 0;
     return (
         <>
+            <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             <section className={styles.section1}>
                 <StepProgress stepIndex={selectStep} />
             </section>
@@ -315,7 +320,9 @@ const EnhancedCartComponent = withFormik({
         billingTaxID: '',
         checkedRadioBox: "1",
 
-        checkedBoxInfo: false
+        checkedBoxInfo: false,
+
+        loading: false
     }),
     validate: values => {
         const errors = {};
@@ -344,7 +351,7 @@ const EnhancedCartComponent = withFormik({
         return errors;
     },
     handleSubmit: (values, { props, setFieldValue }) => {
-        window.alert("กรุณารอสักครู่กำลังส่งข้อมูล")
+        setFieldValue("loading", true, false);
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
             .then(res => {
                 console.log("res get orders", res.data)
@@ -389,7 +396,7 @@ const EnhancedCartComponent = withFormik({
                     "shippingCourier": values.shippingCourier,
                     "shippingNumber": "",
                     "shippingStatus": "",
-                    "status": !values.payment === "transfer_money" ? "กำลังดำเนินการ" : "รอชำระเงิน",
+                    "status": values.payment === "transfer_money" ? "รอชำระเงิน" : "กำลังดำเนินการ",
                     // "timestamp": "4 Oct 2020",
                     "totalCost": values.totalPrice,
                     "vatCost": values.totalItemPrice * 7 / 100,
@@ -408,12 +415,13 @@ const EnhancedCartComponent = withFormik({
                         "email": values.email
                     }
                 };
-                console.log("data", data)
+                // console.log("data", data)
                 localStorage.setItem("orderIDLast", orderIDLast);
                 axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, data)
                     .then(res => {
                         // console.log("res>>>>>>>>>> post order", res);
                         if (values.payment === "transfer_money") {
+                            setFieldValue("loading", false, false);
                             return props.history.push("/e-sticker-frontend/successful");
                         } else {
                             let dataPostChillpay =
@@ -433,25 +441,27 @@ const EnhancedCartComponent = withFormik({
                                 .then(res => {
                                     console.log("res>>>", res);
                                     if (res.data.payment_url.res.Status === 0) {
+                                        setFieldValue("loading", false, false);
                                         window.location.href = res.data.payment_url.redirect_url;
                                     } else {
-                                        window.alert("ส่งข้อมูลไม่สำเร็จ")
+                                        setFieldValue("loading", false, false);
                                     }
                                 })
                                 .catch(err => {
+                                    setFieldValue("loading", false, false);
                                     console.log(err.response)
                                 });
                         }
 
                     })
                     .catch(function (err) {
+                        setFieldValue("loading", false, false);
                         console.log("err 2", JSON.stringify(err))
-                        window.alert("ส่งข้อมูลไม่สำเร็จ")
                     });
 
             }).catch(function (err) {
+                setFieldValue("loading", false, false);
                 console.log("err 1", JSON.stringify(err), JSON.stringify(err.response))
-                window.alert("ส่งข้อมูลไม่สำเร็จ")
             });
 
     },

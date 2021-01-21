@@ -19,6 +19,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
     }, [values.shippingID]);
 
     const addOptionShipping = () => {
+        setFieldValue("loading", true, false);
         let data = {
             "courier": values[`${values.modalShipping}Courier`],
             "duration": values[`${values.modalShipping}Duration`],
@@ -29,12 +30,15 @@ const ModalShipping = ({ values, setFieldValue }) => {
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalShipping", '', false)
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
             })
     }
 
     const editOptionShipping = () => {
+        setFieldValue("loading", true, false);
         let data = {
             "courier": values[`${values.modalShipping}Courier`],
             "duration": values[`${values.modalShipping}Duration`],
@@ -44,19 +48,24 @@ const ModalShipping = ({ values, setFieldValue }) => {
          axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions/${values.shippingID}`, data)
             .then(res => {
                 setFieldValue("fetch", true, false);
+                setFieldValue("loading", false, false);
                 setFieldValue("modalShipping", '', false);
             }).catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
             })
     }
 
     const removeOptionShipping = () => {
+        setFieldValue("loading", true, false);
          axios.delete(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions/${values.shippingID}`)
             .then(res => {
                 setFieldValue("fetch", true, false);
+                setFieldValue("loading", false, false);
                 setFieldValue("modalShipping", '', false);
             }).catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
             })
     }
 

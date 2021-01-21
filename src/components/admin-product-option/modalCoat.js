@@ -17,6 +17,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
     }, [values.coatingID]);
 
     const addOptionCoating = () => {
+        setFieldValue("loading", true, false);
         let data = values[`${values.modalCoating}Kind`];
         const storageRef = firebaseApp.storage().ref();
         let timeStamp = new Date().toISOString().slice(0, 10);
@@ -39,7 +40,9 @@ const ModalShipping = ({ values, setFieldValue }) => {
                             .then(res => {
                                 setFieldValue("fetch", true, false);
                                 setFieldValue("modalCoating", '', false)
+                                setFieldValue("loading", false, false);
                             }).catch(function (err) {
+                                setFieldValue("loading", false, false);
                                 console.log("err", err)
                             })
                     })
@@ -58,13 +61,16 @@ const ModalShipping = ({ values, setFieldValue }) => {
                 .then(res => {
                     setFieldValue("fetch", true, false);
                     setFieldValue("modalCoating", '', false)
+                    setFieldValue("loading", false, false);
                 }).catch(function (err) {
+                    setFieldValue("loading", false, false);
                     console.log("err", err)
                 })
         }
     }
 
     const editOptionCoating = () => {
+        setFieldValue("loading", true, false);
         const storageRef = firebaseApp.storage().ref();
         let timeStamp = new Date().toISOString().slice(0, 10);
         // console.log(values[`${values.modalCoating}File`])
@@ -81,8 +87,10 @@ const ModalShipping = ({ values, setFieldValue }) => {
                     .then(res => {
                         setFieldValue("fetch", true, false);
                         setFieldValue("modalCoating", '', false)
+                        setFieldValue("loading", false, false);
                     }).catch(function (err) {
                         console.log("err", err)
+                        setFieldValue("loading", false, false);
                     })
             } else {
                 storageRef.child(`productOptions/${timeStamp}-${values[`${values.modalCoating}File`].name}`).put(values[`${values.modalCoating}File`])
@@ -99,7 +107,9 @@ const ModalShipping = ({ values, setFieldValue }) => {
                             .then(res => {
                                 setFieldValue("fetch", true, false);
                                 setFieldValue("modalCoating", '', false)
+                                setFieldValue("loading", false, false);
                             }).catch(function (err) {
+                                setFieldValue("loading", false, false);
                                 console.log("err", err)
                             })
                     })
@@ -116,14 +126,17 @@ const ModalShipping = ({ values, setFieldValue }) => {
             axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`, dataPost)
                 .then(res => {
                     setFieldValue("fetch", true, false);
+                    setFieldValue("loading", false, false);
                     setFieldValue("modalCoating", '', false)
                 }).catch(function (err) {
+                    setFieldValue("loading", false, false);
                     console.log("err", err)
                 })
         }
     }
 
     const removeOptionCoating = () => {
+        setFieldValue("loading", true, false);
         values.material[values.materialSelected].coating_list.splice(values.coatingID, 1);
         // console.log(values.material)
         let dataPost = {
@@ -134,7 +147,9 @@ const ModalShipping = ({ values, setFieldValue }) => {
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalCoating", '', false)
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
+                setFieldValue("loading", false, false);
                 console.log("err", err)
             })
     }

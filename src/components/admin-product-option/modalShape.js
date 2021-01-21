@@ -17,6 +17,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
     }, [values.shapeID]);
 
     const addOptionShape = () => {
+        setFieldValue("loading", true, false);
         let data = values[`${values.modalShape}Kind`];
         const storageRef = firebaseApp.storage().ref();
         let timeStamp = new Date().toISOString().slice(0, 10);
@@ -39,7 +40,9 @@ const ModalShipping = ({ values, setFieldValue }) => {
                             .then(res => {
                                 setFieldValue("fetch", true, false);
                                 setFieldValue("modalShape", '', false)
+                                setFieldValue("loading", false, false);
                             }).catch(function (err) {
+                                setFieldValue("loading", false, false);
                                 console.log("err", err)
                             })
                     })
@@ -57,8 +60,10 @@ const ModalShipping = ({ values, setFieldValue }) => {
             axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`, dataPostNew)
                 .then(res => {
                     setFieldValue("fetch", true, false);
+                    setFieldValue("loading", false, false);
                     setFieldValue("modalShape", '', false)
                 }).catch(function (err) {
+                    setFieldValue("loading", false, false);
                     console.log("err", err)
                 })
         }
@@ -66,6 +71,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
     }
 
     const editOptionShape = () => {
+        setFieldValue("loading", true, false);
         const storageRef = firebaseApp.storage().ref();
         let timeStamp = new Date().toISOString().slice(0, 10);
         console.log(values[`${values.modalShape}File`])
@@ -81,9 +87,11 @@ const ModalShipping = ({ values, setFieldValue }) => {
                 axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`, dataPost)
                     .then(res => {
                         setFieldValue("fetch", true, false);
+                        setFieldValue("loading", false, false);
                         setFieldValue("modalShape", '', false)
                     }).catch(function (err) {
                         console.log("err", err)
+                        setFieldValue("loading", false, false);
                     })
             } else {
                 storageRef.child(`productOptions/${timeStamp}-${values[`${values.modalShape}File`].name}`).put(values[`${values.modalShape}File`])
@@ -100,7 +108,9 @@ const ModalShipping = ({ values, setFieldValue }) => {
                             .then(res => {
                                 setFieldValue("fetch", true, false);
                                 setFieldValue("modalShape", '', false)
+                                setFieldValue("loading", false, false);
                             }).catch(function (err) {
+                                setFieldValue("loading", false, false);
                                 console.log("err", err)
                             })
                     })
@@ -117,8 +127,10 @@ const ModalShipping = ({ values, setFieldValue }) => {
             axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`, dataPost)
                 .then(res => {
                     setFieldValue("fetch", true, false);
+                    setFieldValue("loading", false, false);
                     setFieldValue("modalShape", '', false)
                 }).catch(function (err) {
+                    setFieldValue("loading", false, false);
                     console.log("err", err)
                 })
         }
@@ -126,6 +138,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
     }
 
     const removeOptionShape = () => {
+        setFieldValue("loading", true, false);
         values.shape.splice(values.shapeID, 1);
         console.log(values.shape)
         let dataPost = {
@@ -136,8 +149,10 @@ const ModalShipping = ({ values, setFieldValue }) => {
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalShape", '', false)
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
             })
     }
 

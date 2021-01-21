@@ -9,31 +9,35 @@ const AdminDemoMTG = (props) => {
 
     const [datelist, setDataLIst] = useState([]);
     const [checkUpdate, setCheckUpdate] = useState(false);
-
+    const [loading, setLoading] = useState(false);
+    
     useEffect(() => {
+        setLoading(true);
         axiosInst.get("demo").then((res) => {
             // console.log(res.data)
             setDataLIst(res.data);
+            setLoading(false);
             setCheckUpdate(false)
         })
     }, [checkUpdate])
 
     const handleRemove = (index) => {
-        console.log(">>>>", datelist[index].myID)
-
+        // console.log(">>>>", datelist[index].myID)
+        setLoading(true);
         axiosInst.delete(`demo/${datelist[index].myID}`)
             .then((res) => {
                 console.log("res", res);
-                window.alert("ลบข้อมูลสำเร็จแล้ว");
+                setLoading(false);
                 setCheckUpdate(true)
             }).catch((err) => {
+                setLoading(false);
                 console.log("err", err)
-                window.alert("ลบข้อมูลไม่สำเร็จแล้ว");
             })
     }
 
     return (
         <React.Fragment>
+            <div class={`loader loader-default ${loading ? 'is-active' : ''}`}></div>
             <section className={styles.section1}>
                 <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>

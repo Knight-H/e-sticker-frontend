@@ -27,31 +27,37 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
   const step = steps[values.stepProgress];
 
   useEffect(() => {
+    setFieldValue("loading", true, false);
     axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`)
       .then(res => {
         setFieldValue("checkLoadOption", true, false);
         setFieldValue("optionShape", res.data.shape_list, false);
 
-        // setFieldValue("heightMax", res.data[0].heightMax, false);
-        // setFieldValue("heightMin", res.data[0].heightMin, false);
-        // setFieldValue("widthMax", res.data[0].widthMax, false);
-        // setFieldValue("widthMin", res.data[0].widthMin, false);
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`)
+          .then(res => {
+            // console.log("res.data[0]", res.data)
+            setFieldValue("optionMaterial", res.data.material_list, false);
+
+            axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`)
+              .then(res => {
+                // console.log("res.data[0]", res.data.count_list)
+                setFieldValue("optionUnitOptions", res.data.count_list, false);
+                setFieldValue("loading", false, false);
+              }).catch(function (err) {
+                console.log("err", err)
+                setFieldValue("loading", false, false);
+
+              })
+          }).catch(function (err) {
+            console.log("err", err)
+            setFieldValue("loading", false, false);
+
+          })
+
       }).catch(function (err) {
         console.log("err", err)
-      })
-    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`)
-      .then(res => {
-        // console.log("res.data[0]", res.data)
-        setFieldValue("optionMaterial", res.data.material_list, false);
-      }).catch(function (err) {
-        console.log("err", err)
-      })
-    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`)
-      .then(res => {
-        // console.log("res.data[0]", res.data.count_list)
-        setFieldValue("optionUnitOptions", res.data.count_list, false);
-      }).catch(function (err) {
-        console.log("err", err)
+        setFieldValue("loading", false, false);
+
       })
   }, []);
 
@@ -77,7 +83,10 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
 const WizardStep = ({ children }) => children;
 
 const AppComponent = () => {
+  const { values, setFieldValue } = useFormikContext();
   return (
+    <>
+    <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
     <Wizard>
       <WizardStep>
         <Order1ShapeConfigComponent />
@@ -95,6 +104,7 @@ const AppComponent = () => {
         <Order2UploadFileConfigComponent />
       </WizardStep>
     </Wizard>
+    </>
   );
 };
 
@@ -133,6 +143,7 @@ const EnhancedAppComponent = withFormik({
     uploadFileStricker: '',
     uploadFileStrickerForFirebase: [],
     comment: '',
+    loading: false
   }),
   validate: (values, { setFieldValue }) => {
     const errors = {};
@@ -188,7 +199,7 @@ const EnhancedAppComponent = withFormik({
     } else {
       const storageRef = firebaseApp.storage().ref();
       let timeStamp = new Date().toISOString().slice(0, 10)
-
+      setFieldValue("loading", true, false);
       auth.onAuthStateChanged(user => {
         if (user) {// User is signed in.
 
@@ -242,8 +253,10 @@ const EnhancedAppComponent = withFormik({
                         .then(res => {
                           console.log("res", res);
                           props.history.push("/cart")
+                          setFieldValue("loading", false, false);
                         }).catch(function (err) {
                           console.log("err", err.response)
+                          setFieldValue("loading", false, false);
                         })
                     });
                   }
@@ -294,9 +307,11 @@ const EnhancedAppComponent = withFormik({
                       axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
                         .then(res => {
                           console.log("res", res);
+                          setFieldValue("loading", false, false);
                           props.history.push("/cart")
                         }).catch(function (err) {
                           console.log("err", err)
+                          setFieldValue("loading", false, false);
                         })
                     });
                   }
@@ -305,6 +320,7 @@ const EnhancedAppComponent = withFormik({
               }
             }).catch(function (err) {
               console.log("err", err)
+              setFieldValue("loading", false, false);
             })
         } else {
           console.log("mode guest");
@@ -344,6 +360,7 @@ const EnhancedAppComponent = withFormik({
                   cartLocal.itemsList.push(data);
                   console.log('cartLocal', cartLocal)
                   localStorage.setItem("cart", JSON.stringify(cartLocal));
+                  setFieldValue("loading", false, false);
                   props.history.push("/cart")
                 });
               }
@@ -391,11 +408,13 @@ const EnhancedAppComponent = withFormik({
                   };
                   localStorage.setItem("cart", JSON.stringify(data));
                   console.log("localStorage.getItem(cart)", JSON.parse(localStorage.getItem("cart")))
+                  setFieldValue("loading", false, false);
                   props.history.push("/cart")
                 })
               })
               .catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
               })
           }
           return;

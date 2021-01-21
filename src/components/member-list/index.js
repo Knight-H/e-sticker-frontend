@@ -17,6 +17,7 @@ const useInputChange = () => {
 }
 
 const MemberListComponent = (props) => {
+    const [loading, setLoading] = useState(false);
     // API [GET] /admin/
     var _apiData = fake_data;
     var statusFilter = {
@@ -35,8 +36,10 @@ const MemberListComponent = (props) => {
 
     const [customerArr, setCustomerArr] = useState([])
     useEffect(() => {
+        setLoading(true);
         axiosInst.get("customers").then((res) => {
             console.log(res.data[0])
+            setLoading(false);
             setCustomerArr(res.data)
         })
     }, [])
@@ -52,6 +55,7 @@ const MemberListComponent = (props) => {
 
     return (
         <React.Fragment>
+            <div class={`loader loader-default ${loading ? 'is-active' : ''}`}></div>
             <section className={styles.section1}>
                 <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>

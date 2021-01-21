@@ -14,7 +14,7 @@ const MemberRegisterComponent = (props) => {
 
     return (
         <main className={styles.pageContainer}>
-
+            <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             <h2>สมัครสมาชิก</h2>
 
             {(() => {
@@ -63,6 +63,8 @@ const EnchancedMemberRegisterComponent = withFormik({
 
             provice: '',
             zip: '',
+
+            loading: false
         }
     },
     validate: (values) => {
@@ -70,7 +72,7 @@ const EnchancedMemberRegisterComponent = withFormik({
 
         // Assumes that all fields are required.
         Object.entries(values).filter(([fieldName, fieldValue]) => {
-            return !["isRegisterSuccessfulText"].includes(fieldName)
+            return !["isRegisterSuccessfulText", "loading"].includes(fieldName)
         }).forEach(([fieldName, fieldValue]) => {
             // console.log(fieldName, "-", fieldValue, "-", Boolean(fieldValue))
             if (!fieldValue) {
@@ -86,7 +88,8 @@ const EnchancedMemberRegisterComponent = withFormik({
     },
     // handleSubmit: dummyHandleSubmit,
     handleSubmit: (values, { props, setFieldValue }) => {
-        console.log("handleSubmit")
+        // console.log("handleSubmit")
+        setFieldValue("loading", true, false);
         auth.createUserWithEmailAndPassword(values.email, values.password).then((userCredential) => {
             // Also logged in
 
@@ -94,7 +97,7 @@ const EnchancedMemberRegisterComponent = withFormik({
             Object.assign(moreUserInfo, { customerID: userCredential.user.uid })
 
             Object.keys(values).filter((fieldName) => {
-                return !["password", "password_repeat", "isRegisterSuccessfulText"].includes(fieldName)
+                return !["password", "password_repeat", "isRegisterSuccessfulText", "loading"].includes(fieldName)
             }).forEach((fieldName) => {
                 moreUserInfo[fieldName] = values[fieldName]
             })
@@ -120,10 +123,12 @@ const EnchancedMemberRegisterComponent = withFormik({
                 // uid: userCredential.user.uid,
                ...customerSchemaInfo
             }).then((res) => {
-
+                setFieldValue("loading", false, false);
             }).catch((reason) => {
                 console.log(reason)
+                setFieldValue("loading", false, false);
             }).finally(() => {
+                setFieldValue("loading", false, false);
                 props.history.push("/")
             })
 
@@ -132,8 +137,10 @@ const EnchancedMemberRegisterComponent = withFormik({
 
             if (code === "auth/email-already-in-use") {
                 console.log("i18.account_creation_failed_email_already_exists", i18.account_creation_failed_email_already_exists)
+                setFieldValue("loading", false, false);
                 setFieldValue("isRegisterSuccessfulText", i18.account_creation_failed_email_already_exists, false)
             } else {
+                setFieldValue("loading", false, false);
                 console.log("i18.account_creation_failed_general", i18.account_creation_failed_general)
                 setFieldValue("isRegisterSuccessfulText", i18.account_creation_failed_general, false)
             }

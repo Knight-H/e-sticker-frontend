@@ -17,6 +17,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
     }, [values.materialID]);
 
     const addOptionMaterial = () => {
+        setFieldValue("loading", true, false);
         let data = values[`${values.modalMaterial}Kind`];
         const storageRef = firebaseApp.storage().ref();
         let timeStamp = new Date().toISOString().slice(0, 10);
@@ -41,8 +42,10 @@ const ModalShipping = ({ values, setFieldValue }) => {
                             .then(res => {
                                 setFieldValue("fetch", true, false);
                                 setFieldValue("modalMaterial", '', false)
+                                setFieldValue("loading", false, false);
                             }).catch(function (err) {
                                 console.log("err", err)
+                                setFieldValue("loading", false, false);
                             })
                     })
                 })
@@ -60,15 +63,18 @@ const ModalShipping = ({ values, setFieldValue }) => {
             axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`, dataPostNew)
                 .then(res => {
                     setFieldValue("fetch", true, false);
+                    setFieldValue("loading", false, false);
                     setFieldValue("modalMaterial", '', false)
                 }).catch(function (err) {
                     console.log("err", err)
+                    setFieldValue("loading", false, false);
                 })
         }
 
     }
 
     const editOptionMaterial = () => {
+        setFieldValue("loading", true, false);
         const storageRef = firebaseApp.storage().ref();
         let timeStamp = new Date().toISOString().slice(0, 10);
         // console.log(values[`${values.modalMaterial}File`])
@@ -85,8 +91,10 @@ const ModalShipping = ({ values, setFieldValue }) => {
                     .then(res => {
                         setFieldValue("fetch", true, false);
                         setFieldValue("modalMaterial", '', false)
+                        setFieldValue("loading", false, false);
                     }).catch(function (err) {
                         console.log("err", err)
+                        setFieldValue("loading", false, false);
                     })
             } else {
                 storageRef.child(`productOptions/${timeStamp}-${values[`${values.modalMaterial}File`].name}`).put(values[`${values.modalMaterial}File`])
@@ -103,7 +111,9 @@ const ModalShipping = ({ values, setFieldValue }) => {
                             .then(res => {
                                 setFieldValue("fetch", true, false);
                                 setFieldValue("modalMaterial", '', false)
+                                setFieldValue("loading", false, false);
                             }).catch(function (err) {
+                                setFieldValue("loading", false, false);
                                 console.log("err", err)
                             })
                     })
@@ -121,7 +131,9 @@ const ModalShipping = ({ values, setFieldValue }) => {
                 .then(res => {
                     setFieldValue("fetch", true, false);
                     setFieldValue("modalMaterial", '', false)
+                    setFieldValue("loading", false, false);
                 }).catch(function (err) {
+                    setFieldValue("loading", false, false);
                     console.log("err", err)
                 })
         }
@@ -129,6 +141,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
     }
 
     const removeOptionMaterial = () => {
+        setFieldValue("loading", true, false);
         values.material.splice(values.materialID, 1);
         // console.log(values.material)
         let dataPost = {
@@ -139,8 +152,10 @@ const ModalShipping = ({ values, setFieldValue }) => {
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalMaterial", '', false)
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
+                setFieldValue("loading", false, false);
             })
     }
 

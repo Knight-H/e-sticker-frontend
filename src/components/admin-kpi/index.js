@@ -1,23 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from './index.module.scss';
 import { useHistory  } from "react-router-dom";
 
+import { axiosInst } from '../common-scss/common'
+
 const AdminKpiComponent = (props) => {
     let history = useHistory();
+    const [countCustomer, setCountCustomer] = useState('')
+    const [countOrder, setCountOrder] = useState('')
+    const [totalPrice, setTotalPrice] = useState(0)
+
+    useEffect(() => {
+        let totalPrice = 0;
+        axiosInst.get("orders").then((res) => {
+            setCountOrder(res.data.length)
+            res.data.map((data) => {
+                console.log("data", data)
+                totalPrice = totalPrice + data.totalCost
+            })
+            setTotalPrice(totalPrice)
+        }).catch((reason) => {
+            console.log(reason)
+        })
+        axiosInst.get("customers").then((res) => {
+            setCountCustomer(res.data.length)
+        }).catch((reason) => {
+            console.log(reason)
+        })
+    }, [])
+
     return (
         <>
             <main className={styles.containerKPI}>
                 <article className={styles.cardOval}>
                     <p>คำสั่งซื้อ</p>
-                    <h3>{props.kpi.order.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
+                    <h3>{countOrder.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
                 </article>
                 <article className={styles.cardOval}>
                     <p>ยอดขาย</p>
-                    <h3>{props.kpi.sales.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
+                    <h3>{totalPrice.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
                 </article>
                 <article className={styles.cardOval}>
                     <p>สมาชิก</p>
-                    <h3>{props.kpi.member.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
+                    <h3>{countCustomer.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
                 </article>
             </main >
             <section>

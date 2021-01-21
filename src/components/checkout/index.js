@@ -19,7 +19,7 @@ const CheckoutComponent = (props) => {
         let url = window.location.search;
         const urlParams = new URLSearchParams(url);
         let code = urlParams.get('code');
-
+        setFieldValue("loading", true, false);
         if (code) {
             const requestBody = {
                 "grant_type": "authorization_code",
@@ -58,24 +58,29 @@ const CheckoutComponent = (props) => {
                                 .signInWithCustomToken(res.data.firebase_token)
                                 .then((res_auth) => {
                                     console.log("res_auth", res_auth)
+                                    setFieldValue("loading", false, false);
                                 })
                                 .catch((error) => {
                                     console.log("error", error)
+                                    setFieldValue("loading", false, false);
                                 })
 
                         })
                         .catch((err) => {
                             console.log(err)
+                            setFieldValue("loading", false, false);
                         })
                 })
                 .catch((err) => {
                     console.log(err)
+                    setFieldValue("loading", false, false);
                 })
         } else return;
 
     }, [window.location.search])
 
     useEffect(() => {
+        setFieldValue("loading", true, false);
         auth.onAuthStateChanged(user => {
             if (user) {
                 axiosInst.get(`cart?customerID=${user.uid}`)
@@ -84,15 +89,19 @@ const CheckoutComponent = (props) => {
                         setFieldValue("uid", user.uid, false);
                         setFieldValue("checkLogin", true, false)
                         setFieldValue("itemsList", res.data[0].itemsList, false);
+                        setFieldValue("loading", false, false);
                     }).catch(function (err) {
                         console.log("err", err)
                         setFieldValue("checkLogin", true, false)
+                        setFieldValue("loading", false, false);
                     })
             } else {
                 var cartLocal = JSON.parse(localStorage.getItem("cart"));
                 if (cartLocal) {
                     setFieldValue("itemsList", cartLocal.itemsList, false);
+                    setFieldValue("loading", false, false);
                 } else {
+                    setFieldValue("loading", false, false);
                     return;
                 }
             }
@@ -100,6 +109,7 @@ const CheckoutComponent = (props) => {
     }, []);
 
     const handleRemoveItemInCart = (index) => {
+        setFieldValue("loading", true, false);
         if (values.uid) {
             values.itemsList.splice(index, 1);
 
@@ -111,8 +121,10 @@ const CheckoutComponent = (props) => {
                 .then(res => {
                     console.log("res", res);
                     setFieldValue("itemsList", values.itemsList, false);
+                    setFieldValue("loading", false, false);
                 }).catch(function (err) {
                     console.log("err", err.response)
+                    setFieldValue("loading", false, false);
                 })
         } else {
             values.itemsList.splice(index, 1);
@@ -122,12 +134,14 @@ const CheckoutComponent = (props) => {
                 "itemsList": values.itemsList
             }
             localStorage.setItem("cart", JSON.stringify(data));
+            setFieldValue("loading", false, false);
         }
     }
 
     let totalPrice = 0;
     return (
         <main>
+             <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
             <section className={styles.section2}>
                 <div className={styles.boxChild1}>
                     <h3>ตะกร้าสินค้า</h3>
@@ -215,7 +229,9 @@ const EnhancedCheckoutComponent = withFormik({
         checkLoginComponant: false,
 
         email: '',
-        password: ''
+        password: '',
+
+        loading: false
     }),
     validate: values => {
         const errors = {};
@@ -230,16 +246,19 @@ const EnhancedCheckoutComponent = withFormik({
         return errors;
     },
     handleSubmit: (values, { setFieldValue, props }) => {
+        setFieldValue("loading", true, false);
         auth
             .signInWithEmailAndPassword(values.email, values.password)
             .then(res => {
                 console.log("uid", res.user.uid, "email", res.user.email)
                 setFieldValue("checkLoginComponant", false, false);
+                setFieldValue("loading", false, false);
                 props.history.push("/checkout")
             })
             .catch(error => {
                 console.log("Error", error)
                 setFieldValue("checkLoginComponant", true, false);
+                setFieldValue("loading", false, false);
             })
     },
 })(CheckoutComponent);

@@ -16,12 +16,14 @@ const PreviewImageComponent = () => {
     const [modal, setModal] = useState(false);
 
     const handleChange = event => {
+        setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
+
         if (event.target.files) {
             const storageRef = firebaseApp.storage().ref();
             let timeStamp = new Date().toISOString().slice(0, 10)
             let file = event.target.files[0];
             let windowUrl = window.location.pathname;
-            window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
             auth.onAuthStateChanged(user => {
                 if (user) {// User is signed in.
                     storageRef.child(`${user.uid}/${timeStamp}-${file.name}`).put(file)
@@ -43,9 +45,14 @@ const PreviewImageComponent = () => {
                                     .then(res => {
                                         console.log("res", res);
                                         setFieldValue("fetchMsg", true, false);
+                                        setFieldValue("waitProcess", false, false);
+                                        setFieldValue("loading", false, false);
+
                                     }).catch(function (err) {
                                         console.log("err", err)
-                                        window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
+                                        setFieldValue("waitProcess", false, false);
+                                        setFieldValue("loading", false, false);
+
                                     })
 
                             });
@@ -57,8 +64,10 @@ const PreviewImageComponent = () => {
     }
 
     const sendMessage = () => {
+        setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
+
         if (values.massage) {
-            window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
             let url = window.location.pathname;
             let data = {
                 "itemIndex": values.expandCard,
@@ -75,17 +84,22 @@ const PreviewImageComponent = () => {
                 .then(res => {
                     console.log("res", res);
                     setFieldValue("fetchMsg", true, false);
-                   
+                    setFieldValue("waitProcess", false, false);
+                    setFieldValue("loading", false, false);
 
                 }).catch(function (err) {
                     console.log("err", err)
-                    window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
+                    setFieldValue("waitProcess", false, false);
+                    setFieldValue("loading", false, false);
 
                 })
         }
     }
 
     const sendItemStatus = () => {
+        setFieldValue("waitProcess", true, false);
+        setFieldValue("loading", true, false);
+
         let data = {
             "itemIndex": values.expandCard,
             "status": "อนุมัติแบบ"
@@ -96,17 +110,16 @@ const PreviewImageComponent = () => {
             .then(res => {
                 console.log("res", res);
                 setFieldValue("fetchMsg", true, false);
-                window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
-
+                setFieldValue("waitProcess", false, false);
+                setFieldValue("loading", false, false);
             }).catch(function (err) {
                 console.log("err", err)
-                window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
-
+                setFieldValue("waitProcess", false, false);
+                setFieldValue("loading", false, false);
             })
     }
 
     const handleChangeModal = event => {
-        console.log(">>>>>>>>>>>>>>>>>>")
         if (event.target.files) {
             setFieldValue("photo", event.target.files[0], true);
             setFieldValue("isCheckphoto", true, false);
@@ -174,15 +187,19 @@ const PreviewImageComponent = () => {
 
                 <div className={styles.inputBox}>
                     {`${values.paymentMethod}` === `transfer_money` && `${values.paymentStatus}` === `pending` ?
-                        <button type="button" onClick={() => setModal(true)}><h3>แจ้งชำระเงิน</h3></button>
+                        <button type="button" onClick={() => setModal(true)} disabled={values.waitProcess ? true : false}>
+                            <h3>แจ้งชำระเงิน</h3>
+                        </button>
                         : `${values.itemsList[values.expandCard].status}` === `รออนุมัติแบบ` &&
-                        <button type="button" onClick={() => sendItemStatus()}><h3><IconCheckSVG /> อนุมัติแบบ</h3></button>}
+                        <button type="button" onClick={() => sendItemStatus()} disabled={values.waitProcess ? true : false}>
+                            <h3><IconCheckSVG /> อนุมัติแบบ</h3>
+                        </button>}
 
-                    <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." />
+                    <Field name="massage" className={styles.inputGreen} type="text" placeholder="พิมพ์ข้อความ..." disabled={values.waitProcess ? true : false} />
 
                     <div className={styles.btnGroup}>
-                        <button type="button" onClick={() => sendMessage()}>ส่ง</button>
-                        <input type="file" id="file" onChange={(e) => handleChange(e)} />
+                        <button type="button" onClick={() => sendMessage()} disabled={values.waitProcess ? true : false}>ส่ง</button>
+                        <input type="file" id="file" onChange={(e) => handleChange(e)} disabled={values.waitProcess ? true : false}/>
                         <label for="file" className={styles.btnCustomWidth}>อัพโหลดไฟล์</label>
                     </div>
 
@@ -197,18 +214,20 @@ const PreviewImageComponent = () => {
                                 <div className={styles.groupColumn}>
                                     <div className={styles.leftColumn}>
                                         <p>ชื่อ นามสกุล*<ErrorMessage name="name" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="name" type="text" />
+                                        <Field name="name" type="text" disabled={values.waitProcess ? true : false}/>
                                         <p>ยอดชำระเงิน<ErrorMessage name="amount" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="amount" type="text" />
+                                        <Field name="amount" type="text" disabled={values.waitProcess ? true : false}/>
                                     </div>
 
                                     <div className={styles.rightColumn}>
                                         <p>เบอร์โทรศัพท์*<ErrorMessage name="phone" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="phone" type="text" />
+                                        <Field name="phone" type="text" disabled={values.waitProcess ? true : false}/>
                                         <p>สลิปการโอนเงิน*<ErrorMessage name="photo" render={msg => <span className="error">{msg}</span>} />
-                                            {values.isCheckphoto !== 0 ? values.isCheckphoto ? <span style={{ color: "#009473", fontSize: "12px" }}>อัพโหลดสำเร็จ</span> :
-                                                <span style={{ color: "red", fontSize: "12px" }}>อัพโหลดไม่สำเร็จ</span> : ""}</p>
-                                        <input type="file" id="file2" onChange={(e) => handleChangeModal(e)} />
+                                            {values.isCheckphoto !== 0 ? values.isCheckphoto ? 
+                                            <span style={{ color: "#009473", fontSize: "12px" }}>อัพโหลดสำเร็จ</span> :
+                                                <span style={{ color: "red", fontSize: "12px" }}>อัพโหลดไม่สำเร็จ</span> : ""}
+                                                </p>
+                                        <input type="file" id="file2" onChange={(e) => handleChangeModal(e)} disabled={values.waitProcess ? true : false}/>
                                         <label for="file2" className={`${styles.buttonUploadFile} ${styles.label}`}>
                                             <IconUploadFile />อัพโหลดไฟล์</label>
                                     </div>
@@ -216,7 +235,8 @@ const PreviewImageComponent = () => {
 
                                 <div className={styles.groupColumn}>
                                     <p>ธนาคารที่โอน<ErrorMessage name="bank" render={msg => <span className="error">{msg}</span>} /></p>
-                                    <button className={`${styles.bankPayment} ${values.bank === "kbank" && styles.active}`} type="button" onClick={() => setFieldValue("bank", "kbank", true)}>
+                                    <button className={`${styles.bankPayment} ${values.bank === "kbank" && styles.active}`} type="button"
+                                     onClick={() => setFieldValue("bank", "kbank", true)} disabled={values.waitProcess ? true : false}>
                                         <img src={logoKbank} className={styles.imgBank} />
                                         <div className={styles.groupBankDetail}>
                                             <p>กสิกรไทย</p>
@@ -229,16 +249,16 @@ const PreviewImageComponent = () => {
                                 <div className={styles.groupColumn2}>
                                     <div className={styles.leftColumn}>
                                         <p>วันที่โอน<ErrorMessage name="date" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="date" type="date" />
+                                        <Field name="date" type="date" disabled={values.waitProcess ? true : false} />
                                     </div>
                                     <div className={styles.rightColumn}>
                                         <p>เวลา<ErrorMessage name="time" render={msg => <span className="error">{msg}</span>} /></p>
-                                        <Field name="time" type="time" style={{ width: "170px" }} />
+                                        <Field name="time" type="time" style={{ width: "170px" }} disabled={values.waitProcess ? true : false} />
                                     </div>
                                 </div>
 
-                                <button type="submit" className={styles.btnGreenModal}>ตกลง</button>
-                                <button type="button" className={styles.btnGreenModal} onClick={() => setModal(false)}>ปิด</button>
+                                <button type="submit" className={styles.btnGreenModal} disabled={values.waitProcess ? true : false}>ตกลง</button>
+                                <button type="button" className={styles.btnGreenModal} onClick={() => setModal(false)} disabled={values.waitProcess ? true : false}>ปิด</button>
                             </Form>
                         </div>
 

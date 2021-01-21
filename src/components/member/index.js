@@ -12,90 +12,9 @@ import { dummyHandleSubmit, dummyValidateError, DummyDiv, axiosInst } from "../c
 import { EnhancedLoginCredentialsComponent } from '../member-account/index'
 
 import { auth } from "../../firebase";
-import Firebase from 'firebase'
 import qs from 'qs'
 
-// import axios from 'axios'
 import { i18_th as i18 } from "../common-scss/i18_text";
-
-// const useInputChange = () => {
-//     const [input, setInput] = useState({})
-
-//     const handleInputChange = (e) => setInput({
-//         ...input,
-//         [e.currentTarget.name]: e.currentTarget.value
-//     })
-
-//     return [input, handleInputChange]
-// }
-
-let EnhancedLoginComponent = withFormik({
-    enableReinitialize: true,
-    mapPropsToValues: (props) => {
-        const { userInfo } = props
-        return {
-            email: userInfo.email || userInfo.Email || props.email || "",
-            password_previous: "",
-            password: "",
-            password_repeat: ""
-        }
-    },
-    validate: (values) => {
-        const errors = {}
-
-        if (values.password_previous === "") {
-            errors.password_previous = i18.required
-        }
-
-        if (values.email === "") {
-            errors.email = i18.required
-        }
-
-        if (values.password !== values.password_repeat) {
-            errors.password = i18.password_repeat_different
-        }
-
-        return errors
-    },
-    handleSubmit: async (values) => {
-
-        const oldPassword = values.password_previous
-        const newPassword = values.password
-
-        // get credential
-        let freshCredential = null
-        try {
-            freshCredential = Firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, oldPassword)
-        } catch (e) {
-            return alert("Fail to get credential", e)
-        }
-
-        // Referesh credential
-        try {
-            await auth.currentUser.reauthenticateWithCredential(freshCredential)
-        } catch (e) {
-            return alert(e)
-        }
-
-        // Update password
-        try {
-            await auth.currentUser.updatePassword(newPassword)
-
-            console.log("password changed ok")
-            return alert(i18.account_password_change_success)
-        } catch (e) {
-            console.log("failed to change", e)
-            return alert(i18.account_password_change_failed_general, e)
-        }
-
-    }
-})((props) => {
-    return (
-        <Form className={styles.loginCredentials}>
-            <LoginCredentialsComponent2 isRegistering={false} {...props} />
-        </Form>
-    )
-})
 
 export let EnhancedLocationFields = withRouter(withFormik({
     enableReinitialize: true,
@@ -123,7 +42,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
 
             // Ignore accountState because the value 0 is used
             // to indicate "Normal"
-            if (["accountState"].includes(fieldName)) { return }
+            if (["accountState", "line_channel", "line_token", "loading"].includes(fieldName)) { return }
             if (!fieldValue) {
                 errors[fieldName] = i18.required
             }
@@ -132,7 +51,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
         return errors
     },
     handleSubmit: (values, { props }) => {
-
+        props.setLoading(true);
         const moreUserInfo = Object.fromEntries(Object.entries(values).filter(([key, value]) => {
             // 
             return true
@@ -142,7 +61,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
 
         auth.onAuthStateChanged((userCredential) => {
 
-            const uid = userCredential.uid
+            const uid = moreUserInfo.id
 
             const customerSchemaInfo = {
                 email: moreUserInfo?.email || moreUserInfo?.email || '',
@@ -156,7 +75,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
                 },
                 fullname: moreUserInfo?.fullname || '',
                 phone: moreUserInfo?.phone || '',
-                customerID: uid,
+                customerID: moreUserInfo.customerID ? moreUserInfo.customerID : '',
                 status: moreUserInfo?.accountState || moreUserInfo?.state || "ok"
             }
             console.log("sent", customerSchemaInfo)
@@ -164,11 +83,13 @@ export let EnhancedLocationFields = withRouter(withFormik({
             axiosInst.put(`customers/${uid}`, customerSchemaInfo).then((res) => {
                 // console.log(customerSchemaInfo)
                 // console.log(props.setUserInfo)
+                props.setLoading(false);
                 props.setUserInfo(customerSchemaInfo)
                 props.setUpdateStatusText(i18.account_information_update_success)
                 console.log("Update sucessful")
             }).catch((reason) => {
                 props.setUpdateStatusText(i18.account_information_update_failed_general)
+                props.setLoading(false);
                 console.log(reason)
             }).finally(() => {
                 // console.log(props)
@@ -193,7 +114,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
             setFieldValue(fieldKey, fieldValue)
         })
     }, [userInfo])
-    console.log("values.accountState", values.accountState)
+
     return (
         <Form className={styles.userInfo}>
             <LocationFieldsComponent onlyLocation={false} {...props} />
@@ -230,9 +151,11 @@ export let EnhancedLocationFields = withRouter(withFormik({
 let MemberComponent = (props) => {
 
     const [userInfo, setUserInfo] = useState({})
+    const [loading, setLoading] = useState(false);
     const [updateStatusText, setUpdateStatusText] = useState("　")
 
     useEffect(() => {
+        setLoading(true);
         const urlParams = qs.parse(window.location.search, { ignoreQueryPrefix: true })
         // console.log(urlParams)
 
@@ -240,9 +163,11 @@ let MemberComponent = (props) => {
 
             // React.setC
             const custInfo = res.data
-
+            console.log("custInfo", custInfo)
             const formikSchema = {
+                id: custInfo.id ? custInfo.id : '',
                 email: custInfo.Email || custInfo.email,
+                customerID: custInfo.customerID ? custInfo.customerID : '',
 
                 address: custInfo?.shippingAddress?.address || '',
                 zip: custInfo?.shippingAddress?.zip || '',
@@ -262,9 +187,10 @@ let MemberComponent = (props) => {
             console.log("Receive", formikSchema)
 
             setUserInfo(formikSchema)
-
+            setLoading(false);
         }).catch((reason) => {
             console.log(reason)
+            setLoading(false);
         })
     }, [])
 
@@ -272,7 +198,7 @@ let MemberComponent = (props) => {
 
     return (
         <main className={styles.pageContainer}>
-
+<div class={`loader loader-default ${loading ? 'is-active' : ''}`}></div>
             <section className={styles.section1}>
                 <AdminKpi kpi={{ "order": 10, "sales": 1234567, "member": 1000 }} />
             </section>
@@ -297,48 +223,14 @@ let MemberComponent = (props) => {
 
                     </div>
                     :
-                    <EnhancedLoginCredentialsComponent email={currentEmail} emailDisabled={true} userInfo={userInfo} setUpdateStatusText={setUpdateStatusText} setUserInfo={setUserInfo} />
+                    <EnhancedLoginCredentialsComponent email={currentEmail} setLoading={setLoading} emailDisabled={true} userInfo={userInfo} setUpdateStatusText={setUpdateStatusText} setUserInfo={setUserInfo} />
                 }
-                    <EnhancedLocationFields email={currentEmail} emailDisabled={true} userInfo={userInfo} setUpdateStatusText={setUpdateStatusText} setUserInfo={setUserInfo} />
+                    <EnhancedLocationFields email={currentEmail} emailDisabled={true} setLoading={setLoading} userInfo={userInfo} setUpdateStatusText={setUpdateStatusText} setUserInfo={setUserInfo} />
 
                 </div>
             </section>
         </main>
     )
 }
-
-
-// const EnhancedMemberComponent = withFormik({
-//     mapPropsToValues: () => ({
-
-//         email: '',
-//         phone: '',
-//         address: '',
-//         fullname: '',
-
-//         county: '',
-//         city: '',
-//         provice: '',
-//         zip: '',
-
-//         accountState: 0
-//     }),
-//     validate: (values) => {
-//         const errors = {}
-
-//         // TODO add validation for the values
-
-//         return errors
-//     },
-//     handleSubmit: (values) => {
-//         setTimeout(() => {
-//             alert(JSON.stringify(values, null, 2))
-//         }, 0)
-//     }
-// })(MemberComponent)
-
-// MemberComponent = EnhancedMemberComponent
-// let memberComponent = MemberComponent
-
 
 export default MemberComponent
