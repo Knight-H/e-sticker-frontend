@@ -56,6 +56,7 @@ const ApproveLayoutComponent = (props) => {
                             setFieldValue("totalCost", res.data.totalCost, false);
                             setFieldValue("paymentMethod", res.data.paymentMethod, false);
                             setFieldValue("paymentStatus", res.data.paymentStatus, false);
+                            setFieldValue("paymentConfirm", res.data.paymentConfirm, false);
                             setFieldValue("fetchMsg", false, false);
                         }).catch(function (err) {
                             console.log("err", err)
@@ -95,6 +96,7 @@ const ApproveLayoutComponent = (props) => {
             setFieldValue("totalCost", orderNumber.totalCost, false);
             setFieldValue("paymentMethod", orderNumber.paymentMethod, false);
             setFieldValue("paymentStatus", orderNumber.paymentStatus, false);
+            setFieldValue("paymentConfirm", orderNumber.paymentConfirm, false);
             setCatchOrders([])
         } else if (values.orderNumber) {
             let catchID = values.allOrder.filter(orderNumber => {
@@ -122,16 +124,16 @@ const ApproveLayoutComponent = (props) => {
                 </>
             }
             {
-                catchOrders.length >=1 && 
-            <p>หมายเลขออเดอร์ที่ใกล้เคียง</p>
-}
+                catchOrders.length >= 1 &&
+                <p>หมายเลขออเดอร์ที่ใกล้เคียง</p>
+            }
             {
-                catchOrders.length >=1 && catchOrders.map((data, index) => {
+                catchOrders.length >= 1 && catchOrders.map((data, index) => {
                     if (index <= 4) {
                         return <p style={{ margin: "5px 0", color: "orange" }}>{data.orderID}</p>
                     }
                 })
-                
+
             }
 
             {values.orderID ?
@@ -156,6 +158,29 @@ const ApproveLayoutComponent = (props) => {
                     <section className={styles.groupDeliveryPayment} style={guestMode ? { border: '1px solid #009473' } : {}}>
                         <GroupDeliveryPayment />
                     </section>
+
+                    {
+                        values.paymentConfirm.length !== 0 &&
+                        <section className={styles.groupSlipPayment}>
+                            <h3>การแจ้งการชำระเงิน</h3>
+
+                            <div className={styles.flexRow}>
+                                {values.paymentConfirm.map((data, index) => {
+                                    return (
+                                        <acticle className={styles.cardSlip}>
+                                            <p>ชื่อ นามสกุล*: {data.name}</p>
+                                            <p>เบอร์โทรศัพท์*: {data.phone}</p>
+                                            <p>ยอดชำระเงิน: {data.amount}</p>
+                                            <p>ธนาคารที่โอน: {data.bank}</p>
+                                            <p>วันที่โอน: {data.date}</p>
+                                            <p>เวลา: {data.time}</p>
+                                            <p>สลิปการโอนเงิน:  <a className={styles.dowloadFileMsg} href={data.photo} downloadFile>ดาวน์โหลด.</a></p>
+                                        </acticle>
+                                    )
+                                })}
+                            </div>
+                        </section>
+                    }
                 </>
                 :
                 ""
@@ -175,6 +200,7 @@ const EnhancedApproveLayoutComponent = withFormik({
         status: '',
         itemsList: [],
 
+        paymentConfirm: [],
         allOrder: [],
         fetchMsg: false,
 
@@ -271,7 +297,9 @@ export default EnhancedApproveLayoutComponent;
 const LabelSatus = ({ status }) => {
     if (status === STATUS_ORDERS_TYPE.DOING) {
         return <label className={`${styles.labelStatus} ${styles.orangeStatus}`}>สถานะ: กำลังดำเนินการ</label>
-    } else if (status === STATUS_ORDERS_TYPE.PRODUCTION) {
+    } else if (status === STATUS_ORDERS_TYPE.WAIT_PAYMENT) {
+        return <label className={`${styles.labelStatus} ${styles.navyStatus}`}>สถานะ: รอชำระเงิน</label>
+    }  else if (status === STATUS_ORDERS_TYPE.PRODUCTION) {
         return <label className={`${styles.labelStatus} ${styles.yellowStatus}`}>สถานะ: กำลังผลิตสินค้า</label>
     } else if (status === STATUS_ORDERS_TYPE.DELIVERY) {
         return <label className={`${styles.labelStatus} ${styles.blueStatus}`}>สถานะ: อยู่ระหว่างจัดส่ง</label>
