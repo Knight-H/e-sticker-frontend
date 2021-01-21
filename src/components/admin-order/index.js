@@ -93,10 +93,10 @@ const AdminOrderComponent = (props) => {
             </section>
 
             <h1 className={styles.title}>รายการออเดอร์</h1>
-            <p>ออเดอร์หมายเลข #DW0001
+            <p>ออเดอร์หมายเลข {values.orderID}
             <SelectBox name="status" values={values} options={[
                     {
-                        color: "grayStatus",
+                        color: "navyStatus",
                         name: STATUS_ORDERS_TYPE.WAIT_PAYMENT
                     },
                     {
@@ -142,9 +142,9 @@ const AdminOrderComponent = (props) => {
             <section className={styles.groupDeliveryPayment} style={{ border: '1px solid #009473' }}>
                 <GroupDeliveryPayment />
             </section>
-
+                {console.log("values.paymentConfirm", values.paymentConfirm)}
             {
-                values.paymentConfirm.lenght !== 0 &&
+                values.paymentConfirm.length !== 0 &&
                 <section className={styles.groupSlipPayment}>
                     <h3>การแจ้งการชำระเงิน</h3>
 

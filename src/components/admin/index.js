@@ -33,7 +33,8 @@ const AdminComponent = (props) => {
         ALL: 0,
         DOING: 0,
         DONE: 0,
-        CANCEL: 0
+        CANCEL: 0,
+        WAIT_PAYMENT: 0
     }
 
     const [selectStatus, setSelectStatus] = useState(statusFilter.ALL);
@@ -53,14 +54,21 @@ const AdminComponent = (props) => {
 
     if (Array.isArray(orderData)) {
         orderData.map((dataObjectMapped) => {
-            if (dataObjectMapped.status === statusFilter.DONE || dataObjectMapped.status === statusFilter.DONE_REFUN) { countOrder.DONE = countOrder.DONE + 1; }
-            else if (dataObjectMapped.status === statusFilter.DOING || dataObjectMapped.status === statusFilter.PRODUCING || dataObjectMapped.status === statusFilter.DILIVERING) { countOrder.DOING = countOrder.DOING + 1; }
-            else if (dataObjectMapped.status === statusFilter.CANCEL || dataObjectMapped.status === statusFilter.REFUN) { countOrder.CANCEL = countOrder.CANCEL + 1; }
+            if (dataObjectMapped.status === statusFilter.DONE || dataObjectMapped.status === statusFilter.DONE_REFUN) {
+                countOrder.DONE = countOrder.DONE + 1;
+            } else if (dataObjectMapped.status === statusFilter.DOING || dataObjectMapped.status === statusFilter.PRODUCING
+                || dataObjectMapped.status === statusFilter.DILIVERING) {
+                countOrder.DOING = countOrder.DOING + 1;
+            } else if (dataObjectMapped.status === statusFilter.CANCEL || dataObjectMapped.status === statusFilter.REFUN) {
+                countOrder.CANCEL = countOrder.CANCEL + 1;
+            } else if (dataObjectMapped.status === statusFilter.WAIT_PAYMENT) {
+                countOrder.WAIT_PAYMENT = countOrder.WAIT_PAYMENT + 1;
+            }
             countOrder.ALL = countOrder.ALL + 1;
             return null;
         })
     }
-    console.log("orderData", orderData)
+
     return (
         <React.Fragment>
             <section className={styles.section1}>
@@ -73,6 +81,9 @@ const AdminComponent = (props) => {
                 <div className={`${styles.containerRow} ${styles.containerMargin}`}>
                     <div className={`${styles.statusAdmin} ${styles.statusDoing} ${styles.statusMargin} ${styles.divButton} ${`${selectStatus}` === `${statusFilter.DOING}` && styles.divButtonActive}`} onClick={() => setSelectStatus(statusFilter.DOING)}>
                         กำลังดำเนินการ - {countOrder.DOING} รายการ
+                    </div>
+                    <div className={`${styles.statusAdmin} ${styles.statusWaitPayment} ${styles.statusMargin} ${styles.divButton} ${`${selectStatus}` === `${statusFilter.WAIT_PAYMENT}` && styles.divButtonActive}`} onClick={() => setSelectStatus(statusFilter.WAIT_PAYMENT)}>
+                        รอชำระเงิน - {countOrder.WAIT_PAYMENT} รายการ
                     </div>
                     <div className={`${styles.statusAdmin} ${styles.statusDone} ${styles.statusMargin} ${styles.divButton} ${`${selectStatus}` === `${statusFilter.DONE}` && styles.divButtonActive}`} onClick={() => setSelectStatus(statusFilter.DONE)}>
                         เสร็จสิ้น - {countOrder.DONE} รายการ
@@ -115,7 +126,7 @@ const AdminComponent = (props) => {
                             <th>ราคารวม</th>
                             <th>สถานนะ</th>
                             <th>เลขการที่จัดส่ง</th>
-                            <th>ผู้รับผิดชอบ</th>
+                            {/* <th>ผู้รับผิดชอบ</th> */}
                             <th>จัดการ</th>
                         </tr>
 
@@ -128,9 +139,16 @@ const AdminComponent = (props) => {
                                 var statusOrder = styles.statusCancel;
                                 var textSearchMatch = dataObjectMapped.orderID.match(textSearch['search']);
 
-                                if (dataObjectMapped.status === statusFilter.DONE || dataObjectMapped.status === statusFilter.DONE_REFUN) { statusOrder = styles.statusDone; }
-                                else if (dataObjectMapped.status === statusFilter.DOING || dataObjectMapped.status === statusFilter.PRODUCING || dataObjectMapped.status === statusFilter.DILIVERING) { statusOrder = styles.statusDoing; }
-                                else if (dataObjectMapped.status === statusFilter.CANCEL || dataObjectMapped.status === statusFilter.REFUN) { statusOrder = styles.statusCancel; }
+                                if (dataObjectMapped.status === statusFilter.DONE || dataObjectMapped.status === statusFilter.DONE_REFUN) {
+                                    statusOrder = styles.statusDone;
+                                } else if (dataObjectMapped.status === statusFilter.DOING || dataObjectMapped.status === statusFilter.PRODUCING
+                                    || dataObjectMapped.status === statusFilter.DILIVERING) {
+                                    statusOrder = styles.statusDoing;
+                                } else if (dataObjectMapped.status === statusFilter.CANCEL || dataObjectMapped.status === statusFilter.REFUN) {
+                                    statusOrder = styles.statusCancel;
+                                } else if (dataObjectMapped.status === statusFilter.WAIT_PAYMENT) {
+                                    statusOrder = styles.statusWaitPayment;
+                                }
 
                                 if ((selectStatus === dataObjectMapped.status || selectStatus === statusFilter.ALL) && (textSearchMatch !== null)) {
                                     // console.log("hi", dataObjectMapped)
@@ -149,7 +167,7 @@ const AdminComponent = (props) => {
                                                 </div>
                                             </td>
                                             <td>{dataObjectMapped.shippingNumber}</td>
-                                            <td>{dataObjectMapped?.reposiable_name}</td>
+                                            {/* <td>{dataObjectMapped?.reposiable_name}</td> */}
                                             <td><Link to={"/admin/myorder/" + dataObjectMapped.myID}>จัดการ</Link></td>
                                         </tr>
                                     )

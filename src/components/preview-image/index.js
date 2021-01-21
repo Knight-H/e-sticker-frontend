@@ -21,7 +21,7 @@ const PreviewImageComponent = () => {
             let timeStamp = new Date().toISOString().slice(0, 10)
             let file = event.target.files[0];
             let windowUrl = window.location.pathname;
-
+            window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
             auth.onAuthStateChanged(user => {
                 if (user) {// User is signed in.
                     storageRef.child(`${user.uid}/${timeStamp}-${file.name}`).put(file)
@@ -43,7 +43,6 @@ const PreviewImageComponent = () => {
                                     .then(res => {
                                         console.log("res", res);
                                         setFieldValue("fetchMsg", true, false);
-                                        window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
                                     }).catch(function (err) {
                                         console.log("err", err)
                                         window.alert("อัพเดตข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง");
@@ -59,6 +58,7 @@ const PreviewImageComponent = () => {
 
     const sendMessage = () => {
         if (values.massage) {
+            window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
             let url = window.location.pathname;
             let data = {
                 "itemIndex": values.expandCard,
@@ -75,7 +75,7 @@ const PreviewImageComponent = () => {
                 .then(res => {
                     console.log("res", res);
                     setFieldValue("fetchMsg", true, false);
-                    window.alert("ระบบกำลังอัพเดตข้อมูลกรุณารอสักครู่");
+                   
 
                 }).catch(function (err) {
                     console.log("err", err)
@@ -146,7 +146,7 @@ const PreviewImageComponent = () => {
                                     {listMsg.by === "customer" ?
                                         <>
                                             <p className={styles.massage}>
-                                                <label className={styles.fileMsg}>ตัวอย่างงาน.png</label>
+                                                <label className={styles.fileMsg}>{listMsg.info}</label>
                                                 <a className={styles.dowloadFileMsg} href={listMsg.content} downloadFile>ดาวน์โหลด.</a>
                                             </p>
                                             <div className={styles.groupUser}>
@@ -161,7 +161,7 @@ const PreviewImageComponent = () => {
                                                 <p>{listMsg.by}</p>
                                             </div>
                                             <p className={styles.massage}>
-                                                <label className={styles.fileMsg}>ตัวอย่างงาน.ai</label>
+                                                <label className={styles.fileMsg}>{listMsg.info}</label>
                                                 <span className={styles.dowloadFileMsg}>ดาวน์โหลด.</span>
                                             </p>
                                         </>

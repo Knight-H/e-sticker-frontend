@@ -51,15 +51,9 @@ const CartComponent = () => {
     const [selectStep] = useState(2);
     const [shippingFee, setShippingFee] = useState(0);
     const [shippingDuration, setShippingDuration] = useState(0);
-
+    
     useEffect(() => {
-        // fetch(
-        //     "https://geolocation-db.com/json/85249190-4601-11eb-9067-21b51bc8dee3"
-        // )
-        // .then(response => {
-        //     console.log("response", response)
-        //     response.json().then(data => setFieldValue("yourIP", data.IPv4, false));
-
+        window.alert("กรุณารอสักครู่กำลังโหลดข้อมูลลูกค้า")
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
             .then(res => {
                 // console.log("res.data.shipptingoption", res.data)
@@ -349,8 +343,8 @@ const EnhancedCartComponent = withFormik({
 
         return errors;
     },
-    handleSubmit: (values, { props, location }) => {
-
+    handleSubmit: (values, { props, setFieldValue }) => {
+        window.alert("กรุณารอสักครู่กำลังส่งข้อมูล")
         axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
             .then(res => {
                 console.log("res get orders", res.data)
@@ -395,7 +389,7 @@ const EnhancedCartComponent = withFormik({
                     "shippingCourier": values.shippingCourier,
                     "shippingNumber": "",
                     "shippingStatus": "",
-                    "status": "กำลังดำเนินการ",
+                    "status": !values.payment === "transfer_money" ? "กำลังดำเนินการ" : "รอชำระเงิน",
                     // "timestamp": "4 Oct 2020",
                     "totalCost": values.totalPrice,
                     "vatCost": values.totalItemPrice * 7 / 100,
@@ -434,11 +428,15 @@ const EnhancedCartComponent = withFormik({
                                 "IPAddress": values.yourIP,
                                 "myOrder": data
                             }
-
+                            console.log("dataPostChillpay", dataPostChillpay)
                             axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
                                 .then(res => {
-                                    console.log("res>>>", res.data);
-                                    window.location.href = res.data.payment_url;
+                                    console.log("res>>>", res);
+                                    if (res.data.payment_url.res.Status === 0) {
+                                        window.location.href = res.data.payment_url.redirect_url;
+                                    } else {
+                                        window.alert("ส่งข้อมูลไม่สำเร็จ")
+                                    }
                                 })
                                 .catch(err => {
                                     console.log(err.response)
@@ -448,10 +446,12 @@ const EnhancedCartComponent = withFormik({
                     })
                     .catch(function (err) {
                         console.log("err 2", JSON.stringify(err))
+                        window.alert("ส่งข้อมูลไม่สำเร็จ")
                     });
 
             }).catch(function (err) {
                 console.log("err 1", JSON.stringify(err), JSON.stringify(err.response))
+                window.alert("ส่งข้อมูลไม่สำเร็จ")
             });
 
     },

@@ -70,7 +70,7 @@ const MemberListComponent = (props) => {
                         แสดงทั้งหมด
                     </div>
 
-                    <select name="month" className={styles.inputAdmin} onChange={setSelectMonth}>
+                    {/* <select name="month" className={styles.inputAdmin} onChange={setSelectMonth}>
                         <option value="1">มกราคม</option>
                         <option value="2">กุมภาพันธ์</option>
                         <option value="3">มีนาคม</option>
@@ -83,7 +83,7 @@ const MemberListComponent = (props) => {
                         <option value="10">ตุลาคม</option>
                         <option value="11">พฤศจิกายน</option>
                         <option value="12">ธันวาคม</option>
-                    </select>
+                    </select> */}
 
                     <input type="text" name="search" className={styles.inputAdmin} placeholder="ค้นหา" onChange={setTextSearch} />
                 </div>
@@ -96,11 +96,11 @@ const MemberListComponent = (props) => {
                             <th>ชื่อ นามสกุล</th>
                             <th>เบอร์โทรศัพท์</th>
                             <th>อีเมล</th>
-                            <th>ใช้งานล่าสุด</th>
+                            {/* <th>ใช้งานล่าสุด</th>
                             <th>ออเดอร์ล่าสุด</th>
                             <th>จำนวนสินค้่า</th>
                             <th>จำนวนออเดอร์</th>
-                            <th>ยอดการสั่ง</th>
+                            <th>ยอดการสั่ง</th> */}
                             <th>สถานะ</th>
                             <th>จัดการ</th>
                         </tr>
@@ -124,11 +124,11 @@ const MemberListComponent = (props) => {
                                     <td>{dataObjectMapped.fullname}</td>
                                     <td>{dataObjectMapped.phone}</td>
                                     <td>{dataObjectMapped.email}</td>
-                                    <td>{dataObjectMapped?.last_login}</td>
+                                    {/* <td>{dataObjectMapped?.last_login}</td>
                                     <td>{dataObjectMapped?.last_order}</td>
                                     <td>{dataObjectMapped?.amount_product}</td>
                                     <td>{dataObjectMapped?.amount_order}</td>
-                                    <td>{dataObjectMapped?.total_order_price}</td>
+                                    <td>{dataObjectMapped?.total_order_price}</td> */}
                                     <td>
                                         <div className={`${styles.statusAdmin} ${styles.statusCenter} ${statusOrder}`}>
                                             {dataObjectMapped.status === "ok" ? "ปกติ" : "แบน"}
