@@ -222,9 +222,9 @@ const CartComponent = () => {
 
                     {/* Child Box #2 */}
                     <div className={styles.boxChild2}>
-                        <h3>ระบุที่อยู่</h3>
+                        <h3>ที่อยู่จัดส่ง</h3>
                         <LocationFieldsComponent />
-                        <h3>เลือก การจัดส่ง <ErrorMessage name="shippingOption" render={msg => <span className="error">{msg}</span>} /></h3>
+                        <h3>เลือกการจัดส่ง <ErrorMessage name="shippingOption" render={msg => <span className="error">{msg}</span>} /></h3>
 
                         {values.shippingOptions.map((shippingOptions, index) => {
                             var end_date = new Date();
@@ -280,7 +280,7 @@ const CartComponent = () => {
                                 <Field name="checkedRadioBox" type="radio" value="3" />
                             </div>
                             <div className={styles.containerColBank}>
-                                ข้อมูลเดียวกับที่อยู่
+                            ข้อมูลเดียวกับที่อยู่จัดส่ง
                             </div>
                         </div>
 
@@ -419,7 +419,7 @@ const EnhancedCartComponent = withFormik({
                 localStorage.setItem("orderIDLast", orderIDLast);
                 axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, data)
                     .then(res => {
-                        // console.log("res>>>>>>>>>> post order", res);
+                        console.log("res>>>>>>>>>> post order", res);
                         if (values.payment === "transfer_money") {
                             setFieldValue("loading", false, false);
                             return props.history.push("/e-sticker-frontend/successful");

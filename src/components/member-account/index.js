@@ -90,6 +90,7 @@ const EnchancedLocationFieldsComponent = withFormik({
             loading: false,
             customerID: '',
             status: '',
+            isAdmin: '',
 
             email: '',
             phone: '',
@@ -109,7 +110,7 @@ const EnchancedLocationFieldsComponent = withFormik({
 
         Object.entries(values)
             .filter(([fieldName, _fieldValue]) => {
-                return !["line_channel", "line_token", "loading"].includes(fieldName)
+                return !["line_channel", "line_token", "loading", "isAdmin"].includes(fieldName)
             })
             .forEach(([fieldName, fieldValue]) => {
                 if (!fieldValue) {
@@ -157,6 +158,7 @@ const EnchancedLocationFieldsComponent = withFormik({
                 const customerSchemaInfo = {
                     customerID: customerInfo?.customerID || '',
                     status: customerInfo?.status || '',
+                    isAdmin: customerInfo.isAdmin === "true" ? 'true' : 'false',
                     email: customerInfo?.email || '',
                     shippingAddress: {
                         address: customerInfo.address || '',
@@ -247,6 +249,7 @@ export const Intermediate = ({ setName }) => {
                     id: custInfo.id,
                     customerID: custInfo.customerID,
                     status: custInfo.status,
+                    isAdmin: custInfo.isAdmin === "true" ? "true" : "false",
                     email: custInfo.Email || userCredential.email,
 
                     address: custInfo?.shippingAddress?.address || '',

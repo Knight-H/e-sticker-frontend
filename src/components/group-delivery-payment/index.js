@@ -73,7 +73,7 @@ const GroupDeliveryPaymentComponent = () => {
                         <h4>จัดส่งโดย</h4>
                         <img src={values.shippingCourier === "Kerry" && Kerry} className={styles.deliveryBy} alt="kerry" />
                         <br />
-                        <label>เลข Tracking: <Field name="shippingNumber" className={styles.inputShippingNumber} type="text" placeholder="...."
+                        <label>เลข Tracking: <Field name="shippingNumber" className={styles.inputShippingNumber} type="text"
                             disabled={values.isAdmin ? false : true} /></label>
                         {values.isAdmin ? <button onClick={() => handleSubmitTrackingNumber()} disabled={values.waitProcess ? true : false}>ยืนยัน</button> :
                             <button onClick={() => window.location.href = 'https://th.kerryexpress.com/th/track/dfdfdfd'}>ติดตาม</button>}

@@ -9,12 +9,14 @@ const ModalShipping = ({ values, setFieldValue }) => {
     useEffect(() => {
         if (values.coatingID || values.coatingID === 0) {
             setFieldValue(`${values.modalCoating}Kind`, values.material[values.materialSelected].coating_list[values.coatingID].name, false);
+            setFieldValue(`${values.modalCoating}Description`, values.material[values.materialSelected].coating_list[values.coatingID].description, false);
             setFieldValue(`${values.modalCoating}File`, values.material[values.materialSelected].coating_list[values.coatingID].imgUrl, false);
         } else {
             setFieldValue(`${values.modalCoating}Kind`, "", false);
+            setFieldValue(`${values.modalCoating}Description`, "", false);
             setFieldValue(`${values.modalCoating}File`, "", false);
         }
-    }, [values.coatingID]);
+    }, [values.coatingID, values.modalCoating]);
 
     const addOptionCoating = () => {
         setFieldValue("loading", true, false);
@@ -29,6 +31,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
                         // console.log(url)
                         let dataPost = {
                             "imgUrl": url,
+                            "description": values[`${values.modalCoating}Description`],
                             "name": data
                         }
                         values.material[values.materialSelected].coating_list.push(dataPost);
@@ -50,6 +53,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
         } else {
             let dataPost = {
                 "imgUrl": "",
+                "description": values[`${values.modalCoating}Description`],
                 "name": data
             }
             values.material[values.materialSelected].coating_list.push(dataPost);
@@ -77,6 +81,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
         if (values[`${values.modalCoating}File`]) {
             if (typeof values[`${values.modalCoating}File`] !== 'object') {
                 values.material[values.materialSelected].coating_list[values.coatingID].name = values[`${values.modalCoating}Kind`]
+                values.material[values.materialSelected].coating_list[values.coatingID].description = values[`${values.modalCoating}Description`]
                 values.material[values.materialSelected].coating_list[values.coatingID].imgUrl = values[`${values.modalCoating}File`]
 
                 let dataPost = {
@@ -97,6 +102,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
                 .then((snapshot) => {
                     snapshot.ref.getDownloadURL().then((url) => {
                         values.material[values.materialSelected].coating_list[values.coatingID].name = values[`${values.modalCoating}Kind`]
+                        values.material[values.materialSelected].coating_list[values.coatingID].description = values[`${values.modalCoating}Description`]
                         values.material[values.materialSelected].coating_list[values.coatingID].imgUrl = url
 
                         let dataPost = {
@@ -117,6 +123,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
             }
         } else {
             values.material[values.materialSelected].coating_list[values.coatingID].name = values[`${values.modalCoating}Kind`]
+            values.material[values.materialSelected].coating_list[values.coatingID].description = values[`${values.modalCoating}Description`]
             values.material[values.materialSelected].coating_list[values.coatingID].imgUrl = ""
 
             let dataPost = {
@@ -171,6 +178,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
                 </div>
                 <div className={styles.rowInModal}>
                     <Field name={`${values.modalCoating}Kind`} className={styles.text} placeholder="รูปแบบ" />
+                    <Field name={`${values.modalCoating}Description`} className={styles.text} placeholder="รายละเอียด" />
                 </div>
                 <div className={styles.rowInModal}>
                     <input type="file" id="fileCoating" onChange={(e) => handleChangeImgCoating(e)} />

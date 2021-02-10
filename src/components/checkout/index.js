@@ -194,7 +194,8 @@ const CheckoutComponent = (props) => {
                             </tfoot>
                         </table>
                     </div>
-                    <button type="button" onClick={() => props.history.push("/customize")} className={styles.buttonGreen}>สั่งสินค้าอย่างอื่น</button>
+                    <button type="button" onClick={() => props.history.push("/customize")} className={styles.buttonWhite}>สั่งสินค้าอย่างอื่น</button>
+                    <button className={styles.buttonGreen} onClick={() => props.history.push("/checkout")}>ไปหน้าชำระเงิน</button>
                 </div>
 
                 <div className={styles.boxChild2}>
@@ -213,7 +214,7 @@ const CheckoutComponent = (props) => {
                         </>
                         :
                         <>
-                            <button className={`${styles.buttonGreenFit} ${styles.checkLogin}`} onClick={() => props.history.push("/checkout")}>สั่งสินค้า</button>
+                            
                         </>
                     }
                 </div>

@@ -15,7 +15,6 @@ const AdminKpiComponent = (props) => {
         axiosInst.get("orders").then((res) => {
             setCountOrder(res.data.length)
             res.data.map((data) => {
-                console.log("data", data)
                 totalPrice = totalPrice + data.totalCost
             })
             setTotalPrice(totalPrice)

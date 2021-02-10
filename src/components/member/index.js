@@ -31,7 +31,8 @@ export let EnhancedLocationFields = withRouter(withFormik({
             provice: '',
             zip: '',
 
-            accountState: ''
+            accountState: '',
+            isAdmin: ''
         }
     },
     validate: (values) => {
@@ -42,7 +43,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
 
             // Ignore accountState because the value 0 is used
             // to indicate "Normal"
-            if (["accountState", "line_channel", "line_token", "loading"].includes(fieldName)) { return }
+            if (["accountState", "line_channel", "line_token", "loading", "isAdmin"].includes(fieldName)) { return }
             if (!fieldValue) {
                 errors[fieldName] = i18.required
             }
@@ -76,7 +77,8 @@ export let EnhancedLocationFields = withRouter(withFormik({
                 fullname: moreUserInfo?.fullname || '',
                 phone: moreUserInfo?.phone || '',
                 customerID: moreUserInfo.customerID ? moreUserInfo.customerID : '',
-                status: moreUserInfo?.accountState || moreUserInfo?.state || "ok"
+                status: moreUserInfo?.accountState || moreUserInfo?.state || "ok",
+                isAdmin: moreUserInfo.isAdmin === 'true' ? 'true' : 'false'
             }
             console.log("sent", customerSchemaInfo)
 
@@ -104,7 +106,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
 
     const handleChangeDropDawn = (e) => {
         console.log("e.value", e.value)
-        // values.accountState = parseInt(e.value) || 0 // If error value then assume be 0 (Normal)
+        // values.account`State = parseInt(e.value) || 0 // If error value then assume be 0 (Normal)
         setDropDawn(e.value);
         setFieldValue("accountState", e.value, false)
     }
@@ -114,12 +116,18 @@ export let EnhancedLocationFields = withRouter(withFormik({
             setFieldValue(fieldKey, fieldValue)
         })
     }, [userInfo])
-
+    
     return (
         <Form className={styles.userInfo}>
             <LocationFieldsComponent onlyLocation={false} {...props} />
 
             <div className={styles.row}>
+                <p>Role</p>
+                <Field as="select" name="isAdmin" style={{ marginRight: "20px", width: "100px"}}>
+                    <option value={false}>สมาชิก</option>
+                    <option value={true}>ผู้ดูแล</option>
+                </Field>
+            
                 <p>สถานะ</p>
                 <div className={styles.selectBox}>
 
@@ -141,6 +149,7 @@ export let EnhancedLocationFields = withRouter(withFormik({
                     </ul>
 
                 </div>
+            
             </div>
 
             <Field name="submit" type="submit" className={styles.greenButton} value="บันทึก" />
@@ -181,7 +190,8 @@ let MemberComponent = (props) => {
                 line_channel: custInfo.line_channel ? custInfo.line_channel : '',
                 line_token: custInfo.line_token ? custInfo.line_token : '',
                 
-                accountState: custInfo.status
+                accountState: custInfo.status,
+                isAdmin: custInfo.isAdmin === 'true' ? 'true' : 'false'
             }
 
             console.log("Receive", formikSchema)
