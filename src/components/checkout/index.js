@@ -32,7 +32,6 @@ const CheckoutComponent = (props) => {
             const config = {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization':  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
                 }
             }
 
@@ -50,7 +49,11 @@ const CheckoutComponent = (props) => {
                     }
                     console.log("data", data);
 
-                    axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data)
+                    axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data, {
+                        headers: {
+                          Authorization: "Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg==",
+                        },
+                      })
                         .then((res) => {
                             console.log("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", res.data)
                             localStorage.setItem("token_line", result.data.id_token);
