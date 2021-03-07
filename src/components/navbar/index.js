@@ -171,7 +171,7 @@ const NavBarComponent = ({ history, itemCount }) => {
                 </Link>
             </div>
             <nav className={styles.navBar}>
-                <Logo onClick={() => history.push('/')} />
+                <Logo onClick={() => history.push('/')} className={styles.logoBrand} />
                 <ul className={`${styles.navLinks} ${isBurgerToggled ? styles.navActive : styles.navInactive}`}>
                     <li>
                         <Link to="/" onClick={onClickDisableBurger}>หน้าแรก</Link>

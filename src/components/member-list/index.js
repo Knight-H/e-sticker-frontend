@@ -106,6 +106,7 @@ const MemberListComponent = (props) => {
                             <th>จำนวนออเดอร์</th>
                             <th>ยอดการสั่ง</th> */}
                             <th>สถานะ</th>
+                            <th>Role</th>
                             <th>จัดการ</th>
                         </tr>
                         
@@ -138,6 +139,7 @@ const MemberListComponent = (props) => {
                                             {dataObjectMapped.status === "ok" ? "ปกติ" : "แบน"}
                                         </div>
                                     </td>
+                                    <td>{dataObjectMapped.isAdmin === "true" ? "ผู้ดูแล" : "สมาชิก"}</td>
                                     <td>
                                         <Link to={"/admin/member" + "?user_id=" + dataObjectMapped.customerID}>จัดการ</Link>
                                     </td>

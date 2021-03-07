@@ -83,7 +83,7 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
 const WizardStep = ({ children }) => children;
 
 const AppComponent = () => {
-  const { values, setFieldValue } = useFormikContext();
+  const { values } = useFormikContext();
   return (
     <>
     <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>

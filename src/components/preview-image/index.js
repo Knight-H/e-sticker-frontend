@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './index.module.scss';
 import { Field, Form, ErrorMessage } from 'formik';
 import { useFormikContext } from 'formik';
@@ -125,6 +125,12 @@ const PreviewImageComponent = () => {
             setFieldValue("isCheckphoto", true, false);
         }
     }
+
+    useEffect(() => {
+        setFieldValue("name", values.shippingAddress ? values.shippingAddress.fullname : '')
+        setFieldValue("phone", values.shippingAddress ? values.shippingAddress.phone : '')
+        setFieldValue("amount", values.totalCost ? values.totalCost : '')
+    }, [modal]);
 
     if (values.itemsList.length >= 1) {
         return (

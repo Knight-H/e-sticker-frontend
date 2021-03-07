@@ -9,12 +9,14 @@ const ModalShipping = ({ values, setFieldValue }) => {
     useEffect(() => {
         if (values.materialID || values.materialID === 0) {
             setFieldValue(`${values.modalMaterial}Kind`, values.material[values.materialID].name, false);
+            setFieldValue(`${values.modalMaterial}Description`, values.material[values.materialID].description, false);
             setFieldValue(`${values.modalMaterial}File`, values.material[values.materialID].imgUrl, false);
         } else {
             setFieldValue(`${values.modalMaterial}Kind`, "", false);
+            setFieldValue(`${values.modalMaterial}Description`, "", false);
             setFieldValue(`${values.modalMaterial}File`, "", false);
         }
-    }, [values.materialID]);
+    }, [values.materialID, values.modalMaterial]);
 
     const addOptionMaterial = () => {
         setFieldValue("loading", true, false);
@@ -30,6 +32,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
                         let dataPost = {
                             "imgUrl": url,
                             "name": data,
+                            "description": values[`${values.modalMaterial}Description`],
                             "coating_list": []
                         }
                         values.material.push(dataPost);
@@ -53,6 +56,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
             let dataPost = {
                 "imgUrl": "",
                 "name": data,
+                "description": values[`${values.modalMaterial}Description`],
                 "coating_list": []
             }
             values.material.push(dataPost);
@@ -81,6 +85,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
         if (values[`${values.modalMaterial}File`]) {
             if (typeof values[`${values.modalMaterial}File`] !== 'object') {
                 values.material[values.materialID].name = values[`${values.modalMaterial}Kind`]
+                values.material[values.materialID].description = values[`${values.modalMaterial}Description`]
                 values.material[values.materialID].imgUrl = values[`${values.modalMaterial}File`]
 
                 let dataPost = {
@@ -101,6 +106,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
                 .then((snapshot) => {
                     snapshot.ref.getDownloadURL().then((url) => {
                         values.material[values.materialID].name = values[`${values.modalMaterial}Kind`]
+                        values.material[values.materialID].description = values[`${values.modalMaterial}Description`]
                         values.material[values.materialID].imgUrl = url
 
                         let dataPost = {
@@ -121,6 +127,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
             }
         } else {
             values.material[values.materialID].name = values[`${values.modalMaterial}Kind`]
+            values.material[values.materialID].description = values[`${values.modalMaterial}Description`]
             values.material[values.materialID].imgUrl = ""
 
             let dataPost = {
@@ -176,6 +183,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
                 </div>
                 <div className={styles.rowInModal}>
                     <Field name={`${values.modalMaterial}Kind`} className={styles.text} placeholder="รูปแบบ" />
+                    <Field name={`${values.modalMaterial}Description`} className={styles.text} placeholder="รายละเอียด" />
                 </div>
                 <div className={styles.rowInModal}>
                     <input type="file" id="fileMaterial" onChange={(e) => handleChangeImgMaterial(e)} />

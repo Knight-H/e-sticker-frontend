@@ -126,6 +126,16 @@ const ApproveLayoutComponent = (props) => {
         }
     }, [values.status])
 
+    useEffect(() => {
+        let lastOrderID = localStorage.getItem("orderIDLast");
+        console.log("lastOrderID", lastOrderID)
+        if (lastOrderID) {
+            setFieldValue("orderNumber", lastOrderID, false)
+            localStorage.removeItem("orderIDLast");
+        }
+        console.log("orderNumber", values.orderNumber)
+    }, [])
+
     return (
         <main className={styles.wrapContent}>
             <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
