@@ -28,17 +28,29 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
 
   useEffect(() => {
     setFieldValue("loading", true, false);
-    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`)
+    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`,{
+      headers: {
+        Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+      }
+     })
       .then(res => {
         setFieldValue("checkLoadOption", true, false);
         setFieldValue("optionShape", res.data.shape_list, false);
 
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`)
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`,{
+          headers: {
+            Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+          }
+         })
           .then(res => {
             // console.log("res.data[0]", res.data)
             setFieldValue("optionMaterial", res.data.material_list, false);
 
-            axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`)
+            axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`, {
+              headers: {
+                Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+              }
+             })
               .then(res => {
                 // console.log("res.data[0]", res.data.count_list)
                 setFieldValue("optionUnitOptions", res.data.count_list, false);
@@ -59,6 +71,7 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
         setFieldValue("loading", false, false);
 
       })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -71,6 +84,7 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
       setFieldValue("variable_cost_1", values.optionMaterial[values.material_index].coating_list[0].price.variable_cost_1, true);
       setFieldValue("variable_cost_2", values.optionMaterial[values.material_index].coating_list[0].price.variable_cost_2, true);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.material]);
 
   return (
@@ -204,7 +218,11 @@ const EnhancedAppComponent = withFormik({
         if (user) {// User is signed in.
 
           // FETCH CART CHECK ITEM
-          axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
+          axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
               console.log("res.data[0].myID", res.data[0]);
 
@@ -249,7 +267,11 @@ const EnhancedAppComponent = withFormik({
 
                       console.log('res.data[0]', res.data[0])
 
-                      axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${res.data[0].myID}`, cloneRes)
+                      axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${res.data[0].myID}`, cloneRes, {
+                        headers: {
+                          Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                        }
+                       })
                         .then(res => {
                           console.log("res", res);
                           props.history.push("/cart")
@@ -304,7 +326,11 @@ const EnhancedAppComponent = withFormik({
                       };
 
                       console.log("data", data)
-                      axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data)
+                      axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart`, data, {
+                        headers: {
+                          Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                        }
+                       })
                         .then(res => {
                           console.log("res", res);
                           setFieldValue("loading", false, false);

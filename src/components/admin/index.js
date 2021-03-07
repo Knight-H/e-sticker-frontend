@@ -73,7 +73,11 @@ const AdminComponent = (props) => {
     let totalPrice = 0;
     setLoading(true);
     axiosInst
-      .get("orders")
+      .get("orders", {
+        headers: {
+          Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+        }
+       })
       .then((res) => {
         setOrderData(
           res.data &&
@@ -125,6 +129,7 @@ const AdminComponent = (props) => {
         console.log(reason);
         setLoading(false);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectYear.year, selectMonth.month]);
 
   if (Array.isArray(orderData)) {

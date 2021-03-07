@@ -83,7 +83,11 @@ const EnhancedAdminLoginComponent = withFormik({
       .signInWithEmailAndPassword(values.email, values.password)
       .then((res) => {
         axiosInst
-          .get(`customers/${res.user.uid}`)
+          .get(`customers/${res.user.uid}`, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
           .then((res) => {
             console.log("1")
             if (res.data.isAdmin) {

@@ -33,31 +33,31 @@ function App() {
         <div className="App">
             {`${admin}` === '-1' ? <NavBarComponent /> : <AdminNavBarComponent />}
             <Switch>
-                <Route path="/" exact component={HomeComponent} />
+                <Route path="/" exact component={HomeComponent} /> {/* header done */}
 
-                <Route path="/login" exact component={MemberLoginComponent} />
-                <Route path="/register" exact component={MemberRegsterComponent} />
+                <Route path="/login" exact component={MemberLoginComponent} /> {/* header done */}
+                <Route path="/register" exact component={MemberRegsterComponent} /> {/* header done */}
 
-                <Route path="/myorder" exact component={ApproveLayoutComponent} />
-                <Route path="/myorder/:id" exact component={ApproveLayoutComponent} />
+                <Route path="/myorder" exact component={ApproveLayoutComponent} /> {/* header done */}
+                <Route path="/myorder/:id" exact component={ApproveLayoutComponent} /> {/* header done */}
                 
-                <Route path="/member" exact component={HomeMemberComponent} />
-                <Route path="/member/setting" exact component={MemberAccountComponent} />
+                <Route path="/member" exact component={HomeMemberComponent} /> {/* header done */}
+                <Route path="/member/setting" exact component={MemberAccountComponent} /> {/* header done */}
+                 
+                <Route path="/cart" exact component={CheckoutComponent} /> {/* header done */}
+                <Route path="/checkout" exact component={CartComponent} /> {/* header done */}
+                <Route path="/customize" exact component={FormStepShopping} /> {/* header done */}
                 
-                <Route path="/cart" exact component={CheckoutComponent} />
-                <Route path="/checkout" exact component={CartComponent} />
-                <Route path="/customize" exact component={FormStepShopping} />
-                
-                <Route path="/e-sticker-frontend/successful" exact component={SuccessfulComponent} />
+                <Route path="/e-sticker-frontend/successful" exact component={SuccessfulComponent} /> {/* header done */}
 
-                <Route path="/admin/login" exact component={AdminLoginComponent} />
-                <Route path="/admin" exact component={AdminListComponent} />
-                <Route path="/admin/member" exact component={MemberComponent} />
-                <Route path="/admin/setting" exact component={MemberSettingComponent} />
-                <Route path="/admin/customer" exact component={MemberListComponent} />
-                <Route path="/admin/myorder/:id" exact component={AdminOrderComponent} />
-                <Route path="/admin/product" exact component={AdminProductOptionComponent} />
-                <Route path="/admin/demo" exact component={AdminDemoMTG} />
+                <Route path="/admin/login" exact component={AdminLoginComponent} /> {/* header done */}
+                <Route path="/admin" exact component={AdminListComponent} /> {/* header done */}
+                <Route path="/admin/member" exact component={MemberComponent} /> {/* header done */}
+                <Route path="/admin/setting" exact component={MemberSettingComponent} /> {/* header done */}
+                <Route path="/admin/customer" exact component={MemberListComponent} /> {/* header done */}
+                <Route path="/admin/myorder/:id" exact component={AdminOrderComponent} /> {/* header done */}
+                <Route path="/admin/product" exact component={AdminProductOptionComponent} /> {/* header done */}
+                <Route path="/admin/demo" exact component={AdminDemoMTG} /> {/* header done */}
             </Switch>
 
         </div>

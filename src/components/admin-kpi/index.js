@@ -12,7 +12,11 @@ const AdminKpiComponent = (props) => {
 
     useEffect(() => {
         let totalPrice = 0;
-        axiosInst.get("orders").then((res) => {
+        axiosInst.get("orders", {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           }).then((res) => {
             setCountOrder(res.data.length)
             res.data.map((data) => {
                 totalPrice = totalPrice + data.totalCost
@@ -21,7 +25,11 @@ const AdminKpiComponent = (props) => {
         }).catch((reason) => {
             console.log(reason)
         })
-        axiosInst.get("customers").then((res) => {
+        axiosInst.get("customers", {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           }).then((res) => {
             setCountCustomer(res.data.length)
         }).catch((reason) => {
             console.log(reason)

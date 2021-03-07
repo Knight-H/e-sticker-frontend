@@ -11,6 +11,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
         } else {
             setFieldValue(`${values.modalQuality}Count`, "", false);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values.qualityID]);
 
     const addOptionQuality = () => {
@@ -22,7 +23,11 @@ const ModalShipping = ({ values, setFieldValue }) => {
         let dataPost = {
             "count_list": values.unitOptions
         }
-        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`, dataPost)
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`, dataPost, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalQuality", '', false)
@@ -40,7 +45,11 @@ const ModalShipping = ({ values, setFieldValue }) => {
         let dataPost = {
             "count_list": values.unitOptions
         }
-        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`, dataPost)
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`, dataPost, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalQuality", '', false)
@@ -58,7 +67,11 @@ const ModalShipping = ({ values, setFieldValue }) => {
             "count_list": values.unitOptions
         }
 
-        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`, dataPost)
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`, dataPost, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalQuality", '', false)

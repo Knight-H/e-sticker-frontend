@@ -497,7 +497,11 @@ const EnhancedHomeComponent = withFormik({
     axios
       .post(
         `https://asia-east2-digitalwish-sticker.cloudfunctions.net/demo`,
-        data
+        data, {
+          headers: {
+            Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+          }
+         }
       )
       .then((res) => {
         console.log("res", res);

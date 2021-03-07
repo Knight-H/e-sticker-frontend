@@ -41,7 +41,11 @@ const PreviewImageComponent = () => {
                                     }
                                 }
                                 console.log("data", data)
-                                axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data)
+                                axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data, {
+                                    headers: {
+                                      Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                                    }
+                                   })
                                     .then(res => {
                                         console.log("res", res);
                                         setFieldValue("fetchMsg", true, false);
@@ -80,7 +84,11 @@ const PreviewImageComponent = () => {
             }
             setFieldValue("massage", '', false)
             // console.log("values.myID", values.myID)
-            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data)
+            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemMsg/${values.myID}`, data, {
+                headers: {
+                  Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                }
+               })
                 .then(res => {
                     console.log("res", res);
                     setFieldValue("fetchMsg", true, false);
@@ -106,7 +114,11 @@ const PreviewImageComponent = () => {
         }
         setFieldValue("massage", '', false)
         console.log("data", data)
-        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemStatus/${values.myID}`, data)
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orderItemStatus/${values.myID}`, data, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 console.log("res", res);
                 setFieldValue("fetchMsg", true, false);
@@ -130,6 +142,7 @@ const PreviewImageComponent = () => {
         setFieldValue("name", values.shippingAddress ? values.shippingAddress.fullname : '')
         setFieldValue("phone", values.shippingAddress ? values.shippingAddress.phone : '')
         setFieldValue("amount", values.totalCost ? values.totalCost : '')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modal]);
 
     if (values.itemsList.length >= 1) {

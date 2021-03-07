@@ -28,7 +28,11 @@ const ApproveLayoutComponent = (props) => {
                 if (!myID) {
                     // props.history.push('/customize');
                     setGuestMode(true)
-                    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
+                    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, {
+                        headers: {
+                          Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                        }
+                       })
                         .then(res => {
                             console.log("res.data", res.data)
                             setFieldValue("allOrder", res.data, false);
@@ -40,7 +44,11 @@ const ApproveLayoutComponent = (props) => {
                             setFieldValue("loading", false, false);
                         })
                 } else {
-                    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
+                    axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`, {
+                        headers: {
+                          Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                        }
+                       })
                         .then(res => {
                             console.log("res.data", res.data)
                             setFieldValue("fullFetchData", res.data, false);
@@ -70,7 +78,11 @@ const ApproveLayoutComponent = (props) => {
                 }
             } else {
                 setGuestMode(true)
-                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
+                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, {
+                    headers: {
+                      Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                    }
+                   })
                     .then(res => {
                         console.log("res.data", res.data)
                         setFieldValue("allOrder", res.data, false);
@@ -83,12 +95,14 @@ const ApproveLayoutComponent = (props) => {
                     })
             }
         })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values.fetchMsg]);
 
     const searchOrderNumber = () => {
         let orderNumber = values.allOrder.find(orderNumber => `${orderNumber.orderID}` === `${values.orderNumber}`);
         if (orderNumber) {
             // console.log("orderNumber", orderNumber)
+            setFieldValue("fullFetchData", orderNumber, false);
             setFieldValue("myID", orderNumber.myID, false);
 
             setFieldValue("orderID", orderNumber.orderID, false);
@@ -134,6 +148,7 @@ const ApproveLayoutComponent = (props) => {
             localStorage.removeItem("orderIDLast");
         }
         console.log("orderNumber", values.orderNumber)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -297,10 +312,15 @@ const EnhancedApproveLayoutComponent = withFormik({
                                 photo: url,
                                 amount: values.amount,
                             }
+                            console.log('cloneFullFetchData', cloneFullFetchData)
                             cloneFullFetchData.paymentConfirm = [...cloneFullFetchData.paymentConfirm, newData];
                             // console.log("cloneFullFetchData", cloneFullFetchData)
 
-                            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${cloneFullFetchData.id}`, cloneFullFetchData)
+                            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${cloneFullFetchData.id}`, cloneFullFetchData, {
+                                headers: {
+                                  Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                                }
+                               })
                                 .then(res => {
                                     console.log("res", res)
                                     setFieldValue("fetchMsg", true, false)
