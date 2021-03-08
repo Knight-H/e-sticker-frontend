@@ -31,7 +31,7 @@ const CheckoutComponent = (props) => {
 
             const config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 }
             }
 
@@ -49,7 +49,11 @@ const CheckoutComponent = (props) => {
                     }
                     console.log("data", data);
 
-                    axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data)
+                    axios.post("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", data, {
+                        headers: {
+                          Authorization: "Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg==",
+                        },
+                      })
                         .then((res) => {
                             console.log("https://asia-east2-digitalwish-sticker.cloudfunctions.net/lineLogin", res.data)
                             localStorage.setItem("token_line", result.data.id_token);
@@ -77,13 +81,18 @@ const CheckoutComponent = (props) => {
                 })
         } else return;
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [window.location.search])
 
     useEffect(() => {
         setFieldValue("loading", true, false);
         auth.onAuthStateChanged(user => {
             if (user) {
-                axiosInst.get(`cart?customerID=${user.uid}`)
+                axiosInst.get(`cart?customerID=${user.uid}`, {
+                    headers: {
+                      Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                    }
+                   })
                     .then(res => {
                         setFieldValue("myID", res.data[0].myID, false);
                         setFieldValue("uid", user.uid, false);
@@ -106,6 +115,7 @@ const CheckoutComponent = (props) => {
                 }
             }
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleRemoveItemInCart = (index) => {
@@ -117,7 +127,11 @@ const CheckoutComponent = (props) => {
                 customerID: values.uid,
                 itemsList: values.itemsList
             }
-            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${values.myID}`, data)
+            axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart/${values.myID}`, data, {
+                headers: {
+                  Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                }
+               })
                 .then(res => {
                     console.log("res", res);
                     setFieldValue("itemsList", values.itemsList, false);

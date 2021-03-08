@@ -32,7 +32,11 @@ const AdminOrderComponent = (props) => {
             setFieldValue("loading", false, false);
             props.history.push('/admin');
         } else {
-            axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`)
+            axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${myID}`, {
+                headers: {
+                  Authorization: "Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg==",
+                },
+              })
                 .then(res => {
                     console.log("res.data", res.data)
                     setFieldValue("myID", myID, false);
@@ -60,13 +64,18 @@ const AdminOrderComponent = (props) => {
                     console.log("err", err)
                 })
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values.fetchMsg]);
 
     const handleSubmitStatusOrder = (valueStatus) => {
         setFieldValue("waitProcess", true, false);
         setFieldValue("loading", true, false);
         let data = { status: valueStatus }
-        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data, {
+            headers: {
+              Authorization: "Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg==",
+            },
+          })
             .then(res => {
                 // console.log("res.data", res.data)
                 setFieldValue("fetchMsg", true, false)
@@ -83,7 +92,11 @@ const AdminOrderComponent = (props) => {
         setFieldValue("waitProcess", true, false);
         setFieldValue("loading", true, false);
         let data = { paymentStatus: "success" }
-        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data, {
+            headers: {
+              Authorization: "Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg==",
+            },
+          })
             .then(res => {
                 // console.log("res.data", res.data)
                 setFieldValue("fetchMsg", true, false)

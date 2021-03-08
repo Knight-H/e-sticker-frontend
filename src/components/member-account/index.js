@@ -138,7 +138,11 @@ const EnchancedLocationFieldsComponent = withFormik({
         // return
 
         auth.onAuthStateChanged((user) => {
-            axiosInst.get(api.customers + "/" + user.uid).then((res) => {
+            axiosInst.get(api.customers + "/" + user.uid, {
+                headers: {
+                  Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                }
+               }).then((res) => {
 
                 console.log(res.data)
 
@@ -186,7 +190,11 @@ const EnchancedLocationFieldsComponent = withFormik({
                         data: customerSchemaInfo
                     }
 
-                    axiosInst.post(api.customers, pack).then((res) => {
+                    axiosInst.post(api.customers, pack, {
+                        headers: {
+                          Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                        }
+                       }).then((res) => {
                         props.setUpdateStatusText(i18.account_information_update_success)
                         setFieldValue("loading", false, false);
                     }).catch((reason) => {
@@ -195,7 +203,11 @@ const EnchancedLocationFieldsComponent = withFormik({
                     })
                 } else {
                     // Otherwise update
-                    axiosInst.put(api.customers + `/${documentKey}`, customerSchemaInfo).then((res) => {
+                    axiosInst.put(api.customers + `/${documentKey}`, customerSchemaInfo, {
+                        headers: {
+                          Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                        }
+                       }).then((res) => {
                         props.setUpdateStatusText(i18.account_information_update_success)
                         setFieldValue("loading", false, false);
                     }).catch((reason) => {
@@ -216,6 +228,7 @@ const EnchancedLocationFieldsComponent = withFormik({
             setFieldValue("loading", false, false);
             props.setFieldValue(fieldName, fieldValue)
         })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userInfo])
 
     return (
@@ -238,7 +251,11 @@ export const Intermediate = ({ setName }) => {
 
             const urlPath = `customers/${userCredential.uid}`
 
-            axiosInst.get(urlPath).then((res) => {
+            axiosInst.get(urlPath, {
+                headers: {
+                  Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                }
+               }).then((res) => {
                 // console.log(res, auth.currentUser.uid)
 
                 // Temporary for filtering the customer data
@@ -268,6 +285,7 @@ export const Intermediate = ({ setName }) => {
                 setUserInfo(formikSchema)
             })
         })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

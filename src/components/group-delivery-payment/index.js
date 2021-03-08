@@ -40,7 +40,11 @@ const GroupDeliveryPaymentComponent = () => {
     const handleSubmitTrackingNumber = () => {
         setFieldValue("waitProcess", true, false);
         let data = { shippingNumber: values.shippingNumber }
-        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data)
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders/${values.myID}`, data, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 console.log("res.data", res.data)
                 setFieldValue("waitProcess", false, false);

@@ -37,7 +37,11 @@ const MemberListComponent = (props) => {
     const [customerArr, setCustomerArr] = useState([])
     useEffect(() => {
         setLoading(true);
-        axiosInst.get("customers").then((res) => {
+        axiosInst.get("customers", {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           }).then((res) => {
             console.log(res.data[0])
             setLoading(false);
             setCustomerArr(res.data)

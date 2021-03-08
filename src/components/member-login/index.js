@@ -52,8 +52,13 @@ export const EnhancedMemberLoginComponent = withFormik({
     auth
       .signInWithEmailAndPassword(values.email, values.password)
       .then((res) => {
+        console.log('res', res)
         axiosInst
-          .get(`customers/${res.user.uid}`)
+          .get(`customers/${res.user.uid}`, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
           .then((res) => {
             if (res.data.isAdmin) {
               localStorage.setItem("isAdmin", true);
@@ -69,6 +74,7 @@ export const EnhancedMemberLoginComponent = withFormik({
           });
       })
       .catch((error) => {
+        console.log('error', error.response)
         setFieldValue("loading", false, false);
       });
   },

@@ -16,25 +16,41 @@ const AdminOrderComponent = () => {
     // Fetch Optiom
     useEffect(() => {
         setFieldValue("loading", true, false);
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`)
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/HOnTVwWrX27N7tql4WQE`, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 setFieldValue("shape", res.data.shape_list, false);
                 setFieldValue("fetch", false, false);
 
-                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`)
+                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`, {
+                    headers: {
+                      Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                    }
+                   })
                     .then(res => {
                         // console.log("res.data[0]", res.data)
                         setFieldValue("material", res.data.material_list, false);
                         setFieldValue("fetch", false, false);
 
-                        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`)
+                        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/Rf8b0x8ktshu0y0VGzyV`, {
+                            headers: {
+                              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                            }
+                           })
                             .then(res => {
                                 // console.log("res.data[0]", res.data.count_list)
                                 setFieldValue("unitOptions", res.data.count_list, false);
                                 setFieldValue("fetch", false, false);
 
                                 // Shipping option
-                                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
+                                axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`, {
+                                    headers: {
+                                      Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                                    }
+                                   })
                                     .then(res => {
                                         // console.log("res.data[0]", res.data)
                                         setFieldValue("shippingOption", res.data, false);
@@ -61,6 +77,7 @@ const AdminOrderComponent = () => {
                 setFieldValue("loading", false, false);
 
             })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values.fetch]);
 
     // Seclect Coating form materail
@@ -68,6 +85,7 @@ const AdminOrderComponent = () => {
         if (values.materialSelected || values.materialSelected === 0) {
             setFieldValue("coating", values.material[values.materialSelected].coating_list, false)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values.materialSelected]);
 
     return (
@@ -141,7 +159,6 @@ const AdminOrderComponent = () => {
                         <ModalCoat values={values} setFieldValue={setFieldValue} />
                     </div>
                     <div>
-                        {console.log("values.coating", values.coating)}
                         {values.coating && values.coating.map((coating, index) => {
                             return (
                                 <div className={styles.btnRow}>
@@ -167,7 +184,8 @@ const AdminOrderComponent = () => {
                         <button type="button" className={styles.btnOption} onClick={() =>
                             values.coatingSelected || values.coatingSelected === 0 ?
                                 setFieldValue("modalVariable", "modalVariableAdd", false) :
-                                null} disabled={values.coating.length > 0 ? true : false}>เพิ่ม</button>
+                                null}>เพิ่ม</button>
+                                {/* disabled={values.coating.length > 0 ? true : false} */}
                         <ModalVariable values={values} setFieldValue={setFieldValue} />
                     </div>
                     <div>

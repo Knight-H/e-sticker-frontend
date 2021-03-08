@@ -67,7 +67,11 @@ const HomeMemberComponent = (props) => {
       if (user) {
         axios
           .get(
-            `https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders?customerID=${user.uid}`
+            `https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders?customerID=${user.uid}`, {
+              headers: {
+                Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+              }
+             }
           )
           .then((res) => {
             // console.log("res.data[0]", res.data)
@@ -96,6 +100,9 @@ const HomeMemberComponent = (props) => {
             params: {
               customerID: auth.currentUser.uid,
             },
+              headers: {
+                Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+              }
           })
           .then((res) => {
             // Temporary for filtering the customer data
@@ -112,6 +119,7 @@ const HomeMemberComponent = (props) => {
           });
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -15,6 +15,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
             setFieldValue(`${values.modalVariable}Variable1`, "", false);
             setFieldValue(`${values.modalVariable}Variable2`, "", false);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values.variableID]);
 
     const addOptionVariable = () => {
@@ -29,7 +30,11 @@ const ModalShipping = ({ values, setFieldValue }) => {
         let dataPostNew = {
             "material_list": values.material
         }
-        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`, dataPostNew)
+        axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/productOptions/h03eqnOmkdOFxZqJxRWy`, dataPostNew, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalVariable", '', false)

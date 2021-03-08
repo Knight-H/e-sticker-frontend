@@ -54,7 +54,11 @@ const CartComponent = () => {
     
     useEffect(() => {
         setFieldValue("loading", true, false);
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`)
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 // console.log("res.data.shipptingoption", res.data)
                 setFieldValue("shippingOptions", res.data, false);
@@ -64,7 +68,11 @@ const CartComponent = () => {
                     if (user) { // Login Mode
                         // Fetch Cart in Custimer Login
                         // console.log("user.uid", user.uid)
-                        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`)
+                        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/cart?customerID=${user.uid}`, {
+                            headers: {
+                              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                            }
+                           })
                             .then(res => {
                                 setFieldValue("itemsList", res.data[0].itemsList, false);
                                 setFieldValue("uid", user.uid, false);
@@ -73,8 +81,11 @@ const CartComponent = () => {
                                 axiosInst.get("customers", {
                                     params: {
                                         customerID: auth.currentUser.uid
+                                    },
+                                    headers: {
+                                        Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
                                     }
-                                }).then((res) => {
+                                }, ).then((res) => {
                                     // Temporary for filtering the customer data
                                     const customerInfo = res.data.filter((data) => {
                                         return data["customerID"] === auth.currentUser.uid
@@ -113,6 +124,7 @@ const CartComponent = () => {
                 setFieldValue("loading", false, false);
                 console.log("err", err)
             });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -124,6 +136,7 @@ const CartComponent = () => {
             setFieldValue("billingFulladdress", '', false);
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values.checkedRadioBox]);
     
     let priceTotal = 0;
@@ -352,7 +365,11 @@ const EnhancedCartComponent = withFormik({
     },
     handleSubmit: (values, { props, setFieldValue }) => {
         setFieldValue("loading", true, false);
-        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`)
+        axios.get(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 console.log("res get orders", res.data)
 
@@ -417,7 +434,11 @@ const EnhancedCartComponent = withFormik({
                 };
                 // console.log("data", data)
                 localStorage.setItem("orderIDLast", orderIDLast);
-                axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, data)
+                axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/orders`, data, {
+                    headers: {
+                      Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                    }
+                   })
                     .then(res => {
                         console.log("res>>>>>>>>>> post order", res);
                         if (values.payment === "transfer_money") {
@@ -428,7 +449,7 @@ const EnhancedCartComponent = withFormik({
                             {
                                 "OrderNo": orderIDLast,
                                 "CustomerId": values.uid || values.fullname,
-                                "PhoneNumber": parseInt(values.phone),
+                                "PhoneNumber": values.phone,
                                 "Amount": parseFloat(values.totalPrice + "00"),
                                 "ChannelCode": values.payment,
                                 "Currency": "764",
@@ -437,11 +458,15 @@ const EnhancedCartComponent = withFormik({
                                 "myOrder": data
                             }
                             console.log("dataPostChillpay", dataPostChillpay)
-                            axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay)
+                            axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/payment`, dataPostChillpay, {
+                                headers: {
+                                  Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                                }
+                               })
                                 .then(res => {
                                     console.log("res>>>", res);
                                     if (res.data.payment_url.res.Status === 0) {
-                                        setFieldValue("loading", false, false);
+                                        // setFieldValue("loading", false, false);
                                         window.location.href = res.data.payment_url.redirect_url;
                                     } else {
                                         setFieldValue("loading", false, false);

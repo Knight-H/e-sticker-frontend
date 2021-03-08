@@ -16,6 +16,7 @@ const ModalShipping = ({ values, setFieldValue }) => {
             setFieldValue(`${values.modalShipping}Duration`, "", false);
             setFieldValue(`${values.modalShipping}Rate`, "", false);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values.shippingID]);
 
     const addOptionShipping = () => {
@@ -26,7 +27,11 @@ const ModalShipping = ({ values, setFieldValue }) => {
             "rate": values[`${values.modalShipping}Rate`]
         }
         // console.log(data)
-        axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`, data)
+        axios.post(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions`, data, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("modalShipping", '', false)
@@ -45,7 +50,11 @@ const ModalShipping = ({ values, setFieldValue }) => {
             "rate": values[`${values.modalShipping}Rate`]
         }
         // console.log(data)
-         axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions/${values.shippingID}`, data)
+         axios.put(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions/${values.shippingID}`, data, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("loading", false, false);
@@ -58,7 +67,11 @@ const ModalShipping = ({ values, setFieldValue }) => {
 
     const removeOptionShipping = () => {
         setFieldValue("loading", true, false);
-         axios.delete(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions/${values.shippingID}`)
+         axios.delete(`https://asia-east2-digitalwish-sticker.cloudfunctions.net/shippingOptions/${values.shippingID}`, {
+            headers: {
+              Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+            }
+           })
             .then(res => {
                 setFieldValue("fetch", true, false);
                 setFieldValue("loading", false, false);
