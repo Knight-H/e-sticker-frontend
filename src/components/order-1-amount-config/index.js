@@ -41,7 +41,6 @@ const Order1AmountConfigComponent = (props) => {
   const { values, setFieldValue } = useFormikContext();
 
   useEffect(() => {
-    console.log(">>>>>");
     if (values.units && values.width && values.height) {
       let price = pricing(
         parseInt(values.width),
@@ -50,11 +49,12 @@ const Order1AmountConfigComponent = (props) => {
         parseInt(values.fixed_cost),
         parseInt(values.variable_cost_1),
         parseInt(values.variable_cost_2)
-      );
+    );
       if (price) {
         setFieldValue("price", price.total_price, false);
       } else return;
     } else return;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     values.width,
     values.height,
@@ -62,7 +62,6 @@ const Order1AmountConfigComponent = (props) => {
     values.variable_cost_1,
     values.units,
     values.variable_cost_2,
-    setFieldValue,
   ]);
 
   return (
@@ -87,6 +86,7 @@ const Order1AmountConfigComponent = (props) => {
                         onClick={() => {
                           setFieldValue("width", data.width, true);
                           setFieldValue("height", data.height, false);
+                          setFieldValue("units", null, false);
                         }}
                       >
                         <p>

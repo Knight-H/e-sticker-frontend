@@ -18,6 +18,7 @@ const Order1MaterialConfigComponent = (props) => {
         }
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.material]);
 
   return (
@@ -40,7 +41,6 @@ const Order1MaterialConfigComponent = (props) => {
             </h3>
             <div className={styles.gruop}>
               {values.optionMaterial.map((data, index) => {
-                console.log("data", data)
                 return (
                   <button type="submit" className={styles.nextButton}>
                     <article
