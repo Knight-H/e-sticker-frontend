@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StepProgress from "../step_progress";
 import StepProductConfig from "../step-product-config";
 import styles from "./index.module.scss";
@@ -39,6 +39,31 @@ const widthHeight = [
 const Order1AmountConfigComponent = (props) => {
   const [selectStep] = useState(1);
   const { values, setFieldValue } = useFormikContext();
+
+  useEffect(() => {
+    console.log(">>>>>");
+    if (values.units && values.width && values.height) {
+      let price = pricing(
+        parseInt(values.width),
+        parseInt(values.height),
+        parseInt(values.units),
+        parseInt(values.fixed_cost),
+        parseInt(values.variable_cost_1),
+        parseInt(values.variable_cost_2)
+      );
+      if (price) {
+        setFieldValue("price", price.total_price, false);
+      } else return;
+    } else return;
+  }, [
+    values.width,
+    values.height,
+    values.fixed_cost,
+    values.variable_cost_1,
+    values.units,
+    values.variable_cost_2,
+    setFieldValue,
+  ]);
 
   return (
     <main>
@@ -82,7 +107,13 @@ const Order1AmountConfigComponent = (props) => {
               />
             </h3>
             <div className={styles.sizeWrapper}>
+              <span style={{ margin: "0 10px 0 0", fontSize: "14px" }}>
+                กว้าง
+              </span>
               <Field name="width" type="text" placeholder="กว้าง (มม.)..." />
+              <span style={{ margin: "0 10px 0 0", fontSize: "14px" }}>
+                ยาว
+              </span>
               <Field name="height" type="text" placeholder="ยาว (มม.)..." />
             </div>
 
