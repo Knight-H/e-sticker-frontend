@@ -20,6 +20,7 @@ const MemberLoginComponent = (props) => {
       ></div>
       <Form>
         <h2>มุมสมาชิก</h2>
+        {values.status ? <span className="error" style={{ margin: "0px 0px 0 10px" }}>{values.status}</span> : ""}
         <LoginComponent />
       </Form>
     </main>
@@ -31,6 +32,7 @@ export const EnhancedMemberLoginComponent = withFormik({
     email: "",
     password: "",
     loading: false,
+    status: ""
   }),
   validate: (values) => {
     const errors = {};
@@ -75,6 +77,7 @@ export const EnhancedMemberLoginComponent = withFormik({
       })
       .catch((error) => {
         console.log('error', error.response)
+        setFieldValue("status", "Username/Password ไม่ถูกต้อง", false)
         setFieldValue("loading", false, false);
       });
   },

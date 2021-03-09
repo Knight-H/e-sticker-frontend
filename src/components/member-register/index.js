@@ -96,6 +96,8 @@ const EnchancedMemberRegisterComponent = withFormik({
 
     if (values.password !== values.password_repeat) {
       errors.password = i18.password_repeat_different;
+    } else if (values.password.length < 6) {
+      errors.password = 'ตัวอักษรต้องมากกว่า 6 ตัว';
     }
 
     return errors;

@@ -19,6 +19,11 @@ const AdminLoginComponent = () => {
     <main>
       <Form className={styles.formAdminLogin}>
         <h3>Stickerwish Admin Login</h3>
+        {values.checkLogin && (
+          <p className={`error`} style={{ margin: "0 0 5px 0"}}>
+            username หรือ password ไม่ถูกต้อง
+          </p>
+        )}
         <label>
           อีเมล
           <ErrorMessage
@@ -47,11 +52,6 @@ const AdminLoginComponent = () => {
           placeholder=""
         />
 
-        {values.checkLogin && (
-          <p className={`error ${styles.marginBottom}`}>
-            username หรือ password ไม่ถูกต้อง
-          </p>
-        )}
         <button type="submit">เข้าสู่ระบบ</button>
       </Form>
     </main>

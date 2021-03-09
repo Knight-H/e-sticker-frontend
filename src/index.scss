@@ -39,3 +39,15 @@ a {
     font-size: 12px;
     margin-left: 5px;
 }
+
+a:hover,
+a:active,
+a:focus,
+input:hover,
+input:active,
+input:focus,
+button:hover,
+button:active,
+button:focus {
+  outline: 0;
+}
