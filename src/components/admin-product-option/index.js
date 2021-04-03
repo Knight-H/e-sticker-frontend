@@ -10,6 +10,7 @@ import ModalShape from './modalShape.js';
 import ModalMaterial from './modalMaterial.js';
 import ModalCoat from './modalCoat.js';
 import ModalVariable from './modalVariable.js';
+import firebaseApp from "../../firebase/index.js";
 
 const AdminOrderComponent = () => {
     const { values, setFieldValue } = useFormikContext();
@@ -88,6 +89,26 @@ const AdminOrderComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values.materialSelected]);
 
+    const handleChangePDF = (event) => {
+        console.log('event', event)
+        const storageRef = firebaseApp.storage().ref();
+        if (event.target.files) {
+
+          storageRef
+            .child(`pdf`)
+            .put(event.target.files[0])
+            .then((snapshot) => {
+                console.log('snapshot', snapshot)
+                snapshot.ref.getDownloadURL().then((url) => {
+                    setFieldValue(`PDF`, url, false);
+                })
+            }).catch((err) => {
+                console.log(err)
+            })
+
+        }
+      };
+      console.log("PDF", values.PDF)
     return (
         <main className={styles.wrapContent}>
             <div class={`loader loader-default ${values.loading ? 'is-active' : ''}`}></div>
@@ -252,6 +273,31 @@ const AdminOrderComponent = () => {
                             )
                         })}
                     </div>
+                </article>
+            </section>
+            
+            <h1 className={styles.title}>เงื่อนไข</h1>
+
+            <section className={styles.productOptions} style={{ justifyContent: "start" }}>
+                <article className={styles.cardProductOption}>
+                    <h4>เอกสารเงื่อนไข</h4>
+                    <input
+                        type="file"
+                        id="pdf"
+                        onChange={(e) => {
+                            handleChangePDF(e)
+                        }}
+                    />
+                    <label
+                        for="pdf"
+                        className={`${styles.buttonUploadFile} ${styles.label}`}
+                        style={{ display: "flex", maxWidth: '204px', justifyContent: 'center'}}
+                    >
+                        อัพโหลดไฟล์
+                    </label>
+                    <a className={styles.btnListOption} href='https://firebasestorage.googleapis.com/v0/b/digitalwish-sticker.appspot.com/o/pdf?alt=media&token=e5de51a0-3f36-4507-8edf-71828552cde4' style={{ display: 'flex', maxWidth: '204px', justifyContent: 'center' }}>
+                        ดูเอกสาร
+                    </a>
                 </article>
             </section>
 

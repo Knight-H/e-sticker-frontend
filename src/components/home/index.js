@@ -24,6 +24,22 @@ import { ReactComponent as S51OrderIcon } from "./s5-1-order-icon.svg";
 
 import { ReactComponent as Test } from "./test.svg";
 
+
+import orderStep1 from'./order-step-1.png';
+import orderStep2 from'./order-step-2.png';
+import orderStep3 from'./order-step-3.png';
+import orderStep4 from'./order-step-4.png';
+
+
+import paperArt from'./paper-art.png';
+import ppTrans from'./pp-trans.png';
+import ppWhite from'./pp-white.png';
+import ppSilver from'./pp-silver.png';
+
+import banner from'./banner.png';
+
+import samplePhoto from'./sample-kit.png';
+
 import FooterComponent from "../footer";
 
 import axios from "axios";
@@ -56,7 +72,10 @@ const HomeComponent = (props) => {
         class={`loader loader-default ${values.loading ? "is-active" : ""}`}
       ></div>
       <main>
-        <Banner className={styles.banner} />
+        {/*<Banner className={styles.banner} />*/}
+        <Link to="/customize">
+        <img src={banner} className={styles.banner} />
+        </Link>
 
         <section className={styles.section1}>
           <div className={styles.horizontalScroller}>
@@ -101,15 +120,18 @@ const HomeComponent = (props) => {
                 <S11SampleIcon />
                 ขอชุดตัวอย่างสติกเกอร์
               </div>
-
+              
               <div className={styles.exampleStickerBox}>
-                <Test />
+                {/*<Test />*/}
+                <div align="center"><img src={samplePhoto} style={{width: "90%"}}/></div>
                 <div className={styles.exampleStickerBoxDetail}>
+                  {/*
                   <h3>ท่านจะได้รับ</h3>
                   <p>คำอธิบาย.............................................</p>
                   <p>คำอธิบาย.............................................</p>
                   <p>คำอธิบาย.............................................</p>
                   <p>คำอธิบาย.............................................</p>
+                  */}
                 </div>
               </div>
 
@@ -260,27 +282,27 @@ const HomeComponent = (props) => {
           <ol className={styles.stepsOrder}>
             <li>
               <span>
-                <S11SampleIcon />
+                <img src={orderStep1}/>
               </span>
-              <p>เลือกรูปแบบสติกเกอร์</p>
+              <p>เลือกรูปแบบสติกเกอร์ที่ต้องการ</p>
             </li>
             <li>
               <span>
-                <S11SampleIcon />
+              <img src={orderStep2}/>
               </span>
-              <p>อัพโหลดไฟล์ & ชำระเงิน</p>
+              <p>อัพโหลดไฟล์ (AI/PDF)</p>
             </li>
             <li>
               <span>
-                <S11SampleIcon />
+              <img src={orderStep3}/>
               </span>
-              <p>อนุมัติแบบงาน</p>
+              <p>ตรวจสอบและคอนเฟิร์มงานก่อนผลิต</p>
             </li>
             <li>
               <span>
-                <S11SampleIcon />
+              <img src={orderStep4}/>
               </span>
-              <p>ผลิต และ จัดส่งสินค้า</p>
+              <p>ผลิต และ จัดส่ง</p>
             </li>
           </ol>
           <button>
@@ -299,23 +321,23 @@ const HomeComponent = (props) => {
           <div className={styles.cardWrapper}>
             <div className={styles.card}>
               กระดาษ Art
-              <S31ArtIcon id="s31Svg" />
-              <button onClick={() => setModal1(true)}>ดูตัวอย่าง</button>
+              <img src={paperArt}/>
+              {/* <button onClick={() => setModal1(true)}>ดูตัวอย่าง</button> */}
             </div>
             <div className={styles.card}>
               PP ขาว
-              <S32PPWhiteIcon id="s32Svg" />
-              <button onClick={() => setModal2(true)}>ดูตัวอย่าง</button>
+              <img src={ppWhite}/>
+              {/* <button onClick={() => setModal2(true)}>ดูตัวอย่าง</button> */}
             </div>
             <div className={styles.card}>
               PP เงิน
-              <S33PPSilverIcon id="s33Svg" />
-              <button onClick={() => setModal3(true)}>ดูตัวอย่าง</button>
+              <img src={ppSilver}/>
+              {/* <button onClick={() => setModal3(true)}>ดูตัวอย่าง</button> */}
             </div>
             <div className={styles.card}>
               PP ใส
-              <S34PPTransIcon id="s34Svg" />
-              <button onClick={() => setModal4(true)}>ดูตัวอย่าง</button>
+              <img src={ppTrans}/>
+              {/* <button onClick={() => setModal4(true)}>ดูตัวอย่าง</button> */}
             </div>
           </div>
         </section>
@@ -405,16 +427,10 @@ const HomeComponent = (props) => {
           <div>
             <h2>เกี่ยวกับเรา</h2>
             <p>
-              <b>Lorem Ipsum</b> is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's standard
-              dummy text ever since the 1500s, when an unknown printer took a
-              galley of type and scrambled it to make a type specimen book. It
-              has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum
+              <b>Digital Wish Sticker</b> ให้บริการด้านการพิมพ์ฉลากสติ๊กเกอร์สำหรับผลิตภัณฑ์ของคุณ โดยบริการของเราออกแบบเพื่อให้คุณสั่งซื้อสติ๊กเกอร์ออนไลน์ตามแบบที่คุณต้องการอย่างสะดวก รวดเร็ว พร้อมจัดส่งภายใน 3-5วัน และบริการแก้ไขอาร์ตเวิร์คฟรี ในราคาที่คุ้มค่าที่สุด เพียงในไม่กี่คลิ๊ก ! อีกทั้งหากคุณไม่แน่ใจในวัสดุการพิมพ์ ทางเรายินดีจัดส่งตัวอย่างฟรี ได้ที่นี่ > <lable onClick={() => setModal(true)}>คลิก</lable>
+            </p>
+            <p><br/>
+              ดิจิตอลวิชให้ความสำคัญกับทุกรายละเอียดเพื่อให้แน่ใจว่าสิ่งที่เรานำเสนอมีคุณภาพดีที่สุดโดยเฉพาะความคมชัดและสีของงานพิมพ์ซึ่งรองรับด้วยเทคโนโลยีการพิมพ์สูงสุด โดยเฉพาะลูกค้าที่ต้องการพิมพ์ฉลากสติ๊กเกอร์สำหรับอาหารและเครื่องดื่ม ทางDigital Wish คือหนึ่งในทางเลือกที่ดีที่สุด การันตีด้วยรางวัลชนะเลิศการประกวดผลิตฉลากสินค้าในหมวด Food& Beverage Labels ของการแข่งขัน 13th HP Digital Print Excellence Awards2020 จัดโดย HP และมอบรางวัลโดย BJC !
             </p>
           </div>
         </section>

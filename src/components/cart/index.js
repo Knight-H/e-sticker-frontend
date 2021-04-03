@@ -296,6 +296,14 @@ const CartComponent = () => {
                             ข้อมูลเดียวกับที่อยู่จัดส่ง
                             </div>
                         </div>
+                        <div className={styles.containerRow} style={{ marginBottom: "10px" }}>
+                        <ErrorMessage name="approve" render={msg => <span className="error">{msg}</span>} />
+                            <div className={styles.containerColBank}>
+                                <Field name="approve" type="checkbox" value="1" />
+                            </div>
+                            <a style={{ margin: '0 0 0 10px'}} href='https://firebasestorage.googleapis.com/v0/b/digitalwish-sticker.appspot.com/o/pdf?alt=media&token=e5de51a0-3f36-4507-8edf-71828552cde4'>
+                            ยอมรับเงื่อนไขตามเอกสารนี้</a>
+                        </div>
 
                         <div className={values.checkedRadioBox === "2" ? styles.contentDisplayBlock : styles.contentDisplayNone}>
                             <TaxFieldsComponent />
@@ -332,9 +340,8 @@ const EnhancedCartComponent = withFormik({
         billingFulladdress: '',
         billingTaxID: '',
         checkedRadioBox: "1",
-
         checkedBoxInfo: false,
-
+        approve: '',
         loading: false
     }),
     validate: values => {
@@ -355,6 +362,7 @@ const EnhancedCartComponent = withFormik({
         if (!values.checkedBoxInfo) {
             // รับ หรือ ไม่รับก็ได้
         }
+        if (!values.approve) {errors.approve = i18.required}
         else {
             values.billingFullname = values.fullname;
             values.billingFulladdress = values.address + "" + values.county + "" + values.city + "" + values.provice + "" + values.zip;

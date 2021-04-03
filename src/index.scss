@@ -1,43 +1,44 @@
 // @import-normalize; /* bring in normalize.css styles */
 /* rest of app styles */
-@import 'normalize.scss';
+@import "normalize.scss";
 
 /* This is Recommended reset from CRA from https://create-react-app.dev/docs/adding-css-reset */
 
 *,
 *::before,
-*::after{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
-@font-face{
-    font-family: SarabunRegular;
-    src: url("./fonts/Sarabun-Regular.ttf")
+@font-face {
+	font-family: SarabunRegular;
+	src: url("./fonts/Sarabun-Regular.ttf");
 }
 
-@font-face{
-    font-family: SarabunBold;
-    src: url("./fonts/Sarabun-Bold.ttf")
+@font-face {
+	font-family: SarabunBold;
+	src: url("./fonts/Sarabun-Bold.ttf");
 }
 
 body {
-    font-family: SarabunRegular;
+	font-family: SarabunRegular;
 }
 
-b, h2 {
-    font-family: SarabunBold;
+b,
+h2 {
+	font-family: SarabunBold;
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .error {
-    color: red;
-    font-size: 12px;
-    margin-left: 5px;
+	color: red;
+	font-size: 12px;
+	margin-left: 5px;
 }
 
 a:hover,
@@ -49,5 +50,5 @@ input:focus,
 button:hover,
 button:active,
 button:focus {
-  outline: 0;
+	outline: 0;
 }

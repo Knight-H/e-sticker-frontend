@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './index.module.scss';
+import { Link } from "react-router-dom";
 
 import { ReactComponent as BannerFooter } from './banner-footer.svg';
 import { ReactComponent as QrCode } from './qr-code.svg';
@@ -11,10 +12,29 @@ const FooterComponent = () => {
                 <BannerFooter className={styles.banner} />
                 <ul>
                     <li><b>เมนู</b></li>
-                    <li>สั่งสติกเกอร์</li>
-                    <li>ขั้นตอนการสั่ง</li>
-                    <li>ดูสถานะการสั่งซื้อ</li>
-                    <li>ติดต่อเรา</li>
+                    <li>
+                        <Link to="/">หน้าแรก</Link>
+                    </li>
+                    <li><Link to={{
+                        pathname: "/",
+                        // hash: "#stepsOrder",
+                        state: { scrollToStepsOrder: true }
+                    }}
+                    // onClick={stepsOrderScroll}
+                    >วิธีการสั่งซื้อ</Link>
+                    </li>
+                    <li>
+                        <Link to={{
+                            pathname: "/",
+                            // hash: "#ourWorks",  
+                            state: { scrollToOurWorks: true }
+                        }}>ตัวอย่างผลงาน</Link>
+                    </li>
+                    <li>
+                        {/* <button> */}
+                            <Link to="/customize">สั่งทำสติกเกอร์</Link>
+                        {/* </button> */}
+                    </li>
                 </ul>
                 <ul className={styles.colQrCode}>
                     <li><b>Scan Line QR code</b></li>
@@ -23,7 +43,7 @@ const FooterComponent = () => {
                 <ul className={styles.listContract}>
                     <li className={styles.squareLine}><b>Line Official</b><span className={styles.squareWhite}>@digitalwish.sticker</span></li>
                     <li className={styles.squareFace}><b>Facebook</b><span className={styles.squareWhite}>digitalwish.sticker</span></li>
-                    <li className={styles.squareEmail}><b>Email</b><span className={styles.squareWhite}>contact@stickerwish.com</span></li>
+                    <li className={styles.squareEmail}><b>Email</b><span className={styles.squareWhite}>stickerwish.th@gmail.com</span></li>
                 </ul>
             </div>
             <div className={styles.footerBar}>
