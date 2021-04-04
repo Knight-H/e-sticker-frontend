@@ -1,0 +1,103 @@
+// START ===> RESET TAG CSS
+// table, caption, tbody, tfoot, thead, tr, th, td {
+// 	margin: 0;
+// 	padding: 0;
+// 	border: 0;
+// 	font-size: 100%;
+// 	font: inherit;
+// 	vertical-align: baseline;
+//     background-color: white;
+// }
+tr:nth-child(even){background-color: white;}
+// table {
+// 	border-collapse: collapse;
+// 	border-spacing: 0;
+// }
+// END ===> RESET TAG CSS
+
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+}
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.margin5 {
+    margin: 3px;
+    font-size: 11px;
+}
+
+.page {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 1cm;
+    margin: 1.5cm auto;
+    border: 1px #D3D3D3 solid;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.subpage {
+    // border: 2px black solid;
+    height: 266mm;
+
+    table {
+        border: 1px solid black;
+        width: 100%;
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+}
+
+@page {
+    size: A4;
+    margin: 0;
+}
+
+@media print {
+    .page {
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+    }
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.headPage {
+    border: 1px solid black;
+    padding: 20px 30px;
+    text-align: center;
+    height: fit-content;
+}
+
+.box {
+    border: 1px solid black;
+    padding: 10px 20px;
+    gap: 15px;
+
+    p {
+        margin: 0 0 10px 0;
+    }
+}
+
+.col50 {
+    flex-basis: 50%;
+}

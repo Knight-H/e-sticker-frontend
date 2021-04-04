@@ -21,7 +21,7 @@ const AdminKpiComponent = (props) => {
             res.data.map((data) => {
                 totalPrice = totalPrice + data.totalCost
             })
-            setTotalPrice(totalPrice)
+            setTotalPrice(parseInt(totalPrice))
         }).catch((reason) => {
             console.log(reason)
         })

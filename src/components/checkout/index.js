@@ -209,7 +209,9 @@ const CheckoutComponent = (props) => {
                         </table>
                     </div>
                     <button type="button" style={{ fontSize: "14px" }} onClick={() => props.history.push("/customize")} className={styles.buttonWhite}>สั่งสินค้าอย่างอื่น</button>
-                    <button className={styles.buttonGreen} style={{ fontSize: "14px" }} onClick={() => props.history.push("/checkout")}>ไปหน้าชำระเงิน</button>
+                    {values.itemsList && values.itemsList.length > 0 ? 
+                    <button className={styles.buttonGreen} style={{ fontSize: "14px" }} onClick={() => props.history.push("/checkout")}>ไปหน้าชำระเงิน</button> : ""
+                    }
                 </div>
 
                 <div className={styles.boxChild2}>

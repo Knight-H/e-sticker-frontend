@@ -38,7 +38,7 @@ const ApproveLayoutComponent = (props) => {
                             setFieldValue("allOrder", res.data, false);
                             setFieldValue("fetchMsg", false, false);
                             setFieldValue("loading", false, false);
-                            searchOrderNumber();
+                            // searchOrderNumber();
                         }).catch(function (err) {
                             console.log("err", err)
                             setFieldValue("loading", false, false);
@@ -88,7 +88,7 @@ const ApproveLayoutComponent = (props) => {
                         setFieldValue("allOrder", res.data, false);
                         setFieldValue("fetchMsg", false, false);
                         setFieldValue("loading", false, false);
-                        searchOrderNumber();
+                        // searchOrderNumber();
                     }).catch(function (err) {
                         console.log("err", err)
                         setFieldValue("loading", false, false);
@@ -101,7 +101,8 @@ const ApproveLayoutComponent = (props) => {
     const searchOrderNumber = () => {
         let orderNumber = values.allOrder.find(orderNumber => `${orderNumber.orderID}` === `${values.orderNumber}`);
         if (orderNumber) {
-            // console.log("orderNumber", orderNumber)
+            console.log("orderNumber", orderNumber)
+            if (values.phoneCheck === orderNumber.shippingAddress.phone) {
             setFieldValue("fullFetchData", orderNumber, false);
             setFieldValue("myID", orderNumber.myID, false);
 
@@ -120,17 +121,11 @@ const ApproveLayoutComponent = (props) => {
             setFieldValue("paymentStatus", orderNumber.paymentStatus, false);
             setFieldValue("paymentConfirm", orderNumber.paymentConfirm, false);
             setCatchOrders([])
-        } else if (values.orderNumber) {
-            let catchID = values.allOrder.filter(orderNumber => {
-                return orderNumber.orderID.search(values.orderNumber) > -1
-            });
-
-            if (catchID.length > 0) {
-                setCatchOrders(catchID)
             } else {
-                setCatchOrders(catchID)
                 setNotFound(false)
             }
+        } else {
+            setNotFound(false)
         }
     };
 
@@ -157,26 +152,15 @@ const ApproveLayoutComponent = (props) => {
             {guestMode &&
                 <>
                     <h1 className={styles.title}>ตรวจสอบสถานะออเดอร์</h1>
-                    <p>หมายเลขออเดอร์</p>
+                    <span style={{ margin: '0 10px' }}>หมายเลขออเดอร์</span>
                     <Field name="orderNumber" className={styles.inputGreen} />
+                    <span style={{ margin: '0 10px' }}>เบอร์โทรศัพท์</span>
+                    <Field name="phoneCheck" className={styles.inputGreen} />
                     <button type="button" className={styles.btnGreen} onClick={() => searchOrderNumber()}>ตรวจสอบสถานะ</button>
                 </>
             }
             {
-                !notFound &&
-                <p style={{ margin: "5px 0", color: "orange" }}>ไม่พบรายการที่ใกล้เคียง</p>
-            }
-            {
-                catchOrders.length >= 1 &&
-                <p>หมายเลขออเดอร์ที่ใกล้เคียง</p>
-            }
-            {
-                catchOrders.length >= 1 && catchOrders.map((data, index) => {
-                    if (index <= 4) {
-                        return <p style={{ margin: "5px 0", color: "orange" }}>{data.orderID}</p>
-                    }
-                })
-
+                notFound ? '' : <p style={{ margin: "5px 0", color: "orange" }}>ไม่พบรายการ</p>
             }
 
             {values.orderID ?
@@ -235,6 +219,7 @@ const ApproveLayoutComponent = (props) => {
 
 const EnhancedApproveLayoutComponent = withFormik({
     mapPropsToValues: (props) => ({
+        phoneCheck: '',
         orderNumber: '', //สำหรับค้นหาหมายเลขออเดอร์
         massage: '',  //สำหรับ Chat Room
         expandCard: 0, //สำหรับเลือกว่ากด Card ไหน

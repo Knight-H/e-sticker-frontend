@@ -1,201 +1,231 @@
 @import "../../variables";
 
 .logoBrand {
-    margin-top: -15px;
+	width: 130px;
 }
 
-.topBar{
-    height: 39px;
-    padding-right: $padding;
+// .topBar {
+// 	height: 39px;
+// 	padding-right: $padding;
 
-    background: $top-bar-color;
+// 	background: $top-bar-color;
 
-    display:flex;
-    justify-content: flex-end;
-    align-items: center;
+// 	display: flex;
+// 	justify-content: flex-end;
+// 	align-items: center;
 
-    button{
-        min-width: 78px;
-        height: 27px;
-        margin: 3px;
-        padding: 0px 5px;
-        font-size: $top-bar-font-size;
+// 	button {
+// 		min-width: 78px;
+// 		height: 27px;
+// 		margin: 3px;
+// 		padding: 0px 5px;
+// 		font-size: $top-bar-font-size;
 
-        background: #FFFFFF;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        border-style: none;
-        border-radius: 4px;
-        cursor: pointer;
+// 		background: #ffffff;
+// 		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+// 		border-style: none;
+// 		border-radius: 4px;
+// 		cursor: pointer;
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
+// 		display: flex;
+// 		justify-content: center;
+// 		align-items: center;
 
-        &:hover{
-            color: $hover-color;
-        }
+// 		&:hover {
+// 			color: $hover-color;
+// 		}
 
-        svg{
-            margin-right: 3px;
-        }
-    }
-}
+// 		svg {
+// 			margin-right: 3px;
+// 		}
+// 	}
+// }
 
 .navBar {
-    position: relative;
-    height: 97px;
-    padding: 0 $padding 0 8vw;
+	position: relative;
+	height: 97px;
+	padding: 0 $padding 0 8vw;
 
-    background: #FFFFFF;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+	background: #009473;
+	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 
-    svg{
-        cursor: pointer;
-    }
+	svg {
+		cursor: pointer;
+	}
 
-    .navLinks {
-        display: flex;
-        align-items: center;
+	.navLinks {
+		display: flex;
+		align-items: center;
 
-        list-style: none;
+		list-style: none;
 
-        a {
-            margin: 1.5vw;
+		a {
+			margin: 1.5vw;
 
-            font-size: $nav-bar-font-size;
-            font-style: normal;
-            font-weight: normal;
-            text-decoration: none;
+			font-size: $nav-bar-font-size;
+			font-style: normal;
+			font-weight: normal;
+			text-decoration: none;
 
-            color: #000000;
+			color: #ffffff;
 
-            &:hover{
-                color: $hover-color;
-            }
-        }
+			&:hover {
+				color: $hover-color;
+			}
+		}
 
-        button {
-            width: 144px;
-            height: 50px;
+		button {
+			width: 144px;
+			height: 50px;
 
-            // margin-left: 0.5vw;
+			// margin-left: 0.5vw;
 
-            cursor: pointer;
-            background: #FFFFFF;
-            border: 2px solid #009473;
-            border-radius: 12px;
+			cursor: pointer;
+			background: #009473;
+			border: 2px solid #ffffff;
+			border-radius: 12px;
 
-            a{
-                margin: 0;
-            }
-        }
-    }
+			a {
+				margin: 0;
+			}
+		}
+
+		.topBarV2 {
+			// height: 39px;
+			// padding-right: $padding;
+		
+			// background: $top-bar-color;
+		
+			// display: flex;
+			// justify-content: flex-end;
+			// align-items: center;
+		
+			button {
+				width: fit-content;
+				height: 27px;
+				margin: 5px;
+				padding: 0px 5px;
+				border: none;
+				// background: #ffffff;
+				// box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+				// border-style: none;
+				// border-radius: 4px;
+				cursor: pointer;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+				&:hover {
+					color: $hover-color;
+				}
+		
+				svg {
+					margin-right: 3px;
+					width: 20px;
+					height: 20px;
+				}
+			}
+		}
+	}
 }
 
 .burger {
-    display: none;
-    cursor: pointer;
+	display: none;
+	cursor: pointer;
 
-    z-index: 1;
+	z-index: 1;
 
-    div {
-        // z-index: 2;
-        width: 25px;
-        height: 3px;
-        background-color: $top-bar-color;
-        margin: 5px;
+	div {
+		// z-index: 2;
+		width: 25px;
+		height: 3px;
+		background-color: #ffffff;
+		margin: 5px;
 
-        transition: all 0.25s ease-in-out;
-
-    }
+		transition: all 0.25s ease-in-out;
+	}
 }
 
+@media screen and (max-width: 768px) {
+	// body {
+	//     overflow-x: hidden;
+	// }
 
-@media screen and (max-width: 768px){
-    // body {
-    //     overflow-x: hidden;
-    // }
+	.navBar {
+		// justify-content: space-around;
 
-    .navBar{
-        // justify-content: space-around;
+		// display:flex;
 
-        // display:flex;
+		.navLinks {
+			// border: 5px solid yellow;
+			// align-items: start;
+			position: absolute;
+			width: 100vw;
+			// left: 0px;
+			top: 0px;
+			right: 0px;
+			height: calc(100vh - 97px - 39px);
+			height: calc(100vh - 39px);
+			opacity: 1;
 
-        .navLinks {
-            // border: 5px solid yellow;
-            // align-items: start;
-            position: absolute;
-            width: 100vw;
-            // left: 0px;
-            top: 0px;
-            right: 0px;
-            height: calc(100vh - 97px - 39px);
-            height: calc(100vh - 39px);
-            opacity: 1;
-            
-            
-            z-index: 1;
-            // top: 136px;
-            // top: 97px;
+			z-index: 1;
+			// top: 136px;
+			// top: 97px;
 
-            background-color: #FFF;
-            background-color: #009473;
-            background-color: rgba(0, 148, 115, 0.9);
+			background-color: #fff;
+			background-color: #009473;
+			background-color: rgba(0, 148, 115, 0.9);
 
-            display: flex;
-            
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
+			display: flex;
 
-            transform: translateX(100%);
-            transition: transform 0.25s ease-out;
-            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
 
-            // li {
-            //     opacity: 0;
-            // }
-            a {
-                color: #FFF;
-            }
-            button a {
-                color: #000;
-            }
-            
-            
-        }
+			transform: translateX(100%);
+			transition: transform 0.25s ease-out;
+			transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-        .burger {
-            display: block;
-        }
+			// li {
+			//     opacity: 0;
+			// }
+			a {
+				color: #fff;
+			}
+			button a {
+				color: #000;
+			}
+		}
 
-        .navActive {
-            transform: translateX(0%);
-        }
+		.burger {
+			display: block;
+		}
 
-        .navInactive {
-            // https://stackoverflow.com/a/3695826
-            // Read ~2 answers for understanding and comparison
-            // tl;dr: display = gone entirely; visibility = invisible but presents
-            display: none;
-        }
+		.navActive {
+			transform: translateX(0%);
+		}
 
-    }
-    
+		.navInactive {
+			// https://stackoverflow.com/a/3695826
+			// Read ~2 answers for understanding and comparison
+			// tl;dr: display = gone entirely; visibility = invisible but presents
+			display: none;
+		}
+	}
 }
 
 .toggle .line1 {
-    background-color: #FFF;
-    transform: rotate(-45deg) translate(-5px,6px);
+	background-color: #fff;
+	transform: rotate(-45deg) translate(-5px, 6px);
 }
 .toggle .line2 {
-    opacity: 0;
+	opacity: 0;
 }
 .toggle .line3 {
-    background-color: #FFF;
-    transform: rotate(45deg) translate(-5px,-6px);
+	background-color: #fff;
+	transform: rotate(45deg) translate(-5px, -6px);
 }

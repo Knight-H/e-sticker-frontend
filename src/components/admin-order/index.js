@@ -150,6 +150,8 @@ const AdminOrderComponent = (props) => {
                 ]} />
                 <button type="button" className={styles.btnWhite} onClick={() => handleSubmitStatusOrder(values.status)}
                     disabled={values.waitProcess ? true : false}>บันทึก</button>
+
+                <button type="button" className={styles.btnWhite} onClick={() => props.history.push(`/admin/pdf/${values.myID}`)}>พิมพ์</button>
             </p>
 
             <section className={styles.stepProgressBar}>
