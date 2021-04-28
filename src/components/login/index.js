@@ -22,7 +22,7 @@ const LoginComponent = (props) => {
             </div>
             <div className={styles.containerRow}>
                 <button type="submit" className={styles.buttonGreen}>เข้าสู่ระบบ</button>
-                <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1655248592&redirect_uri=http://localhost:3000/cart&state=12345abcde&scope=profile%20openid%20email"><button type="button" className={styles.buttonLine}>เข้าสู่ระบบด้วย Line</button></a>
+                <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1655248592&redirect_uri=http://sticker.digitalwish.co.th/cart&state=12345abcde&scope=profile%20openid%20email"><button type="button" className={styles.buttonLine}>เข้าสู่ระบบด้วย Line</button></a>
             </div>
             <br />
             <br />
@@ -34,7 +34,7 @@ const LoginComponent = (props) => {
                     <div className={styles.containerRow}>
                         <div>
                             <Link to="/register"><button type="button" className={styles.buttonWhile}>สมัครสมาชิก</button></Link>
-                            <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1655248592&redirect_uri=http://localhost:3000/cart&state=12345abcde&scope=profile%20openid%20email"><button type="button" className={styles.buttonLine}>สมัครด้วย Line</button></a>
+                            <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1655248592&redirect_uri=http://sticker.digitalwish.co.th/cart&state=12345abcde&scope=profile%20openid%20email"><button type="button" className={styles.buttonLine}>สมัครด้วย Line</button></a>
                         </div>
                     </div>
                 </div>
