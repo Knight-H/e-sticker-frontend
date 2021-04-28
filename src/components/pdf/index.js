@@ -17,7 +17,7 @@ const WhyComponentToPrint = (data) => {
             <img src={logo} width='200' style={{ marginLeft: '-25px'}} />
             <h3 className={styles.headPage}>ออเดอร์หมายเลข #{data.orderID}</h3>
             {/* <img src={qr} width='100' /> */}
-            <QRCode value={`http://localhost:3000/myorder/${data.id}`} size={100} />
+            <QRCode value={`http://sticker.digitalwish.co.th/myorder/${data.id}`} size={100} />
           </div>
         
           <h3 style={{margin: '20px 0 10px' }}>ผู้ส่ง / FROM</h3>

@@ -75,7 +75,7 @@ const NavBarComponent = ({ history, itemCount }) => {
   //         const requestBody = {
   //             "grant_type": "authorization_code",
   //             "code": code,
-  //             "redirect_uri": "http://localhost:3000",
+  //             "redirect_uri": "http://sticker.digitalwish.co.th",
   //             "client_id": "1655248592",
   //             "client_secret": "45f5c965e3ac723120e8adec38e8793c"
   //         }
