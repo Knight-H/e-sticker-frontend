@@ -23,21 +23,21 @@ import { axiosInst } from '../common-scss/common'
 import { i18_th as i18 } from "../common-scss/i18_text";
 
 const Payment = [
-    {
-        "icon": logoSiamCommercialBank,
-        "name": "Siam Commercial Bank",
-        "code": "internetbank_scb"
-    },
-    {
-        "icon": logoKBank,
-        "name": " Kasikorn Bank",
-        "code": "payplus_kbank"
-    },
-    {
-        "icon": logoQrCode,
-        "name": "QR Code",
-        "code": "bank_qrcode"
-    },
+    // {
+    //     "icon": logoSiamCommercialBank,
+    //     "name": "Siam Commercial Bank",
+    //     "code": "internetbank_scb"
+    // },
+    // {
+    //     "icon": logoKBank,
+    //     "name": " Kasikorn Bank",
+    //     "code": "payplus_kbank"
+    // },
+    // {
+    //     "icon": logoQrCode,
+    //     "name": "QR Code",
+    //     "code": "bank_qrcode"
+    // },
     {
         "icon": TranferBank,
         "name": "โอนเงินแนบสลิป",
