@@ -407,7 +407,7 @@ const EnhancedCartComponent = withFormik({
                         "fullname": values.billingFulladdress,
                         "taxID": values.billingTaxID
                     },
-                    "customerID": values.uid,
+                    "customerID": values.uid ? values.uid : '',
                     "itemsCost": values.totalItemPrice,
                     "itemsList": values.itemsList,
                     "orderID": orderIDLast,

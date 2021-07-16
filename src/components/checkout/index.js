@@ -24,6 +24,7 @@ const CheckoutComponent = (props) => {
             const requestBody = {
                 "grant_type": "authorization_code",
                 "code": code,
+                // "redirect_uri": "http://localhost:3000/cart",
                 "redirect_uri": "http://sticker.digitalwish.co.th/cart",
                 "client_id": "1655248592",
                 "client_secret": "45f5c965e3ac723120e8adec38e8793c"
@@ -86,35 +87,35 @@ const CheckoutComponent = (props) => {
 
     useEffect(() => {
         setFieldValue("loading", true, false);
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                axiosInst.get(`cart?customerID=${user.uid}`, {
-                    headers: {
-                      Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
-                    }
-                   })
-                    .then(res => {
-                        setFieldValue("myID", res.data[0].myID, false);
-                        setFieldValue("uid", user.uid, false);
-                        setFieldValue("checkLogin", true, false)
-                        setFieldValue("itemsList", res.data[0].itemsList, false);
-                        setFieldValue("loading", false, false);
-                    }).catch(function (err) {
-                        console.log("err", err)
-                        setFieldValue("checkLogin", true, false)
-                        setFieldValue("loading", false, false);
-                    })
-            } else {
-                var cartLocal = JSON.parse(localStorage.getItem("cart"));
-                if (cartLocal) {
-                    setFieldValue("itemsList", cartLocal.itemsList, false);
-                    setFieldValue("loading", false, false);
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    axiosInst.get(`cart?customerID=${user.uid}`, {
+                        headers: {
+                          Authorization:  'Basic ZGlnaXRhbHdpc2g6SzZDd2N3dkF6QVNDRGZWNg=='
+                        }
+                       })
+                        .then(res => {
+                            setFieldValue("myID", res.data[0].myID, false);
+                            setFieldValue("uid", user.uid, false);
+                            setFieldValue("checkLogin", true, false)
+                            setFieldValue("itemsList", res.data[0].itemsList, false);
+                            setFieldValue("loading", false, false);
+                        }).catch(function (err) {
+                            console.log("err", err)
+                            setFieldValue("checkLogin", true, false)
+                            setFieldValue("loading", false, false);
+                        })
                 } else {
-                    setFieldValue("loading", false, false);
-                    return;
+                    var cartLocal = JSON.parse(localStorage.getItem("cart"));
+                    if (cartLocal) {
+                        setFieldValue("itemsList", cartLocal.itemsList, false);
+                        setFieldValue("loading", false, false);
+                    } else {
+                        setFieldValue("loading", false, false);
+                        return;
+                    }
                 }
-            }
-        });
+            });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
