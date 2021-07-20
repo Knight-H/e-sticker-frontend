@@ -12,6 +12,7 @@ const Order1ProductConfigComponent = (props) => {
     useEffect(() => {
         var orderIDLast = localStorage.getItem("orderIDLast");
         setOrderIDLast(orderIDLast);
+        localStorage.removeItem("cart")
     }, []);
 
     useEffect(() => {
@@ -37,7 +38,7 @@ const Order1ProductConfigComponent = (props) => {
                 });
             }
           });
-    })
+    }, [])
 
     return (
         <main>
