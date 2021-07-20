@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import { useFormikContext, Field } from 'formik';
 
 import Kerry from '../approve-layout/kerry.png';
+import ThPost from './thPost.png';
 import axios from "axios";
 
 
@@ -74,8 +75,9 @@ const GroupDeliveryPaymentComponent = () => {
                     </div>
 
                     <div className={styles.containerInformation}>
+                        {console.log('values.shippingCourier', values.shippingCourier)}
                         <h4>จัดส่งโดย</h4>
-                        <img src={values.shippingCourier === "Kerry" && Kerry} className={styles.deliveryBy} alt="kerry" />
+                        <img src={values.shippingCourier === "Kerry" ? Kerry : values.shippingCourier === "ไปรษณีย์ไทย" ? ThPost : ''} className={styles.deliveryBy} alt="kerry" width="125" height="50" />
                         <br />
                         <label>เลข Tracking: <Field name="shippingNumber" className={styles.inputShippingNumber} type="text"
                             disabled={values.isAdmin ? false : true} /></label>
